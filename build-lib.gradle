@@ -1,193 +1,275 @@
-ext.versions = [logback               : '1.4.14',
-                slf4j                 : '2.0.9',
-                jackson               : '2.11.2',
-                springdoc             : '2.2.0',
-                jjwt                  : '0.11.5',
-                saToken               : '1.37.0',
-                twelveMonkeys         : '3.10.1',
+ext.configuration = [
+        package          : "com.suven.framework",
+        buildToolsVersion: "23.0.1",
+        compileVersion   : 21,
+        version_code     : 1,
+        version_name     : "0.0.1"
 ]
+ext.versions = [
+        // 基础库版本
+        package          : "com.suven.framework",
+        buildToolsVersion: "23.0.1",
+        compileVersion   : 21,
+        version_code     : 1,
+        version_name     : "0.0.1",
+
+        // 第三方依赖版本
+        logback                     : '1.5.13',
+        slf4j                       : '2.0.9',
+        jackson                     : '2.16.1',
+        springdoc                   : '2.2.0',
+        jjwt                        : '0.11.5',
+        saToken                     : '1.37.0',
+        twelveMonkeys               : '3.10.1',
+        slf4j_version               : '1.7.36',
+        logback_version             : '1.5.13',
+        metrics_version             : '4.2.13',
+        spring_version              : '6.2.7',
+        spring_security_version     : '6.2.7',
+        spring_boot_version         : '3.5.1',
+        spring_data_version         : '3.5.1',
+        spring_cloud_version        : '3.1.1',
+        spring_cloud_dds_version    : '2022.0.0',
+        spring_cloud_alibaba_version: '2023.0.3.3',
+        jetty_version               : '12.0.0',
+        mybatis_version             : '3.5.5',
+        mybatis_plus_version        : '3.5.5',
+        dubbo_spring_boot_version   : '3.3.5',
+        dubbo_version               : '3.3.5',
+        alibaba_nacos_version       : '2.1.2',
+        netty_all_version           : '4.1.77.Final',
+        spring_modulith_version     : '1.4.1',
+        mysql_connector_java_version: '8.0.16',
+
+        // 新增版本字段
+        okhttp_version              : '4.12.0',
+        forest_version              : '1.5.35',
+        sa_token_version            : '1.37.0',
+        aws_sdk_version             : '2.20.140',
+        mybatis_plus_boot_starter  : '3.5.5',
+        spring_boot_starter_version: '3.1.5',
+        spring_boot_admin_version   : '2.1.1',
+        spring_kafka_version        : '3.3.8',
+        thymeleaf_layout_version    : '3.3.0',
+        springdoc_openapi_version  : '2.2.0',
+        lettuce_version             : '6.3.0.RELEASE',
+        hutool_version              : '5.8.24',
+        jpinyin_version             : '1.1.8',
+        junit_jupiter_version       : '5.10.1',
+        assertj_version             : '3.24.2',
+        hamcrest_version            : '1.3',
+        mockito_core_version        : '2.8.9',
+        powermock_version           : '1.7.1',
+        json_path_version           : '2.4.0',
+        greenmail_version           : '1.6.1',
+        awaitility_version          : '4.2.0',
+        easyexcel_version           : '3.3.3',
+        commons_csv_version         : '1.10.0',
+        itextpdf_version            : '5.5.13.3',
+        tika_version                : '2.9.0',
+        thumbnailator_version       : '0.4.12',
+        easy_captcha_version        : '1.6.2',
+        ehcache_version             : '2.10.6',
+        caffeine_version            : '3.1.8',
+        x_file_storage_version      : '2.0.0',
+        aws_java_sdk_version        : '1.12.625',
+        aliyun_sdk_oss_version      : '3.17.3',
+        cos_api_version             : '5.6.191',
+        dynamic_datasource_version  : '3.4.1',
+        quartz_version              : '2.3.2',
+        tencentcloud_sdk_version    : '4.0.11',
+        hashids_version             : '1.0.3',
+        uap_java_version            : '1.6.1',
+        batik_version               : '1.17',
+        aspectj_version             : '1.9.3',
+        commons_io_version          : '2.14.0',
+        fastjson_version            : '1.2.83',
+        guava_version               : '31.1-jre',
+        ezmorph_version             : '1.0.6',
+        hibernate_validator_version  : '5.3.5.Final',
+        freemarker_version          : '2.3.28',
+        scala_library_version       : '2.13.0-RC1',
+        mockito_all_version         : '1.9.5',
+        commons_beanutils_version   : '1.9.3',
+        mail_version                : '1.4.7',
+        jackson_databind_version    : '2.9.8',
+        core_version                : '3.3.0',
+        poi_version                 : '3.17',
+        jxls_version                : '1.0.5',
+        zxing_version               : '3.3.0',
+        druid_version               : '1.2.27',
+        ip2region_version           : '2.7.0',
+        cglib_version               : '3.3.0',
+        lombok_version              : '1.18.30',
+        skywalking_version          : '8.15.0',
+        snakeyaml_version           : '1.25',
+        greenmail_junit5_version    : '1.6.1',
+        databene_version            : '1.0.11',
+        protostuff_version          : '1.6.0',
+        bcprov_version              : '1.68',
+        xom_version                 : '1.3.8'
+]
+
 
 ext.libraries = [
+    // 数据库驱动
+    "mysql"                                               : "mysql:mysql-connector-java:${versions.mysql_connector_java_version}",
+    "postgresql"                                          : "org.postgresql:postgresql",
+    "mssql"                                               : "com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11",
+    "HikariCP"                                            : "com.zaxxer:HikariCP:5.1.0",
+    "p6spy"                                               : "p6spy:p6spy:3.9.1",
+    "druid"                                               : "com.alibaba:druid:${versions.druid_version}",
+    "druid-spring-boot-starter"                           :"com.alibaba:druid-spring-boot-starter:${versions.druid_version}",
 
-    "mysql"                                                   : "mysql:mysql-connector-java",
-    "postgresql"                                              : "org.postgresql:postgresql",
-    "mssql"                                                   : "com.microsoft.sqlserver:mssql-jdbc:9.2.1.jre11",
-    'HikariCP'                                                : 'com.zaxxer:HikariCP:5.1.0',
-    'p6spy'                                                   : 'p6spy:p6spy:3.9.1',
+    // HTTP 客户端
+    "okhttp"                                              : "com.squareup.okhttp3:okhttp:${versions.okhttp_version}",
+    "forest-spring-boot-starter"                          : "com.dtflys.forest:forest-spring-boot3-starter:${versions.forest_version}",
 
-    'okhttp'                                                  : 'com.squareup.okhttp3:okhttp:4.10.0',
-    'forest-spring-boot-starter'                              : 'com.dtflys.forest:forest-spring-boot3-starter:1.5.35',
+    // Sa-Token
+    "sa-token-spring-boot-starter"                        : "cn.dev33:sa-token-spring-boot3-starter:${versions.sa_token_version}",
+    "sa-token-jwt"                                        : "cn.dev33:sa-token-jwt:${versions.sa_token_version}",
+    "sa-token-oauth2"                                     : "cn.dev33:sa-token-oauth2:${versions.sa_token_version}",
+    "sa-token-redis"                                      : "cn.dev33:sa-token-redis-jackson:${versions.sa_token_version}",
+    "commons-pool2"                                       : "org.apache.commons:commons-pool2",
 
-    // sa-token
-    "sa-token-spring-boot-starter"                            : "cn.dev33:sa-token-spring-boot3-starter:${versions.saToken}",
-    'sa-token-jwt'                                            : "cn.dev33:sa-token-jwt:${versions.saToken}",
-    'sa-token-oauth2'                                         : "cn.dev33:sa-token-oauth2:${versions.saToken}",
-//    'sa-token-redis'                                          : "cn.dev33:sa-token-redis:${versions.saToken}",
-    'sa-token-redis'                                          : "cn.dev33:sa-token-redis-jackson:${versions.saToken}",
-    'commons-pool2'                                           : 'org.apache.commons:commons-pool2',
+    // AWS
+    "aws-s3"                                              : "software.amazon.awssdk:s3:${versions.aws_sdk_version}",
 
-    'aws-s3'                                                  : 'software.amazon.awssdk:s3:2.20.140',
+    // MyBatis
+    "mybatis-plus-annotation"                             : "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}",
+    "mybatis-plus-boot-starter"                           : "com.baomidou:mybatis-plus-spring-boot3-starter:${versions.mybatis_plus_boot_starter}",
+    "mybatis-spring-boot-starter"                         : "org.mybatis.spring.boot:mybatis-spring-boot-starter:${versions.spring_boot_starter_version}",
+    "mybatis"                                             : "org.mybatis:mybatis:3.5.19",
+    "pagehelper"                                          : "com.github.pagehelper:pagehelper:5.1.8",
+    "javassist"                                           : "org.javassist:javassist:3.25.0-GA",
+    "aspectjrt"                                           : 'org.aspectj:aspectjrt:1.9.3',
 
-    // mybatis
-    "mybatis-plus-boot-starter"                               : "com.baomidou:mybatis-plus-spring-boot3-starter:3.5.5",
-//    'mybatis-spring-boot-starter'         : 'org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2',
+    // Spring Boot
+    "spring-boot-starter-web"                            : "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-data-jpa"                       : "org.springframework.boot:spring-boot-starter-data-jpa:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-mail"                           : "org.springframework.boot:spring-boot-starter-mail:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-thymeleaf"                      : "org.springframework.boot:spring-boot-starter-thymeleaf:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-websocket"                      : "org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-actuator"                       : "org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-validation"                     : "org.springframework.boot:spring-boot-starter-validation:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-jdbc"                           : "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-data-elasticsearch"             : "org.springframework.boot:spring-boot-starter-data-elasticsearch:${versions.spring_boot_starter_version}",
+    "spring-boot-devtools"                               : "org.springframework.boot:spring-boot-devtools:${versions.spring_boot_starter_version}",
 
-    // spring boot
-    'spring-boot-starter-cache'                               : 'org.springframework.boot:spring-boot-starter-cache',
-    'spring-boot-starter-data-jpa'                            : 'org.springframework.boot:spring-boot-starter-data-jpa',
-    'spring-boot-starter-data-mongodb'                        : 'org.springframework.boot:spring-boot-starter-data-mongodb',
-    'spring-boot-starter-thymeleaf'                           : 'org.springframework.boot:spring-boot-starter-thymeleaf',
-    'spring-boot-starter-web'                                 : 'org.springframework.boot:spring-boot-starter-web',
-    'spring-boot-starter-websocket'                           : 'org.springframework.boot:spring-boot-starter-websocket',
-    'spring-boot-starter-mail'                                : 'org.springframework.boot:spring-boot-starter-mail',
-    'spring-boot-starter-actuator'                            : 'org.springframework.boot:spring-boot-starter-actuator',
-    'spring-boot-devtools'                                    : 'org.springframework.boot:spring-boot-devtools',
-    'spring-boot-starter-tomcat'                              : 'org.springframework.boot:spring-boot-starter-tomcat',
-    'spring-boot-starter-validation'                          : 'org.springframework.boot:spring-boot-starter-validation',
-    'spring-boot-starter-jdbc'                                : 'org.springframework.boot:spring-boot-starter-jdbc',
-    'spring-boot-starter-quartz'                              : 'org.springframework.boot:spring-boot-starter-quartz',
-    'spring-boot-starter-data-elasticsearch'                  : 'org.springframework.boot:spring-boot-starter-data-elasticsearch',
+    // Spring Boot Admin
+    "spring-boot-admin-starter-server"                   : "de.codecentric:spring-boot-admin-starter-server:${versions.spring_boot_admin_version}",
+    "spring-boot-admin-starter-client"                   : "de.codecentric:spring-boot-admin-starter-client:${versions.spring_boot_admin_version}",
+    "spring-core"                                        : "org.springframework:spring-core:${versions.spring_version}",
+    "spring-context"                                     : "org.springframework:spring-context:${versions.spring_version}",
+    "spring-web"                                         : "org.springframework:spring-web:${versions.spring_version}",
+    "spring-aop"                                         : "org.springframework:spring-aop:${versions.spring_version}",
+    "spring-beans"                                       : "org.springframework:spring-beans:${versions.spring_version}",
+    "spring-kafka"                                       : "org.springframework.kafka:spring-kafka:${versions.spring_kafka_version}",
 
-    'spring-boot-admin-starter-server'                        : 'de.codecentric:spring-boot-admin-starter-server:2.1.1',
-    'spring-boot-admin-starter-client'                        : 'de.codecentric:spring-boot-admin-starter-client:2.1.1',
-
-    'thymeleaf-layout-dialect'                                : 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0',
+    // Thymeleaf
+    "thymeleaf-layout-dialect"                          : "nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleaf_layout_version}",
 
     // Spring Boot Test
-    'spring-boot-starter-test'                                : 'org.springframework.boot:spring-boot-starter-test',
+    "spring-boot-starter-test"                          : "org.springframework.boot:spring-boot-starter-test:${versions.spring_boot_starter_version}",
 
     // Spring Security
-    'spring-boot-starter-security'                            : 'org.springframework.boot:spring-boot-starter-security',
-    'spring-boot-starter-oauth2-client'                       : 'org.springframework.boot:spring-boot-starter-oauth2-client',
-    'spring-boot-starter-oauth2-resource-server'              : 'org.springframework.boot:spring-boot-starter-oauth2-resource-server',
-    'spring-cloud-starter-oauth2'                             : 'org.springframework.cloud:spring-cloud-starter-oauth2',
-    'spring-security-test'                                    : 'org.springframework.security:spring-security-test',
+    "spring-boot-starter-security"                     : "org.springframework.boot:spring-boot-starter-security:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-oauth2-client"                : "org.springframework.boot:spring-boot-starter-oauth2-client:${versions.spring_boot_starter_version}",
+    "spring-boot-starter-oauth2-resource-server"       : "org.springframework.boot:spring-boot-starter-oauth2-resource-server:${versions.spring_boot_starter_version}",
+    "spring-cloud-starter-oauth2"                      : "org.springframework.cloud:spring-cloud-starter-oauth2",
+    "spring-security-test"                             : "org.springframework.security:spring-security-test",
 
-    // springdoc
-    'springdoc-openapi-ui'                                    : "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc}",
-    'springdoc-openapi-javadoc'                               : "org.springdoc:springdoc-openapi-javadoc:${versions.springdoc}",
-    'springdoc-openapi-webflux-ui'                            : "org.springdoc:springdoc-openapi-webflux-ui:${versions.springdoc}",
-    'springdoc-openapi-core'                                  : 'org.springdoc:springdoc-openapi-core:1.1.49',
+    // SpringDoc
+    "springdoc-openapi-ui"                            : "org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.springdoc_openapi_version}",
+    "springdoc-openapi-webflux-ui"                    : "org.springdoc:springdoc-openapi-webflux-ui:${versions.springdoc_openapi_version}",
 
-    // redis
-    'spring-boot-starter-data-redis'                          : 'org.springframework.boot:spring-boot-starter-data-redis',
-    'lettuce-core'                                            : 'io.lettuce:lettuce-core:6.3.0.RELEASE',
+    // Redis
+    "spring-boot-starter-data-redis"                  : "org.springframework.boot:spring-boot-starter-data-redis",
+    "lettuce-core"                                    : "io.lettuce:lettuce-core:${versions.lettuce_version}",
 
-    // 忽略common log，使用slf4j代替
-    //
-    "logback-classic"                                         : "ch.qos.logback:logback-classic:${versions.logback}",
-    "logback-core"                                            : "ch.qos.logback:logback-core:${versions.logback}",
-    "jcl-over-slf4j"                                          : "org.slf4j:jcl-over-slf4j:${versions.slf4j}",
-    "log4j-over-slf4j"                                        : "org.slf4j:log4j-over-slf4j:${versions.slf4j}",
-    "slf4j-api"                                               : "org.slf4j:slf4j-api:${versions.slf4j}",
+    // 日志
+    "logback-classic"                                : "ch.qos.logback:logback-classic:${versions.logback_version}",
+    "logback-core"                                   : "ch.qos.logback:logback-core:${versions.logback_version}",
+    "jcl-over-slf4j"                                 : "org.slf4j:jcl-over-slf4j:${versions.slf4j_version}",
+    "log4j-over-slf4j"                               : "org.slf4j:log4j-over-slf4j:${versions.slf4j_version}",
+    "slf4j-ext"                                      : "org.slf4j:slf4j-ext:${versions.slf4j_version}",
+    "slf4j-api"                                      : "org.slf4j:slf4j-api:${versions.slf4j_version}",
+    "logback-access"                                 : "ch.qos.logback:logback-access:${versions.logback_version}",
 
-    // jackson
-    "jackson-core"                                            : "com.fasterxml.jackson.core:jackson-core:${versions.jackson}",
-    "jackson-databind"                                        : "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}",
+    // Jackson
+    "jackson-core"                                  : "com.fasterxml.jackson.core:jackson-core:${versions.jackson}",
+    "jackson-databind"                              : "com.fasterxml.jackson.core:jackson-databind:${versions.jackson_databind_version}",
 
-    // Apache
-    //
-    "commons-beanutils-core"                                  : "commons-beanutils:commons-beanutils-core:1.8.3",
-    "commons-lang3"                                           : "org.apache.commons:commons-lang3:3.14.0",
-    "commons-codec"                                           : "commons-codec:commons-codec:1.16.0",
-    "commons-collections"                                     : "commons-collections:commons-collections:3.2.2",
-    "commons-text"                                            : "org.apache.commons:commons-text:1.9",
+    // Apache Commons
+    "commons-beanutils-core"                        : "commons-beanutils:commons-beanutils-core:1.8.3",
+    "commons-codec"                                 : "commons-codec:commons-codec:1.16.0",
+    "commons-collections"                           : "commons-collections:commons-collections:3.2.2",
+    "commons-text"                                  : "org.apache.commons:commons-text:1.9",
+    "commons-fileupload"                            : "commons-fileupload:commons-fileupload:1.5",
+    "commons-compress"                              : "org.apache.commons:commons-compress:1.23.0",
+    "velocity"                                      : "org.apache.velocity:velocity-engine-core:2.0",
+    "httpclient"                                    : "org.apache.httpcomponents:httpclient:4.5.13",
+    "httpmime"                                      : "org.apache.httpcomponents:httpmime:4.5.3",
+    "httpcore"                                      : "org.apache.httpcomponents:httpcore:4.4.12",
+    "httpasyncclient"                               : "org.apache.httpcomponents:httpasyncclient:4.1.2",
+    "hibernate-validator"                           : "org.hibernate:hibernate-validator:${versions.hibernate_validator_version}",
 
-    "commons-fileupload"                                      : "commons-fileupload:commons-fileupload:1.5",
-    "commons-io"                                              : "org.apache.commons:commons-io:1.3.2",
-    "commons-compress"                                        : "org.apache.commons:commons-compress:1.23.0",
-    "velocity"                                                : "org.apache.velocity:velocity-engine-core:2.0",
-    "httpclient"                                              : "org.apache.httpcomponents:httpclient:4.5.13",
+    // 文件存储
+    "x-file-storage-spring"                         : "org.dromara.x-file-storage:x-file-storage-spring:${versions.x_file_storage_version}",
+    "aws-java-sdk-s3"                               : "com.amazonaws:aws-java-sdk-s3:${versions.aws_java_sdk_version}",
+    "aliyun-sdk-oss"                                : "com.aliyun.oss:aliyun-sdk-oss:${versions.aliyun_sdk_oss_version}",
+    "cos_api"                                       : "com.qcloud:cos_api:${versions.cos_api_version}",
 
-    // file storage
-    // x-file-storage 依赖可参考 https://x-file-storage.xuyanwu.cn/
-    "x-file-storage-spring"                                   : "org.dromara.x-file-storage:x-file-storage-spring:2.0.0",
-    "aws-java-sdk-s3"                                         : "com.amazonaws:aws-java-sdk-s3:1.12.625",
-    "aliyun-sdk-oss"                                          : "com.aliyun.oss:aliyun-sdk-oss:3.17.3",
-    "cos_api"                                                 : "com.qcloud:cos_api:5.6.191",
+    // 工具类
+    "tika-core"                                     : "org.apache.tika:tika-core:${versions.tika_version}",
+    "jxls-core"                                     : "net.sf.jxls:jxls-core:${versions.jxls_version}",
+    "thumbnailator"                                 : "net.coobird:thumbnailator:${versions.thumbnailator_version}",
+    "easy-captcha"                                  : "com.github.whvcse:easy-captcha:${versions.easy_captcha_version}",
+    "hutool-core"                                   : "cn.hutool:hutool-core:${versions.hutool_version}",
+    "jpinyin"                                       : "com.github.stuxuhai:jpinyin:${versions.jpinyin_version}",
+    "reflections"                                   : "org.reflections:reflections:0.10.2",
+    "fastjson"                                      : "com.alibaba:fastjson:${versions.fastjson_version}",
+    "guava"                                         : "com.google.guava:guava:${versions.guava_version}",
+    "json-simple"                                   : "com.googlecode.json-simple:json-simple:1.1.1",
+    "protobuf-java"                                 : "com.google.protobuf:protobuf-java:4.28.2",
+    "protostuff-core"                               : "io.protostuff:protostuff-core:${versions.protostuff_version}",
+    "commons-lang3"                                 : "org.apache.commons:commons-lang3:3.18.0",
 
-    "tika-core"                                               : "org.apache.tika:tika-core:2.9.0",
+    "jedis"                                        : "redis.clients:jedis:6.0.0",
+    "commons-io"                                   : "commons-io:commons-io:${versions.commons_io_version}",
+    "commons-codec"                                : "commons-codec:commons-codec:${versions.commons_codec_version}",
+    "lombok"                                       : "org.projectlombok:lombok:${versions.lombok_version}",
+    "snakeyaml"                                    : "org.yaml:snakeyaml:${versions.snakeyaml_version}",
+    "apm-toolkit-trace"                            : "org.apache.skywalking:apm-toolkit-trace:${versions.skywalking_version}",
+    "cglib"                                        : "cglib:cglib:${versions.cglib_version}",
 
-    "jxls-core"                                               : "net.sf.jxls:jxls-core:1.0.5",
-    "jxls-reader"                                             : "net.sf.jxls:jxls-reader:1.0.5",
+    // 测试相关
+    "junit"                                        : "org.junit.jupiter:junit-jupiter:${versions.junit_jupiter_version}",
+    "assertj"                                      : "org.assertj:assertj-core:${versions.assertj_version}",
+    "hamcrest-library"                             : "org.hamcrest:hamcrest-library:${versions.hamcrest_version}",
+    "mockito-core"                                 : "org.mockito:mockito-core:${versions.mockito_core_version}",
+    "powermock-module-junit4"                      : "org.powermock:powermock-module-junit4:${versions.powermock_version}",
+    "powermock-api-mockito2"                       : "org.powermock:powermock-api-mockito2:${versions.powermock_version}",
+    "json-path"                                    : "com.jayway.jsonpath:json-path:${versions.json_path_version}",
+    "greenmail"                                    : "com.icegreen:greenmail:${versions.greenmail_version}",
+    "greenmail-junit5"                             : "com.icegreen:greenmail-junit5:${versions.greenmail_junit5_version}",
+    "awaitility"                                   : "org.awaitility:awaitility:${versions.awaitility_version}",
 
-    // Cache
-    //
-    "ehcache"                                                 : "net.sf.ehcache:ehcache:2.10.6",
-    "caffeine"                                                : "com.github.ben-manes.caffeine:caffeine:3.1.8",
+    // 二维码 & Excel
+    "core"                                          : "com.google.zxing:core:${versions.zxing_version}",
+    "javase"                                        : "com.google.zxing:javase:${versions.zxing_version}",
+    "poi"                                           : "org.apache.poi:poi:${versions.poi_version}",
+    "poi-ooxml"                                    : "org.apache.poi:poi-ooxml:${versions.poi_version}",
+    "easyexcel"                                    : "com.alibaba:easyexcel:${versions.easyexcel_version}",
+    "aspectjweaver"                                : 'org.aspectj:aspectjweaver:1.9.3',
+    "protobuf-java-format"                         : 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4',
+    "protostuff-core"                              : 'io.protostuff:protostuff-core:1.6.0',
+    "protostuff-runtime"                           : 'io.protostuff:protostuff-runtime:1.6.0',
+    "jakarta.servlet-api"                          : 'jakarta.servlet:jakarta.servlet-api:6.0.0',
+    "validation-api"                               : "javax.validation:validation-api:2.0.1.Final",
+    "curator-framework"                            : 'org.apache.curator:curator-framework:5.7.0'
 
-    // Other
-    //
-    "thumbnailator"                                           : "net.coobird:thumbnailator:0.4.12",
-    "easy-captcha"                                            : "com.github.whvcse:easy-captcha:1.6.2",
-
-    // hutool
-    "hutool-core"                                             : "cn.hutool:hutool-core:5.8.24",
-
-    "jpinyin"                                                 : "com.github.stuxuhai:jpinyin:1.1.8",
-
-    // jjwt
-    "jjwt-api"                                                : "io.jsonwebtoken:jjwt-api:${versions.jjwt}",
-    "jjwt-impl"                                               : "io.jsonwebtoken:jjwt-impl:${versions.jjwt}",
-    "jjwt-jackson"                                            : "io.jsonwebtoken:jjwt-jackson:${versions.jjwt}",
-
-    // Test
-    "junit"                                                   : "org.junit.jupiter:junit-jupiter:5.10.1",
-    "assertj"                                                 : "org.assertj:assertj-core:3.24.2",
-    "hamcrest-library"                                        : "org.hamcrest:hamcrest-library:1.3",
-
-    // 此版本不能随便升级，需要跟 powermock 一起升级，防止后者不支持
-    "mockito-core"                                            : "org.mockito:mockito-core:2.8.9",
-    "powermock-module-junit4"                                 : "org.powermock:powermock-module-junit4:1.7.1",
-    "powermock-api-mockito2"                                  : "org.powermock:powermock-api-mockito2:1.7.1",
-    "json-path"                                               : "com.jayway.jsonpath:json-path:2.4.0",
-    "greenmail"                                               : "com.icegreen:greenmail:1.6.1",
-    "greenmail-junit5"                                        : "com.icegreen:greenmail-junit5:1.6.1",
-    "awaitility"                                              : "org.awaitility:awaitility:4.2.0",
-
-    // xml解析
-    "json-lib"                                                : "net.sf.json-lib:json-lib:2.2.1:jdk15",
-    "xom"                                                     : "xom:xom:1.3.8",
-
-    // excel 导入导出
-    "easyexcel"                                               : "com.alibaba:easyexcel:3.3.3",
-
-    // csv 导入导出
-    "commons-csv"                                             : "org.apache.commons:commons-csv:1.10.0",
-
-    // rsa
-    "bcprov-jdk15on"                                          : "org.bouncycastle:bcprov-jdk15on:1.68",
-    "bcpg-jdk15on"                                            : "org.bouncycastle:bcpg-jdk15on:1.68",
-    "bcpkix-jdk15on"                                          : "org.bouncycastle:bcpkix-jdk15on:1.68",
-
-    // aws
-    "aws-java-sdk-core"                                       : "com.amazonaws:aws-java-sdk-core:1.12.21",
-
-    "jave"                                                    : "com.github.dadiyang:jave:1.0.5",
-    "dynamic-datasource"                                      : 'com.baomidou:dynamic-datasource-spring-boot-starter:3.4.1',
-
-    // 判断文件编码
-    "juniversalchardet"                                       : "com.github.albfernandez:juniversalchardet:2.4.0",
-
-    // quartz
-    "quartz"                                                  : "org.quartz-scheduler:quartz:2.3.2",
-
-    // 腾讯音视频
-    "tencentcloud-sdk-java"                                   : "com.tencentcloudapi:tencentcloud-sdk-java:4.0.11",
-
-    // pdf
-    "itextpdf"                                                : 'com.itextpdf:itextpdf:5.5.13.3',
-    "itext-asian"                                             : 'com.itextpdf:itext-asian:5.2.0',
-
-    'hashids'                                                 : 'org.hashids:hashids:1.0.3',
-    "ip2region"                                               : "org.lionsoul:ip2region:2.7.0",
-
-    // user-agent
-    "uap-java"                                                : "com.github.ua-parser:uap-java:1.6.1",
-
-    // 增加图片支持
-    "batik-all"                                               : "org.apache.xmlgraphics:batik-all:1.17",
-    "twelvemonkeys-imageio-webp"                              : "com.twelvemonkeys.imageio:imageio-webp:${versions.twelveMonkeys}",
-    "twelvemonkeys-imageio-batik"                             : "com.twelvemonkeys.imageio:imageio-batik:${versions.twelveMonkeys}",
 
 ]
+
+

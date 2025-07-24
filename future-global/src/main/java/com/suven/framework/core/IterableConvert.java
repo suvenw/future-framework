@@ -1,18 +1,18 @@
-package com.bonade.hrm.salary.cloud.core;
+package com.suven.framework.core;
 
 
-import cn.hutool.core.util.ReflectUtil;
-import com.bonade.hrm.salary.cash.ObjectTrue;
-import com.bonade.hrm.salary.cloud.api.IBaseApi;
-import com.bonade.hrm.salary.cloud.api.IBeanClone;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.suven.framework.http.api.IBaseApi;
+import com.suven.framework.http.api.IBeanClone;
+import com.suven.framework.http.api.IDApi;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cglib.core.ReflectUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -95,7 +95,7 @@ public class IterableConvert {
      * @param list
      * @return
      */
-    public static < T extends IBaseApi<Long>> Map<Long, T> convertMap(List<T> list){
+    public static < T extends IBaseApi> Map<Long, T> convertMap(List<T> list){
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
         }
@@ -110,13 +110,13 @@ public class IterableConvert {
      * @param list
      * @return
      */
-    public static  < I extends Serializable, T extends IBaseApi<I>,V extends IBeanClone>  Map<I,V > convertMap(Collection<T> list, Class<V> clazz){
+    public static  < I extends Serializable, T extends IDApi<I>,V extends IBeanClone>  Map<I,V > convertMap(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
         }
         return list.stream().collect(Collectors.toMap(T::getId, entity ->{
             try {
-                return  clazz.newInstance().clone(entity);
+                return  clazz.getDeclaredConstructor().newInstance().clone(entity);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -150,7 +150,7 @@ public class IterableConvert {
         }
         return list.stream().collect(Collectors.toMap(keyMapper, entity ->{
             try {
-                V value =  clazz.newInstance().clone(entity);
+                V value =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 return value;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -185,7 +185,7 @@ public class IterableConvert {
         }
         Map<K,V> map = list.stream().collect(Collectors.toMap(keyMapper, entity -> {
             try {
-                return clazz.newInstance().clone(entity);
+                return clazz.getDeclaredConstructor().newInstance().clone(entity);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -254,7 +254,7 @@ public class IterableConvert {
         }
         List<V> result =  list.stream().map(entity -> {
               try {
-                  return  (V)clazz.newInstance().clone(entity);
+                  return  (V)clazz.getDeclaredConstructor().newInstance().clone(entity);
               } catch (Exception e) {
                   e.printStackTrace();
               }
@@ -281,7 +281,7 @@ public class IterableConvert {
         }
         List<V> result =  list.stream().map(entity -> {
             try {
-                V clone = (V)clazz.newInstance().clone(entity);
+                V clone = (V)clazz.getDeclaredConstructor().newInstance().clone(entity);
                 if(ObjectTrue.isNotEmpty(function)){
                     function.apply(clone);
                 }
@@ -307,7 +307,7 @@ public class IterableConvert {
      * @param list
      * @return
      */
-    public  static <I extends Serializable,T extends IBaseApi<I>,V extends IBeanClone> Map<I, V> convertLinkedHashMap(Collection<T> list, Class<V> clazz){
+    public  static <I extends Serializable,T extends IDApi<I>,V extends IBeanClone> Map<I, V> convertLinkedHashMap(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
         }
@@ -315,7 +315,7 @@ public class IterableConvert {
         list.forEach(entity ->{
             try {
                 I key = entity.getId();
-                V vo =  clazz.newInstance().clone(entity);
+                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 map.put(key,vo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -345,7 +345,7 @@ public class IterableConvert {
         list.forEach(entity ->{
             try {
                 K key = keyMapper.apply(entity);
-                V vo =  clazz.newInstance().clone(entity);
+                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 map.put(key,vo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -375,7 +375,7 @@ public class IterableConvert {
         Multimap<Long,V > map =   ArrayListMultimap.create();
         list.forEach(entity ->{
             try {
-                V vo =  clazz.newInstance().clone(entity);
+                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 map.put(entity.groupId() ,vo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -407,7 +407,7 @@ public class IterableConvert {
         }
         list.forEach(entity ->{
             try {
-                V vo =  clazz.newInstance().clone(entity);
+                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 K key =  keyMapper.apply(entity);
                 map.put(key,vo);
             } catch (Exception e) {
@@ -1342,7 +1342,7 @@ public class IterableConvert {
         }
         List<V> result =  list.stream().map(entity -> {
             try {
-                V target = ReflectUtil.newInstanceIfPossible(clazz);
+                V target = (V) ReflectUtils.newInstance(clazz);
                 BeanUtils.copyProperties(entity, target);
                 return  target;
             } catch (Exception e) {
