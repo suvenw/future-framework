@@ -1,0 +1,105 @@
+server:
+  port: 8081
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  application:
+    name: demo
+
+  datasource:
+    url: jdbc:mysql://192.168.3.100:3306/api_file?useSSL=false&serverTimezone=UTC
+    username: dev
+    password: dev123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  file:
+    storage:
+      # Storage type: MINIO, ALIYUN, HUAWEI, TENCENT, QINIU
+      type: MINIO
+      # MinIO configuration deepseek sk-1c07b3baccf94a029b19a77650c2618b
+      minio:
+        endpoint: http://192.168.3.100:19000
+        accessKey: wd8ACJDDtsGljwoeZAAi
+        secretKey: 4ax3LpWWuzAwVddTgSnVX0MACB0j7GzwZW92zQw8
+        bucketName: stores
+
+        # Aliyun OSS configuration
+      aliyun:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+        access-key-id: your-access-key-id
+        access-key-secret: your-access-key-secret
+        bucket-name: 123
+
+      # Huawei OBS configuration
+      huawei:
+        endpoint: obs.cn-north-4.myhuaweicloud.com
+        ak: your-access-key
+        sk: your-secret-key
+        bucket-name: your-bucket-name
+
+      # Tencent COS configuration
+      tencent:
+        region: ap-guangzhou
+        secret-id: your-secret-id
+        secret-key: your-secret-key
+        bucket-name: your-bucket-name
+
+      # Qiniu Kodo configuration
+      qiniu:
+        access-key: your-access-key
+        secret-key: your-secret-key
+        bucket: your-bucket-name
+        domain: your-bucket-domain
+        region: z0
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      table-underline: true
+      # logic-delete-field: is_delete
+      # logic-delete-value: 1
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.suven.future.file.demo.*.model
+  data-isolation:
+    enable-tenant: false
+    enable-logic-delete: true
+    tenant-id-column: tenant_id
+    logic-delete-column: deleted
+    not-deleted-value: "0"
+    deleted-value: "1"
+    ignore-tenant-tables:
+      - sys_tenant
+      - sys_config
+      - sys_dict
+    ignore-logic-delete-tables:
+      - sys_log
+      - sys_login_log
+
+  page-limit:
+    enabled: true
+    max-limit: 1000
+    show-warning: true
+    ignore-tables:
+      - sys_dict
+      - sys_config
+    ignore-keywords:
+      - COUNT(
+      - DISTINCT
+      - GROUP BY
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.suven.future.file.demo.*.model
+  mapper-locations: classpath:mapper/**/*.xml
+
+
+logging:
+  level:
+    com.suven.future.file.demo.material.mapper: DEBUG

@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+}
+// 项目名称描述,统一请求入口拦截和返回处理架构
+description = 'future-http'
+//引用项目的公共版包版本信息
+apply from: '../build-lib.gradle'
+
+dependencies{
+
+//    implementation project(':future-http-client')
+
+
+    implementation project(':future-global')
+    implementation project(':future-utils')
+    implementation fileTree(dir: "lib", include: '*.jar')
+
+    implementation libraries."fastjson"
+    implementation libraries."guava"
+    implementation libraries."reflections"
+    implementation libraries."jedis"
+    implementation libraries."commons-lang3"
+    implementation libraries."commons-io"
+    implementation libraries."validation-api"
+    implementation libraries."druid"
+    implementation libraries."druid-spring-boot-starter"
+
+
+    implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
+//    implementation "io.dropwizard.metrics:metrics-jetty12:${versions.metrics_version}"
+//    implementation 'org.eclipse.jetty:jetty-jmx:9.4.6.v20170531'
+
+//    implementation "org.eclipse.jetty:jetty-annotations:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-client:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-continuation:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-http:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-io:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-plus:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-security:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-server:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-servlet:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-servlets:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-util:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-webapp:${versions.jetty_version}"
+//    implementation "org.eclipse.jetty:jetty-xml:${versions.jetty_version}"
+    implementation 'com.auth0:java-jwt:3.4.0'
+    implementation 'org.apache.skywalking:apm-toolkit-trace:8.15.0'
+    implementation 'org.projectlombok:lombok:1.18.30'
+}
+
+
+

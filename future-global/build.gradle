@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+// 项目名称描述
+description = 'future-global'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'
+//def libs = rootProject.ext.libVersions
+
+dependencies {
+
+    implementation fileTree(dir: "lib", include: '*.jar')
+
+    implementation libraries."logback-core"
+    implementation libraries."logback-access"
+    implementation libraries."slf4j-api"
+    // 移除 slf4j-log4j12，避免与 logback 冲突
+    implementation libraries."slf4j-ext"
+    implementation libraries."jcl-over-slf4j"
+    implementation libraries."log4j-over-slf4j"
+
+    implementation libraries."spring-core"
+    implementation libraries."spring-context"
+    implementation libraries."spring-web"
+    implementation libraries."spring-aop"
+    implementation libraries."spring-beans"
+    implementation libraries."mybatis-plus-annotation"
+    implementation libraries.'aspectjrt'
+    implementation libraries.'aspectjweaver'
+    implementation libraries.'commons-io'
+    implementation libraries.'commons-collections'
+    implementation libraries.'easyexcel'
+    implementation libraries.'fastjson'
+    implementation libraries.'guava'
+    implementation libraries.'json-simple'
+    implementation libraries.'reflections'
+    implementation libraries.'protobuf-java'
+    implementation libraries.'protobuf-java-format'
+    implementation libraries.'protostuff-core'
+    implementation libraries.'protostuff-runtime'
+    implementation libraries.'commons-lang3'
+    implementation libraries.'jakarta.servlet-api'
+}
+

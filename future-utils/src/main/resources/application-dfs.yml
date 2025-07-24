@@ -1,0 +1,31 @@
+# Fast DFS fastdfs-client服务的 client 配置参数
+fdfs:
+  connectTimeout: 600
+  soTimeout: 1500
+  thumbImage:
+    height: 150
+    width: 150
+  trackerList:
+    - 47.107.116.210:22122
+
+# 架构业务配置参数
+top:
+  server:
+    file:
+      domain: https://im-file.suven.com
+      fileSize: 10485760
+      fileType: '"m4a,mp3,png,jpg,jpeg,gif"'
+      g4Size: 5242880
+      path: D://upload
+      wifiSize: 5242880
+      oss:
+        enabled: true
+        https: false
+        endpoint: http://oss-cn-shanghai.aliyuncs.com
+        accessKeyId: accessKeyId
+        accessKeySecret: accessKeySecret
+        bucketKeyValue: im,suven-im,user,suven-im
+        bucketName: suven-im
+        domain: 
+
+
