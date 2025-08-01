@@ -36,7 +36,7 @@ ext.versions = [
         mybatis_plus_version        : '3.5.5',
         dubbo_spring_boot_version   : '3.3.5',
         dubbo_version               : '3.3.5',
-        alibaba_nacos_version       : '2.1.2',
+        alibaba_nacos_version       : '3.0.2',
         netty_all_version           : '4.1.77.Final',
         spring_modulith_version     : '1.4.1',
         mysql_connector_java_version: '8.0.16',
