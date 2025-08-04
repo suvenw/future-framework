@@ -1,0 +1,70 @@
+// 项目名称描述 统一架构spring-dubbo 模式
+plugins {
+    id 'java'
+}
+// 项目名称描述,统一工具类
+description = 'future-spring-dubbo'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'// 项目名称描述,统一架构扩展
+//引用项目的公共版包版本信息
+
+dependencies{
+
+
+    implementation project(':future-global')
+    implementation project(':future-utils')
+    implementation fileTree( dir: "lib", include: '*.jar' )
+
+
+        // ===================== 微服务服务 使用 spring cloud  服务启动依赖包 =====================
+    implementation "org.springframework.cloud:spring-cloud-dependencies:${versions.spring_cloud_dds_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_version}"
+    implementation "org.springframework.boot:spring-boot-starter:${versions.spring_boot_version}"
+    implementation "io.netty:netty-all:${versions.netty_all_version}"
+    implementation 'org.reflections:reflections:0.9.10'
+        // ===================== 微服务服务 使用 spring cloud  服务启动依赖包 =====================
+
+
+
+    // =====================  使用dubboRpc 服务启动依赖包 =====================
+    //使用dubboRpc 实现
+    implementation "org.apache.dubbo:dubbo:${versions.dubbo_version}"
+    implementation "org.apache.dubbo:dubbo-spring-boot-starter:${versions.dubbo_spring_boot_version}"
+    implementation "org.apache.dubbo:dubbo-spring-boot-autoconfigure:${versions.dubbo_spring_boot_version}"
+    implementation "org.apache.dubbo:dubbo-spring-boot-actuator:${versions.dubbo_spring_boot_version}"
+    implementation "org.apache.dubbo:dubbo-spring-boot-compatible:${versions.dubbo_spring_boot_version}"
+    //        implementation 'org.apache.dubbo:dubbo-spring-boot-autoconfigure-compatible:3.1.9'
+    // =====================  使用dubboRpc 服务启动依赖包 =====================
+
+    // ===================== 微服务服务 使用 nacos 作注册配置中心服务启动依赖包 =====================
+    implementation "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${versions.spring_cloud_alibaba_version}"
+//      implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel:${versions.spring_cloud_alibaba_version}"
+//      implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-seata:${versions.spring_cloud_alibaba_version}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${versions.spring_cloud_alibaba_version}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${versions.spring_cloud_alibaba_version}"
+//    implementation "com.alibaba.cloud:spring-cloud-starter-dubbo:${versions.spring_cloud_alibaba_version}"
+    implementation 'com.alibaba.spring:spring-context-support:1.0.11'
+
+    implementation "com.alibaba.nacos:nacos-api:${versions.alibaba_nacos_version}"
+    implementation "com.alibaba.nacos:nacos-common:${versions.alibaba_nacos_version}"
+    implementation "com.alibaba.nacos:nacos-client:${versions.alibaba_nacos_version}"
+// ===================== 微服务服务 使用 nacos 作注册配置中心服务启动依赖包 =====================
+
+
+// ===================== 微服务服务 使用 spring  boot 服务启动依赖包 =====================
+    implementation "org.springframework.boot:spring-boot-autoconfigure:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-log4j2:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-logging:${versions.spring_boot_version}"
+// ===================== 微服务服务 使用  spring  boot 服务启动依赖包 =====================
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+
+
+
+}

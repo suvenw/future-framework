@@ -1,0 +1,35 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: rpc-dubbo
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: false
+    #nacos 注册中心实现配置
+    nacos:
+      discovery:
+        server-addr: 192.168.2.201:8848
+        username: nacos
+        password: nacos
+        namespace: rpc-dubbo-yml
+        group: DEFAULT_GROUP
+        watch:
+          enabled: false
+
+#spring.cloud.service-registry.auto-registration.enabled
+#      config:
+#        server-addr: 192:168:2:201:8848
+#        namespace: rpc-dubbo-yml
+#        group: DEFAULT_GROUP
+#        file-extension: yml
+#        extension-configs[0]:
+#          data-id: rpc-dubbo-yml
+#          group: mdx
+#          refresh: false
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+
