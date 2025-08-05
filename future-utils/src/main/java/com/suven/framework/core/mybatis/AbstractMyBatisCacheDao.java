@@ -4,11 +4,11 @@ package com.suven.framework.core.mybatis;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.ObjectTrues;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
 import com.suven.framework.common.cat.CatCacheSign;
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.redis.RedisClientConvertEntity;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IBaseExcelData;
@@ -46,9 +46,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
         return redisClientServer;
     }
 
-    public boolean returnBool(Long result) {
-        return null != result && result >= 0;
-    }
+
 
 
     @CatCacheSign
@@ -124,7 +122,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
    @CatCacheSign
     public List<T> getListByIds(Collection<Long> idList) {
-        if(ObjectTrues.isEmpty(idList)){
+        if(ObjectTrue.isEmpty(idList)){
             return new ArrayList<>();
         }
         Map<Long,T> map =  getMapByIds(idList);
@@ -137,7 +135,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
     @CatCacheSign
     public Map<Long,T> getMapByIds(Collection<Long> idList) {
-        if(ObjectTrues.isEmpty(idList)){
+        if(ObjectTrue.isEmpty(idList)){
             return new HashMap<>();
         }
         Map<Long,T> map = this.getRedis().findMapCache(getEntityClass(), idList);
@@ -174,7 +172,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
         }
         //从db中批量查找作品信息;
-        if(ObjectTrues.isNotEmpty(list)){
+        if(ObjectTrue.isNotEmpty(list)){
             for (T entity : list) {
                 map.put(entity.getId(), entity);
             }

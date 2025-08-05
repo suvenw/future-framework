@@ -104,6 +104,7 @@ public abstract class AbstractMyBatisDao<M extends BaseMapper<T>, T extends IBas
      * @return boolean，成功返回 true，失败返回 false
      * @deprecated 3.3.1
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean returnBool(Long result) {
         // 默认 null 视为操作失败
         return SqlUtil.retBool(result);
