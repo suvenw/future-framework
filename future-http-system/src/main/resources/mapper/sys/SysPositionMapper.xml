@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysPositionMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysPosition" id="sysPositionMap">
+        <result property="id" column="id"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="postRank" column="post_rank"/>
+        <result property="companyId" column="company_id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_position ( code, name, post_rank, company_id, create_by, create_time, update_by, update_time, sys_org_code )
+        VALUES
+        <foreach collection="list" item="sysPosition" index="index" separator=",">
+            (  #{sysPosition.code},  #{sysPosition.name},  #{sysPosition.postRank},  #{sysPosition.companyId},  #{sysPosition.createBy},  #{sysPosition.createTime},  #{sysPosition.updateBy},  #{sysPosition.updateTime},  #{sysPosition.sysOrgCode} )
+        </foreach>
+    </insert>
+
+
+</mapper>

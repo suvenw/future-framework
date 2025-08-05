@@ -1,0 +1,60 @@
+// 项目名称描述,统一文件上传项目架构
+
+plugins {
+    id 'java'
+}
+// 项目名称描述
+description = 'future-http-file'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'
+//def libs = rootProject.ext.libVersions
+
+dependencies {
+
+    implementation fileTree(dir: "lib", include: '*.jar')
+
+
+    implementation project(':future-utils')
+    implementation project(':future-http')
+    implementation project(':future-global')
+    implementation project(':future-doc')
+
+    implementation libraries."fastjson"
+    implementation libraries."guava"
+    implementation libraries."reflections"
+    implementation libraries."jedis"
+    implementation libraries."mybatis"
+    implementation libraries."okhttp"
+    implementation libraries."commons-lang3"
+    implementation libraries."commons-io"
+    implementation libraries."easyexcel"
+    implementation libraries."hutool-all"
+
+    implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
+
+    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+
+    implementation 'com.suven.framework:swagger-ui-layer:1.0.0'
+
+    implementation 'com.github.tobato:fastdfs-client:1.26.5'
+    implementation 'com.aliyun.oss:aliyun-sdk-oss:3.7.0'
+    implementation 'com.aliyun:aliyun-java-sdk-core:4.4.1'
+    implementation 'com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0'
+//        implementation 'com.github.caspar-chen:swagger-ui-layer:1.1.9'
+    implementation 'io.minio:minio:8.2.2'
+    implementation 'org.projectlombok:lombok:1.18.30'
+
+    implementation 'org.apache.curator:curator-framework:2.12.0'
+    implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+
+}
+
+
+

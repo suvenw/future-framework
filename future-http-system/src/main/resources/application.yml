@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    include: base,db,dubbo,redis,sms
+  datasource:
+    sys:
+      name: sys
+      target: true
+      master:
+        url: jdbc:mysql://58.33.6.218:12301/sixeco_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        username: dev
+        password: dev123456
+      slave[0]:
+        url: jdbc:mysql://58.33.6.218:12301/sixeco_system?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        username: dev
+        password: dev123456
+    oauth:
+      name: oauth
+      target: false
+      master:
+        url: jdbc:mysql://58.33.6.218:12301/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        username: dev
+        password: dev123456
+      slave[0]:
+        url: jdbc:mysql://58.33.6.218:12301/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        username: dev
+        password: dev123456
+
+#配置mybatis 日志打印
+logging:
+  level:
+    root: info
+    com.suven.framework.sys.dao: trace
+  pattern:
+    console: '%p%m%n'

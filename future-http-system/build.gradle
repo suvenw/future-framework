@@ -1,0 +1,57 @@
+// 项目名称描述,统一文件上传项目架构
+plugins {
+    id 'java'
+}
+// 项目名称描述
+description = 'future-http-file'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'
+//def libs = rootProject.ext.libVersions
+
+dependencies {
+
+    implementation fileTree(dir: "lib", include: '*.jar')
+
+    implementation project(':future-utils')
+    implementation project(':future-http')
+    implementation project(':future-global')
+    implementation project(':future-doc')
+
+    implementation libraries."fastjson"
+    implementation libraries."guava"
+    implementation libraries."reflections"
+    implementation libraries."jedis"
+    implementation libraries."mybatis"
+    implementation libraries."okhttp"
+    implementation libraries."commons-lang3"
+    implementation libraries."commons-io"
+    implementation libraries."easyexcel"
+
+    implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
+
+    implementation "org.springframework:spring-web:${versions.spring_version}"
+    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+//        implementation 'com.suven.framework:swagger-ui-layer:1.0.0'
+    implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
+
+    implementation'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'org.apache.shiro:shiro-spring:1.8.0'
+    implementation 'org.apache.shiro:shiro-core:1.8.0'
+    implementation 'org.apache.shiro:shiro-web:1.8.0'
+    implementation 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.authzserver:1.0.2'
+
+    implementation 'io.jsonwebtoken:jjwt-impl:0.10.7'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.10.7'
+
+}
+
+

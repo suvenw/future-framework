@@ -1,0 +1,61 @@
+server:
+  port: 9020
+
+spring:
+  application:
+    name: future-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.2.201:8848
+        namespace: rpc-dubbo-yml
+        group: DEFAULT_GROUP
+      config:
+        server-addr: 192.168.2.201:8848
+        namespace: DEFAULT_GROUP
+        username: nacos
+        password: nacos
+    gateway:
+      # 是否开启网关
+      enabled: true
+      discovery:
+        locator:
+          enabled: true  #开启通过服务中心的自动根据 serviceId 创建路由的功能
+      routes:
+        #        - id: mdx-shop-user             #路由的ID，没有固定规则但要求唯一，建议配合服务名
+        #          uri: lb:ws://mdx-shop-user    #匹配后提供服务的路由地址
+        #          predicates:
+        #            - Path=/user/**      #断言，路径相匹配的进行路由
+        #
+        - id: future-http-system
+          uri: lb://future-http-system
+          predicates:
+            - Path=/api/sys/**
+        - id: future-http-file
+          uri: lb://future-http-file
+          predicates:
+            - Path=/api/upload/**
+
+      httpclient:
+        proxy:
+          resolver:
+            type: default
+#    web-application-type: reactive
+
+#gateway:
+#  routes:
+#    config:
+#      data-id: gateway-routes  #动态路由
+#      group: shop
+#      namespace: mdx
+#
+## 这个是 jwt 的配置
+#jwt:
+#  tokenHeader: Authorization
+#  secret: mdx-secrt000001
+#  expiration: 604800 #秒
+#  prefix: Bearer
+
+# 不用登录就可以访问的接口
+#allowed:
+#  paths: /mdx-shop-user/user/login, /mdx-shop-order/order/getOrderNo

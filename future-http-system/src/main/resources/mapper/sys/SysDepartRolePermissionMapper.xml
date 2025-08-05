@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysDepartRolePermissionMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysDepartRolePermission" id="sysDepartRolePermissionMap">
+        <result property="id" column="id"/>
+        <result property="departId" column="depart_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="permissionId" column="permission_id"/>
+        <result property="dataRuleIds" column="data_rule_ids"/>
+        <result property="operateDate" column="operate_date"/>
+        <result property="operateIp" column="operate_ip"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_depart_role_permission ( depart_id, role_id, permission_id, data_rule_ids, operate_date, operate_ip, create_time, update_time )
+        VALUES
+        <foreach collection="list" item="sysDepartRolePermission" index="index" separator=",">
+            (  #{sysDepartRolePermission.departId},  #{sysDepartRolePermission.roleId},  #{sysDepartRolePermission.permissionId},  #{sysDepartRolePermission.dataRuleIds},  #{sysDepartRolePermission.operateDate},  #{sysDepartRolePermission.operateIp},  #{sysDepartRolePermission.createTime},  #{sysDepartRolePermission.updateTime} )
+        </foreach>
+    </insert>
+
+
+</mapper>

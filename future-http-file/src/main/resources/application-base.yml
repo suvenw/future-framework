@@ -1,0 +1,63 @@
+management:
+  health:
+    elasticsearch:
+      enabled: false
+server:
+  jetty:
+    max-http-post-size: 10000000000
+  max-http-header-size: 10000000000
+  servlet:
+    context-path: /top
+spring:
+  main:
+    allow-bean-definition-overriding: true
+    allow-circular-references: true
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 0
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+
+top:
+# 文档开发 top.server.api.enabled = true
+  server:
+    api:
+      enabled: true
+# 应用服务容器配置参数
+  jetty:
+    server:
+      checkParamSign: false
+      documentRoot: /data/server
+      dos:
+        config:
+          delayMs: -1
+          exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+          maxIdleTrackerMs: 30000
+          maxRequestMs: 30000
+          maxRequestsPerSec: 20
+          maxWaitMs: 50
+          remotePort: true
+          throttledRequests: 5
+          urlPatterns: /top/*,/server/*
+        enabled: true
+      inter:
+        exclude: 1,2,4,5,6,7,8,9
+        excludePath: /webjars/**
+      isHeaderToken: false
+      logAop: false
+      lowResources:
+        idleTimeout: 200
+        maxConnections: 10
+        maxLowResourcesTime: 5000
+        maxMemory: 1000
+        monitorThreads: true
+        period: 1000
+      serverName: serverName
+      threadPool:
+        detailedDump: false
+        idleTimeout: 3000
+        maxThreads: 200
+        minThreads: 8
+

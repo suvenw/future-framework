@@ -1,0 +1,16 @@
+# 短信业务参数配置 top.server.sms.enabled
+top:
+  server:
+    sms:
+      enabled: true
+      accessKeyId: xx
+      accessSecret: xx
+      domain: xxx
+      product: xx
+      regionId: cn-hangzhou
+      signName: ''
+      template:
+        login: xxx
+        passwordReset: xx
+        phoneBind: xx
+        register: xx

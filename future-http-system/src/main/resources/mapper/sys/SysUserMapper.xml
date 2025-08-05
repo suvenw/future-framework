@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysUserMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysUser" id="sysUserMap">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="realname" column="realname"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="avatar" column="avatar"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="orgCode" column="org_code"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="thirdId" column="third_id"/>
+        <result property="thirdType" column="third_type"/>
+        <result property="activitiSync" column="activiti_sync"/>
+        <result property="workNo" column="work_no"/>
+        <result property="post" column="post"/>
+        <result property="telephone" column="telephone"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="userIdentity" column="user_identity"/>
+        <result property="departIds" column="depart_ids"/>
+        <result property="relTenantIds" column="rel_tenant_ids"/>
+        <result property="clientId" column="client_id"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_user ( username, realname, password, salt, avatar, birthday, sex, email, phone, org_code, status, del_flag, third_id, third_type, activiti_sync, work_no, post, telephone, create_by, create_time, update_by, update_time, user_identity, depart_ids, rel_tenant_ids, client_id )
+        VALUES
+        <foreach collection="list" item="sysUser" index="index" separator=",">
+            (  #{sysUser.username},  #{sysUser.realname},  #{sysUser.password},  #{sysUser.salt},  #{sysUser.avatar},  #{sysUser.birthday},  #{sysUser.sex},  #{sysUser.email},  #{sysUser.phone},  #{sysUser.orgCode},  #{sysUser.status},  #{sysUser.delFlag},  #{sysUser.thirdId},  #{sysUser.thirdType},  #{sysUser.activitiSync},  #{sysUser.workNo},  #{sysUser.post},  #{sysUser.telephone},  #{sysUser.createBy},  #{sysUser.createTime},  #{sysUser.updateBy},  #{sysUser.updateTime},  #{sysUser.userIdentity},  #{sysUser.departIds},  #{sysUser.relTenantIds},  #{sysUser.clientId} )
+        </foreach>
+    </insert>
+
+    <!-- 根据角色Id查询 -->
+    <select id="getUserByRoleId" resultType="com.suven.framework.sys.entity.SysUser">
+        select * from sys_user where del_flag = 0 and id in (select user_id from sys_user_role where role_id=#{roleId})
+        <if test="username!=null and username!=''">
+            and username = #{username}
+        </if>
+    </select>
+
+</mapper>

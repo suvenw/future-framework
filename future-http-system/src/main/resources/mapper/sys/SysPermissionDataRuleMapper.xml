@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysPermissionDataRuleMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysPermissionDataRule" id="sysPermissionDataRuleMap">
+        <result property="id" column="id"/>
+        <result property="permissionId" column="permission_id"/>
+        <result property="ruleName" column="rule_name"/>
+        <result property="ruleColumn" column="rule_column"/>
+        <result property="ruleConditions" column="rule_conditions"/>
+        <result property="ruleValue" column="rule_value"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_permission_data_rule ( permission_id, rule_name, rule_column, rule_conditions, rule_value, status, create_time, create_by, update_time, update_by )
+        VALUES
+        <foreach collection="list" item="sysPermissionDataRule" index="index" separator=",">
+            (  #{sysPermissionDataRule.permissionId},  #{sysPermissionDataRule.ruleName},  #{sysPermissionDataRule.ruleColumn},  #{sysPermissionDataRule.ruleConditions},  #{sysPermissionDataRule.ruleValue},  #{sysPermissionDataRule.status},  #{sysPermissionDataRule.createTime},  #{sysPermissionDataRule.createBy},  #{sysPermissionDataRule.updateTime},  #{sysPermissionDataRule.updateBy} )
+        </foreach>
+    </insert>
+
+
+</mapper>

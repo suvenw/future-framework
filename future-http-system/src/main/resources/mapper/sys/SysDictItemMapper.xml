@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysDictItemMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysDictItem" id="sysDictItemMap">
+        <result property="id" column="id"/>
+        <result property="dictId" column="dict_id"/>
+        <result property="itemText" column="item_text"/>
+        <result property="itemValue" column="item_value"/>
+        <result property="description" column="description"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_dict_item ( dict_id, item_text, item_value, description, sort_order, status, create_by, create_time, update_by, update_time )
+        VALUES
+        <foreach collection="list" item="sysDictItem" index="index" separator=",">
+            (  #{sysDictItem.dictId},  #{sysDictItem.itemText},  #{sysDictItem.itemValue},  #{sysDictItem.description},  #{sysDictItem.sortOrder},  #{sysDictItem.status},  #{sysDictItem.createBy},  #{sysDictItem.createTime},  #{sysDictItem.updateBy},  #{sysDictItem.updateTime} )
+        </foreach>
+    </insert>
+
+
+</mapper>

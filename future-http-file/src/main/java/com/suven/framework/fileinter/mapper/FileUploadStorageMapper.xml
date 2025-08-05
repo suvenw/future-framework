@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.fileinter.mapper.FileUploadStorageMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.fileinter.entity.FileUploadStorage" id="fileUploadStorageMap">
+        <result property="id" column="id"/>
+        <result property="idempotent" column="idempotent"/>
+        <result property="appId" column="app_id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="useBusinessId" column="use_business_id"/>
+        <result property="storageConfigId" column="storage_config_id"/>
+        <result property="fileSourceName" column="file_source_name"/>
+        <result property="fileMd5" column="file_md5"/>
+        <result property="fileType" column="file_type"/>
+        <result property="fileSize" column="file_size"/>
+        <result property="bucketName" column="bucket_name"/>
+        <result property="ossKey" column="oss_key"/>
+        <result property="fileOssName" column="file_oss_name"/>
+        <result property="fileOssStorePath" column="file_oss_store_path"/>
+        <result property="fileDomain" column="file_domain"/>
+        <result property="fileAccessUrl" column="file_access_url"/>
+        <result property="accessExpirationTime" column="access_expiration_time"/>
+        <result property="accessCount" column="access_count"/>
+        <result property="accessUrlFormat" column="access_url_format"/>
+        <result property="callbackValidate" column="callback_validate"/>
+        <result property="interpretData" column="interpret_data"/>
+        <result property="interpretDataTotal" column="interpret_data_total"/>
+        <result property="fileHistory" column="file_history"/>
+        <result property="fileHistoryStorePath" column="file_history_store_path"/>
+        <result property="remark" column="remark"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            file_upload_storage ( idempotent, app_id, client_id, use_business_id, storage_config_id, file_source_name, file_md5, file_type, file_size, bucket_name, oss_key, file_oss_name, file_oss_store_path, file_domain, file_access_url, access_expiration_time, access_count, access_url_format, callback_validate, interpret_data, interpret_data_total, file_history, file_history_store_path, remark, create_date, modify_date, tenant_id, deleted )
+        VALUES
+        <foreach collection="list" item="fileUploadStorage" index="index" separator=",">
+            (  #{fileUploadStorage.idempotent},  #{fileUploadStorage.appId},  #{fileUploadStorage.clientId},  #{fileUploadStorage.useBusinessId},  #{fileUploadStorage.storageConfigId},  #{fileUploadStorage.fileSourceName},  #{fileUploadStorage.fileMd5},  #{fileUploadStorage.fileType},  #{fileUploadStorage.fileSize},  #{fileUploadStorage.bucketName},  #{fileUploadStorage.ossKey},  #{fileUploadStorage.fileOssName},  #{fileUploadStorage.fileOssStorePath},  #{fileUploadStorage.fileDomain},  #{fileUploadStorage.fileAccessUrl},  #{fileUploadStorage.accessExpirationTime},  #{fileUploadStorage.accessCount},  #{fileUploadStorage.accessUrlFormat},  #{fileUploadStorage.callbackValidate},  #{fileUploadStorage.interpretData},  #{fileUploadStorage.interpretDataTotal},  #{fileUploadStorage.fileHistory},  #{fileUploadStorage.fileHistoryStorePath},  #{fileUploadStorage.remark},  #{fileUploadStorage.createDate},  #{fileUploadStorage.modifyDate},  #{fileUploadStorage.tenantId},  #{fileUploadStorage.deleted} )
+        </foreach>
+    </insert>
+
+
+</mapper>
