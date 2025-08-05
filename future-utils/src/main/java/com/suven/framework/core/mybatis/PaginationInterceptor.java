@@ -21,7 +21,7 @@
 //import com.baomidou.mybatisplus.core.metadata.OrderItem;
 //import com.baomidou.mybatisplus.core.parser.ISqlParser;
 //import com.baomidou.mybatisplus.core.parser.SqlInfo;
-//import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+//import com.baomidou.mybatisplus.core.toolkit.ObjectTrues;
 //import com.baomidou.mybatisplus.core.toolkit.ExceptionUtils;
 //import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 //import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -133,7 +133,7 @@
 //     * @return ignore
 //     */
 //    public static String concatOrderBy(String originalSql, IPage<?> page) {
-//        if (CollectionUtils.isNotEmpty(page.orders())) {
+//        if (ObjectTrues.isNotEmpty(page.orders())) {
 //            try {
 //                List<OrderItem> orderList = page.orders();
 //                Select selectStatement = (Select) CCJSqlParserUtil.parse(originalSql);

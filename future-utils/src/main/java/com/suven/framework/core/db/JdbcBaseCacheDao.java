@@ -7,7 +7,7 @@
 //import com.suven.framework.common.enums.QueryTypeEnum;
 //import com.suven.framework.core.redis.BaseRedisClient;
 //import com.google.common.collect.Lists;
-//import org.apache.commons.collections.CollectionUtils;
+//import org.apache.commons.collections.ObjectTrues;
 //import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 //import org.springframework.jdbc.core.RowMapper;
 //
@@ -228,7 +228,7 @@
 //		if(colle.size() > dataSource.LISTS_PARTITON_SIZE){
 //			/*** 如果大于100条,则查用分页查询;返回结果值; */
 //			List<List<Long>> partition = Lists.partition(new ArrayList<>(colle),  dataSource.LISTS_PARTITON_SIZE);
-//			if(CollectionUtils.isNotEmpty(partition)){
+//			if(ObjectTrues.isNotEmpty(partition)){
 //				for(List<Long> colles : partition ){
 //					List<T>  dbList = dataSource.queryByInToList(clazz,sql, rowMapper, colles);
 //					if(null != dbList && !dbList.isEmpty()){
@@ -254,7 +254,7 @@
 //	 * @param colle
 //	 */
 //	public Map<Long,T>  getEntityMapByIdList(Class<T> clazz , RowMapper<T> rowMapper, String sql , Collection<Long> colle){
-//		if(CollectionUtils.isEmpty(colle)){
+//		if(ObjectTrues.isEmpty(colle)){
 //			return new HashMap<Long, T>();
 //		}
 //		Map<Long,T> map = this.findMapCache(clazz, colle);
@@ -280,7 +280,7 @@
 //		}else{
 //			/*** 如果大于100条,则查用分页查询;返回结果值; */
 //			List<List<Long>> partition = Lists.partition(new ArrayList<>(colle), dataSource.LISTS_PARTITON_SIZE);
-//			if(CollectionUtils.isNotEmpty(partition)){
+//			if(ObjectTrues.isNotEmpty(partition)){
 //				for(List<Long> ids : partition ){
 //					List<T> dbList = dataSource.queryByInToList(clazz,sql,rowMapper, ids);
 //					if(null != dbList && !dbList.isEmpty()){
@@ -291,7 +291,7 @@
 //
 //		}
 //		//从db中批量查找作品信息;
-//		if(CollectionUtils.isNotEmpty(list)){
+//		if(ObjectTrues.isNotEmpty(list)){
 //			for (T entity : list) {
 //				map.put(entity.getId(), entity);
 //			}

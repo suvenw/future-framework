@@ -49,25 +49,25 @@ public class KafkaProducerService {
 //    @PostConstruct
 //    //然后每隔1分钟执行一次
 //    @Scheduled(fixedRate =  1000 * 60)
-    public void initTest(){
-        String value = GUID.getUUID()+"生产者向指定TOPIC 批量发送 异步消息";
-        String value2 = "收到 批量发送 异步消息";
-        KafkaMessage message = new KafkaMessage("top-test","top-test-key",value);
-        KafkaMessage message2 = new KafkaMessage("top-test-2","top-test-2-key",value2);
-        List list = new ArrayList();
-        for (int i = 0; i < 100; i++) {
-            message.setValue(value + " " +i);
-            message2.setValue(value2 + "-------" +i);
-            this.send(message);
-            list.add(message2)
-            if(i%10==0){
-                this.send(message2,list.toArray());
-                list.clear();
-            }
-
-            logger.warn("" + JsonUtils.toJson(message));
-        }
-    }
+//    public void initTest(){
+//        String value = GUID.getUUID()+"生产者向指定TOPIC 批量发送 异步消息";
+//        String value2 = "收到 批量发送 异步消息";
+//        KafkaMessage message = new KafkaMessage("top-test","top-test-key",value);
+//        KafkaMessage message2 = new KafkaMessage("top-test-2","top-test-2-key",value2);
+//        List list = new ArrayList();
+//        for (int i = 0; i < 100; i++) {
+//            message.setValue(value + " " +i);
+//            message2.setValue(value2 + "-------" +i);
+//            this.send(message);
+//            list.add(message2)
+//            if(i%10==0){
+//                this.send(message2,list.toArray());
+//                list.clear();
+//            }
+//
+//            logger.warn("" + JsonUtils.toJson(message));
+//        }
+//    }
 
     /**
      *
