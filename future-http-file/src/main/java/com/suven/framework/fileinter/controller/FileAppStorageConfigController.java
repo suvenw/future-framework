@@ -81,7 +81,7 @@ public class FileAppStorageConfigController {
     @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileAppStorageConfigRequestVo fileAppStorageConfigRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigRequestVo);
-        Pager pager = Pager.build().toPageSize(fileAppStorageConfigRequestVo.getPageSize()).toPageNo(fileAppStorageConfigRequestVo.getPageNo());
+        Pager pager = Pager.build();toPageSize(fileAppStorageConfigRequestVo.getPageSize()).toPageNo(fileAppStorageConfigRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
         ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum.DESC_ID,pager);
 

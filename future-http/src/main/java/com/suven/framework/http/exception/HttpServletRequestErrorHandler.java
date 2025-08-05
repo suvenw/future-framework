@@ -54,7 +54,7 @@ public class HttpServletRequestErrorHandler extends GlobalExceptionErrorResponse
        String url =  ParameterMessage.getRequestMessage().getUri();
         IResponseResult result = getResultVo();
         IResultCodeEnum msgEnumType = SysResultCodeEnum.SYS_REQUEST_URL_NOT_FOUND.format(url);
-        return new ResponseEntity(this.write(result,msgEnumType, response), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(this.write(result,msgEnumType, response), HttpStatus.NOT_FOUND);
     }
 
     /**
@@ -69,7 +69,7 @@ public class HttpServletRequestErrorHandler extends GlobalExceptionErrorResponse
         String url =  ParameterMessage.getRequestMessage().getUri();
         IResponseResult result = getResultVo();
         IResultCodeEnum msgEnumType = SysResultCodeEnum.SYS_REQUEST_URL_NOT_FOUND.format(url);
-        return new ResponseEntity(this.write(result,msgEnumType, response), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(this.write(result,msgEnumType, response), HttpStatus.NOT_FOUND);
     }
 
 

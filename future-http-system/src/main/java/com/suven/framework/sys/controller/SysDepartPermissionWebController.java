@@ -167,7 +167,7 @@ public class SysDepartPermissionWebController {
         SysDepartPermissionQueryEnum queryEnum =  SysDepartPermissionQueryEnum.DESC_ID;
         List<SysDepartPermissionResponseDto> resultList = sysDepartPermissionService.getSysDepartPermissionListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

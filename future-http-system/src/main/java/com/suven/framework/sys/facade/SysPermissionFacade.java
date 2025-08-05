@@ -106,7 +106,7 @@ public class SysPermissionFacade {
 		);
 		List<TreeModelResponseVo> treeList = new ArrayList<>();
 		getTreeModelList(treeList, resultList,null);
-		Map<String,Object> resMap = new HashMap();
+		Map<String,Object> resMap = new HashMap<>();
 		resMap.put("treeList", treeList); //全部树节点数据
 		resMap.put("ids", ids);//全部树ids
 		return resMap;
@@ -501,16 +501,16 @@ public class SysPermissionFacade {
 
 
 	public Map<String, Object> queryPermissionTreeList() {
-		List<Long> ids = new ArrayList();
+		List<Long> ids = new ArrayList<>();
 		SysPermissionRequestDto dto = SysPermissionRequestDto.build();
 		dto.toDelFlag(CommonConstant.DEL_FLAG_0).toMenuType(-2);
 		List<SysPermissionResponseDto> list = this.sysPermissionService.getSysPermissionList(dto);
 		list.forEach((e) -> {
 			ids.add(e.getId());
 		});
-		List<TreeModelResponseVo> treeList = new ArrayList();
+		List<TreeModelResponseVo> treeList = new ArrayList<>();
 		this.getPermissionTreeModelList(treeList, list, (TreeModelResponseVo)null);
-		Map<String, Object> resMap = new HashMap();
+		Map<String, Object> resMap = new HashMap<>();
 		resMap.put("treeList", treeList);
 		resMap.put("ids", ids);
 		return resMap;

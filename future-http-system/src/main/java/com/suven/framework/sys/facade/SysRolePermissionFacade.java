@@ -62,15 +62,14 @@ public class SysRolePermissionFacade {
 	public ResponseResultPageVo<SysPermissionResponseVo> queryUserPermission(long userId) {
 		List<SysPermissionResponseDto> responseDtoList = sysPermissionService.queryByUser(userId);
 		List<SysPermissionResponseVo> list = IterableConvert.convertList(responseDtoList,SysPermissionResponseVo.class);
-		ResponseResultPageVo<SysPermissionResponseVo> resultList = new ResponseResultPageVo().toList(list);
+		ResponseResultPageVo<SysPermissionResponseVo> resultList = new ResponseResultPageVo<>();
+		resultList.toList(list);
 		return resultList;
 	}
 
-	public List<String> queryRolePermission(SysRolePermissionSaveRequestVo requestVo) {
-		List<SysRolePermissionResponseDto> responseDtos = this.sysRolePermissionService.queryRolePermissionByRoleId(requestVo.getRoleId());
-		List<String> list = (List)responseDtos.stream().map((dto) -> {
-			return String.valueOf(dto.getPermissionId());
-		}).collect(Collectors.toList());
+	public List<Long> queryRolePermission(SysRolePermissionSaveRequestVo requestVo) {
+		List<SysRolePermissionResponseDto> responseDtoList = this.sysRolePermissionService.queryRolePermissionByRoleId(requestVo.getRoleId());
+		List<Long> list = IterableConvert.convertList(responseDtoList, SysRolePermissionResponseDto::getPermissionId);
 		return list;
 	}
 

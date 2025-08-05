@@ -78,7 +78,8 @@ public class FileUploadActionWaterController {
     @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadActionWaterRequestVo fileUploadActionWaterRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterRequestVo);
-        Pager pager = Pager.build().toPageSize(fileUploadActionWaterRequestVo.getPageSize()).toPageNo(fileUploadActionWaterRequestVo.getPageNo());
+        Pager pager = Pager.build();
+        pager.toPageSize(fileUploadActionWaterRequestVo.getPageSize()).toPageNo(fileUploadActionWaterRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
         ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum.DESC_ID,pager);
 

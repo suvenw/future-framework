@@ -81,7 +81,7 @@ public class FileUploadAppController {
     @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadAppRequestVo fileUploadAppRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppRequestVo);
-        Pager pager = Pager.build().toPageSize(fileUploadAppRequestVo.getPageSize()).toPageNo(fileUploadAppRequestVo.getPageNo());
+        Pager<FileUploadAppRequestDto> pager = Pager.build(fileUploadAppRequestVo.getPageNo(),fileUploadAppRequestVo.getPageSize());
         pager.toParamObject(fileUploadAppRequestDto );
         ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(FileUploadAppQueryEnum.DESC_ID,pager);
 

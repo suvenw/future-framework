@@ -81,7 +81,7 @@ public class FileUploadStorageController {
     @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadStorageRequestVo fileUploadStorageRequestVo){
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build().clone(fileUploadStorageRequestVo);
-        Pager pager = Pager.build().toPageSize(fileUploadStorageRequestVo.getPageSize()).toPageNo(fileUploadStorageRequestVo.getPageNo());
+        Pager<FileUploadStorageRequestDto> pager =  Pager.build( fileUploadStorageRequestVo.getPageNo(),fileUploadStorageRequestVo.getPageSize());
         pager.toParamObject(fileUploadStorageRequestDto );
         ResponseResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(FileUploadStorageQueryEnum.DESC_ID,pager);
 

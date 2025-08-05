@@ -1990,7 +1990,7 @@
 //        try {
 //        Map<String, String> map = this.getRedisClientByKey(mapPrefixKey).hgetAll(mapPrefixKey);
 //        if (null != map && !map.isEmpty()) {
-//            List<String> list = new ArrayList();
+//            List<String> list = new ArrayList<>();
 //            Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
 //            while (it.hasNext()) {
 //                Map.Entry<String, String> entry = it.next();

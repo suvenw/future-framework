@@ -168,7 +168,7 @@ public class SysUserRoleWebController {
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.USER_ID;
         List<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

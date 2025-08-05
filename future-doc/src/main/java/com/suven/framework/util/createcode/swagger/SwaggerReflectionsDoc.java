@@ -265,7 +265,7 @@ public class SwaggerReflectionsDoc {
 
     private  void converterParameterBean(Class entityClazz){
 //        List<Field> fieldList = FieldUtils.getAllFieldsList(entityClazz);
-        List<SwaggerParameterBean>  list = new ArrayList();
+        List<SwaggerParameterBean>  list = new ArrayList<>();
         Map<Class,String> compoundMap = new LinkedHashMap<>();
 
         List<SwaggerParameterBean>  beanList = converterParameterClassParameterBean(entityClazz,compoundMap);
@@ -353,7 +353,7 @@ public class SwaggerReflectionsDoc {
             logger.warn("entityClazz is map Object  pass return entityClazz[{}]..........,",entityClazz);
             return;
         }
-        List<Class> allClassList = new ArrayList();
+        List<Class> allClassList = new ArrayList<>();
         AtomicInteger indexCount = new AtomicInteger();
         List<Class> classList = converterResponse(entityClazz, allClassList, indexCount );
         if(classList.isEmpty()){

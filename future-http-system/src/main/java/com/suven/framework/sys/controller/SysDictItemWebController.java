@@ -167,7 +167,7 @@ public class SysDictItemWebController {
         SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
         List<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

@@ -138,12 +138,12 @@ public class FileUploadUseBusinessWebController {
     public   void   list( OutputResponse out, FileUploadUseBusinessQueryRequestVo fileUploadUseBusinessQueryRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build( ).clone(fileUploadUseBusinessQueryRequestVo);
 
-        Pager pager =  Pager.build().toPageSize(fileUploadUseBusinessQueryRequestVo.getPageSize()).toPageNo(fileUploadUseBusinessQueryRequestVo.getPageNo());
+        Pager<FileUploadUseBusinessRequestDto> pager =  Pager.build(fileUploadUseBusinessQueryRequestVo.getPageNo(),fileUploadUseBusinessQueryRequestVo.getPageSize());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
          FileUploadUseBusinessQueryEnum queryEnum =  FileUploadUseBusinessQueryEnum.DESC_ID;
         ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
@@ -176,7 +176,7 @@ public class FileUploadUseBusinessWebController {
         FileUploadUseBusinessQueryEnum queryEnum =  FileUploadUseBusinessQueryEnum.DESC_ID;
         List<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessListByQuery(queryEnum,fileUploadUseBusinessRequestDto);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 
@@ -379,7 +379,8 @@ public class FileUploadUseBusinessWebController {
 
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessQueryRequestVo);
 
-        Pager pager = Pager.build().toPageSize(fileUploadUseBusinessQueryRequestVo.getPageSize()).toPageNo(fileUploadUseBusinessQueryRequestVo.getPageNo());
+        Pager<FileUploadUseBusinessRequestDto> pager = Pager.build();
+        pager.toPageSize(fileUploadUseBusinessQueryRequestVo.getPageSize()).toPageNo(fileUploadUseBusinessQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
 
         FileUploadUseBusinessQueryEnum queryEnum =  FileUploadUseBusinessQueryEnum.DESC_ID;

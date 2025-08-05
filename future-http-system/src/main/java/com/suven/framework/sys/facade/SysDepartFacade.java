@@ -54,13 +54,12 @@ public class SysDepartFacade {
 
 
 	public static List<SysDepartTreeModelResponseVo> wrapTreeDataToTreeList(List<SysDepartResponseDto> recordList) {
-		List<DepartIdModelResponseVo> idList = new ArrayList();
-		List<SysDepartTreeModelResponseVo> records = new ArrayList();
+		List<DepartIdModelResponseVo> idList = new ArrayList<>();
+		List<SysDepartTreeModelResponseVo> records = new ArrayList<>();
 
-		for(int i = 0; i < recordList.size(); ++i) {
-			SysDepartResponseDto depart = (SysDepartResponseDto)recordList.get(i);
-			records.add(new SysDepartTreeModelResponseVo(depart));
-		}
+        for (SysDepartResponseDto depart : recordList) {
+            records.add(new SysDepartTreeModelResponseVo(depart));
+        }
 
 		List<SysDepartTreeModelResponseVo> tree = findChildren(records, idList);
 		setEmptyChildrenAsNull(tree);
@@ -68,8 +67,8 @@ public class SysDepartFacade {
 	}
 
 	public static List<DepartIdModelResponseVo> wrapTreeDataToDepartIdTreeList(List<SysDepartResponseDto> recordList) {
-		List<DepartIdModelResponseVo> idList = new ArrayList();
-		List<SysDepartTreeModelResponseVo> records = new ArrayList();
+		List<DepartIdModelResponseVo> idList = new ArrayList<>();
+		List<SysDepartTreeModelResponseVo> records = new ArrayList<>();
 
 		for(int i = 0; i < recordList.size(); ++i) {
 			SysDepartResponseDto depart = (SysDepartResponseDto)recordList.get(i);
