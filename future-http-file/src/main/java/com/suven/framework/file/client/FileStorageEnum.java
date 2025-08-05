@@ -27,7 +27,7 @@ public enum FileStorageEnum {
     ;
 
     private static final Map<Integer, FileStorageEnum> enumMap =
-            IterableConvert.convertEnumMap(Arrays.asList(values()),FileStorageEnum::getStorage);
+            IterableConvert.convertMap(Arrays.asList(values()),FileStorageEnum::getStorage);
 
     FileStorageEnum(Integer storage, Class<? extends FileClientConfig> configClass, Class<? extends FileClient> clientClass) {
         this.storage = storage;

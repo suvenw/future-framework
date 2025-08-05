@@ -46,6 +46,7 @@ public class JavaResponseBodyHandler implements HttpResponseBodyHandler {
      * @return 返回字符串
      */
     @Override
+    @SuppressWarnings("unchecked")
     public String handleResponseBody(Object httpResponse, int contentType) throws IOException {
         HttpResponse<String> response = ( HttpResponse<String>)httpResponse;
 

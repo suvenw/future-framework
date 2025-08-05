@@ -322,7 +322,8 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
         }
         List<FileUploadActionWaterResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadActionWaterResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = new ResponseResultPageVo<>();
+        resultList.convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 

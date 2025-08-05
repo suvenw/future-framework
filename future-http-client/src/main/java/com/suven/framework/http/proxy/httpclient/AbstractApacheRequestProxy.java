@@ -125,6 +125,7 @@ public abstract class AbstractApacheRequestProxy extends AbstractHttpProxy imple
      * @return
      */
     @Override
+    @SuppressWarnings("unchecked")
     public HttpClientResponse executeAsync(ApacheRequestBuilder httpRequestBuilder, FutureCallbackProxy futureProxy) {
         HttpRequestBase  request =  httpRequestBuilder.getRequest();
         HttpProxyRequest httpProxyRequest = httpRequestBuilder.getHttpProxyRequest();

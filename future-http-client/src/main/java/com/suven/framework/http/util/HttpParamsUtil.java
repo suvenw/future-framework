@@ -370,8 +370,9 @@ public class HttpParamsUtil {
 	 * 请求的内容体对象转换成请求Map<kv>格式对象,
 	 * @param object 内容体对象,或头部体对象
 	 * @param decode 是否需要转码,默认值为false
-	 * @return
+	 * @return  map	结果
 	 */
+	@SuppressWarnings("unchecked")
 	public static Map<String, String> toMap(Object object,boolean decode) {
 		if(object == null || isMapOrJsonClass(object.getClass()) ){
 			return (Map<String, String>)object;

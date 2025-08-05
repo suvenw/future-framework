@@ -124,7 +124,7 @@ public class SysThirdAccountWebController {
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
+        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
          SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
         ResponseResultPageVo<SysThirdAccountResponseDto> resultPage = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
@@ -159,7 +159,7 @@ public class SysThirdAccountWebController {
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
+        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
         List<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountListByQuery(page,queryEnum);
@@ -368,7 +368,7 @@ public class SysThirdAccountWebController {
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build().clone(sysThirdAccountQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
+        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
 
         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;

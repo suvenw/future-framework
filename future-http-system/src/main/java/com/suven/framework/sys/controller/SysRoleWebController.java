@@ -126,8 +126,8 @@ public class SysRoleWebController {
     public   void   list( OutputSystem out, SysRoleQueryRequestVo sysRoleQueryRequestVo){
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build( ).clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        Pager<SysRoleRequestDto> page =  Pager.build();
+        page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
          SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
@@ -137,8 +137,8 @@ public class SysRoleWebController {
         }
 
         List<SysRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysRoleShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo<SysRoleShowResponseVo> result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
@@ -166,7 +166,7 @@ public class SysRoleWebController {
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build( ).clone(sysRoleQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
         List<SysRoleResponseDto> resultList = sysRoleService.getSysRoleListByQuery(page,queryEnum);
@@ -374,7 +374,7 @@ public class SysRoleWebController {
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build().clone(sysRoleQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
 
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;

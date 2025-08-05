@@ -124,7 +124,7 @@ public class SysDepartRolePermissionWebController {
             SysDepartRolePermissionRequestDto sysDepartRolePermissionRequestDto = SysDepartRolePermissionRequestDto.build( ).clone(sysDepartRolePermissionQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRolePermissionRequestDto );
          SysDepartRolePermissionQueryEnum queryEnum =  SysDepartRolePermissionQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionByNextPage(page,queryEnum);
@@ -134,8 +134,8 @@ public class SysDepartRolePermissionWebController {
         }
 
         List<SysDepartRolePermissionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartRolePermissionShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
@@ -163,7 +163,7 @@ public class SysDepartRolePermissionWebController {
             SysDepartRolePermissionRequestDto sysDepartRolePermissionRequestDto = SysDepartRolePermissionRequestDto.build( ).clone(sysDepartRolePermissionQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRolePermissionRequestDto );
         SysDepartRolePermissionQueryEnum queryEnum =  SysDepartRolePermissionQueryEnum.DESC_ID;
         List<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionListByQuery(page,queryEnum);
@@ -372,7 +372,7 @@ public class SysDepartRolePermissionWebController {
             SysDepartRolePermissionRequestDto sysDepartRolePermissionRequestDto = SysDepartRolePermissionRequestDto.build().clone(sysDepartRolePermissionQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRolePermissionRequestDto );
 
         SysDepartRolePermissionQueryEnum queryEnum =  SysDepartRolePermissionQueryEnum.DESC_ID;

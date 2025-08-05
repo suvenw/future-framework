@@ -20,6 +20,7 @@ package com.suven.framework.http.util;
 import com.google.common.collect.ImmutableSet;
 import org.apache.commons.lang3.ClassUtils;
 
+import java.io.Serializable;
 import java.lang.reflect.*;
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ import java.util.Map;
 
 public class ClassUtil {
 
-	private static ImmutableSet primitiveSet =
+	private static ImmutableSet<Class<? extends Serializable>> primitiveSet =
 			ImmutableSet.of( byte.class,Byte.class,char.class,short.class, Short.class,
 					int.class, Integer.class, long.class,Long.class,
 					float.class,Float.class,double.class, Double.class,
