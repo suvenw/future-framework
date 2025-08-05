@@ -1,11 +1,12 @@
 package com.suven.framework.sys.utils;
 
+import com.suven.framework.core.ObjectTrue;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -26,9 +27,9 @@ import java.util.regex.Pattern;
  * @Author  张代浩
  *
  */
-public class OConvertUtils {
+public class ConvertType {
 
-	public static final Logger log = LoggerFactory.getLogger(OConvertUtils.class);
+	public static final Logger log = LoggerFactory.getLogger(ConvertType.class);
 
 	public static boolean isEmpty(Object object) {
 		if (object == null) {
@@ -190,7 +191,7 @@ public class OConvertUtils {
 		Integer[] result = new Integer[len];
 		try {
 			for (int i = 0; i < len; i++) {
-				result[i] = new Integer(object[i].trim());
+				result[i] = Integer.valueOf(object[i].trim());
 			}
 			return result;
 		} catch (NumberFormatException e) {
@@ -241,7 +242,7 @@ public class OConvertUtils {
 	}
 
 	public static long stringToLong(String str) {
-		Long test = new Long(0);
+		Long test = Long.valueOf(0);
 		try {
 			test = Long.valueOf(str);
 		} catch (Exception e) {
@@ -465,12 +466,11 @@ public class OConvertUtils {
 	 * 如果转换前的下划线大写方式命名的字符串为空，则返回空字符串。</br>
 	 * 例如：hello_world,test_id->helloWorld,testId
 	 * 
-	 * @param
-	 *  转换前的下划线大写方式命名的字符串
+	 * @param names 转换前的下划线大写方式命名的字符串
 	 * @return 转换后的驼峰式命名的字符串
 	 */
 	public static String camelNames(String names) {
-		if(names==null||names.equals("")){
+		if (ObjectTrue.isEmpty( names)){
 			return null;
 		}
 		StringBuffer sf = new StringBuffer();
@@ -661,7 +661,7 @@ public class OConvertUtils {
 		String json = "";
 		try {
 			//换个写法，解决springboot读取jar包中文件的问题
-			InputStream stream = OConvertUtils.class.getClassLoader().getResourceAsStream(url.replace("classpath:", ""));
+			InputStream stream = ConvertType.class.getClassLoader().getResourceAsStream(url.replace("classpath:", ""));
 			json = IOUtils.toString(stream,"UTF-8");
 		} catch (IOException e) {
 			log.error(e.getMessage(),e);

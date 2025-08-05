@@ -71,7 +71,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
                 return  null;
            }
           long id = sysPositionMapper.saveId(sysPosition);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysPosition;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
                     return  null;
                }
               long id = sysPositionMapper.saveToId(sysPosition);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysPosition;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
             if(null == sysPositionList)
                 return  false;
            long id =  sysPositionMapper.saveBatch(sysPositionList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
 
         List<SysPosition> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysPosition> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
 
         List<SysPosition> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysPosition> list = super.list(queryWrapper);

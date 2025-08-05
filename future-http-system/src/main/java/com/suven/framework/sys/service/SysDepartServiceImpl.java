@@ -23,7 +23,7 @@ import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -307,9 +307,9 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @date 2022-02-28 16:13:31
      */
     @Override
-    public ResponseResultList<SysDepartResponseDto> getSysDepartByQueryPage(Pager page, SysDepartQueryEnum queryEnum){
+    public ResponseResultPageVo<SysDepartResponseDto> getSysDepartByQueryPage(Pager page, SysDepartQueryEnum queryEnum){
 
-        ResponseResultList<SysDepartResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDepart> queryWrapper = sysDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -320,8 +320,8 @@ public class SysDepartServiceImpl  implements SysDepartService {
         }
         List<SysDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -332,8 +332,8 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @date 2022-02-28 16:13:31
      */
     @Override
-    public ResponseResultList<SysDepartResponseDto> getSysDepartByNextPage(Pager page, SysDepartQueryEnum queryEnum){
-        ResponseResultList<SysDepartResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysDepartResponseDto> getSysDepartByNextPage(Pager page, SysDepartQueryEnum queryEnum){
+        ResponseResultPageVo<SysDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDepart> queryWrapper = sysDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -344,8 +344,8 @@ public class SysDepartServiceImpl  implements SysDepartService {
         }
         List<SysDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 
@@ -405,7 +405,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
     @Override
     public List<SysDepartResponseDto> getList() {
         List<SysDepartResponseDto> resDtoList = new ArrayList();
-        QueryWrapper<SysDepart> queryWrapper = new QueryWrapper();
+        QueryWrapper<SysDepart> queryWrapper = new QueryWrapper<>();
         ((QueryWrapper)queryWrapper.eq("status", 1)).orderByAsc("sort");
         List<SysDepart> dbList = this.sysDepartDao.list(queryWrapper);
         if (dbList != null && !dbList.isEmpty()) {

@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -104,7 +104,7 @@ public class SysPermissionDataRuleWebController {
      * @Title: 获取菜单权限规则表分页信息
      * Description:sysPermissionDataRuleQueryRequestVo @{Link SysPermissionDataRuleQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<SysPermissionDataRuleShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<SysPermissionDataRuleShowResponseVo>
      * @throw
      * @author suven
      * @date 2022-02-28 16:10:35
@@ -126,14 +126,14 @@ public class SysPermissionDataRuleWebController {
         Pager page =  Pager.build().toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
          SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
-        ResponseResultList<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( ResponseResultList.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
         List<SysPermissionDataRuleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionDataRuleShowResponseVo.class);
-        ResponseResultList result = ResponseResultList.build()
+        ResponseResultPageVo result = new ResponseResultPageVo()
                 .setResult(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -143,7 +143,7 @@ public class SysPermissionDataRuleWebController {
      * @Title: 根据条件查谒菜单权限规则表分页信息
      * Description:sysPermissionDataRuleQueryRequestVo @{Link SysPermissionDataRuleQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<SysPermissionDataRuleShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<SysPermissionDataRuleShowResponseVo>
      * @author suven
      * @date 2022-02-28 16:10:35
      *  --------------------------------------------------------
@@ -373,7 +373,7 @@ public class SysPermissionDataRuleWebController {
         page.toParamObject(sysPermissionDataRuleRequestDto );
 
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
-        ResponseResultList<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
         List<SysPermissionDataRuleResponseDto> data = resultList.getList();
 
         //写入文件

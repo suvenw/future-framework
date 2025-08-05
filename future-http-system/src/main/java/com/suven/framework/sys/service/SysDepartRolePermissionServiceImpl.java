@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      * @date 2022-02-28 16:13:36
      */
     @Override
-    public ResponseResultList<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
+    public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
 
-        ResponseResultList<SysDepartRolePermissionResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDepartRolePermission> queryWrapper = sysDepartRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
         }
         List<SysDepartRolePermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartRolePermissionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      * @date 2022-02-28 16:13:36
      */
     @Override
-    public ResponseResultList<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
-        ResponseResultList<SysDepartRolePermissionResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
+        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDepartRolePermission> queryWrapper = sysDepartRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
         }
         List<SysDepartRolePermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartRolePermissionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 

@@ -2,9 +2,6 @@ package com.suven.framework.fileinter.controller;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +12,8 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.IterableConvert;
 
 import com.suven.framework.fileinter.facade.FileDataDetailedFacade;
 import com.suven.framework.fileinter.service.FileDataDetailedService;
@@ -87,13 +83,13 @@ public class FileDataDetailedController {
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build().clone(fileDataDetailedRequestVo);
         Pager pager = Pager.build().toPageSize(fileDataDetailedRequestVo.getPageSize()).toPageNo(fileDataDetailedRequestVo.getPageNo());
         pager.toParamObject(fileDataDetailedRequestDto );
-        ResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(FileDataDetailedQueryEnum.DESC_ID,pager);
+        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(FileDataDetailedQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResultPageVo<FileDataDetailedRequestVo> list =  resultList.convertBuild(FileDataDetailedRequestVo.class);
+        ResponseResultPageVo<FileDataDetailedRequestVo> list =  resultList.convertBuild(FileDataDetailedRequestVo.class);
         out.write(list);
 
         out.write(list);

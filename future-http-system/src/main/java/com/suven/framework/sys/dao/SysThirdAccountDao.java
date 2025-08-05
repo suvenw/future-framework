@@ -71,7 +71,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
                 return  null;
            }
           long id = sysThirdAccountMapper.saveId(sysThirdAccount);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysThirdAccount;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
                     return  null;
                }
               long id = sysThirdAccountMapper.saveToId(sysThirdAccount);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysThirdAccount;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
             if(null == sysThirdAccountList)
                 return  false;
            long id =  sysThirdAccountMapper.saveBatch(sysThirdAccountList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
 
         List<SysThirdAccount> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysThirdAccount> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
 
         List<SysThirdAccount> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysThirdAccount> list = super.list(queryWrapper);

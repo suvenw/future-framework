@@ -21,7 +21,7 @@ import com.suven.framework.sys.dto.enums.SysPermissionQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -310,9 +310,9 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      * @date 2022-02-28 16:10:30
      */
     @Override
-    public ResponseResultList<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum){
+    public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum){
 
-        ResponseResultList<SysPermissionResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -323,8 +323,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
         }
         List<SysPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -335,8 +335,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      * @date 2022-02-28 16:10:30
      */
     @Override
-    public ResponseResultList<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum){
-        ResponseResultList<SysPermissionResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum){
+        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
 //        Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -348,8 +348,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
         }
         List<SysPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 

@@ -10,7 +10,7 @@ import com.suven.framework.sys.dto.request.SysUserRoleRequestDto;
 import com.suven.framework.sys.dto.response.SysUserRoleResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -143,7 +143,7 @@ public interface SysUserRoleService {
      * @author suven
      * @date 2022-02-28 16:11:27
      */
-    ResponseResultList<SysUserRoleResponseDto> getSysUserRoleByNextPage(Pager page, SysUserRoleQueryEnum queryEnum);
+    ResponseResultPageVo<SysUserRoleResponseDto> getSysUserRoleByNextPage(Pager page, SysUserRoleQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysUserRole 用户角色关系表信息实现查找缓存和数据库的方法,不查总页数
@@ -152,7 +152,7 @@ public interface SysUserRoleService {
      * @author suven
      * @date 2022-02-28 16:11:27
      */
-    ResponseResultList<SysUserRoleResponseDto> getSysUserRoleByQueryPage(Pager page, SysUserRoleQueryEnum queryEnum);
+    ResponseResultPageVo<SysUserRoleResponseDto> getSysUserRoleByQueryPage(Pager page, SysUserRoleQueryEnum queryEnum);
 
 
 

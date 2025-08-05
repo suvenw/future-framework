@@ -11,7 +11,7 @@ import com.suven.framework.fileinter.entity.FileUploadStorage;
 import com.suven.framework.fileinter.repository.FileUploadStorageRepository;
 import com.suven.framework.fileinter.service.FileUploadStorageService;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -296,7 +296,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 23:55:18 创建时间
      */
     @Override
-    public ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum,Pager pager){
+    public ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum, Pager pager){
 
         Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
@@ -306,7 +306,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
         }
         List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadStorageResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResultPageVo<FileUploadStorageResponseDto> resultList = ResultPageVo.build().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileUploadStorageResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
         return resultList;
     }
 
@@ -320,7 +320,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 22:49:53 创建时间
      */
     @Override
-    public ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum,Pager pager ) {
+    public ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager ) {
         return getFileUploadStorageByNextPage(queryEnum,pager,false);
     }
     /**
@@ -332,7 +332,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 23:55:18 创建时间
      */
     @Override
-    public ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum,Pager pager,boolean searchCount){
+    public ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager, boolean searchCount){
 
         Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum,  pager.getParamObject());;
         //分页对象        PageHelper
@@ -343,7 +343,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
         }
         List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadStorageResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResultPageVo<FileUploadStorageResponseDto> resultList = ResultPageVo.build().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileUploadStorageResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 

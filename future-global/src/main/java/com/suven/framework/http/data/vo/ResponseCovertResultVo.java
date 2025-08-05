@@ -6,8 +6,12 @@ import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.IResponseResultPage;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import org.apache.commons.lang3.ClassUtils;
+import org.apache.poi.ss.formula.functions.T;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Title: ResponseResultVo.java
@@ -38,6 +42,7 @@ public class ResponseCovertResultVo{
 	 * @param isNextPage
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static Object convertData( Object body, boolean isNextPage ){
 
 		if(body instanceof IResultCodeEnum){
@@ -68,10 +73,9 @@ public class ResponseCovertResultVo{
 			return returnVo;
 		}
 		if(body.getClass().isArray()){
-			IResponseResultPage page = ResultPageVo.build()
-					.toList((Collection) body).toIsNextPage(isNextPage);
-			IResponseResult returnVo =   build().of(page);
-			return returnVo;
+			List data = Arrays.asList((Object[]) body);
+			ResponseResultPageVo<?> pageVo = new ResponseResultPageVo<>().of(data,data.size());
+			return pageVo;
 		}
 		return body;
 	}

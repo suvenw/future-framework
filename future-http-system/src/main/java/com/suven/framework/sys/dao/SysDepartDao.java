@@ -67,7 +67,7 @@ public class SysDepartDao extends AbstractMyBatisDao<SysDepartMapper, SysDepart>
                 return  null;
            }
           long id = this.getBaseMapper().saveId(sysDepart);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysDepart;
           }
            return null;
@@ -87,7 +87,7 @@ public class SysDepartDao extends AbstractMyBatisDao<SysDepartMapper, SysDepart>
                     return  null;
                }
               long id = this.getBaseMapper().saveToId(sysDepart);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysDepart;
               }
                return null;
@@ -105,7 +105,7 @@ public class SysDepartDao extends AbstractMyBatisDao<SysDepartMapper, SysDepart>
             if(null == sysDepartList)
                 return  false;
            long id =  this.getBaseMapper().saveBatch(sysDepartList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 

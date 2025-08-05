@@ -18,7 +18,7 @@ import java.util.List;
  * Description: 返回列表规范对象list
  */
 
-public  class ResultPageVo<T> implements IResponseResultPage<T> {
+public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
     @ApiDesc(value= "返回分页结果指定对象的聚合 ")
 	private List<T> list;
     @ApiDesc(value= "是否有下一页,1.有下一页,0:没有下一页")
@@ -29,12 +29,16 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	@ApiDesc(value= "数据总数")
     private long total;
 
-	/**
-	 * 创建分页返回列表规范对象list
-	 * @return 返回列表规范对象list
-	 */
-	public static ResultPageVo<?> build( ){
-		return new ResultPageVo<>();
+
+
+	public ResponseResultPageVo( ) {
+		list = new ArrayList<>();
+	}
+
+	public ResponseResultPageVo(int isNextPage) {
+		super();
+		this.isNextPage = isNextPage;
+		list = new ArrayList<>();
 	}
 
 	/**
@@ -43,7 +47,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param pageSize  查询条件的条数大小;
 	 * @return 返回列表规范对象list
 	 */
-	public ResultPageVo<T> of(List<T> resultList, int pageSize){
+	public ResponseResultPageVo<T> of(List<T> resultList, int pageSize){
 		return of(resultList,pageSize,0);
 	}
 	/**
@@ -53,30 +57,28 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param total  查询条件的结果总条数;
 	 * @return 返回列表规范对象list
 	 */
-	public ResultPageVo<T> of(List<T> resultList, int pageSize, int total ){
+	public ResponseResultPageVo<T> of(List<T> resultList, int pageSize, long total ){
 		if(null == resultList){
 			resultList = new ArrayList<>(0);
 		}
-		boolean isNext = resultList.size() >= pageSize;
+		boolean isNext = isNextPage(resultList, pageSize);
 		this.toIsNextPage(isNext).toList(resultList).toTotal(total);
 		return this;
 	}
 
-	public ResultPageVo( ) {
-		list = new ArrayList<>();
+	public  boolean isNextPage(List<T> list, int pageSize){
+		if(null != list && list.size() > pageSize && list.size() > 1){
+			list.remove(pageSize);
+			return true;
+		}return false;
 	}
-	
-	public ResultPageVo(int isNextPage) {
-		super();
-		this.isNextPage = isNextPage;
-		list = new ArrayList<>();
-	}
+
 
 	@Override
 	public int getIsNextPage() {
 		return isNextPage;
 	}
-	public ResultPageVo<T> toIsNextPage(int isNextPage) {
+	public ResponseResultPageVo<T> toIsNextPage(int isNextPage) {
 		this.isNextPage = isNextPage;
 		return this;
 	}
@@ -84,7 +86,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 		this.isNextPage = isNextPage;
 	}
 
-    public ResultPageVo<T> toIsNextPage(boolean isNextPage) {
+    public ResponseResultPageVo<T> toIsNextPage(boolean isNextPage) {
         this.isNextPage = isNextPage? 1 : 0;
         return this;
     }
@@ -100,21 +102,14 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 		/**
 	 * 将给定的集合转换为当前对象的列表
 	 *
-	 * @param list 要转换的集合对象，可以为null
+	 * @param dataList 要转换的集合对象，可以为null
 	 * @return 返回当前ResultPageVo对象，支持链式调用
 	 */
-	public ResultPageVo<T> toList(Collection<?> list) {
+	public ResponseResultPageVo<T> toList(Collection<T> dataList) {
 		if (list != null) {
-			this.list = new ArrayList<>();
-			// 遍历集合并根据元素类型进行相应的转换处理
-			for (Object e : list) {
-				if (!(e instanceof Cloneable)) { // 假设 T 实现了 Cloneable 接口，可根据实际调整
-					this.list.add((T) e); // 仍需显式转换，但逻辑上更可控
-				} else {
-					// 可选：加入 clone 或 copy 机制以增强安全性
-					this.list.add((T) e);
-				}
-			}
+			this.list = new ArrayList<>(dataList);
+		}else {
+			this.list.addAll(dataList);
 		}
 		return this;
 	}
@@ -126,7 +121,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
         return pageIndex;
     }
 
-    public ResultPageVo<T> toPageIndex(long pageIndex) {
+    public ResponseResultPageVo<T> toPageIndex(long pageIndex) {
         this.pageIndex = pageIndex;
         return this;
     }
@@ -139,7 +134,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 		this.total = total;
 	}
 
-	public ResultPageVo<T> toTotal(long total) {
+	public ResponseResultPageVo<T> toTotal(long total) {
 		this.total = total;
 		return this;
 	}
@@ -152,12 +147,12 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	/**
 	 * 分页结果对象转换实现, 用于分页查询,将V为DTO对象,转换成V为VO对象的分页结果ResultPageVo
 	 * @param targetClazz 需要转换成结果目录对象
-	 * @return ResultPageVo
+	 * @return ResultPageVo 转换结果
 	 */
-	public <V extends IBeanClone> ResultPageVo<V> convertBuild(Class<V> targetClazz){
+	public <V extends IBeanClone> ResponseResultPageVo<V> convertBuild(Class<V> targetClazz){
 		List<V> resultList = IterableConvert.convertList(this.getList(), targetClazz);
 
-		ResultPageVo<V> result = new ResultPageVo<>();
+		ResponseResultPageVo<V> result = new ResponseResultPageVo<>();
 		result.toList(resultList)
 				.toIsNextPage(this.getIsNextPage())
 				.toPageIndex(this.getPageIndex())
@@ -171,7 +166,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param isNextPage        分页信息, 是否有下一页,
 	 * @return ResultPageVo
 	 */
-	public ResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage ) {
+	public ResponseResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage ) {
 		this.toList(resultList).toIsNextPage(isNextPage);
 		return this;
 	}
@@ -182,7 +177,7 @@ public  class ResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param isNextPage        分页信息, 是否有下一页,
 	 * @return ResultPageVo
 	 */
-	public ResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage ,long total) {
+	public ResponseResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage , long total) {
 		this.toList(resultList).toIsNextPage(isNextPage).toTotal(total);
 		return this;
 	}

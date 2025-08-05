@@ -12,10 +12,10 @@ import com.suven.framework.sys.service.SysUserRoleService;
 import com.suven.framework.sys.vo.request.*;
 import com.suven.framework.sys.vo.response.*;
 import com.suven.framework.core.ObjectTrue;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,7 @@ public class SysUserWebController {
 
     /**
      * @param
-     * @return ResponseResultList 对象 List<SysUserShowResponseVo>
+     * @return ResponseResultPageVo 对象 List<SysUserShowResponseVo>
      * @Title: 获取用户表分页信息
      * Description:sysUserQueryRequestVo @{Link SysUserQueryRequestVo}
      * @throw
@@ -137,14 +137,14 @@ public class SysUserWebController {
         Pager page = Pager.build().toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
-        ResponseResultList<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
+        ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
         if (null == resultList || resultList.getList().isEmpty()) {
-            out.write(ResponseResultList.build());
+            out.write(new ResponseResultPageVo());
             return;
         }
 
         List<SysUserShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(), SysUserShowResponseVo.class);
-        ResponseResultList result = ResponseResultList.build()
+        ResponseResultPageVo result = new ResponseResultPageVo()
                 .setResult(listVo, page.getSize(), resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write(result);
@@ -152,7 +152,7 @@ public class SysUserWebController {
 
     /**
      * @param
-     * @return ResponseResultList 对象 List<SysUserShowResponseVo>
+     * @return ResponseResultPageVo 对象 List<SysUserShowResponseVo>
      * @Title: 根据条件查谒用户表分页信息
      * Description:sysUserQueryRequestVo @{Link SysUserQueryRequestVo}
      * @author suven
@@ -410,7 +410,7 @@ public class SysUserWebController {
         page.toParamObject(sysUserRequestDto);
 
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
-        ResponseResultList<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
+        ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
         List<SysUserResponseDto> data = resultList.getList();
 
         //写入文件
@@ -581,7 +581,7 @@ public class SysUserWebController {
     @RequestMapping(value = UrlCommand.sys_user_depart, method = RequestMethod.GET)
     //@RequiresPermissions("sys:user:list")
     public void getUserDepartList(OutputSystem out, SysUserDepartIdsRequestVo userDepartRequestVo) {
-        ResponseResultList<SysUserResponseDto> list = sysUserService.getUserByDepIdPage(userDepartRequestVo.getDepId());
+        ResponseResultPageVo<SysUserResponseDto> list = sysUserService.getUserByDepIdPage(userDepartRequestVo.getDepId());
         out.write(list);
     }
 
@@ -595,7 +595,7 @@ public class SysUserWebController {
     //@RequiresPermissions("sys:user:queryUserRole")
     public void userRoleList(OutputSystem out, SysUserRoleRequestVo sysUserRoleRequestVo) {
         Pager page = Pager.build().toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
-        ResponseResultList<SysUserResponseDto> dtos = sysUserService.getSysUserRoleId(page, sysUserRoleRequestVo.getRoleId(), sysUserRoleRequestVo.getUsername());
+        ResponseResultPageVo<SysUserResponseDto> dtos = sysUserService.getSysUserRoleId(page, sysUserRoleRequestVo.getRoleId(), sysUserRoleRequestVo.getUsername());
         out.write(dtos);
     }
 
@@ -692,7 +692,7 @@ public class SysUserWebController {
 //            return;
 //        }
 //        long userId = Long.valueOf(userIdStr);
-//        ResponseResultList result = ResponseResultList.build();
+//        ResponseResultPageVo result = new ResponseResultPageVo();
 //        List<DepartTreeRespVo> departList = userFacade.getUserDepartList(userId);
 //        if (ObjectTrue.isEmpty(departList)) {
 //            out.write(SysResultCodeEnum.SYS_USER_DEPART_FIND_FAIL);

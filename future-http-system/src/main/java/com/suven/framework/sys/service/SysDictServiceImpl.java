@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysDictServiceImpl  implements SysDictService {
      * @date 2022-02-28 16:10:09
      */
     @Override
-    public ResponseResultList<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum){
+    public ResponseResultPageVo<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum){
 
-        ResponseResultList<SysDictResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysDictResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDict> queryWrapper = sysDictDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDict> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysDictServiceImpl  implements SysDictService {
         }
         List<SysDictResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDictResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysDictServiceImpl  implements SysDictService {
      * @date 2022-02-28 16:10:09
      */
     @Override
-    public ResponseResultList<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum){
-        ResponseResultList<SysDictResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum){
+        ResponseResultPageVo<SysDictResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysDict> queryWrapper = sysDictDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDict> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysDictServiceImpl  implements SysDictService {
         }
         List<SysDictResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDictResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 

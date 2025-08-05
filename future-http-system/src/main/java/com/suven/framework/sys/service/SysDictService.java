@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysDictRequestDto;
 import com.suven.framework.sys.dto.response.SysDictResponseDto;
 import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -142,7 +142,7 @@ public interface SysDictService {
      * @author suven
      * @date 2022-02-28 16:10:09
      */
-    ResponseResultList<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum);
+    ResponseResultPageVo<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysDict 后台字典类型表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysDictService {
      * @author suven
      * @date 2022-02-28 16:10:09
      */
-    ResponseResultList<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum);
+    ResponseResultPageVo<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum);
 
 
 

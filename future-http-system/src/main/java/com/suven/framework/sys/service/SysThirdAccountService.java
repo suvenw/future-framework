@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysThirdAccountRequestDto;
 import com.suven.framework.sys.dto.response.SysThirdAccountResponseDto;
 import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -142,7 +142,7 @@ public interface SysThirdAccountService {
      * @author suven
      * @date 2022-02-28 16:09:47
      */
-    ResponseResultList<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum);
+    ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysThirdAccount 第三方登陆表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysThirdAccountService {
      * @author suven
      * @date 2022-02-28 16:09:47
      */
-    ResponseResultList<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum);
+    ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum);
 
 
 

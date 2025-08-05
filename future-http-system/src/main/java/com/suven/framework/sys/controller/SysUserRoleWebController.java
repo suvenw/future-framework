@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -106,7 +106,7 @@ public class SysUserRoleWebController {
      * @Title: 获取用户角色关系表分页信息
      * Description:sysUserRoleQueryRequestVo @{Link SysUserRoleQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<SysUserRoleShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<SysUserRoleShowResponseVo>
      * @throw
      * @author suven
      * @date 2022-02-28 16:11:27
@@ -128,14 +128,14 @@ public class SysUserRoleWebController {
         Pager page =  Pager.build().toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
          SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;
-        ResponseResultList<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( ResponseResultList.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
         List<SysUserRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysUserRoleShowResponseVo.class);
-        ResponseResultList result = ResponseResultList.build()
+        ResponseResultPageVo result = new ResponseResultPageVo()
                 .setResult(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -145,7 +145,7 @@ public class SysUserRoleWebController {
      * @Title: 根据条件查谒用户角色关系表分页信息
      * Description:sysUserRoleQueryRequestVo @{Link SysUserRoleQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<SysUserRoleShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<SysUserRoleShowResponseVo>
      * @author suven
      * @date 2022-02-28 16:11:27
      *  --------------------------------------------------------
@@ -375,7 +375,7 @@ public class SysUserRoleWebController {
         page.toParamObject(sysUserRoleRequestDto );
 
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;
-        ResponseResultList<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
         List<SysUserRoleResponseDto> data = resultList.getList();
 
         //写入文件

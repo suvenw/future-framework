@@ -8,7 +8,7 @@ import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
@@ -99,7 +99,7 @@ public class SysDataLogWebController {
      * @Title: 获取分页信息
      * Description:sysDataLogQueryRequestVo @{Link SysDataLogQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<SysDataLogShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<SysDataLogShowResponseVo>
      * @throw
      * @author suven
      * @date 2022-02-28 16:10:02
@@ -118,17 +118,17 @@ public class SysDataLogWebController {
     public   void   list( OutputSystem out, SysDataLogQueryRequestVo sysDataLogQueryRequestVo){
             SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build( ).clone(sysDataLogQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
+        Pager<SysDataLogRequestDto> page =  Pager.build().toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
         page.toParamObject(sysDataLogRequestDto );
          SysDataLogQueryEnum queryEnum =  SysDataLogQueryEnum.DESC_ID;
-        ResponseResultList<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( ResponseResultList.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
         List<SysDataLogShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDataLogShowResponseVo.class);
-        ResponseResultList result = ResponseResultList.build()
+        ResponseResultPageVo result = new ResponseResultPageVo()
                 .setResult(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -138,7 +138,7 @@ public class SysDataLogWebController {
      * @Title: 根据条件查谒分页信息
      * Description:sysDataLogQueryRequestVo @{Link SysDataLogQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<SysDataLogShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<SysDataLogShowResponseVo>
      * @author suven
      * @date 2022-02-28 16:10:02
      *  --------------------------------------------------------
@@ -369,7 +369,7 @@ public class SysDataLogWebController {
         page.toParamObject(sysDataLogRequestDto );
 
         SysDataLogQueryEnum queryEnum =  SysDataLogQueryEnum.DESC_ID;
-        ResponseResultList<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogByNextPage(page,queryEnum);
         List<SysDataLogResponseDto> data = resultList.getList();
 
         //写入文件

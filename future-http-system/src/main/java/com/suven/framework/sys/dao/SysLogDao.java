@@ -71,7 +71,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
                 return  null;
            }
           long id = sysLogMapper.saveId(sysLog);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysLog;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
                     return  null;
                }
               long id = sysLogMapper.saveToId(sysLog);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysLog;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
             if(null == sysLogList)
                 return  false;
            long id =  sysLogMapper.saveBatch(sysLogList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
 
         List<SysLog> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysLog> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
 
         List<SysLog> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysLog> list = super.list(queryWrapper);

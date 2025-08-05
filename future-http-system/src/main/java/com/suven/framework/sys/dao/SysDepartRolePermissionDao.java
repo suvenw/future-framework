@@ -71,7 +71,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
                 return  null;
            }
           long id = sysDepartRolePermissionMapper.saveId(sysDepartRolePermission);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysDepartRolePermission;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
                     return  null;
                }
               long id = sysDepartRolePermissionMapper.saveToId(sysDepartRolePermission);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysDepartRolePermission;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
             if(null == sysDepartRolePermissionList)
                 return  false;
            long id =  sysDepartRolePermissionMapper.saveBatch(sysDepartRolePermissionList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
 
         List<SysDepartRolePermission> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysDepartRolePermission> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
 
         List<SysDepartRolePermission> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysDepartRolePermission> list = super.list(queryWrapper);

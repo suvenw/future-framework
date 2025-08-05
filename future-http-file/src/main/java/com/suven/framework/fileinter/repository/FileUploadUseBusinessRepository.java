@@ -60,7 +60,7 @@ public class FileUploadUseBusinessRepository extends AbstractMyBatisDao<FileUplo
            }
 
           long id = this.getBaseMapper().saveId(fileUploadUseBusiness);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileUploadUseBusiness;
           }
            return null;
@@ -81,7 +81,7 @@ public class FileUploadUseBusinessRepository extends AbstractMyBatisDao<FileUplo
                }
 
               long id = this.getBaseMapper().saveToId(fileUploadUseBusiness);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileUploadUseBusiness;
               }
                return null;
@@ -100,7 +100,7 @@ public class FileUploadUseBusinessRepository extends AbstractMyBatisDao<FileUplo
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileUploadUseBusinessList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -126,7 +126,7 @@ public class FileUploadUseBusinessRepository extends AbstractMyBatisDao<FileUplo
 
         List<FileUploadUseBusiness> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadUseBusiness> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());

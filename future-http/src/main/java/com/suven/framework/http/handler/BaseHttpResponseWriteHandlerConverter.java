@@ -7,7 +7,7 @@ package com.suven.framework.http.handler;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.IResponseResultPage;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import jakarta.servlet.ServletOutputStream;
@@ -86,7 +86,7 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 	 */
 	@Override
 	public void writeList(List<?> responseDataList, boolean isNextPage){
-		IResponseResultPage<?> list = ResultPageVo.build()
+		IResponseResultPage<?> list = new ResponseResultPageVo()
 				.toList(responseDataList).toIsNextPage(isNextPage);
 		this.write(list);
 	}
@@ -98,7 +98,7 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 	 */
 	@Override
 	public void writeList(List responseDataList, boolean isNextPage, long pageIndex, int total){
-		ResultPageVo list = ResultPageVo.build();
+		ResponseResultPageVo list = new ResponseResultPageVo();
 		list.toList(responseDataList)
 				.toIsNextPage(isNextPage)
 				.toPageIndex(pageIndex)

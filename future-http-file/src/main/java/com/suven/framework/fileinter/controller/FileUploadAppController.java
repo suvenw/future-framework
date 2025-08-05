@@ -2,9 +2,6 @@ package com.suven.framework.fileinter.controller;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +12,8 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.IterableConvert;
 
 import com.suven.framework.fileinter.facade.FileUploadAppFacade;
 import com.suven.framework.fileinter.service.FileUploadAppService;
@@ -87,13 +83,13 @@ public class FileUploadAppController {
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppRequestVo);
         Pager pager = Pager.build().toPageSize(fileUploadAppRequestVo.getPageSize()).toPageNo(fileUploadAppRequestVo.getPageNo());
         pager.toParamObject(fileUploadAppRequestDto );
-        ResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(FileUploadAppQueryEnum.DESC_ID,pager);
+        ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(FileUploadAppQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResultPageVo<FileUploadAppRequestVo> list =  resultList.convertBuild(FileUploadAppRequestVo.class);
+        ResponseResultPageVo<FileUploadAppRequestVo> list =  resultList.convertBuild(FileUploadAppRequestVo.class);
         out.write(list);
 
         out.write(list);

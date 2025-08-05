@@ -62,7 +62,7 @@ public class FileUploadStorageRepository extends AbstractMyBatisDao<FileUploadSt
            }
 
           long id = this.getBaseMapper().saveId(fileUploadStorage);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileUploadStorage;
           }
            return null;
@@ -83,7 +83,7 @@ public class FileUploadStorageRepository extends AbstractMyBatisDao<FileUploadSt
                }
 
               long id = this.getBaseMapper().saveToId(fileUploadStorage);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileUploadStorage;
               }
                return null;
@@ -102,7 +102,7 @@ public class FileUploadStorageRepository extends AbstractMyBatisDao<FileUploadSt
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileUploadStorageList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -128,7 +128,7 @@ public class FileUploadStorageRepository extends AbstractMyBatisDao<FileUploadSt
 
         List<FileUploadStorage> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadStorage> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());

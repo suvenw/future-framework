@@ -2,7 +2,6 @@ package com.suven.framework.fileinter.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.io.InputStream;
 
 
@@ -10,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadAppRequestDto;
 import com.suven.framework.fileinter.dto.response.FileUploadAppResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -141,7 +140,7 @@ public interface FileUploadAppService {
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      */
-    ResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum,Pager pager);
+    ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager);
 
     /**
      * 通过分页获取FileUploadApp 信息实现查找缓存和数据库的方法,不查总页数
@@ -152,7 +151,7 @@ public interface FileUploadAppService {
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      */
-    ResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum,Pager pager,boolean searchCount);
+    ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount);
 
 
 

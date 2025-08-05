@@ -29,7 +29,7 @@ import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -350,9 +350,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @date 2022-02-28 16:09:37
      */
     @Override
-    public ResponseResultList<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum) {
+    public ResponseResultPageVo<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum) {
 
-        ResponseResultList<SysUserResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -363,8 +363,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -376,8 +376,8 @@ public class SysUserServiceImpl implements SysUserService {
      * @date 2022-02-28 16:09:37
      */
     @Override
-    public ResponseResultList<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum) {
-        ResponseResultList<SysUserResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum) {
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         ;
         //分页对象        PageHelper
@@ -389,8 +389,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 
@@ -443,7 +443,7 @@ public class SysUserServiceImpl implements SysUserService {
     public boolean addSysUserRole(long roleId, List<Long> idList) {
         for (long sysUserId : idList) {
             SysUserRole sysUserRole = SysUserRole.build().toUserId(sysUserId).toRoleId(roleId);
-            QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper();
+            QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("role_id", roleId).eq("user_id", sysUserId);
             SysUserRole one = sysUserRoleDao.getOne(queryWrapper);
             if (one == null) {
@@ -455,7 +455,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public boolean deleteUserRole(long roleId, List<Long> idList) {
-        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper();
+        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("role_id", roleId).in("user_id", idList);
         return sysUserRoleDao.remove(queryWrapper);
     }
@@ -557,24 +557,24 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public ResponseResultList<SysUserResponseDto> getUserByDepIdPage(long depId) {
-        ResponseResultList<SysUserResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysUserResponseDto> getUserByDepIdPage(long depId) {
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         List<SysUserResponseDto> resDtoList = new ArrayList<>();
 
 
         List<Long> userIds = sysUserDepartDao.getUserIdByDepId(depId);
         if (ObjectTrue.isEmpty(userIds)) {
-            return responseResultList.toTotal(0).toList(resDtoList);
+            return ResponseResultPageVo.toTotal(0).toList(resDtoList);
         }
         Collection<SysUser> list = sysUserDao.getListByIds(userIds);
         resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
 
-        return responseResultList.toTotal(list.size()).toList(resDtoList);
+        return ResponseResultPageVo.toTotal(list.size()).toList(resDtoList);
     }
 
     @Override
-    public ResponseResultList<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username) {
-        ResponseResultList<SysUserResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username) {
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         ;
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(basePage.getPageNo(), basePage.getPageSize());
@@ -585,8 +585,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = basePage.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
+        return ResponseResultPageVo;
     }
 
 }

@@ -66,7 +66,7 @@ public class SysDepartPermissionDao extends AbstractMyBatisDao<SysDepartPermissi
                 return  null;
            }
           long id = this.getBaseMapper().saveId(sysDepartPermission);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysDepartPermission;
           }
            return null;
@@ -86,7 +86,7 @@ public class SysDepartPermissionDao extends AbstractMyBatisDao<SysDepartPermissi
                     return  null;
                }
               long id = this.getBaseMapper().saveToId(sysDepartPermission);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysDepartPermission;
               }
                return null;
@@ -104,7 +104,7 @@ public class SysDepartPermissionDao extends AbstractMyBatisDao<SysDepartPermissi
             if(null == sysDepartPermissionList)
                 return  false;
            long id =  this.getBaseMapper().saveBatch(sysDepartPermissionList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 

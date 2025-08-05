@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -104,7 +104,7 @@ public class SysThirdAccountWebController {
      * @Title: 获取第三方登陆表分页信息
      * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<SysThirdAccountShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<SysThirdAccountShowResponseVo>
      * @throw
      * @author suven
      * @date 2022-02-28 16:09:47
@@ -126,24 +126,20 @@ public class SysThirdAccountWebController {
         Pager page =  Pager.build().toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
          SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
-        ResponseResultList<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( ResponseResultList.build());
+        ResponseResultPageVo<SysThirdAccountResponseDto> resultPage = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
+        if(null == resultPage || resultPage.getList().isEmpty() ){
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
-
-        List<SysThirdAccountShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysThirdAccountShowResponseVo.class);
-        ResponseResultList result = ResponseResultList.build()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        ResponseResultPageVo<SysThirdAccountShowResponseVo> resultPageVo = resultPage.convertBuild(SysThirdAccountShowResponseVo.class);
+        out.write( resultPageVo);
     }
 
 /**
      * @Title: 根据条件查谒第三方登陆表分页信息
      * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<SysThirdAccountShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<SysThirdAccountShowResponseVo>
      * @author suven
      * @date 2022-02-28 16:09:47
      *  --------------------------------------------------------
@@ -373,7 +369,7 @@ public class SysThirdAccountWebController {
         page.toParamObject(sysThirdAccountRequestDto );
 
         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
-        ResponseResultList<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
         List<SysThirdAccountResponseDto> data = resultList.getList();
 
         //写入文件

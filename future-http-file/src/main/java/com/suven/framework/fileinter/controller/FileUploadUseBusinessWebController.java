@@ -18,22 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.http.data.vo.HttpRequestSortByIdListVo;
-import com.suven.framework.util.date.DateUtil;
 import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
-import com.suven.framework.http.data.vo.SystemResultVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.common.enums.TbStatusEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
@@ -125,7 +119,7 @@ public class FileUploadUseBusinessWebController {
      * @Title: 获取分页信息
      * Description:fileUploadUseBusinessQueryRequestVo @{Link FileUploadUseBusinessQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<FileUploadUseBusinessShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<FileUploadUseBusinessShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
@@ -147,13 +141,13 @@ public class FileUploadUseBusinessWebController {
         Pager pager =  Pager.build().toPageSize(fileUploadUseBusinessQueryRequestVo.getPageSize()).toPageNo(fileUploadUseBusinessQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
          FileUploadUseBusinessQueryEnum queryEnum =  FileUploadUseBusinessQueryEnum.DESC_ID;
-        ResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( ResultPageVo.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
-        ResultPageVo <FileUploadUseBusinessShowResponseVo> result = resultList.convertBuild(FileUploadUseBusinessShowResponseVo.class);
+        ResponseResultPageVo<FileUploadUseBusinessShowResponseVo> result = resultList.convertBuild(FileUploadUseBusinessShowResponseVo.class);
         out.write( result);
     }
 
@@ -161,7 +155,7 @@ public class FileUploadUseBusinessWebController {
      * @Title: 根据条件查谒分页信息
      * Description:fileUploadUseBusinessQueryRequestVo @{Link FileUploadUseBusinessQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<FileUploadUseBusinessShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<FileUploadUseBusinessShowResponseVo>
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      *  --------------------------------------------------------
@@ -389,7 +383,7 @@ public class FileUploadUseBusinessWebController {
         pager.toParamObject(fileUploadUseBusinessRequestDto );
 
         FileUploadUseBusinessQueryEnum queryEnum =  FileUploadUseBusinessQueryEnum.DESC_ID;
-        ResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(queryEnum,pager);
         List<FileUploadUseBusinessResponseDto> data = resultList.getList();
 
         //写入文件

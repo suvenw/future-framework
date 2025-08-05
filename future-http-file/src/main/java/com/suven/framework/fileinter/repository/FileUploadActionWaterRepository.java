@@ -63,7 +63,7 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisDao<FileUplo
            }
 
           long id = this.getBaseMapper().saveId(fileUploadActionWater);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileUploadActionWater;
           }
            return null;
@@ -84,7 +84,7 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisDao<FileUplo
                }
 
               long id = this.getBaseMapper().saveToId(fileUploadActionWater);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileUploadActionWater;
               }
                return null;
@@ -103,7 +103,7 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisDao<FileUplo
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileUploadActionWaterList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -129,7 +129,7 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisDao<FileUplo
 
         List<FileUploadActionWater> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadActionWater> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());

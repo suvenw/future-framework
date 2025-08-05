@@ -8,7 +8,7 @@ import com.suven.framework.core.redis.RedisClientServer;
 import com.suven.framework.core.redis.RedisKeys;
 import com.suven.framework.core.redis.RedisShortKeyUtil;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 import com.suven.framework.sys.dto.request.SysUserLoginRequestDto;
@@ -232,10 +232,10 @@ public class SysUserFacade {
 		return password;
 	}
 
-	public ResponseResultList getSysUserList(Pager page) {
-		ResponseResultList<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page,SysUserQueryEnum.DESC_ID);
+	public ResponseResultPageVo getSysUserList(Pager page) {
+		ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page,SysUserQueryEnum.DESC_ID);
 		if (null == resultList || resultList.getList().isEmpty()) {
-			return ResponseResultList.build();
+			return new ResponseResultPageVo();
 		}
 		List<Long> userIds = new ArrayList<>(); //后面处理等级等信息
 		List<SysUserResponseVo> listVo = new ArrayList<>();
@@ -243,7 +243,7 @@ public class SysUserFacade {
 			userIds.add(e.getId());
 			listVo.add(SysUserResponseVo.build().clone(e));
 		});
-		ResponseResultList result = ResponseResultList.build().toList(listVo)
+		ResponseResultPageVo result = new ResponseResultPageVo().toList(listVo)
 				.toIsNextPage(resultList.getIsNextPage())
 				.toPageIndex(resultList.getPageIndex())
 				.toTotal(resultList.getTotal())
