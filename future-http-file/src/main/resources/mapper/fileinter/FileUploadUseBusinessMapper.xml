@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.fileinter.mapper.FileUploadUseBusinessMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.fileinter.entity.FileUploadUseBusiness" id="fileUploadUseBusinessMap">
+        <result property="id" column="id"/>
+        <result property="appId" column="app_id"/>
+        <result property="clientId" column="client_id"/>
+        <result property="companyId" column="company_id"/>
+        <result property="companyName" column="company_name"/>
+        <result property="fileProductName" column="file_product_name"/>
+        <result property="fileBusinessName" column="file_business_name"/>
+        <result property="callbackService" column="callback_service"/>
+        <result property="callbackAsyncService" column="callback_async_service"/>
+        <result property="dataForm" column="data_form"/>
+        <result property="formType" column="form_type"/>
+        <result property="interpretData" column="interpret_data"/>
+        <result property="checkData" column="check_data"/>
+        <result property="accessExpirationTime" column="access_expiration_time"/>
+        <result property="accessCount" column="access_count"/>
+        <result property="accessUrlFormat" column="access_url_format"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            file_upload_use_business ( app_id, client_id, company_id, company_name, file_product_name, file_business_name, callback_service, callback_async_service, data_form, form_type, interpret_data, check_data, access_expiration_time, access_count, access_url_format, create_date, modify_date, tenant_id, deleted )
+        VALUES
+        <foreach collection="list" item="fileUploadUseBusiness" index="index" separator=",">
+            (  #{fileUploadUseBusiness.appId},  #{fileUploadUseBusiness.clientId},  #{fileUploadUseBusiness.companyId},  #{fileUploadUseBusiness.companyName},  #{fileUploadUseBusiness.fileProductName},  #{fileUploadUseBusiness.fileBusinessName},  #{fileUploadUseBusiness.callbackService},  #{fileUploadUseBusiness.callbackAsyncService},  #{fileUploadUseBusiness.dataForm},  #{fileUploadUseBusiness.formType},  #{fileUploadUseBusiness.interpretData},  #{fileUploadUseBusiness.checkData},  #{fileUploadUseBusiness.accessExpirationTime},  #{fileUploadUseBusiness.accessCount},  #{fileUploadUseBusiness.accessUrlFormat},  #{fileUploadUseBusiness.createDate},  #{fileUploadUseBusiness.modifyDate},  #{fileUploadUseBusiness.tenantId},  #{fileUploadUseBusiness.deleted} )
+        </foreach>
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysPermissionMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysPermission" id="sysPermissionMap">
+        <result property="id" column="id"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name"/>
+        <result property="url" column="url"/>
+        <result property="component" column="component"/>
+        <result property="componentName" column="component_name"/>
+        <result property="redirect" column="redirect"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="perms" column="perms"/>
+        <result property="permsType" column="perms_type"/>
+        <result property="sortNo" column="sort_no"/>
+        <result property="alwaysShow" column="always_show"/>
+        <result property="icon" column="icon"/>
+        <result property="isRoute" column="is_route"/>
+        <result property="isLeaf" column="is_leaf"/>
+        <result property="keepAlive" column="keep_alive"/>
+        <result property="hidden" column="hidden"/>
+        <result property="hideTab" column="hide_tab"/>
+        <result property="description" column="description"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="ruleFlag" column="rule_flag"/>
+        <result property="status" column="status"/>
+        <result property="internalOrExternal" column="internal_or_external"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_permission ( parent_id, name, url, component, component_name, redirect, menu_type, perms, perms_type, sort_no, always_show, icon, is_route, is_leaf, keep_alive, hidden, hide_tab, description, create_by, create_time, update_by, update_time, del_flag, rule_flag, status, internal_or_external )
+        VALUES
+        <foreach collection="list" item="sysPermission" index="index" separator=",">
+            (  #{sysPermission.parentId},  #{sysPermission.name},  #{sysPermission.url},  #{sysPermission.component},  #{sysPermission.componentName},  #{sysPermission.redirect},  #{sysPermission.menuType},  #{sysPermission.perms},  #{sysPermission.permsType},  #{sysPermission.sortNo},  #{sysPermission.alwaysShow},  #{sysPermission.icon},  #{sysPermission.isRoute},  #{sysPermission.isLeaf},  #{sysPermission.keepAlive},  #{sysPermission.hidden},  #{sysPermission.hideTab},  #{sysPermission.description},  #{sysPermission.createBy},  #{sysPermission.createTime},  #{sysPermission.updateBy},  #{sysPermission.updateTime},  #{sysPermission.delFlag},  #{sysPermission.ruleFlag},  #{sysPermission.status},  #{sysPermission.internalOrExternal} )
+        </foreach>
+    </insert>
+
+
+    <!-- 获取登录用户拥有的权限 -->
+    <select id="queryByUserId" parameterType="Long"  resultMap="sysPermissionMap">
+        SELECT p.*
+        FROM  sys_permission p
+        WHERE exists(
+        select a.id from sys_role_permission a
+        join sys_role b on a.role_id = b.id
+        join sys_user_role c on c.role_id = b.id
+        where p.id = a.permission_id AND c.user_id = #{userId}
+        )
+        and p.del_flag = 0
+        order by p.parent_id asc ,p.sort ASC ,  p.sort_no ASC
+    </select>
+
+</mapper>

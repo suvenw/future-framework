@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysLogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysLog" id="sysLogMap">
+        <result property="id" column="id"/>
+        <result property="logType" column="log_type"/>
+        <result property="logContent" column="log_content"/>
+        <result property="operateType" column="operate_type"/>
+        <result property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="ip" column="ip"/>
+        <result property="method" column="method"/>
+        <result property="requestUrl" column="request_url"/>
+        <result property="requestParam" column="request_param"/>
+        <result property="requestType" column="request_type"/>
+        <result property="costTime" column="cost_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_log ( log_type, log_content, operate_type, user_id, user_name, ip, method, request_url, request_param, request_type, cost_time, create_by, create_time, update_by, update_time )
+        VALUES
+        <foreach collection="list" item="sysLog" index="index" separator=",">
+            (  #{sysLog.logType},  #{sysLog.logContent},  #{sysLog.operateType},  #{sysLog.userId},  #{sysLog.userName},  #{sysLog.ip},  #{sysLog.method},  #{sysLog.requestUrl},  #{sysLog.requestParam},  #{sysLog.requestType},  #{sysLog.costTime},  #{sysLog.createBy},  #{sysLog.createTime},  #{sysLog.updateBy},  #{sysLog.updateTime} )
+        </foreach>
+    </insert>
+
+    <!-- 获取访问总数 -->
+    <select id="findTotalVisitCount" resultType="long">
+        select count(1) from sys_log where log_type = 1
+    </select>
+
+    <!-- 获取今日访问总数 -->
+    <select id="findTodayVisitCount" resultType="long">
+        select count(1) from sys_log where log_type = 1 and create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}
+    </select>
+
+    <!-- 获取今日访问总IP数 -->
+    <select id="findTodayIp" resultType="long">
+        select count(distinct(ip)) from sys_log where log_type = 1 and create_time &gt;= #{dayStart} and create_time &lt; #{dayEnd}
+    </select>
+
+
+</mapper>

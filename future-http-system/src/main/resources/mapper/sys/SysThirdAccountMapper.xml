@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysThirdAccountMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysThirdAccount" id="sysThirdAccountMap">
+        <result property="id" column="id"/>
+        <result property="sysUserId" column="sys_user_id"/>
+        <result property="avatar" column="avatar"/>
+        <result property="status" column="status"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="realname" column="realname"/>
+        <result property="thirdUserUuid" column="third_user_uuid"/>
+        <result property="thirdUserId" column="third_user_id"/>
+        <result property="thirdType" column="third_type"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_third_account ( sys_user_id, avatar, status, del_flag, realname, third_user_uuid, third_user_id, third_type )
+        VALUES
+        <foreach collection="list" item="sysThirdAccount" index="index" separator=",">
+            (  #{sysThirdAccount.sysUserId},  #{sysThirdAccount.avatar},  #{sysThirdAccount.status},  #{sysThirdAccount.delFlag},  #{sysThirdAccount.realname},  #{sysThirdAccount.thirdUserUuid},  #{sysThirdAccount.thirdUserId},  #{sysThirdAccount.thirdType} )
+        </foreach>
+    </insert>
+
+
+</mapper>

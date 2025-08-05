@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+// 项目名称描述
+description = 'future-doc'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'
+//def libs = rootProject.ext.libVersions
+
+dependencies {
+
+    implementation fileTree(dir: "lib", include: '*.jar')
+
+    implementation "org.springframework:spring-context:${versions.spring_version}"
+    implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+    implementation 'com.alibaba:fastjson:1.2.58'
+    implementation 'org.reflections:reflections:0.9.10'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+}
+
+
+

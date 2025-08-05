@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.sys.mapper.SysDataLogMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.sys.entity.SysDataLog" id="sysDataLogMap">
+        <result property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="dataTable" column="data_table"/>
+        <result property="dataId" column="data_id"/>
+        <result property="dataContent" column="data_content"/>
+        <result property="dataVersion" column="data_version"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            sys_data_log ( create_by, create_time, update_by, update_time, data_table, data_id, data_content, data_version )
+        VALUES
+        <foreach collection="list" item="sysDataLog" index="index" separator=",">
+            (  #{sysDataLog.createBy},  #{sysDataLog.createTime},  #{sysDataLog.updateBy},  #{sysDataLog.updateTime},  #{sysDataLog.dataTable},  #{sysDataLog.dataId},  #{sysDataLog.dataContent},  #{sysDataLog.dataVersion} )
+        </foreach>
+    </insert>
+
+
+</mapper>
