@@ -2,9 +2,6 @@ package com.suven.framework.fileinter.controller;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +12,8 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.IterableConvert;
 
 import com.suven.framework.fileinter.facade.FileUploadUseBusinessFacade;
 import com.suven.framework.fileinter.service.FileUploadUseBusinessService;
@@ -85,15 +81,15 @@ public class FileUploadUseBusinessController {
     @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadUseBusinessRequestVo fileUploadUseBusinessRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessRequestVo);
-        Pager pager = Pager.build().toPageSize(fileUploadUseBusinessRequestVo.getPageSize()).toPageNo(fileUploadUseBusinessRequestVo.getPageNo());
+        Pager<FileUploadUseBusinessRequestDto> pager = Pager.build(fileUploadUseBusinessRequestVo.getPageNo(),fileUploadUseBusinessRequestVo.getPageSize());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
-        ResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum.DESC_ID,pager);
+        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResultPageVo<FileUploadUseBusinessRequestVo> list =  resultList.convertBuild(FileUploadUseBusinessRequestVo.class);
+        ResponseResultPageVo<FileUploadUseBusinessRequestVo> list =  resultList.convertBuild(FileUploadUseBusinessRequestVo.class);
         out.write(list);
 
         out.write(list);

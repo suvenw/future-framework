@@ -73,7 +73,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
                 return  null;
            }
           long id = sysRoleMapper.saveId(sysRole);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysRole;
           }
            return null;
@@ -93,7 +93,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
                     return  null;
                }
               long id = sysRoleMapper.saveToId(sysRole);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysRole;
               }
                return null;
@@ -111,7 +111,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
             if(null == sysRoleList)
                 return  false;
            long id =  sysRoleMapper.saveBatch(sysRoleList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -135,7 +135,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
 
         List<SysRole> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysRole> page = super.page(iPage, queryWrapper);
@@ -164,7 +164,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
 
         List<SysRole> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysRole> list = super.list(queryWrapper);

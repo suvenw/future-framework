@@ -2,7 +2,6 @@ package com.suven.framework.fileinter.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.io.InputStream;
 
 
@@ -10,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadStorageRequestDto;
 import com.suven.framework.fileinter.dto.response.FileUploadStorageResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -141,7 +140,7 @@ public interface FileUploadStorageService {
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager);
+    ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager);
 
     /**
     * 通过分页获取FileUploadStorage信息列表,实现查找缓存和数据库的方法,并且查询总页数
@@ -150,7 +149,7 @@ public interface FileUploadStorageService {
     * @author suven  作者
     * date 2024-04-18 22:13:59 创建时间
     */
-    ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum,Pager pager,boolean searchCount);
+    ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager, boolean searchCount);
     /**
      * 通过分页获取FileUploadStorage 信息实现查找缓存和数据库的方法,不查总页数
      * @param pager Pager 分页查询对象
@@ -158,7 +157,7 @@ public interface FileUploadStorageService {
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    ResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum ,Pager pager);
+    ResponseResultPageVo<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum , Pager pager);
 
 
     /**

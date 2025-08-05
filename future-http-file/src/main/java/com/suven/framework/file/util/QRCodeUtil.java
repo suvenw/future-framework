@@ -1,26 +1,18 @@
 package com.suven.framework.file.util;
 
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.*;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.suven.framework.file.config.FileConfigSetting;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.*;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 
@@ -53,16 +45,8 @@ public class QRCodeUtil {
         return drawLogoQRCode(qrUrl,no,null,400, 400);
     }
 
-    /**
-     * 生成带logo的二维码图片
-     * @param qrUrl
-     * @param no
-     * @param topicStoreId
-     * @param qrWidth
-     * @param qrHeight
-     * @return
-     */
-    public static BufferedImage drawLogoQRCode( String qrUrl ,int no ,InputStream logoCodeUrl ,int qrWidth,int qrHeight) {
+
+    public static BufferedImage drawLogoQRCode(String qrUrl , int no , InputStream logoCodeUrl , int qrWidth, int qrHeight) {
 
         try {
             String qrCodeUrl = qrUrl.contains("?") ? (qrUrl + "&code=" + no ) : (qrUrl + "?code=" + no );

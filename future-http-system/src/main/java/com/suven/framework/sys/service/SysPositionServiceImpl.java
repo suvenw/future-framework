@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysPositionQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysPositionServiceImpl  implements SysPositionService {
      * @date 2022-02-28 16:13:52
      */
     @Override
-    public ResponseResultList<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum){
+    public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum){
 
-        ResponseResultList<SysPositionResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysPositionServiceImpl  implements SysPositionService {
         }
         List<SysPositionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPositionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysPositionServiceImpl  implements SysPositionService {
      * @date 2022-02-28 16:13:52
      */
     @Override
-    public ResponseResultList<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum){
-        ResponseResultList<SysPositionResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum){
+        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysPositionServiceImpl  implements SysPositionService {
         }
         List<SysPositionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPositionResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 

@@ -76,7 +76,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
                 return  null;
            }
           long id = sysUserMapper.saveId(sysUser);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysUser;
           }
            return null;
@@ -96,7 +96,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
                     return  null;
                }
               long id = sysUserMapper.saveToId(sysUser);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysUser;
               }
                return null;
@@ -114,7 +114,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
             if(null == sysUserList)
                 return  false;
            long id =  sysUserMapper.saveBatch(sysUserList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -138,7 +138,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
 
         List<SysUser> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysUser> page = super.page(iPage, queryWrapper);
@@ -167,7 +167,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
 
         List<SysUser> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysUser> list = super.list(queryWrapper);

@@ -10,7 +10,7 @@ import com.suven.framework.sys.dto.response.SysUserResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.sys.vo.request.AllStatusRequestVo;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -145,7 +145,7 @@ public interface SysUserService {
      * @author suven
      * @date 2022-02-28 16:09:37
      */
-    ResponseResultList<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum);
+    ResponseResultPageVo<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysUser 用户表信息实现查找缓存和数据库的方法,不查总页数
@@ -154,7 +154,7 @@ public interface SysUserService {
      * @author suven
      * @date 2022-02-28 16:09:37
      */
-    ResponseResultList<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum);
+    ResponseResultPageVo<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum);
 
 
 
@@ -221,8 +221,8 @@ public interface SysUserService {
     */
     public boolean saveData(InputStream initialStream);
 
-    ResponseResultList<SysUserResponseDto> getUserByDepIdPage( long depId);
+    ResponseResultPageVo<SysUserResponseDto> getUserByDepIdPage( long depId);
 
 
-    ResponseResultList<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username);
+    ResponseResultPageVo<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username);
 }

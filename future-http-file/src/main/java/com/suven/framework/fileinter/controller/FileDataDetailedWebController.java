@@ -18,22 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.http.data.vo.HttpRequestSortByIdListVo;
-import com.suven.framework.util.date.DateUtil;
 import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
-import com.suven.framework.http.data.vo.SystemResultVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.common.enums.TbStatusEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
@@ -125,7 +119,7 @@ public class FileDataDetailedWebController {
      * @Title: 获取分页信息
      * Description:fileDataDetailedQueryRequestVo @{Link FileDataDetailedQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<FileDataDetailedShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<FileDataDetailedShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
@@ -147,13 +141,13 @@ public class FileDataDetailedWebController {
         Pager pager =  Pager.build().toPageSize(fileDataDetailedQueryRequestVo.getPageSize()).toPageNo(fileDataDetailedQueryRequestVo.getPageNo());
         pager.toParamObject(fileDataDetailedRequestDto );
          FileDataDetailedQueryEnum queryEnum =  FileDataDetailedQueryEnum.DESC_ID;
-        ResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( ResultPageVo.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
-        ResultPageVo <FileDataDetailedShowResponseVo> result = resultList.convertBuild(FileDataDetailedShowResponseVo.class);
+        ResponseResultPageVo<FileDataDetailedShowResponseVo> result = resultList.convertBuild(FileDataDetailedShowResponseVo.class);
         out.write( result);
     }
 
@@ -161,7 +155,7 @@ public class FileDataDetailedWebController {
      * @Title: 根据条件查谒分页信息
      * Description:fileDataDetailedQueryRequestVo @{Link FileDataDetailedQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<FileDataDetailedShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<FileDataDetailedShowResponseVo>
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      *  --------------------------------------------------------
@@ -389,7 +383,7 @@ public class FileDataDetailedWebController {
         pager.toParamObject(fileDataDetailedRequestDto );
 
         FileDataDetailedQueryEnum queryEnum =  FileDataDetailedQueryEnum.DESC_ID;
-        ResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(queryEnum,pager);
         List<FileDataDetailedResponseDto> data = resultList.getList();
 
         //写入文件

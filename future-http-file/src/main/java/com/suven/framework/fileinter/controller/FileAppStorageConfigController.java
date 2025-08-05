@@ -2,9 +2,6 @@ package com.suven.framework.fileinter.controller;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +12,8 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.IterableConvert;
 
 import com.suven.framework.fileinter.facade.FileAppStorageConfigFacade;
 import com.suven.framework.fileinter.service.FileAppStorageConfigService;
@@ -87,13 +83,13 @@ public class FileAppStorageConfigController {
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigRequestVo);
         Pager pager = Pager.build().toPageSize(fileAppStorageConfigRequestVo.getPageSize()).toPageNo(fileAppStorageConfigRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
-        ResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum.DESC_ID,pager);
+        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResultPageVo<FileAppStorageConfigRequestVo> list =  resultList.convertBuild(FileAppStorageConfigRequestVo.class);
+        ResponseResultPageVo<FileAppStorageConfigRequestVo> list =  resultList.convertBuild(FileAppStorageConfigRequestVo.class);
         out.write(list);
 
         out.write(list);

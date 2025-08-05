@@ -71,7 +71,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
                 return  null;
            }
           long id = sysDictItemMapper.saveId(sysDictItem);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysDictItem;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
                     return  null;
                }
               long id = sysDictItemMapper.saveToId(sysDictItem);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysDictItem;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
             if(null == sysDictItemList)
                 return  false;
            long id =  sysDictItemMapper.saveBatch(sysDictItemList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
 
         List<SysDictItem> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysDictItem> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
 
         List<SysDictItem> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysDictItem> list = super.list(queryWrapper);

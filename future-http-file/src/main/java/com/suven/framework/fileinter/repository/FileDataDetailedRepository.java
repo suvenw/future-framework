@@ -14,6 +14,7 @@ import com.suven.framework.fileinter.entity.FileDataDetailed;
 import com.suven.framework.fileinter.mapper.FileDataDetailedMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -60,7 +61,7 @@ public class FileDataDetailedRepository extends AbstractMyBatisDao<FileDataDetai
            }
 
           long id = this.getBaseMapper().saveId(fileDataDetailed);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileDataDetailed;
           }
            return null;
@@ -81,7 +82,7 @@ public class FileDataDetailedRepository extends AbstractMyBatisDao<FileDataDetai
                }
 
               long id = this.getBaseMapper().saveToId(fileDataDetailed);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileDataDetailed;
               }
                return null;
@@ -100,7 +101,7 @@ public class FileDataDetailedRepository extends AbstractMyBatisDao<FileDataDetai
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileDataDetailedList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -122,24 +123,20 @@ public class FileDataDetailedRepository extends AbstractMyBatisDao<FileDataDetai
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      */
-    public List<FileDataDetailed> getListByPage(Pager<FileDataDetailed> pager, Wrapper<FileDataDetailed> queryWrapper ){
+    public ResponseResultPageVo<FileDataDetailed> getListByPage(Pager<FileDataDetailed> pager, Wrapper<FileDataDetailed> queryWrapper ){
 
-        List<FileDataDetailed> resDtoList = new ArrayList<>();
+        ResponseResultPageVo<FileDataDetailed> pageVo = new ResponseResultPageVo<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileDataDetailed> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
         IPage<FileDataDetailed> page = super.page(iPage, queryWrapper);
-        if(ObjectTrue.isEmpty(page)){
-          return resDtoList;
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+          return pageVo;
         }
-        List<FileDataDetailed>  list = page.getRecords();
-        pager.setTotal(page.getTotal());
-        if(ObjectTrue.isEmpty(list)){
-          return resDtoList;
-        }
-          return list;
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+          return pageVo;
         }
     /**
      * 通过分页获取FileDataDetailed信息实现查找缓存和数据库的方法

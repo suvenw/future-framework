@@ -257,9 +257,9 @@ ext.libraries = [
     "awaitility"                                   : "org.awaitility:awaitility:${versions.awaitility_version}",
 
     // 二维码 & Excel
-    "core"                                          : "com.google.zxing:core:${versions.zxing_version}",
-    "javase"                                        : "com.google.zxing:javase:${versions.zxing_version}",
-    "poi"                                           : "org.apache.poi:poi:${versions.poi_version}",
+    "zxing-core"                                   : "com.google.zxing:core:${versions.zxing_version}",
+    "zxing-javase"                                 : "com.google.zxing:javase:${versions.zxing_version}",
+    "poi"                                          : "org.apache.poi:poi:${versions.poi_version}",
     "poi-ooxml"                                    : "org.apache.poi:poi-ooxml:${versions.poi_version}",
     "easyexcel"                                    : "com.alibaba:easyexcel:${versions.easyexcel_version}",
     "aspectjweaver"                                : 'org.aspectj:aspectjweaver:1.9.3',

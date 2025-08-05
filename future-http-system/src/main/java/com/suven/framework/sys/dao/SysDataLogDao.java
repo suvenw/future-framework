@@ -70,7 +70,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
                 return  null;
            }
           long id = this.getBaseMapper().saveId(sysDataLog);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysDataLog;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
                }
                this.masterDataSource();
               long id = this.getBaseMapper().saveToId(sysDataLog);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysDataLog;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
             if(null == sysDataLogList)
                 return  false;
            long id =  this.getBaseMapper().saveBatch(sysDataLogList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
 
         List<SysDataLog> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysDataLog> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
 
         List<SysDataLog> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysDataLog> list = super.list(queryWrapper);

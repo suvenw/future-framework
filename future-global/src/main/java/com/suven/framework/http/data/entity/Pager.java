@@ -216,7 +216,7 @@ public class Pager<T> implements Serializable {
         return isNextPage && this.getSize() < size;
     }
 
-	public <T>  boolean isNextPage(List<T> list){
+	public  boolean isNextPage(List<T> list){
 		if(null != list && list.size() > pageSize && list.size() > 1){
 			list.remove(pageSize);
 			nextPage = PAGE_INIT;
@@ -228,10 +228,18 @@ public class Pager<T> implements Serializable {
 		return this.nextPage == PAGE_INIT;
 	}
 
+		/**
+	 * 设置分页器的参数对象
+	 *
+	 * @param paramObject 泛型参数对象，用于存储分页查询的参数信息
+	 * @return 返回当前Pager对象，支持链式调用
+	 */
+	@SuppressWarnings("unchecked")
     public Pager<T> toParamObject(T paramObject) {
         this.paramObject = paramObject;
         return this;
     }
+
 	public void setParamObject(T paramObject) {
 		this.paramObject = paramObject;
 	}

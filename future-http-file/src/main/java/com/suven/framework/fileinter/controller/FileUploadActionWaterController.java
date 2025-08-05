@@ -13,7 +13,7 @@ import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.handler.OutputResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -80,13 +80,13 @@ public class FileUploadActionWaterController {
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterRequestVo);
         Pager pager = Pager.build().toPageSize(fileUploadActionWaterRequestVo.getPageSize()).toPageNo(fileUploadActionWaterRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
-        ResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum.DESC_ID,pager);
+        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResultPageVo<FileUploadActionWaterRequestVo> list =  resultList.convertBuild(FileUploadActionWaterRequestVo.class);
+        ResponseResultPageVo<FileUploadActionWaterRequestVo> list =  resultList.convertBuild(FileUploadActionWaterRequestVo.class);
         out.write(list);
 
         out.write(list);

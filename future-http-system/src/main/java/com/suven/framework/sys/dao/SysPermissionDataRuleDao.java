@@ -71,7 +71,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
                 return  null;
            }
           long id = sysPermissionDataRuleMapper.saveId(sysPermissionDataRule);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysPermissionDataRule;
           }
            return null;
@@ -91,7 +91,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
                     return  null;
                }
               long id = sysPermissionDataRuleMapper.saveToId(sysPermissionDataRule);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysPermissionDataRule;
               }
                return null;
@@ -109,7 +109,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
             if(null == sysPermissionDataRuleList)
                 return  false;
            long id =  sysPermissionDataRuleMapper.saveBatch(sysPermissionDataRuleList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -133,7 +133,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
 
         List<SysPermissionDataRule> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysPermissionDataRule> page = super.page(iPage, queryWrapper);
@@ -162,7 +162,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
 
         List<SysPermissionDataRule> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysPermissionDataRule> list = super.list(queryWrapper);

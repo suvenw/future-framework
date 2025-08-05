@@ -8,7 +8,9 @@ import com.suven.framework.http.inters.IResultCodeEnum;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @Title: ResponseResultVo.java
@@ -86,11 +88,11 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 	 *  示例：在响应体中添加额外的数据
 	 *  异常类型
 	 * @param body
-	 * @param isNextPage
-	 * @return
+	 * @return  Object 结果
 	 */
-	public Object covertData( Object body, boolean isNextPage ){
-
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object initData( Object body ){
 		if(body instanceof IResultCodeEnum){
 			IResultCodeEnum codeEnum = (IResultCodeEnum) body;
 			IResponseResult returnVo =   build().of(codeEnum.getCode(),codeEnum.getMsg());
@@ -111,21 +113,19 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 				int value = (Boolean) body ? 1 : 0;
 				data.put("result", value);
 			}
-			IResponseResult returnVo =   this.build().of(data);
+			IResponseResult returnVo =   build().of(data);
 			return returnVo;
 		}
 		if(body instanceof String){
-			IResponseResult returnVo =  this.build().of(body);
+			IResponseResult returnVo =  build().of(body);
 			return returnVo;
 		}
 		if(body.getClass().isArray()){
-			IResponseResultPage page = ResultPageVo.build()
-					.toList((Collection) body).toIsNextPage(isNextPage);
-			IResponseResult returnVo =   this.build().of(page);
-			return returnVo;
+			List data = Arrays.asList((Object[]) body);
+			ResponseResultPageVo<?> pageVo = new ResponseResultPageVo<>().of(data,data.size());
+			return pageVo;
 		}
 		return body;
 	}
-
 
 }

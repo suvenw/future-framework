@@ -61,7 +61,7 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisDao<FileAppSt
            }
 
           long id = this.getBaseMapper().saveId(fileAppStorageConfig);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileAppStorageConfig;
           }
            return null;
@@ -82,7 +82,7 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisDao<FileAppSt
                }
 
               long id = this.getBaseMapper().saveToId(fileAppStorageConfig);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileAppStorageConfig;
               }
                return null;
@@ -101,7 +101,7 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisDao<FileAppSt
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileAppStorageConfigList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -127,7 +127,7 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisDao<FileAppSt
 
         List<FileAppStorageConfig> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileAppStorageConfig> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());

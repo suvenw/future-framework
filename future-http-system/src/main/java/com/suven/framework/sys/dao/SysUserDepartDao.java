@@ -75,7 +75,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
                 return  null;
            }
           long id = sysUserDepartMapper.saveId(sysUserDepart);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return sysUserDepart;
           }
            return null;
@@ -95,7 +95,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
                     return  null;
                }
               long id = sysUserDepartMapper.saveToId(sysUserDepart);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return sysUserDepart;
               }
                return null;
@@ -113,7 +113,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
             if(null == sysUserDepartList)
                 return  false;
            long id =  sysUserDepartMapper.saveBatch(sysUserDepartList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -137,7 +137,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
 
         List<SysUserDepart> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysUserDepart> page = super.page(iPage, queryWrapper);
@@ -166,7 +166,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
 
         List<SysUserDepart> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
 
         List<SysUserDepart> list = super.list(queryWrapper);

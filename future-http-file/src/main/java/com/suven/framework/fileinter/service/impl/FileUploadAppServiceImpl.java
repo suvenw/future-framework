@@ -4,12 +4,10 @@ package com.suven.framework.fileinter.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.io.InputStream;
 
 
@@ -25,7 +23,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -302,9 +300,9 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public ResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum,Pager pager){
+    public ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager){
 
-        ResultPageVo<FileUploadAppResponseDto> resultPage = getFileUploadAppByNextPage(queryEnum,pager,false);
+        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = getFileUploadAppByNextPage(queryEnum,pager,false);
         return resultPage;
     }
 
@@ -318,8 +316,8 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public ResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum,Pager pager,boolean searchCount){
-        ResultPageVo<FileUploadAppResponseDto> resultPage = ResultPageVo.build();
+    public ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount){
+        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = new ResponseResultPageVo();
         Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
@@ -329,7 +327,7 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
         }
         List<FileUploadAppResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadAppResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResultPageVo<FileUploadAppResponseDto> resultList = ResultPageVo.build().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileUploadAppResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 

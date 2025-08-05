@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      * @date 2022-02-28 16:09:47
      */
     @Override
-    public ResponseResultList<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum){
+    public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum){
 
-        ResponseResultList<SysThirdAccountResponseDto> responseResultList = ResponseResultList.build();
+        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
         }
         List<SysThirdAccountResponseDto>  resDtoList =  IterableConvert.convertList(list,SysThirdAccountResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList);
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
+        return ResponseResultPageVo;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      * @date 2022-02-28 16:09:47
      */
     @Override
-    public ResponseResultList<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum){
-        ResponseResultList<SysThirdAccountResponseDto> responseResultList = ResponseResultList.build();
+    public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum){
+        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
         }
         List<SysThirdAccountResponseDto>  resDtoList =  IterableConvert.convertList(list,SysThirdAccountResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        responseResultList.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return responseResultList;
+        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return ResponseResultPageVo;
 
     }
 

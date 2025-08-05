@@ -18,22 +18,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.http.data.vo.HttpRequestSortByIdListVo;
-import com.suven.framework.util.date.DateUtil;
 import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResultPageVo;
-import com.suven.framework.http.data.vo.SystemResultVo;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.common.enums.TbStatusEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
@@ -125,7 +119,7 @@ public class FileUploadStorageWebController {
      * @Title: 获取分页信息
      * Description:fileUploadStorageQueryRequestVo @{Link FileUploadStorageQueryRequestVo}
      * @param
-     * @return  ResponseResultList 对象 List<FileUploadStorageShowResponseVo>
+     * @return  ResponseResultPageVo 对象 List<FileUploadStorageShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
@@ -147,13 +141,13 @@ public class FileUploadStorageWebController {
         Pager pager =  Pager.build().toPageSize(fileUploadStorageQueryRequestVo.getPageSize()).toPageNo(fileUploadStorageQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadStorageRequestDto );
          FileUploadStorageQueryEnum queryEnum =  FileUploadStorageQueryEnum.DESC_ID;
-        ResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( ResultPageVo.build());
+            out.write( new ResponseResultPageVo());
             return ;
         }
 
-        ResultPageVo <FileUploadStorageShowResponseVo> result = resultList.convertBuild(FileUploadStorageShowResponseVo.class);
+        ResponseResultPageVo<FileUploadStorageShowResponseVo> result = resultList.convertBuild(FileUploadStorageShowResponseVo.class);
         out.write( result);
     }
 
@@ -161,7 +155,7 @@ public class FileUploadStorageWebController {
      * @Title: 根据条件查谒分页信息
      * Description:fileUploadStorageQueryRequestVo @{Link FileUploadStorageQueryRequestVo}
      * @param
-     * @return   ResponseResultList 对象 List<FileUploadStorageShowResponseVo>
+     * @return   ResponseResultPageVo 对象 List<FileUploadStorageShowResponseVo>
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      *  --------------------------------------------------------
@@ -389,7 +383,7 @@ public class FileUploadStorageWebController {
         pager.toParamObject(fileUploadStorageRequestDto );
 
         FileUploadStorageQueryEnum queryEnum =  FileUploadStorageQueryEnum.DESC_ID;
-        ResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(queryEnum,pager);
+        ResponseResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(queryEnum,pager);
         List<FileUploadStorageResponseDto> data = resultList.getList();
 
         //写入文件

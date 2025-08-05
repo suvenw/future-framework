@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysPermissionDataRuleRequestDto;
 import com.suven.framework.sys.dto.response.SysPermissionDataRuleResponseDto;
 import com.suven.framework.sys.dto.enums.SysPermissionDataRuleQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -142,7 +142,7 @@ public interface SysPermissionDataRuleService {
      * @author suven
      * @date 2022-02-28 16:10:35
      */
-    ResponseResultList<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum);
+    ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysPermissionDataRule 菜单权限规则表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysPermissionDataRuleService {
      * @author suven
      * @date 2022-02-28 16:10:35
      */
-    ResponseResultList<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum);
+    ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum);
 
 
 

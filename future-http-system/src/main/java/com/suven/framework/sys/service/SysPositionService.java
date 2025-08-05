@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysPositionRequestDto;
 import com.suven.framework.sys.dto.response.SysPositionResponseDto;
 import com.suven.framework.sys.dto.enums.SysPositionQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultList;
+import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 
@@ -142,7 +142,7 @@ public interface SysPositionService {
      * @author suven
      * @date 2022-02-28 16:13:52
      */
-    ResponseResultList<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum);
+    ResponseResultPageVo<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysPosition 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysPositionService {
      * @author suven
      * @date 2022-02-28 16:13:52
      */
-    ResponseResultList<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum);
+    ResponseResultPageVo<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum);
 
 
 

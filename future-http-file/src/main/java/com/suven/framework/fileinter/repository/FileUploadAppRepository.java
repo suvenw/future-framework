@@ -62,7 +62,7 @@ public class FileUploadAppRepository extends AbstractMyBatisDao<FileUploadAppMap
            }
 
           long id = this.getBaseMapper().saveId(fileUploadApp);
-          if (returnBool(id)){
+          if (returnResult(id)){
                 return fileUploadApp;
           }
            return null;
@@ -83,7 +83,7 @@ public class FileUploadAppRepository extends AbstractMyBatisDao<FileUploadAppMap
                }
 
               long id = this.getBaseMapper().saveToId(fileUploadApp);
-              if (returnBool(id)){
+              if (returnResult(id)){
                     return fileUploadApp;
               }
                return null;
@@ -102,7 +102,7 @@ public class FileUploadAppRepository extends AbstractMyBatisDao<FileUploadAppMap
                 return  false;
            }
            long id =  this.getBaseMapper().saveBatch(fileUploadAppList);
-           return returnBool(id);
+           return returnResult(id);
 
     }
 
@@ -128,7 +128,7 @@ public class FileUploadAppRepository extends AbstractMyBatisDao<FileUploadAppMap
 
         List<FileUploadApp> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
-            queryWrapper = new QueryWrapper();
+            queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadApp> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
