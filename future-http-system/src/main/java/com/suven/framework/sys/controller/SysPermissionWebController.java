@@ -448,7 +448,8 @@ public class SysPermissionWebController {
 
             SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build().clone(sysPermissionQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionRequestDto );
 
         SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;

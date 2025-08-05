@@ -123,7 +123,8 @@ public class SysPermissionDataRuleWebController {
     public   void   list( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
          SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
@@ -161,7 +162,8 @@ public class SysPermissionDataRuleWebController {
     public   void   queryList( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
         List<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleListByQuery(page,queryEnum);
@@ -369,7 +371,8 @@ public class SysPermissionDataRuleWebController {
 
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build().clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
 
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;

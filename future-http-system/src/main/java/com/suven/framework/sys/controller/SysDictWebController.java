@@ -123,7 +123,8 @@ public class SysDictWebController {
     public   void   list( OutputSystem out, SysDictQueryRequestVo sysDictQueryRequestVo){
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build( ).clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
          SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDictResponseDto> resultList = sysDictService.getSysDictByNextPage(page,queryEnum);
@@ -161,7 +162,8 @@ public class SysDictWebController {
     public   void   queryList( OutputSystem out, SysDictQueryRequestVo sysDictQueryRequestVo){
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build( ).clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
         SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;
         List<SysDictResponseDto> resultList = sysDictService.getSysDictListByQuery(page,queryEnum);
@@ -369,7 +371,8 @@ public class SysDictWebController {
 
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build().clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
 
         SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;

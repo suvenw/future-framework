@@ -118,7 +118,8 @@ public class SysDataLogWebController {
     public   void   list( OutputSystem out, SysDataLogQueryRequestVo sysDataLogQueryRequestVo){
             SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build( ).clone(sysDataLogQueryRequestVo);
 
-        Pager<SysDataLogRequestDto> page =  Pager.build().toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
+        Pager<SysDataLogRequestDto> page =  Pager.build();
+        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
         page.toParamObject(sysDataLogRequestDto );
          SysDataLogQueryEnum queryEnum =  SysDataLogQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogByNextPage(page,queryEnum);
@@ -156,7 +157,8 @@ public class SysDataLogWebController {
     public   void   queryList( OutputSystem out, SysDataLogQueryRequestVo sysDataLogQueryRequestVo){
             SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build( ).clone(sysDataLogQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
         page.toParamObject(sysDataLogRequestDto );
         SysDataLogQueryEnum queryEnum =  SysDataLogQueryEnum.DESC_ID;
         List<SysDataLogResponseDto> resultList = sysDataLogService.getSysDataLogListByQuery(page,queryEnum);
@@ -365,7 +367,8 @@ public class SysDataLogWebController {
 
             SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build().clone(sysDataLogQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize()).toPageNo(sysDataLogQueryRequestVo.getPageNo());
         page.toParamObject(sysDataLogRequestDto );
 
         SysDataLogQueryEnum queryEnum =  SysDataLogQueryEnum.DESC_ID;

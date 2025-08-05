@@ -124,7 +124,8 @@ public class SysDictItemWebController {
     public   void   list( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
          SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemByNextPage(page,queryEnum);
@@ -162,7 +163,8 @@ public class SysDictItemWebController {
     public   void   queryList( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
         SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
         List<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemListByQuery(page,queryEnum);
@@ -370,7 +372,8 @@ public class SysDictItemWebController {
 
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build().clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
 
         SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
