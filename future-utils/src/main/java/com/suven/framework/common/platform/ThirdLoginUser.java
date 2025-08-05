@@ -5,7 +5,7 @@ package com.suven.framework.common.platform;
  * @ClassName:
  * Description: 第三方登录信息类
  * @author tluo
- * @date 2015年12月17日 下午1:56:40
+ * date 2015年12月17日 下午1:56:40
  */
 public class ThirdLoginUser {
 	

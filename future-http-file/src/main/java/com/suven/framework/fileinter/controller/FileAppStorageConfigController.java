@@ -62,12 +62,12 @@ public class FileAppStorageConfigController {
     }
 
     /**
-    * @Title: 分页获取信息
+    * Title: 分页获取信息
     * Description:fileAppStorageConfigQueryRequestVo @{Link FileAppStorageConfigQueryRequestVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:21:54
+    * date 2024-04-19 00:21:54
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *
@@ -100,12 +100,12 @@ public class FileAppStorageConfigController {
 
 
     /**
-    * @Title: 查看信息
+    * Title: 查看信息
     * Description:HttpRequestByIdVo @{Link HttpRequestByIdVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:21:54
+    * date 2024-04-19 00:21:54
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *

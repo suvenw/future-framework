@@ -62,7 +62,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
      * 保存创建SysDataLog,并且保存到缓存中
      * @param sysDataLog
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      */
 
     public SysDataLog saveId(SysDataLog sysDataLog){
@@ -82,7 +82,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
          * 保存创建SysDataLog,并且保存到缓存中
          * @param sysDataLog
          * @author suven
-         * @date 2022-02-28 16:10:02
+         * date 2022-02-28 16:10:02
          */
 
         public SysDataLog saveToId(SysDataLog sysDataLog){
@@ -103,7 +103,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
      * 批量保存创建SysDataLog,并且保存到缓存中
      * @param sysDataLogList
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      */
     public boolean saveBatchId(List<SysDataLog> sysDataLogList){
             if(null == sysDataLogList)
@@ -126,7 +126,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      */
     public List<SysDataLog> getListByPage(IPage<SysDataLog> iPage, QueryWrapper<SysDataLog> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      */
     public List<SysDataLog> getListByQuery( QueryWrapper<SysDataLog> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataL
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      */
     public QueryWrapper<SysDataLog> builderQueryEnum(SysDataLogQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysDataLog> queryWrapper = new QueryWrapper<>();

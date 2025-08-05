@@ -253,7 +253,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
        * @param paramObject Object 参数对像
        * @return 查询表对象列表
        * @author suven
-       * @date 2024-04-19 00:21:54
+       * date 2024-04-19 00:21:54
        */
       @Override
       public List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByQuery(FileAppStorageConfigQueryEnum queryEnum, Object  paramObject ){
@@ -338,7 +338,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<FileAppStorageConfigResponseDto> getFileAppStorageConfigByIdList(Collection<Long> idList){

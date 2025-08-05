@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDepartRoleUserDao.java
+ * ClassName: SysDepartRoleUserDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:53:58
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:53:58
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色用户表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
      * 保存创建SysDepartRoleUser,并且保存到缓存中
      * @param sysDepartRoleUser
      * @author suven
-     * @date 2022-02-28 16:53:58
+     * date 2022-02-28 16:53:58
      */
 
     public SysDepartRoleUser saveId(SysDepartRoleUser sysDepartRoleUser){
@@ -83,7 +83,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
          * 保存创建SysDepartRoleUser,并且保存到缓存中
          * @param sysDepartRoleUser
          * @author suven
-         * @date 2022-02-28 16:53:58
+         * date 2022-02-28 16:53:58
          */
 
         public SysDepartRoleUser saveToId(SysDepartRoleUser sysDepartRoleUser){
@@ -103,7 +103,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
      * 批量保存创建SysDepartRoleUser,并且保存到缓存中
      * @param sysDepartRoleUserList
      * @author suven
-     * @date 2022-02-28 16:53:58
+     * date 2022-02-28 16:53:58
      */
     public boolean saveBatchId(List<SysDepartRoleUser> sysDepartRoleUserList){
             if(null == sysDepartRoleUserList)
@@ -126,7 +126,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:53:58
+     * date 2022-02-28 16:53:58
      */
     public List<SysDepartRoleUser> getListByPage(IPage<SysDepartRoleUser> iPage, QueryWrapper<SysDepartRoleUser> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:53:58
+     * date 2022-02-28 16:53:58
      */
     public List<SysDepartRoleUser> getListByQuery( QueryWrapper<SysDepartRoleUser> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysDepartRoleUserDao extends AbstractMyBatisDao<SysDepartRoleUserMa
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:53:58
+     * date 2022-02-28 16:53:58
      */
     public QueryWrapper<SysDepartRoleUser> builderQueryEnum(SysDepartRoleUserQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysDepartRoleUser> queryWrapper = new QueryWrapper<>();

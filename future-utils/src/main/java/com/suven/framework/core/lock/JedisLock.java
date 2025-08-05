@@ -12,9 +12,9 @@
 // */
 //
 ///**
-// * @Title: JedisLock.java
+// * Title: JedisLock.java
 // * @author suven
-// * @date   2019-10-18 12:35:25
+// * date   2019-10-18 12:35:25
 // * @version V1.0
 // * Description: (说明)    全局redis并发安全锁,实现
 // * Copyright: (c) 2018 gc by https://www.suven.top

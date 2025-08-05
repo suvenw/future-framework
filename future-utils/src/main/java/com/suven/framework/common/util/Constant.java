@@ -9,10 +9,10 @@ package com.suven.framework.common.util;
 
 
 /**
- * @ClassName: Constant
+ * ClassName: Constant
  * Description: TODO(这里用一句话描述这个类的作用)
  * @author Carson yuchanghong@tydic.com
- * @date 2015-4-29 上午8:07:26
+ * date 2015-4-29 上午8:07:26
  *
  */
 public class Constant {

@@ -16,11 +16,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysUserService.java
+ * ClassName: SysUserService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:37
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:37
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户表 RPC业务接口逻辑实现类
@@ -121,7 +121,7 @@ public interface SysUserService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:09:37
+    * date 2022-02-28 16:09:37
     */
     List<SysUserResponseDto> getSysUserListByQuery(Object  paramObject, SysUserQueryEnum queryEnum);
 
@@ -131,7 +131,7 @@ public interface SysUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     List<SysUserResponseDto> getSysUserListByPage(Pager page, SysUserQueryEnum queryEnum);
 
@@ -143,7 +143,7 @@ public interface SysUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     ResponseResultPageVo<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum);
 
@@ -152,7 +152,7 @@ public interface SysUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     ResponseResultPageVo<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum);
 
@@ -164,11 +164,11 @@ public interface SysUserService {
 
     /**
      * @return
-     * @Title: 启用用户表信息
+     * Title: 启用用户表信息
      * Description:
      * @throw
      * @author suven
-     * @date 2019-10-18 12:35:25
+     * date 2019-10-18 12:35:25
      * --------------------------------------------------------
      * modifyer    modifyTime                 comment
      * <p>
@@ -178,11 +178,11 @@ public interface SysUserService {
 
     /**
      * @return
-     * @Title: 禁用用户表信息
+     * Title: 禁用用户表信息
      * Description:
      * @throw
      * @author suven
-     * @date 2019-10-18 12:35:25
+     * date 2019-10-18 12:35:25
      * --------------------------------------------------------
      * modifyer    modifyTime                 comment
      * <p>

@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 
 
 /**
- * @ClassName: SysRolePermissionDao.java
+ * ClassName: SysRolePermissionDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:49
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:49
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色权限表 的数据库查询逻辑实现类
@@ -65,7 +65,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
      * 保存创建SysRolePermission,并且保存到缓存中
      * @param sysRolePermission
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
 
     public SysRolePermission saveId(SysRolePermission sysRolePermission){
@@ -85,7 +85,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
          * 保存创建SysRolePermission,并且保存到缓存中
          * @param sysRolePermission
          * @author suven
-         * @date 2022-02-28 16:10:49
+         * date 2022-02-28 16:10:49
          */
 
         public SysRolePermission saveToId(SysRolePermission sysRolePermission){
@@ -105,7 +105,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
      * 批量保存创建SysRolePermission,并且保存到缓存中
      * @param sysRolePermissionList
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     public boolean saveBatchId(List<SysRolePermission> sysRolePermissionList){
             if(null == sysRolePermissionList)
@@ -128,7 +128,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
      * @param idList
      * @return List<SysRolePermissionResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     List<SysRolePermissionResponseVo>   selectBatchIds(Collection<? extends Serializable > idList){
         List<SysRolePermission>  list =   super.baseMapper.selectBatchIds(idList);
@@ -163,7 +163,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     public List<SysRolePermission> getListByQuery( QueryWrapper<SysRolePermission> queryWrapper ){
 
@@ -188,7 +188,7 @@ public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMa
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     public QueryWrapper<SysRolePermission> builderQueryEnum(SysRolePermissionQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysRolePermission> queryWrapper = new QueryWrapper<>();

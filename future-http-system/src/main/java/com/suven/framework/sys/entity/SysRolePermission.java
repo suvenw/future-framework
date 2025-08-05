@@ -5,12 +5,12 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.core.db.ext.DS;
 
 /**
-  * @ClassName: SysRolePermission.java
+  * ClassName: SysRolePermission.java
   *
-  * @Author 作者 : suven
+  * @author 作者 : suven
   * @email 邮箱 : suvenw@163.com
-  * @CreateDate 创建时间: 2022-02-28 16:10:49
-  * @Version 版本: v1.0.0
+  * CreateDate 创建时间: 2022-02-28 16:10:49
+  * @version 版本: v1.0.0
   * <pre>
   *
   *  Description: 角色权限表 数据库表对应的实现类

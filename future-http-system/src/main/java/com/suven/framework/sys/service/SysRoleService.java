@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysRoleService.java
+ * ClassName: SysRoleService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:43
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:43
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysRoleService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:10:43
+    * date 2022-02-28 16:10:43
     */
     List<SysRoleResponseDto> getSysRoleListByQuery(Object  paramObject, SysRoleQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     List<SysRoleResponseDto> getSysRoleListByPage(Pager page, SysRoleQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     ResponseResultPageVo<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     ResponseResultPageVo<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum);
 
@@ -171,7 +171,7 @@ public interface SysRoleService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
    List<SysRoleResponseDto> getSysDepartByIdList(Collection<Long> idList);
 

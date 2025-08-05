@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysDepartRoleUserQueryEnum;
 
 
 /**
- * @ClassName: SysDepartRoleUserWebController.java
+ * ClassName: SysDepartRoleUserWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:21
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:21
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色用户表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysDepartRoleUserQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDepartRoleUser")
+ * RequestMapping("/sys/sysDepartRoleUser")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -85,10 +85,10 @@ public class SysDepartRoleUserWebController {
     private SysDepartRoleUserService  sysDepartRoleUserService;
 
     /**
-     * @Title: 跳转到部门角色用户表主界面
+     * Title: 跳转到部门角色用户表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -102,13 +102,13 @@ public class SysDepartRoleUserWebController {
 
 
     /**
-     * @Title: 获取部门角色用户表分页信息
+     * Title: 获取部门角色用户表分页信息
      * Description:sysDepartRoleUserQueryRequestVo @{Link SysDepartRoleUserQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDepartRoleUserShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -124,30 +124,30 @@ public class SysDepartRoleUserWebController {
     public   void   list( OutputSystem out, SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo){
             SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build( ).clone(sysDepartRoleUserQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysDepartRoleUserRequestDto> pager =  Pager.build();
         pager.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRoleUserRequestDto );
+        pager.toParamObject(sysDepartRoleUserRequestDto );
          SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserByNextPage(page,queryEnum);
+        ResponseResultPageVo<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserByNextPage(pager,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
             out.write( new ResponseResultPageVo());
             return ;
         }
 
         List<SysDepartRoleUserShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartRoleUserShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo<SysDepartRoleUserShowResponseVo> result = new ResponseResultPageVo<>();
+        result.of(listVo,pager.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
 
 /**
-     * @Title: 根据条件查谒部门角色用户表分页信息
+     * Title: 根据条件查谒部门角色用户表分页信息
      * Description:sysDepartRoleUserQueryRequestVo @{Link SysDepartRoleUserQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDepartRoleUserShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -163,11 +163,11 @@ public class SysDepartRoleUserWebController {
     public   void   queryList( OutputSystem out, SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo){
             SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build( ).clone(sysDepartRoleUserQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysDepartRoleUserRequestDto> pager =  Pager.build();
         pager.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRoleUserRequestDto );
+        pager.toParamObject(sysDepartRoleUserRequestDto );
         SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;
-        List<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserListByQuery(page,queryEnum);
+        List<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserListByQuery(pager,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
             out.write( new ArrayList<>());
             return ;
@@ -181,12 +181,12 @@ public class SysDepartRoleUserWebController {
 
 
     /**
-     * @Title: 新增部门角色用户表信息
+     * Title: 新增部门角色用户表信息
      * Description:sysDepartRoleUserAddRequestVo @{Link SysDepartRoleUserAddRequestVo}
      * @param sysDepartRoleUserAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -212,12 +212,12 @@ public class SysDepartRoleUserWebController {
         out.write( sysDepartRoleUserresponseDto.getId());
     }
     /**
-     * @Title: 修改部门角色用户表信息
+     * Title: 修改部门角色用户表信息
      * Description:sysDepartRoleUserAddRequestVo @{Link SysDepartRoleUserAddRequestVo}
      * @param  sysDepartRoleUserAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -243,12 +243,12 @@ public class SysDepartRoleUserWebController {
     }
 
     /**
-     * @Title: 查看部门角色用户表信息
+     * Title: 查看部门角色用户表信息
      * Description:sysDepartRoleUserRequestVo @{Link SysDepartRoleUserRequestVo}
      * @param
      * @return  SysDepartRoleUserResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -272,12 +272,12 @@ public class SysDepartRoleUserWebController {
 
 
     /**
-     * @Title: 跳转部门角色用户表编辑界面
+     * Title: 跳转部门角色用户表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDepartRoleUserShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +302,12 @@ public class SysDepartRoleUserWebController {
 
 
     /**
-     * @Title: 跳转部门角色用户表新增编辑界面
+     * Title: 跳转部门角色用户表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -320,12 +320,12 @@ public class SysDepartRoleUserWebController {
     }
 
     /**
-     * @Title: 删除部门角色用户表信息
+     * Title: 删除部门角色用户表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -350,12 +350,12 @@ public class SysDepartRoleUserWebController {
 
 
     /**
-     * @Title: 导出部门角色用户表信息
+     * Title: 导出部门角色用户表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -373,7 +373,7 @@ public class SysDepartRoleUserWebController {
             SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRoleUserRequestDto );
 
         SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;

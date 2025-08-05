@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2023-04-23
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2023-04-23
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  返回文件类型枚举

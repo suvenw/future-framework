@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysPositionService.java
+ * ClassName: SysPositionService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:52
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:52
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description:  RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysPositionService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:13:52
+    * date 2022-02-28 16:13:52
     */
     List<SysPositionResponseDto> getSysPositionListByQuery(Object  paramObject, SysPositionQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     List<SysPositionResponseDto> getSysPositionListByPage(Pager page, SysPositionQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     ResponseResultPageVo<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     ResponseResultPageVo<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum);
 

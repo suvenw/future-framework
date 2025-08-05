@@ -8,10 +8,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2022-03-29
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2022-03-29
  * @WeeK 星期: 星期四
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  HttpServletRequestParamter请求解释实现类

@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysDepartService.java
+ * ClassName: SysDepartService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:31
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:31
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 组织机构表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysDepartService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:13:31
+    * date 2022-02-28 16:13:31
     */
     List<SysDepartResponseDto> getSysDepartListByQuery(Object  paramObject, SysDepartQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     List<SysDepartResponseDto> getSysDepartListByPage(Pager page, SysDepartQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     ResponseResultPageVo<SysDepartResponseDto> getSysDepartByNextPage(Pager page, SysDepartQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     ResponseResultPageVo<SysDepartResponseDto> getSysDepartByQueryPage(Pager page, SysDepartQueryEnum queryEnum);
 
@@ -160,7 +160,7 @@ public interface SysDepartService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     List<SysDepartResponseDto> getSysDepartByIdList(Collection<Long> idList);
 

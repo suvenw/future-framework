@@ -10,11 +10,11 @@ import org.slf4j.LoggerFactory;
 import com.suven.framework.http.api.ApiDesc;
 
 /**
- * @ClassName: SysDepartRequestDto.java
+ * ClassName: SysDepartRequestDto.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:33:38
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:33:38
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 组织机构表 RPC业务接口交互数据请求参数实现类

@@ -21,10 +21,10 @@ import javax.net.ssl.TrustManager;
 
 /**
  * 
- * @ClassName: WeixinUtil
+ * ClassName: WeixinUtil
  * Description: 公众平台通用接口工具类
  * @author tluo
- * @date 2015年12月16日 下午7:16:35
+ * date 2015年12月16日 下午7:16:35
  */
 public class ThirdLoginUtil {
 	private static Logger log = LoggerFactory.getLogger(ThirdLoginUtil.class);
@@ -159,7 +159,7 @@ public class ThirdLoginUtil {
 
 	/**
 	 * 微信第三方登录获取用户信息
-	 * @Title: getUserInfo
+	 * Title: getUserInfo
 	 * Description: 获取用户的信息
 	 * @param @param openId
 	 * @param @param accessToken
@@ -197,7 +197,7 @@ public class ThirdLoginUtil {
 
 	/**
 	 * 微博第三方登录获取用户信息
-	 * @Title: getUserInfo
+	 * Title: getUserInfo
 	 * Description: 获取用户的信息
 	 * @param @param openId
 	 * @param @param accessToken
@@ -232,7 +232,7 @@ public class ThirdLoginUtil {
 
 	/**
 	 * qq第三方登录获取用户信息
-	 * @Title: getUserInfo
+	 * Title: getUserInfo
 	 * Description: 获取用户的信息
 	 * @param @param openId
 	 * @param @param accessToken

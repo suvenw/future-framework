@@ -2,9 +2,9 @@ package com.suven.framework.core.redis;
 
 
 /**   
- * @Title: RedisConstants.java 
+ * Title: RedisConstants.java 
  * @author Joven.wang   
- * @date   2016年7月28日
+ * date   2016年7月28日
  * @version V1.0  
  * Description: TODO(说明)
  */

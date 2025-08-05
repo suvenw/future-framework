@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDepartRolePermissionDao.java
+ * ClassName: SysDepartRolePermissionDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:36
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:36
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色权限表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
      * 保存创建SysDepartRolePermission,并且保存到缓存中
      * @param sysDepartRolePermission
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
 
     public SysDepartRolePermission saveId(SysDepartRolePermission sysDepartRolePermission){
@@ -83,7 +83,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
          * 保存创建SysDepartRolePermission,并且保存到缓存中
          * @param sysDepartRolePermission
          * @author suven
-         * @date 2022-02-28 16:13:36
+         * date 2022-02-28 16:13:36
          */
 
         public SysDepartRolePermission saveToId(SysDepartRolePermission sysDepartRolePermission){
@@ -103,7 +103,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
      * 批量保存创建SysDepartRolePermission,并且保存到缓存中
      * @param sysDepartRolePermissionList
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     public boolean saveBatchId(List<SysDepartRolePermission> sysDepartRolePermissionList){
             if(null == sysDepartRolePermissionList)
@@ -126,7 +126,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     public List<SysDepartRolePermission> getListByPage(IPage<SysDepartRolePermission> iPage, QueryWrapper<SysDepartRolePermission> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     public List<SysDepartRolePermission> getListByQuery( QueryWrapper<SysDepartRolePermission> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysDepartRolePermissionDao extends AbstractMyBatisDao<SysDepartRole
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     public QueryWrapper<SysDepartRolePermission> builderQueryEnum(SysDepartRolePermissionQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysDepartRolePermission> queryWrapper = new QueryWrapper<>();

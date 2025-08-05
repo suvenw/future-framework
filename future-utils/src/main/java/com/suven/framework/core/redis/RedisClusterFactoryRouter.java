@@ -14,9 +14,9 @@ import redis.clients.jedis.exceptions.JedisDataException;
 
 
 /**
- * @Title: RedisClusterTest.java
+ * Title: RedisClusterTest.java
  * @author Joven.wang
- * @date 2016年7月26日
+ * date 2016年7月26日
  * @version V1.0
  * Description: TODO(说明)
  */

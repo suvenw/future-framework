@@ -21,7 +21,7 @@
 //
 ///**
 // * @author leien
-// * @date 2020 7-19
+// * date 2020 7-19
 // */
 //@Component
 //public class ElasticApi extends EsMappingParse {
@@ -49,7 +49,7 @@
 //     * @throws
 //     * @author WCNGS@QQ.COM
 //     * @See
-//     * @date 2019/10/17 19:27
+//     * date 2019/10/17 19:27
 //     * @since
 //     */
 //    public void buildSetting(CreateIndexRequest request) {

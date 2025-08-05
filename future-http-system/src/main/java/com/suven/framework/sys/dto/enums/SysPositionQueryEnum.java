@@ -2,11 +2,11 @@ package com.suven.framework.sys.dto.enums;
 
 
 /**
- * @ClassName: SysPositionQueryEnum.java
+ * ClassName: SysPositionQueryEnum.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:52
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:52
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 的数据条件查询枚举类

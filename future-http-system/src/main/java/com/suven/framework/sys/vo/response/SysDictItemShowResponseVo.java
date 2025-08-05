@@ -9,11 +9,11 @@ import com.suven.framework.http.api.ApiDesc;
 
 
 /**
- * @ClassName: SysDictItemShowResponseVo.java
+ * ClassName: SysDictItemShowResponseVo.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:15
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:15
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 数据字典明细表 http业务接口交互数据返回参数实现类

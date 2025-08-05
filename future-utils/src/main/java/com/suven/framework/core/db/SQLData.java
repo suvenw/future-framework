@@ -1,9 +1,9 @@
 package com.suven.framework.core.db;
 
 /**
- * @Title: SQLData.java
+ * Title: SQLData.java
  * @author Joven.wang
- * @date 2016年1月21日
+ * date 2016年1月21日
  * @version V1.0
  * Description: TODO(说明) 用于保存对象到数据存的实现返回对象;
  */

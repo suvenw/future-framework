@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2023-06-29
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2023-06-29
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  判断对象或值是否为空

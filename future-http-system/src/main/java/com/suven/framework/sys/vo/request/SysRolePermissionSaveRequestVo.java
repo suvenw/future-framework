@@ -9,7 +9,7 @@ import java.util.List;
 * @ClassName: SysRolePermissionRequestVo.java
 * Description: 角色权限表的数据交互处理类
 * @author xxx.xxx
-* @date   2019-10-18 12:35:25
+* date   2019-10-18 12:35:25
 * @version V1.0.0
 * <p>
     * ----------------------------------------------------------------------------

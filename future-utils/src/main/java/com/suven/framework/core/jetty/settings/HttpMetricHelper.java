@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * @Title: HttpMetricHelper.java
+ * Title: HttpMetricHelper.java
  * @author suven
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  * Description: (说明)    注意：服务监控指标实现类,包括jvm内存,GC,线程,buffers等metrics信息采摘
  * Copyright: (c) 2018 gc by https://www.suven.top

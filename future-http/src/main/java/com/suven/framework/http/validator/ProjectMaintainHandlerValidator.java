@@ -55,13 +55,13 @@ public class ProjectMaintainHandlerValidator extends ValidatorCache<Boolean> imp
 
 
     /**
-     * @Title: 验证模块是否维护模式
+     * Title: 验证模块是否维护模式
      * Description:
      * @param
      * @return
      * @throw
      * @author lixiangling
-     * @date 2018/7/9 19:18
+     * date 2018/7/9 19:18
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *

@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysDictService.java
+ * ClassName: SysDictService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:09
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:09
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 后台字典类型表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysDictService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:10:09
+    * date 2022-02-28 16:10:09
     */
     List<SysDictResponseDto> getSysDictListByQuery(Object  paramObject, SysDictQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysDictService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     List<SysDictResponseDto> getSysDictListByPage(Pager page, SysDictQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysDictService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     ResponseResultPageVo<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysDictService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     ResponseResultPageVo<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum);
 

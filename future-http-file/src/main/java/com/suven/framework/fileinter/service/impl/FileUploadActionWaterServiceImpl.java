@@ -248,7 +248,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
        * @param paramObject Object 参数对像
        * @return 查询表对象列表
        * @author suven
-       * @date 2024-04-19 00:14:12
+       * date 2024-04-19 00:14:12
        */
       @Override
       public List<FileUploadActionWaterResponseDto> getFileUploadActionWaterListByQuery(FileUploadActionWaterQueryEnum queryEnum, Object  paramObject ){
@@ -333,7 +333,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<FileUploadActionWaterResponseDto> getFileUploadActionWaterByIdList(Collection<Long> idList){

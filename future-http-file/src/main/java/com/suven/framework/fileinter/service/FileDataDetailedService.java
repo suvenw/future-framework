@@ -116,7 +116,7 @@ public interface FileDataDetailedService {
     * @param paramObject Object
     * @return 返回列表对象列表
     * @author suven
-    * @date 2024-04-19 00:20:28
+    * date 2024-04-19 00:20:28
     */
     List<FileDataDetailedResponseDto> getFileDataDetailedListByQuery(FileDataDetailedQueryEnum queryEnum,Object  paramObject);
 

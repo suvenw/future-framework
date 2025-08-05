@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/fileinter/fileDataDetailed")
+ * RequestMapping("/fileinter/fileDataDetailed")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -99,7 +99,7 @@ public class FileDataDetailedWebController {
     private FileDataDetailedService  fileDataDetailedService;
 
     /**
-     * @Title: 跳转到主界面
+     * Title: 跳转到主界面
      * @return 字符串url
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
@@ -116,7 +116,7 @@ public class FileDataDetailedWebController {
 
 
     /**
-     * @Title: 获取分页信息
+     * Title: 获取分页信息
      * Description:fileDataDetailedQueryRequestVo @{Link FileDataDetailedQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<FileDataDetailedShowResponseVo>
@@ -152,7 +152,7 @@ public class FileDataDetailedWebController {
     }
 
 /**
-     * @Title: 根据条件查谒分页信息
+     * Title: 根据条件查谒分页信息
      * Description:fileDataDetailedQueryRequestVo @{Link FileDataDetailedQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<FileDataDetailedShowResponseVo>
@@ -188,7 +188,7 @@ public class FileDataDetailedWebController {
 
 
     /**
-     * @Title: 新增信息
+     * Title: 新增信息
      * Description:fileDataDetailedAddRequestVo @{Link FileDataDetailedAddRequestVo}
      * @param fileDataDetailedAddRequestVo 对象
      * @return long类型id
@@ -219,7 +219,7 @@ public class FileDataDetailedWebController {
         out.write( fileDataDetailedresponseDto.getId());
     }
     /**
-     * @Title: 修改信息
+     * Title: 修改信息
      * Description:fileDataDetailedAddRequestVo @{Link FileDataDetailedAddRequestVo}
      * @param  fileDataDetailedAddRequestVo 对象
      * @return  boolean 类型1或0;
@@ -250,7 +250,7 @@ public class FileDataDetailedWebController {
     }
 
     /**
-     * @Title: 查看信息
+     * Title: 查看信息
      * Description:fileDataDetailedRequestVo @{Link FileDataDetailedRequestVo}
      * @param
      * @return  FileDataDetailedResponseVo  对象
@@ -279,7 +279,7 @@ public class FileDataDetailedWebController {
 
 
     /**
-     * @Title: 跳转编辑界面
+     * Title: 跳转编辑界面
      * Description:id @{Link Long}
      * @param
      * @return FileDataDetailedShowResponseVo 对象
@@ -309,7 +309,7 @@ public class FileDataDetailedWebController {
 
 
     /**
-     * @Title: 跳转新增编辑界面
+     * Title: 跳转新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
@@ -327,7 +327,7 @@ public class FileDataDetailedWebController {
     }
 
     /**
-     * @Title: 删除信息
+     * Title: 删除信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
@@ -357,7 +357,7 @@ public class FileDataDetailedWebController {
 
 
     /**
-     * @Title: 导出信息
+     * Title: 导出信息
      * Description:id @{Link Long}
      * @param
      * @return

@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysPermissionDataRuleQueryEnum;
 
 
 /**
- * @ClassName: SysPermissionDataRuleWebController.java
+ * ClassName: SysPermissionDataRuleWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:35
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:35
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限规则表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysPermissionDataRuleQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysPermissionDataRule")
+ * RequestMapping("/sys/sysPermissionDataRule")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -84,10 +84,10 @@ public class SysPermissionDataRuleWebController {
     private SysPermissionDataRuleService  sysPermissionDataRuleService;
 
     /**
-     * @Title: 跳转到菜单权限规则表主界面
+     * Title: 跳转到菜单权限规则表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -101,13 +101,13 @@ public class SysPermissionDataRuleWebController {
 
 
     /**
-     * @Title: 获取菜单权限规则表分页信息
+     * Title: 获取菜单权限规则表分页信息
      * Description:sysPermissionDataRuleQueryRequestVo @{Link SysPermissionDataRuleQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysPermissionDataRuleShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -124,7 +124,7 @@ public class SysPermissionDataRuleWebController {
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
          SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleByNextPage(page,queryEnum);
@@ -134,19 +134,19 @@ public class SysPermissionDataRuleWebController {
         }
 
         List<SysPermissionDataRuleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionDataRuleShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
 
 /**
-     * @Title: 根据条件查谒菜单权限规则表分页信息
+     * Title: 根据条件查谒菜单权限规则表分页信息
      * Description:sysPermissionDataRuleQueryRequestVo @{Link SysPermissionDataRuleQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysPermissionDataRuleShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -162,8 +162,8 @@ public class SysPermissionDataRuleWebController {
     public   void   queryList( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        Pager<SysPermissionDataRuleRequestDto> page =  Pager.build();
+        page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
         List<SysPermissionDataRuleResponseDto> resultList = sysPermissionDataRuleService.getSysPermissionDataRuleListByQuery(page,queryEnum);
@@ -180,12 +180,12 @@ public class SysPermissionDataRuleWebController {
 
 
     /**
-     * @Title: 新增菜单权限规则表信息
+     * Title: 新增菜单权限规则表信息
      * Description:sysPermissionDataRuleAddRequestVo @{Link SysPermissionDataRuleAddRequestVo}
      * @param sysPermissionDataRuleAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -211,12 +211,12 @@ public class SysPermissionDataRuleWebController {
         out.write( sysPermissionDataRuleresponseDto.getId());
     }
     /**
-     * @Title: 修改菜单权限规则表信息
+     * Title: 修改菜单权限规则表信息
      * Description:sysPermissionDataRuleAddRequestVo @{Link SysPermissionDataRuleAddRequestVo}
      * @param  sysPermissionDataRuleAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -242,12 +242,12 @@ public class SysPermissionDataRuleWebController {
     }
 
     /**
-     * @Title: 查看菜单权限规则表信息
+     * Title: 查看菜单权限规则表信息
      * Description:sysPermissionDataRuleRequestVo @{Link SysPermissionDataRuleRequestVo}
      * @param
      * @return  SysPermissionDataRuleResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -271,12 +271,12 @@ public class SysPermissionDataRuleWebController {
 
 
     /**
-     * @Title: 跳转菜单权限规则表编辑界面
+     * Title: 跳转菜单权限规则表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysPermissionDataRuleShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -301,12 +301,12 @@ public class SysPermissionDataRuleWebController {
 
 
     /**
-     * @Title: 跳转菜单权限规则表新增编辑界面
+     * Title: 跳转菜单权限规则表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -319,12 +319,12 @@ public class SysPermissionDataRuleWebController {
     }
 
     /**
-     * @Title: 删除菜单权限规则表信息
+     * Title: 删除菜单权限规则表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -349,12 +349,12 @@ public class SysPermissionDataRuleWebController {
 
 
     /**
-     * @Title: 导出菜单权限规则表信息
+     * Title: 导出菜单权限规则表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -371,8 +371,8 @@ public class SysPermissionDataRuleWebController {
 
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build().clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
+        Pager<SysPermissionDataRuleRequestDto> page =  Pager.build();
+        page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
 
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;

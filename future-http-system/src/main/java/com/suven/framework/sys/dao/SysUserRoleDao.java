@@ -24,11 +24,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysUserRoleDao.java
+ * ClassName: SysUserRoleDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:11:27
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:11:27
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户角色关系表 的数据库查询逻辑实现类
@@ -66,7 +66,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
      * 保存创建SysUserRole,并且保存到缓存中
      * @param sysUserRole
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      */
 
     public SysUserRole saveId(SysUserRole sysUserRole){
@@ -86,7 +86,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
          * 保存创建SysUserRole,并且保存到缓存中
          * @param sysUserRole
          * @author suven
-         * @date 2022-02-28 16:11:27
+         * date 2022-02-28 16:11:27
          */
 
         public SysUserRole saveToId(SysUserRole sysUserRole){
@@ -106,7 +106,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
      * 批量保存创建SysUserRole,并且保存到缓存中
      * @param sysUserRoleList
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      */
     public boolean saveBatchId(List<SysUserRole> sysUserRoleList){
             if(null == sysUserRoleList)
@@ -129,7 +129,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      */
     public List<SysUserRole> getListByPage(IPage<SysUserRole> iPage, QueryWrapper<SysUserRole> queryWrapper ){
 
@@ -158,7 +158,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      */
     public List<SysUserRole> getListByQuery( QueryWrapper<SysUserRole> queryWrapper ){
 
@@ -183,7 +183,7 @@ public class SysUserRoleDao extends AbstractMyBatisDao<SysUserRoleMapper, SysUse
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      */
     public QueryWrapper<SysUserRole> builderQueryEnum(SysUserRoleQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();

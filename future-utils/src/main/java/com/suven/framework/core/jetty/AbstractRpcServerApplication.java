@@ -26,9 +26,9 @@ import java.net.UnknownHostException;
 
 
 /**
- * @Title: AbstractRpcServerApplication.java
+ * Title: AbstractRpcServerApplication.java
  * @author Joven.wang
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录
@@ -123,13 +123,13 @@ public  abstract  class AbstractRpcServerApplication extends JettyWebServerFacto
 
 
     /**
-     * @Title: DUBBO-SENTINEL启动
+     * Title: DUBBO-SENTINEL启动
      * Description: dubbo流量哨兵启动
      * @param
      * @return
      * @throw
      * @author lixiangling
-     * @date 2018/9/4 15:07
+     * date 2018/9/4 15:07
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *

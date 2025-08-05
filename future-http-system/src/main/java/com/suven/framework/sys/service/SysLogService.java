@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysLogService.java
+ * ClassName: SysLogService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:19
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:19
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysLogService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:10:19
+    * date 2022-02-28 16:10:19
     */
     List<SysLogResponseDto> getSysLogListByQuery(Object  paramObject, SysLogQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     List<SysLogResponseDto> getSysLogListByPage(Pager page, SysLogQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     ResponseResultPageVo<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     ResponseResultPageVo<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum);
 

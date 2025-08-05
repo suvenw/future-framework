@@ -13,10 +13,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /** 
- * @ClassName: ValidationUtils 
+ * ClassName: ValidationUtils 
  * Description: 验证工具类
  * @author Carson yuchanghong@tydic.com 
- * @date 2015-4-2 上午9:41:20 
+ * date 2015-4-2 上午9:41:20
  *  
  */
 public class ValidationUtils {

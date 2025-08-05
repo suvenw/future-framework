@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 
 
 /**
- * @ClassName: SysDictWebController.java
+ * ClassName: SysDictWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:09
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:09
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 后台字典类型表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDict")
+ * RequestMapping("/sys/sysDict")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -84,10 +84,10 @@ public class SysDictWebController {
     private SysDictService  sysDictService;
 
     /**
-     * @Title: 跳转到后台字典类型表主界面
+     * Title: 跳转到后台字典类型表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -101,13 +101,13 @@ public class SysDictWebController {
 
 
     /**
-     * @Title: 获取后台字典类型表分页信息
+     * Title: 获取后台字典类型表分页信息
      * Description:sysDictQueryRequestVo @{Link SysDictQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDictShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -141,12 +141,12 @@ public class SysDictWebController {
     }
 
 /**
-     * @Title: 根据条件查谒后台字典类型表分页信息
+     * Title: 根据条件查谒后台字典类型表分页信息
      * Description:sysDictQueryRequestVo @{Link SysDictQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDictShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -180,12 +180,12 @@ public class SysDictWebController {
 
 
     /**
-     * @Title: 新增后台字典类型表信息
+     * Title: 新增后台字典类型表信息
      * Description:sysDictAddRequestVo @{Link SysDictAddRequestVo}
      * @param sysDictAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -211,12 +211,12 @@ public class SysDictWebController {
         out.write( sysDictresponseDto.getId());
     }
     /**
-     * @Title: 修改后台字典类型表信息
+     * Title: 修改后台字典类型表信息
      * Description:sysDictAddRequestVo @{Link SysDictAddRequestVo}
      * @param  sysDictAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -242,12 +242,12 @@ public class SysDictWebController {
     }
 
     /**
-     * @Title: 查看后台字典类型表信息
+     * Title: 查看后台字典类型表信息
      * Description:sysDictRequestVo @{Link SysDictRequestVo}
      * @param
      * @return  SysDictResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -271,12 +271,12 @@ public class SysDictWebController {
 
 
     /**
-     * @Title: 跳转后台字典类型表编辑界面
+     * Title: 跳转后台字典类型表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDictShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -301,12 +301,12 @@ public class SysDictWebController {
 
 
     /**
-     * @Title: 跳转后台字典类型表新增编辑界面
+     * Title: 跳转后台字典类型表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -319,12 +319,12 @@ public class SysDictWebController {
     }
 
     /**
-     * @Title: 删除后台字典类型表信息
+     * Title: 删除后台字典类型表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -349,12 +349,12 @@ public class SysDictWebController {
 
 
     /**
-     * @Title: 导出后台字典类型表信息
+     * Title: 导出后台字典类型表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

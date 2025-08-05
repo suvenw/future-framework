@@ -52,7 +52,7 @@ import java.util.List;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/fileinter/fileUploadActionWater")
+ * RequestMapping("/fileinter/fileUploadActionWater")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -93,7 +93,7 @@ public class FileUploadActionWaterWebController {
     private FileUploadActionWaterService  fileUploadActionWaterService;
 
     /**
-     * @Title: 跳转到主界面
+     * Title: 跳转到主界面
      * @return 字符串url
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
@@ -110,7 +110,7 @@ public class FileUploadActionWaterWebController {
 
 
     /**
-     * @Title: 获取分页信息
+     * Title: 获取分页信息
      * Description:fileUploadActionWaterQueryRequestVo @{Link FileUploadActionWaterQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<FileUploadActionWaterShowResponseVo>
@@ -147,7 +147,7 @@ public class FileUploadActionWaterWebController {
     }
 
 /**
-     * @Title: 根据条件查谒分页信息
+     * Title: 根据条件查谒分页信息
      * Description:fileUploadActionWaterQueryRequestVo @{Link FileUploadActionWaterQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<FileUploadActionWaterShowResponseVo>
@@ -183,7 +183,7 @@ public class FileUploadActionWaterWebController {
 
 
     /**
-     * @Title: 新增信息
+     * Title: 新增信息
      * Description:fileUploadActionWaterAddRequestVo @{Link FileUploadActionWaterAddRequestVo}
      * @param fileUploadActionWaterAddRequestVo 对象
      * @return long类型id
@@ -214,7 +214,7 @@ public class FileUploadActionWaterWebController {
         out.write( fileUploadActionWaterresponseDto.getId());
     }
     /**
-     * @Title: 修改信息
+     * Title: 修改信息
      * Description:fileUploadActionWaterAddRequestVo @{Link FileUploadActionWaterAddRequestVo}
      * @param  fileUploadActionWaterAddRequestVo 对象
      * @return  boolean 类型1或0;
@@ -245,7 +245,7 @@ public class FileUploadActionWaterWebController {
     }
 
     /**
-     * @Title: 查看信息
+     * Title: 查看信息
      * Description:fileUploadActionWaterRequestVo @{Link FileUploadActionWaterRequestVo}
      * @param
      * @return  FileUploadActionWaterResponseVo  对象
@@ -274,7 +274,7 @@ public class FileUploadActionWaterWebController {
 
 
     /**
-     * @Title: 跳转编辑界面
+     * Title: 跳转编辑界面
      * Description:id @{Link Long}
      * @param
      * @return FileUploadActionWaterShowResponseVo 对象
@@ -304,7 +304,7 @@ public class FileUploadActionWaterWebController {
 
 
     /**
-     * @Title: 跳转新增编辑界面
+     * Title: 跳转新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
@@ -322,7 +322,7 @@ public class FileUploadActionWaterWebController {
     }
 
     /**
-     * @Title: 删除信息
+     * Title: 删除信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
@@ -352,7 +352,7 @@ public class FileUploadActionWaterWebController {
 
 
     /**
-     * @Title: 导出信息
+     * Title: 导出信息
      * Description:id @{Link Long}
      * @param
      * @return

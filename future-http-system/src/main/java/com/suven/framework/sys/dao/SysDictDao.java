@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDictDao.java
+ * ClassName: SysDictDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:09
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:09
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 后台字典类型表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
      * 保存创建SysDict,并且保存到缓存中
      * @param sysDict
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
 
     public SysDict saveId(SysDict sysDict){
@@ -83,7 +83,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
          * 保存创建SysDict,并且保存到缓存中
          * @param sysDict
          * @author suven
-         * @date 2022-02-28 16:10:09
+         * date 2022-02-28 16:10:09
          */
 
         public SysDict saveToId(SysDict sysDict){
@@ -103,7 +103,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
      * 批量保存创建SysDict,并且保存到缓存中
      * @param sysDictList
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     public boolean saveBatchId(List<SysDict> sysDictList){
             if(null == sysDictList)
@@ -126,7 +126,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     public List<SysDict> getListByPage(IPage<SysDict> iPage, QueryWrapper<SysDict> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     public List<SysDict> getListByQuery( QueryWrapper<SysDict> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysDictDao extends AbstractMyBatisDao<SysDictMapper, SysDict> imple
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:09
+     * date 2022-02-28 16:10:09
      */
     public QueryWrapper<SysDict> builderQueryEnum(SysDictQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();

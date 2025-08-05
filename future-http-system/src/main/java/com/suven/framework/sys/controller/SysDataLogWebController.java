@@ -37,11 +37,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDataLogWebController.java
+ * ClassName: SysDataLogWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:02
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:02
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description:  的控制服务类
@@ -53,7 +53,7 @@ import java.util.List;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDataLog")
+ * RequestMapping("/sys/sysDataLog")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -79,10 +79,10 @@ public class SysDataLogWebController {
     private SysDataLogService  sysDataLogService;
 
     /**
-     * @Title: 跳转到主界面
+     * Title: 跳转到主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -96,13 +96,13 @@ public class SysDataLogWebController {
 
 
     /**
-     * @Title: 获取分页信息
+     * Title: 获取分页信息
      * Description:sysDataLogQueryRequestVo @{Link SysDataLogQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDataLogShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -136,12 +136,12 @@ public class SysDataLogWebController {
     }
 
 /**
-     * @Title: 根据条件查谒分页信息
+     * Title: 根据条件查谒分页信息
      * Description:sysDataLogQueryRequestVo @{Link SysDataLogQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDataLogShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -175,12 +175,12 @@ public class SysDataLogWebController {
 
 
     /**
-     * @Title: 新增信息
+     * Title: 新增信息
      * Description:sysDataLogAddRequestVo @{Link SysDataLogAddRequestVo}
      * @param sysDataLogAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -206,12 +206,12 @@ public class SysDataLogWebController {
         out.write( sysDataLogresponseDto.getId());
     }
     /**
-     * @Title: 修改信息
+     * Title: 修改信息
      * Description:sysDataLogAddRequestVo @{Link SysDataLogAddRequestVo}
      * @param  sysDataLogAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -237,12 +237,12 @@ public class SysDataLogWebController {
     }
 
     /**
-     * @Title: 查看信息
+     * Title: 查看信息
      * Description:sysDataLogRequestVo @{Link SysDataLogRequestVo}
      * @param
      * @return  SysDataLogResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -266,12 +266,12 @@ public class SysDataLogWebController {
 
 
     /**
-     * @Title: 跳转编辑界面
+     * Title: 跳转编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDataLogShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -296,12 +296,12 @@ public class SysDataLogWebController {
 
 
     /**
-     * @Title: 跳转新增编辑界面
+     * Title: 跳转新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -314,12 +314,12 @@ public class SysDataLogWebController {
     }
 
     /**
-     * @Title: 删除信息
+     * Title: 删除信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -345,12 +345,12 @@ public class SysDataLogWebController {
 
 
     /**
-     * @Title: 导出信息
+     * Title: 导出信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:02
+     * date 2022-02-28 16:10:02
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

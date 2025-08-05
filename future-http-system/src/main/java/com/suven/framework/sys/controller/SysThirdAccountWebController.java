@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
 
 
 /**
- * @ClassName: SysThirdAccountWebController.java
+ * ClassName: SysThirdAccountWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:47
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:47
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 第三方登陆表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysThirdAccount")
+ * RequestMapping("/sys/sysThirdAccount")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -84,10 +84,10 @@ public class SysThirdAccountWebController {
     private SysThirdAccountService  sysThirdAccountService;
 
     /**
-     * @Title: 跳转到第三方登陆表主界面
+     * Title: 跳转到第三方登陆表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -101,13 +101,13 @@ public class SysThirdAccountWebController {
 
 
     /**
-     * @Title: 获取第三方登陆表分页信息
+     * Title: 获取第三方登陆表分页信息
      * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysThirdAccountShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -137,12 +137,12 @@ public class SysThirdAccountWebController {
     }
 
 /**
-     * @Title: 根据条件查谒第三方登陆表分页信息
+     * Title: 根据条件查谒第三方登陆表分页信息
      * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysThirdAccountShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -176,12 +176,12 @@ public class SysThirdAccountWebController {
 
 
     /**
-     * @Title: 新增第三方登陆表信息
+     * Title: 新增第三方登陆表信息
      * Description:sysThirdAccountAddRequestVo @{Link SysThirdAccountAddRequestVo}
      * @param sysThirdAccountAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -207,12 +207,12 @@ public class SysThirdAccountWebController {
         out.write( sysThirdAccountresponseDto.getId());
     }
     /**
-     * @Title: 修改第三方登陆表信息
+     * Title: 修改第三方登陆表信息
      * Description:sysThirdAccountAddRequestVo @{Link SysThirdAccountAddRequestVo}
      * @param  sysThirdAccountAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -238,12 +238,12 @@ public class SysThirdAccountWebController {
     }
 
     /**
-     * @Title: 查看第三方登陆表信息
+     * Title: 查看第三方登陆表信息
      * Description:sysThirdAccountRequestVo @{Link SysThirdAccountRequestVo}
      * @param
      * @return  SysThirdAccountResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -267,12 +267,12 @@ public class SysThirdAccountWebController {
 
 
     /**
-     * @Title: 跳转第三方登陆表编辑界面
+     * Title: 跳转第三方登陆表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysThirdAccountShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -297,12 +297,12 @@ public class SysThirdAccountWebController {
 
 
     /**
-     * @Title: 跳转第三方登陆表新增编辑界面
+     * Title: 跳转第三方登陆表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -315,12 +315,12 @@ public class SysThirdAccountWebController {
     }
 
     /**
-     * @Title: 删除第三方登陆表信息
+     * Title: 删除第三方登陆表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -345,12 +345,12 @@ public class SysThirdAccountWebController {
 
 
     /**
-     * @Title: 导出第三方登陆表信息
+     * Title: 导出第三方登陆表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

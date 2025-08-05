@@ -8,11 +8,11 @@ import com.suven.framework.http.api.ApiDesc;
 import com.alibaba.excel.annotation.ExcelProperty;
 
 /**
- * @ClassName: SysDepartPermissionResponseVo.java
+ * ClassName: SysDepartPermissionResponseVo.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 17:00:36
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 17:00:36
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门权限表 http业务接口交互数据返回参数实现类

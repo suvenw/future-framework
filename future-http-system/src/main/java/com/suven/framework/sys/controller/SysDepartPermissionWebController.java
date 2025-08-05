@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
 
 
 /**
- * @ClassName: SysDepartPermissionWebController.java
+ * ClassName: SysDepartPermissionWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:27
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:27
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门权限表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDepartPermission")
+ * RequestMapping("/sys/sysDepartPermission")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -85,10 +85,10 @@ public class SysDepartPermissionWebController {
     private SysDepartPermissionService  sysDepartPermissionService;
 
     /**
-     * @Title: 跳转到部门权限表主界面
+     * Title: 跳转到部门权限表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -102,13 +102,13 @@ public class SysDepartPermissionWebController {
 
 
     /**
-     * @Title: 获取部门权限表分页信息
+     * Title: 获取部门权限表分页信息
      * Description:sysDepartPermissionQueryRequestVo @{Link SysDepartPermissionQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDepartPermissionShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -142,12 +142,12 @@ public class SysDepartPermissionWebController {
     }
 
 /**
-     * @Title: 根据条件查谒部门权限表分页信息
+     * Title: 根据条件查谒部门权限表分页信息
      * Description:sysDepartPermissionQueryRequestVo @{Link SysDepartPermissionQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDepartPermissionShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -181,12 +181,12 @@ public class SysDepartPermissionWebController {
 
 
     /**
-     * @Title: 新增部门权限表信息
+     * Title: 新增部门权限表信息
      * Description:sysDepartPermissionAddRequestVo @{Link SysDepartPermissionAddRequestVo}
      * @param sysDepartPermissionAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -212,12 +212,12 @@ public class SysDepartPermissionWebController {
         out.write( sysDepartPermissionresponseDto.getId());
     }
     /**
-     * @Title: 修改部门权限表信息
+     * Title: 修改部门权限表信息
      * Description:sysDepartPermissionAddRequestVo @{Link SysDepartPermissionAddRequestVo}
      * @param  sysDepartPermissionAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -243,12 +243,12 @@ public class SysDepartPermissionWebController {
     }
 
     /**
-     * @Title: 查看部门权限表信息
+     * Title: 查看部门权限表信息
      * Description:sysDepartPermissionRequestVo @{Link SysDepartPermissionRequestVo}
      * @param
      * @return  SysDepartPermissionResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -272,12 +272,12 @@ public class SysDepartPermissionWebController {
 
 
     /**
-     * @Title: 跳转部门权限表编辑界面
+     * Title: 跳转部门权限表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDepartPermissionShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +302,12 @@ public class SysDepartPermissionWebController {
 
 
     /**
-     * @Title: 跳转部门权限表新增编辑界面
+     * Title: 跳转部门权限表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -320,12 +320,12 @@ public class SysDepartPermissionWebController {
     }
 
     /**
-     * @Title: 删除部门权限表信息
+     * Title: 删除部门权限表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -350,12 +350,12 @@ public class SysDepartPermissionWebController {
 
 
     /**
-     * @Title: 导出部门权限表信息
+     * Title: 导出部门权限表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

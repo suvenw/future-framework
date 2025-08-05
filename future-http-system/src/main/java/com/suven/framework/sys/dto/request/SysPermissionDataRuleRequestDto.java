@@ -10,11 +10,11 @@ import com.suven.framework.http.data.entity.BaseByTimeEntity;
 import com.suven.framework.http.api.ApiDesc;
 
 /**
- * @ClassName: SysPermissionDataRuleRequestDto.java
+ * ClassName: SysPermissionDataRuleRequestDto.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:35
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:35
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限规则表 RPC业务接口交互数据请求参数实现类

@@ -9,7 +9,7 @@ import java.util.Map;
  * @Description 表状态属性值枚举类,0.下架,1.上架
  * @CreateDate 2018-11-15  12:45
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 
 public enum  TbStatusEnum {

@@ -253,7 +253,7 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
        * @param paramObject Object 参数对像
        * @return 查询表对象列表
        * @author suven
-       * @date 2024-04-19 00:20:28
+       * date 2024-04-19 00:20:28
        */
       @Override
       public List<FileDataDetailedResponseDto> getFileDataDetailedListByQuery(FileDataDetailedQueryEnum queryEnum, Object  paramObject ){
@@ -338,7 +338,7 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<FileDataDetailedResponseDto> getFileDataDetailedByIdList(Collection<Long> idList){

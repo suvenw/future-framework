@@ -16,11 +16,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysRolePermissionService.java
+ * ClassName: SysRolePermissionService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:49
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:49
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色权限表 RPC业务接口逻辑实现类
@@ -119,7 +119,7 @@ public interface SysRolePermissionService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:10:49
+    * date 2022-02-28 16:10:49
     */
     List<SysRolePermissionResponseDto> getSysRolePermissionListByQuery(Object  paramObject, SysRolePermissionQueryEnum queryEnum);
 
@@ -129,7 +129,7 @@ public interface SysRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     List<SysRolePermissionResponseDto> getSysRolePermissionListByPage(Pager page, SysRolePermissionQueryEnum queryEnum);
 
@@ -141,7 +141,7 @@ public interface SysRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     ResponseResultPageVo<SysRolePermissionResponseDto> getSysRolePermissionByNextPage(Pager page, SysRolePermissionQueryEnum queryEnum);
 
@@ -150,7 +150,7 @@ public interface SysRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      */
     ResponseResultPageVo<SysRolePermissionResponseDto> getSysRolePermissionByQueryPage(Pager page, SysRolePermissionQueryEnum queryEnum);
 

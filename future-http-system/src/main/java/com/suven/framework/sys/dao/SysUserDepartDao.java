@@ -25,11 +25,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysUserDepartDao.java
+ * ClassName: SysUserDepartDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:14
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:14
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户部门关系表 的数据库查询逻辑实现类
@@ -67,7 +67,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
      * 保存创建SysUserDepart,并且保存到缓存中
      * @param sysUserDepart
      * @author suven
-     * @date 2022-02-28 16:14:14
+     * date 2022-02-28 16:14:14
      */
 
     public SysUserDepart saveId(SysUserDepart sysUserDepart){
@@ -87,7 +87,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
          * 保存创建SysUserDepart,并且保存到缓存中
          * @param sysUserDepart
          * @author suven
-         * @date 2022-02-28 16:14:14
+         * date 2022-02-28 16:14:14
          */
 
         public SysUserDepart saveToId(SysUserDepart sysUserDepart){
@@ -107,7 +107,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
      * 批量保存创建SysUserDepart,并且保存到缓存中
      * @param sysUserDepartList
      * @author suven
-     * @date 2022-02-28 16:14:14
+     * date 2022-02-28 16:14:14
      */
     public boolean saveBatchId(List<SysUserDepart> sysUserDepartList){
             if(null == sysUserDepartList)
@@ -130,7 +130,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:14
+     * date 2022-02-28 16:14:14
      */
     public List<SysUserDepart> getListByPage(IPage<SysUserDepart> iPage, QueryWrapper<SysUserDepart> queryWrapper ){
 
@@ -159,7 +159,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:14
+     * date 2022-02-28 16:14:14
      */
     public List<SysUserDepart> getListByQuery( QueryWrapper<SysUserDepart> queryWrapper ){
 
@@ -184,7 +184,7 @@ public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, Sy
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:14
+     * date 2022-02-28 16:14:14
      */
     public QueryWrapper<SysUserDepart> builderQueryEnum(SysUserDepartQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysUserDepart> queryWrapper = new QueryWrapper<>();

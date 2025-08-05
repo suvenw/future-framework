@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @Description //TODO ${END}$
  * @CreateDate 2018-11-29  11:19
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 public class BaiduAipSpeech extends BaiduConstants{
 

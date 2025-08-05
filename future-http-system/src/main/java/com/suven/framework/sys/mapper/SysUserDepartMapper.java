@@ -9,11 +9,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysUserDepartMapper.java
+ * ClassName: SysUserDepartMapper.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:14
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:14
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户部门关系表 的数据库sql编写实现类

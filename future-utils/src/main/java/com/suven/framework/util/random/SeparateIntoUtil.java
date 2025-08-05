@@ -9,7 +9,7 @@ import java.util.List;
  * @Description //TODO ${END}$
  * @CreateDate 2018-12-13  10:25
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 public class SeparateIntoUtil {
 

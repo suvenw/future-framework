@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysDictItemQueryEnum;
 
 
 /**
- * @ClassName: SysDictItemWebController.java
+ * ClassName: SysDictItemWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:15
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:15
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 数据字典明细表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysDictItemQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDictItem")
+ * RequestMapping("/sys/sysDictItem")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -85,10 +85,10 @@ public class SysDictItemWebController {
     private SysDictItemService  sysDictItemService;
 
     /**
-     * @Title: 跳转到数据字典明细表主界面
+     * Title: 跳转到数据字典明细表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -102,13 +102,13 @@ public class SysDictItemWebController {
 
 
     /**
-     * @Title: 获取数据字典明细表分页信息
+     * Title: 获取数据字典明细表分页信息
      * Description:sysDictItemQueryRequestVo @{Link SysDictItemQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDictItemShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -142,12 +142,12 @@ public class SysDictItemWebController {
     }
 
 /**
-     * @Title: 根据条件查谒数据字典明细表分页信息
+     * Title: 根据条件查谒数据字典明细表分页信息
      * Description:sysDictItemQueryRequestVo @{Link SysDictItemQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDictItemShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -181,12 +181,12 @@ public class SysDictItemWebController {
 
 
     /**
-     * @Title: 新增数据字典明细表信息
+     * Title: 新增数据字典明细表信息
      * Description:sysDictItemAddRequestVo @{Link SysDictItemAddRequestVo}
      * @param sysDictItemAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -212,12 +212,12 @@ public class SysDictItemWebController {
         out.write( sysDictItemresponseDto.getId());
     }
     /**
-     * @Title: 修改数据字典明细表信息
+     * Title: 修改数据字典明细表信息
      * Description:sysDictItemAddRequestVo @{Link SysDictItemAddRequestVo}
      * @param  sysDictItemAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -243,12 +243,12 @@ public class SysDictItemWebController {
     }
 
     /**
-     * @Title: 查看数据字典明细表信息
+     * Title: 查看数据字典明细表信息
      * Description:sysDictItemRequestVo @{Link SysDictItemRequestVo}
      * @param
      * @return  SysDictItemResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -272,12 +272,12 @@ public class SysDictItemWebController {
 
 
     /**
-     * @Title: 跳转数据字典明细表编辑界面
+     * Title: 跳转数据字典明细表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDictItemShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +302,12 @@ public class SysDictItemWebController {
 
 
     /**
-     * @Title: 跳转数据字典明细表新增编辑界面
+     * Title: 跳转数据字典明细表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -320,12 +320,12 @@ public class SysDictItemWebController {
     }
 
     /**
-     * @Title: 删除数据字典明细表信息
+     * Title: 删除数据字典明细表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -350,12 +350,12 @@ public class SysDictItemWebController {
 
 
     /**
-     * @Title: 导出数据字典明细表信息
+     * Title: 导出数据字典明细表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

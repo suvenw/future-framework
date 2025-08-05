@@ -13,12 +13,12 @@ import com.suven.framework.sys.vo.response.SysDepartRolePermissionResponseVo;
 
 
 /**
-  * @ClassName: SysDepartRolePermissionFacade.java
+  * ClassName: SysDepartRolePermissionFacade.java
   *
-  * @Author 作者 : suven
+  * @author 作者 : suven
   * @email 邮箱 : suvenw@163.com
-  * @CreateDate 创建时间: 2022-02-28 16:13:36
-  * @Version 版本: v1.0.0
+  * CreateDate 创建时间: 2022-02-28 16:13:36
+  * @version 版本: v1.0.0
   * <pre>
   *
   *  Description: 部门角色权限表 的业务综合处理门面实现逻辑类
@@ -30,7 +30,7 @@ import com.suven.framework.sys.vo.response.SysDepartRolePermissionResponseVo;
   * ----------------------------------------------------------------------------
   *
   * ----------------------------------------------------------------------------
-  * @RequestMapping("/sys/sysDepartRolePermission")
+  * RequestMapping("/sys/sysDepartRolePermission")
   * </pre>
   * Copyright: (c) 2021 gc by https://www.suven.top
   **/

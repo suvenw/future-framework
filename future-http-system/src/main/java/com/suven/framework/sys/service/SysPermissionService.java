@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysPermissionService.java
+ * ClassName: SysPermissionService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:30
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:30
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysPermissionService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:10:30
+    * date 2022-02-28 16:10:30
     */
     List<SysPermissionResponseDto> getSysPermissionListByQuery(Object  paramObject, SysPermissionQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     List<SysPermissionResponseDto> getSysPermissionListByPage(Pager page, SysPermissionQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum);
 

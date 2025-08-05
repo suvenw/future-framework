@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2023-06-29
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2023-06-29
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  对象是否为空判断类

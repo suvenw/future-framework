@@ -9,9 +9,9 @@ import java.util.Map;
 
 
 /**   
- * @Title: EnumsType.java 
+ * Title: EnumsType.java
  * @author Joven.wang   
- * @date   2016年2月17日
+ * date   2016年2月17日
  * @version V1.0  
  * Description: TODO(说明)
  */

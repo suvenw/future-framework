@@ -4,8 +4,8 @@ package com.suven.framework.http.data.entity;
 /**
  * @author Joven.wang
  * @version V1.0
- * @Title: GlobalServiceInfo.java
- * @date 2019年2月20日
+ * Title: GlobalServiceInfo.java
+ * date 2019年2月20日
  * Description: TODO(说明)
  * 用于记录登前启动服务的 ip地址,port 端口号,url 访问地址; serviceName 服务名称的实体Bean类;
  */

@@ -8,7 +8,7 @@ import com.suven.framework.http.data.vo.RequestParserVo;
 * @ClassName: SysUserRequestVo.java
 * Description: 用户表的数据交互处理类
 * @author xxx.xxx
-* @date   2019-10-18 12:35:25
+* date   2019-10-18 12:35:25
 * @version V1.0.0
 * <p>
     * ----------------------------------------------------------------------------

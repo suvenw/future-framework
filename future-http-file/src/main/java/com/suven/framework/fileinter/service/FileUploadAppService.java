@@ -116,7 +116,7 @@ public interface FileUploadAppService {
     * @param paramObject Object
     * @return 返回列表对象列表
     * @author suven
-    * @date 2024-04-19 00:21:49
+    * date 2024-04-19 00:21:49
     */
     List<FileUploadAppResponseDto> getFileUploadAppListByQuery(FileUploadAppQueryEnum queryEnum,Object  paramObject);
 

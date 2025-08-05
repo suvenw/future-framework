@@ -5,12 +5,12 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.core.db.ext.DS;
 
 /**
-  * @ClassName: SysDepartRoleUser.java
+  * ClassName: SysDepartRoleUser.java
   *
-  * @Author 作者 : suven
+  * @author 作者 : suven
   * @email 邮箱 : suvenw@163.com
-  * @CreateDate 创建时间: 2022-02-28 16:53:58
-  * @Version 版本: v1.0.0
+  * CreateDate 创建时间: 2022-02-28 16:53:58
+  * @version 版本: v1.0.0
   * <pre>
   *
   *  Description: 部门角色用户表 数据库表对应的实现类

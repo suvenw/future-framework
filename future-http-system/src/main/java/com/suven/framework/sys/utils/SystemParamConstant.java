@@ -1,10 +1,10 @@
 package com.suven.framework.sys.utils;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2022-02-28
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2022-02-28
  * @WeeK 星期: 星期四
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  错误提示中文信息类

@@ -26,11 +26,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysUserDao.java
+ * ClassName: SysUserDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:37
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:37
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户表 的数据库查询逻辑实现类
@@ -68,7 +68,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
      * 保存创建SysUser,并且保存到缓存中
      * @param sysUser
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
 
     public SysUser saveId(SysUser sysUser){
@@ -88,7 +88,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
          * 保存创建SysUser,并且保存到缓存中
          * @param sysUser
          * @author suven
-         * @date 2022-02-28 16:09:37
+         * date 2022-02-28 16:09:37
          */
 
         public SysUser saveToId(SysUser sysUser){
@@ -108,7 +108,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
      * 批量保存创建SysUser,并且保存到缓存中
      * @param sysUserList
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     public boolean saveBatchId(List<SysUser> sysUserList){
             if(null == sysUserList)
@@ -131,7 +131,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     public List<SysUser> getListByPage(IPage<SysUser> iPage, QueryWrapper<SysUser> queryWrapper ){
 
@@ -160,7 +160,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     public List<SysUser> getListByQuery( QueryWrapper<SysUser> queryWrapper ){
 
@@ -185,7 +185,7 @@ public class SysUserDao extends AbstractMyBatisDao<SysUserMapper, SysUser> imple
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      */
     public QueryWrapper<SysUser> builderQueryEnum(SysUserQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();

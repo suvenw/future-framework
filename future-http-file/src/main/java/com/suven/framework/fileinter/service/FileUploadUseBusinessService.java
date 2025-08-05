@@ -116,7 +116,7 @@ public interface FileUploadUseBusinessService {
     * @param paramObject Object
     * @return 返回列表对象列表
     * @author suven
-    * @date 2024-04-19 00:21:42
+    * date 2024-04-19 00:21:42
     */
     List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByQuery(FileUploadUseBusinessQueryEnum queryEnum,Object  paramObject);
 

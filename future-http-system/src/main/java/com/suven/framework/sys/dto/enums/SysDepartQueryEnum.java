@@ -2,11 +2,11 @@ package com.suven.framework.sys.dto.enums;
 
 
 /**
- * @ClassName: SysDepartQueryEnum.java
+ * ClassName: SysDepartQueryEnum.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:31
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:31
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 组织机构表的数据条件查询枚举类

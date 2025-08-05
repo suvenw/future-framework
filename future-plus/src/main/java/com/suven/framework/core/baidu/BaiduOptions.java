@@ -10,7 +10,7 @@ import java.util.HashMap;
  * @Description //TODO ${END}$
  * @CreateDate 2018-11-29  11:08
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 public class BaiduOptions {
     //        参数	类型	描述	是否必须

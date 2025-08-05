@@ -47,11 +47,11 @@ import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 
 
 /**
- * @ClassName: SysDepartWebController.java
+ * ClassName: SysDepartWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:31
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:31
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 组织机构表 的控制服务类
@@ -63,7 +63,7 @@ import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDepart")
+ * RequestMapping("/sys/sysDepart")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -90,10 +90,10 @@ public class SysDepartWebController {
     private SysDepartService  sysDepartService;
 
     /**
-     * @Title: 跳转到组织机构表主界面
+     * Title: 跳转到组织机构表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -107,13 +107,13 @@ public class SysDepartWebController {
 
 
     /**
-     * @Title: 获取组织机构表分页信息
+     * Title: 获取组织机构表分页信息
      * Description:sysDepartQueryRequestVo @{Link SysDepartQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDepartShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -147,12 +147,12 @@ public class SysDepartWebController {
     }
 
 /**
-     * @Title: 根据条件查谒组织机构表分页信息
+     * Title: 根据条件查谒组织机构表分页信息
      * Description:sysDepartQueryRequestVo @{Link SysDepartQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDepartShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -211,12 +211,12 @@ public class SysDepartWebController {
 
 
     /**
-     * @Title: 新增组织机构表信息
+     * Title: 新增组织机构表信息
      * Description:sysDepartAddRequestVo @{Link SysDepartAddRequestVo}
      * @param sysDepartAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -242,12 +242,12 @@ public class SysDepartWebController {
         out.write( sysDepartresponseDto.getId());
     }
     /**
-     * @Title: 修改组织机构表信息
+     * Title: 修改组织机构表信息
      * Description:sysDepartAddRequestVo @{Link SysDepartAddRequestVo}
      * @param  sysDepartAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -273,12 +273,12 @@ public class SysDepartWebController {
     }
 
     /**
-     * @Title: 查看组织机构表信息
+     * Title: 查看组织机构表信息
      * Description:sysDepartRequestVo @{Link SysDepartRequestVo}
      * @param
      * @return  SysDepartResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +302,12 @@ public class SysDepartWebController {
 
 
     /**
-     * @Title: 跳转组织机构表编辑界面
+     * Title: 跳转组织机构表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDepartShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -332,12 +332,12 @@ public class SysDepartWebController {
 
 
     /**
-     * @Title: 跳转组织机构表新增编辑界面
+     * Title: 跳转组织机构表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -350,12 +350,12 @@ public class SysDepartWebController {
     }
 
     /**
-     * @Title: 删除组织机构表信息
+     * Title: 删除组织机构表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -380,12 +380,12 @@ public class SysDepartWebController {
 
 
     /**
-     * @Title: 导出组织机构表信息
+     * Title: 导出组织机构表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

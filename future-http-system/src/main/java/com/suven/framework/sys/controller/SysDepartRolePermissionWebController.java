@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
 
 
 /**
- * @ClassName: SysDepartRolePermissionWebController.java
+ * ClassName: SysDepartRolePermissionWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:36
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:36
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色权限表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysDepartRolePermission")
+ * RequestMapping("/sys/sysDepartRolePermission")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -84,10 +84,10 @@ public class SysDepartRolePermissionWebController {
     private SysDepartRolePermissionService  sysDepartRolePermissionService;
 
     /**
-     * @Title: 跳转到部门角色权限表主界面
+     * Title: 跳转到部门角色权限表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -101,13 +101,13 @@ public class SysDepartRolePermissionWebController {
 
 
     /**
-     * @Title: 获取部门角色权限表分页信息
+     * Title: 获取部门角色权限表分页信息
      * Description:sysDepartRolePermissionQueryRequestVo @{Link SysDepartRolePermissionQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysDepartRolePermissionShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -141,12 +141,12 @@ public class SysDepartRolePermissionWebController {
     }
 
 /**
-     * @Title: 根据条件查谒部门角色权限表分页信息
+     * Title: 根据条件查谒部门角色权限表分页信息
      * Description:sysDepartRolePermissionQueryRequestVo @{Link SysDepartRolePermissionQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysDepartRolePermissionShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -180,12 +180,12 @@ public class SysDepartRolePermissionWebController {
 
 
     /**
-     * @Title: 新增部门角色权限表信息
+     * Title: 新增部门角色权限表信息
      * Description:sysDepartRolePermissionAddRequestVo @{Link SysDepartRolePermissionAddRequestVo}
      * @param sysDepartRolePermissionAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -211,12 +211,12 @@ public class SysDepartRolePermissionWebController {
         out.write( sysDepartRolePermissionresponseDto.getId());
     }
     /**
-     * @Title: 修改部门角色权限表信息
+     * Title: 修改部门角色权限表信息
      * Description:sysDepartRolePermissionAddRequestVo @{Link SysDepartRolePermissionAddRequestVo}
      * @param  sysDepartRolePermissionAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -242,12 +242,12 @@ public class SysDepartRolePermissionWebController {
     }
 
     /**
-     * @Title: 查看部门角色权限表信息
+     * Title: 查看部门角色权限表信息
      * Description:sysDepartRolePermissionRequestVo @{Link SysDepartRolePermissionRequestVo}
      * @param
      * @return  SysDepartRolePermissionResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -271,12 +271,12 @@ public class SysDepartRolePermissionWebController {
 
 
     /**
-     * @Title: 跳转部门角色权限表编辑界面
+     * Title: 跳转部门角色权限表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysDepartRolePermissionShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -301,12 +301,12 @@ public class SysDepartRolePermissionWebController {
 
 
     /**
-     * @Title: 跳转部门角色权限表新增编辑界面
+     * Title: 跳转部门角色权限表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -319,12 +319,12 @@ public class SysDepartRolePermissionWebController {
     }
 
     /**
-     * @Title: 删除部门角色权限表信息
+     * Title: 删除部门角色权限表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -349,12 +349,12 @@ public class SysDepartRolePermissionWebController {
 
 
     /**
-     * @Title: 导出部门角色权限表信息
+     * Title: 导出部门角色权限表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

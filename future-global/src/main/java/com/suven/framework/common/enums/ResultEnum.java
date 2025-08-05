@@ -9,7 +9,7 @@ import java.util.Map;
  * @Description 说明: 请求结果成功,失败值枚举类, 包括:0.失败, 1.成功
  * @CreateDate 2018-12-19  20:10
  * @WeeK 星期三
- * @Version v2.0
+ * @version v2.0
  *
  **/
 public enum ResultEnum {

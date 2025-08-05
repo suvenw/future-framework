@@ -5,9 +5,9 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author changxin
- * @Title:
+ * Title:
  * Description: 属性与表字段转换
- * @date 2020-01-13 19:12
+ * date 2020-01-13 19:12
  */
 public class ConverUtil {
     /**

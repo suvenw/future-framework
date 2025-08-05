@@ -5,9 +5,9 @@
 //
 //
 ///**
-// * @Title: MsgEnumType.java
+// * Title: MsgEnumType.java
 // * @author Joven.wang
-// * @date 2015年2月10日
+// * date 2015年2月10日
 // * @version V1.0
 // * Description: TODO(说明) 此类封装了,从第三方平台的返回code,转换成业务逻辑用户错误提示信息; eg:
 // *               SYS_CODE_为前缀,后缀编码为第三方反回code信息,括号为提前端编码和提示信息;

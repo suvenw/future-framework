@@ -7,11 +7,11 @@ import com.suven.framework.http.data.vo.HttpRequestByIdPageVo;
 
 
 /**
- * @ClassName: SysRoleQueryRequestVo.java
+ * ClassName: SysRoleQueryRequestVo.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:43
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:43
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色表 http业务接口交互数据请求参数实现类

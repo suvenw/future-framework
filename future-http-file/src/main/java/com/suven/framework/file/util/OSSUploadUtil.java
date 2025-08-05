@@ -16,10 +16,10 @@ import com.suven.framework.file.config.FileConfigSetting;
 
 /**
  * 
- * @ClassName: OSSUploadUtil
+ * ClassName: OSSUploadUtil
  * Description: 阿里云OSS文件上传工具类
  * @author AggerChen
- * @date 2016年11月3日 下午12:03:24
+ * date 2016年11月3日 下午12:03:24
  */
 public class OSSUploadUtil {
     

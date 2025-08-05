@@ -4,9 +4,9 @@ package com.suven.framework.util.constants;
 import com.suven.framework.util.PropertiesUtil;
 
 /**   
- * @Title: PropertiesParam.java 
+ * Title: PropertiesParam.java 
  * @author Joven.wang   
- * @date   2017年2月4日
+ * date   2017年2月4日
  * @version V1.0  
  * Description: TODO(说明)  
  */

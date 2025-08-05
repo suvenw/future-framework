@@ -4,9 +4,9 @@ package com.suven.framework.common.platform;
  * @ClassName:
  * Description:第三方登录的类型
  * @Author liulu
- * @Date 2018/5/23 17:49
+ * date 2018/5/23 17:49
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  */
 public class ThirdLoginTypeUtil {
 
