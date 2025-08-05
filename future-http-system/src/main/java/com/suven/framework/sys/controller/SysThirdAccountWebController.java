@@ -162,7 +162,7 @@ public class SysThirdAccountWebController {
         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
         List<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

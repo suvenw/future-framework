@@ -167,7 +167,7 @@ public class SysPositionWebController {
         SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
         List<SysPositionResponseDto> resultList = sysPositionService.getSysPositionListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

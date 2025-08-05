@@ -81,7 +81,8 @@ public class FileDataDetailedController {
     @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileDataDetailedRequestVo fileDataDetailedRequestVo){
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build().clone(fileDataDetailedRequestVo);
-        Pager pager = Pager.build().toPageSize(fileDataDetailedRequestVo.getPageSize()).toPageNo(fileDataDetailedRequestVo.getPageNo());
+        Pager<FileDataDetailedRequestDto> pager = Pager.build();
+        pager.toPageSize(fileDataDetailedRequestVo.getPageSize()).toPageNo(fileDataDetailedRequestVo.getPageNo());
         pager.toParamObject(fileDataDetailedRequestDto );
         ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(FileDataDetailedQueryEnum.DESC_ID,pager);
 

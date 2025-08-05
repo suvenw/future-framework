@@ -33,8 +33,8 @@ public class RoleTokenOutService {
     }
 
     public boolean delUserTokenInRedisByUserIds(List<Long> userIds) {
-        List<String> tokenList = new ArrayList();
-        List<String> refreshList = new ArrayList();
+        List<String> tokenList = new ArrayList<>();
+        List<String> refreshList = new ArrayList<>();
         if (null != userIds && !userIds.isEmpty()) {
             userIds.forEach((userId) -> {
                 String codeKey = RedisShortKeyUtil.formatKey(new Object[]{"oauth_user_id_token:", userId});

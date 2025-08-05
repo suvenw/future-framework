@@ -34,6 +34,7 @@ import com.suven.framework.sys.vo.response.SysPermissionShowResponseVo;
 import com.suven.framework.sys.vo.response.SysPermissionTreeResponseVo;
 import com.suven.framework.sys.vo.response.SysRoleShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,19 +145,19 @@ public class SysPermissionWebController {
     public   void   list(OutputSystem out, SysPermissionQueryRequestVo sysPermissionQueryRequestVo){
             SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build( ).clone(sysPermissionQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
+        Pager<SysPermissionRequestDto> page =  Pager.build();
+        page.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionRequestDto );
          SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;
         ResponseResultPageVo<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
         List<SysPermissionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        ResponseResultPageVo<SysPermissionShowResponseVo> result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal());
         out.write( result);
     }
 

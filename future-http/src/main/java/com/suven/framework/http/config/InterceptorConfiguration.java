@@ -83,7 +83,7 @@
 //        JettyServerSettings configSetting = applicationContext.getBean("jettyServerSettings",JettyServerSettings.class);
 //        List<String> exclude_path_patterns = new ArrayList(Arrays.asList(EXCLUDE_PATH_PATTERNS));
 //        exclude_path_patterns.addAll(Arrays.asList(EXCLUDE_PATH));
-//        List<String> path_patterns = new ArrayList();
+//        List<String> path_patterns = new ArrayList<>();
 //        if(null != configSetting && null != configSetting.getInter()){
 //            path_patterns.addAll(configSetting.getInter().getPaths()) ;
 //            exclude_path_patterns.addAll( configSetting.getInter().getExcludePaths());

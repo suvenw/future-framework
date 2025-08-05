@@ -1,6 +1,6 @@
 package com.suven.framework.file.db;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+
 import com.suven.framework.core.db.druid.DatasourceConfiguration;
 import com.suven.framework.core.db.druid.DruidDataSourceAutoConfig;
 import com.suven.framework.core.db.druid.DruidDatasourceGroup;
@@ -33,6 +33,7 @@ import java.lang.annotation.Annotation;
  */
 
 
+
 /**
  * 应用服务起动类，加载数据源实现模块组实现类
  * 数据库聚群，启动和管理的配置实现类；
@@ -45,7 +46,7 @@ import java.lang.annotation.Annotation;
  */
 @Configuration
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
-        DruidDataSourceAutoConfigure.class, JdbcTemplateAutoConfiguration.class})
+        JdbcTemplateAutoConfiguration.class})
 @ConditionalOnProperty(name =  DatasourceConfiguration.SPRING_DATA_SOURCE_ENABLED,  matchIfMissing = true)
 @ConfigurationProperties(value = DatasourceConfiguration.SPRING_DATA_SOURCE)
 @AutoConfigureBefore({DruidDataSourceAutoConfig.class})

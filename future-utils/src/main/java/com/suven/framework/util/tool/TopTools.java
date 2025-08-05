@@ -303,7 +303,7 @@ public class TopTools {
 		if(map != null && key != null){
 			List list = (List)map.get(key);
 			if(list == null){
-				list = new ArrayList();
+				list = new ArrayList<>();
 				map.put(key, list);
 			}
 			list.add(value);

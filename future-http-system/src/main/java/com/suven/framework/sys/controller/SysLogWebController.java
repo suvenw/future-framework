@@ -167,7 +167,7 @@ public class SysLogWebController {
         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
         List<SysLogResponseDto> resultList = sysLogService.getSysLogListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

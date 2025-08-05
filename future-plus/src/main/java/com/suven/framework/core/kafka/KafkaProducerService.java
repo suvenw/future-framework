@@ -54,7 +54,7 @@ public class KafkaProducerService {
 //        String value2 = "收到 批量发送 异步消息";
 //        KafkaMessage message = new KafkaMessage("top-test","top-test-key",value);
 //        KafkaMessage message2 = new KafkaMessage("top-test-2","top-test-2-key",value2);
-//        List list = new ArrayList();
+//        List list = new ArrayList<>();
 //        for (int i = 0; i < 100; i++) {
 //            message.setValue(value + " " +i);
 //            message2.setValue(value2 + "-------" +i);

@@ -167,7 +167,7 @@ public class SysUserDepartWebController {
         SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
         List<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

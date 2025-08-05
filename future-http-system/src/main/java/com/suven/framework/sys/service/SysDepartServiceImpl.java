@@ -404,7 +404,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
 
     @Override
     public List<SysDepartResponseDto> getList() {
-        List<SysDepartResponseDto> resDtoList = new ArrayList();
+        List<SysDepartResponseDto> resDtoList = new ArrayList<>();
         QueryWrapper<SysDepart> queryWrapper = new QueryWrapper<>();
         ((QueryWrapper)queryWrapper.eq("status", 1)).orderByAsc("sort");
         List<SysDepart> dbList = this.sysDepartDao.list(queryWrapper);

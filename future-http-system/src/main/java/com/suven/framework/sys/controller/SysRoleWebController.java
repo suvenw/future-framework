@@ -169,7 +169,7 @@ public class SysRoleWebController {
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
         List<SysRoleResponseDto> resultList = sysRoleService.getSysRoleListByQuery(page,queryEnum);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 

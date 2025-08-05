@@ -134,7 +134,8 @@ public class SysUserWebController {
     public void list(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build().toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        Pager page = Pager.build();
+        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
         ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
@@ -172,12 +173,13 @@ public class SysUserWebController {
     public void queryList(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build().toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        Pager page = Pager.build();
+        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
         List<SysUserResponseDto> resultList = sysUserService.getSysUserListByQuery(page, queryEnum);
         if (null == resultList || resultList.isEmpty()) {
-            out.write(new ArrayList());
+            out.write(new ArrayList<>());
             return;
         }
 
@@ -406,7 +408,8 @@ public class SysUserWebController {
 
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build().toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        Pager page = Pager.build();
+        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
 
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
@@ -594,7 +597,8 @@ public class SysUserWebController {
     @RequestMapping(value = UrlCommand.sys_user_userRoleList, method = RequestMethod.GET)
     //@RequiresPermissions("sys:user:queryUserRole")
     public void userRoleList(OutputSystem out, SysUserRoleRequestVo sysUserRoleRequestVo) {
-        Pager page = Pager.build().toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
+        Pager page = Pager.build();
+        pager.toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
         ResponseResultPageVo<SysUserResponseDto> dtos = sysUserService.getSysUserRoleId(page, sysUserRoleRequestVo.getRoleId(), sysUserRoleRequestVo.getUsername());
         out.write(dtos);
     }

@@ -138,12 +138,12 @@ public class FileUploadAppWebController {
     public   void   list( OutputResponse out, FileUploadAppQueryRequestVo fileUploadAppQueryRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build( ).clone(fileUploadAppQueryRequestVo);
 
-        Pager pager =  Pager.build().toPageSize(fileUploadAppQueryRequestVo.getPageSize()).toPageNo(fileUploadAppQueryRequestVo.getPageNo());
+        Pager<FileUploadAppRequestDto> pager =  Pager.build(fileUploadAppQueryRequestVo.getPageNo(),fileUploadAppQueryRequestVo.getPageSize());
         pager.toParamObject(fileUploadAppRequestDto );
          FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;
         ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
@@ -176,7 +176,7 @@ public class FileUploadAppWebController {
         FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;
         List<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppListByQuery(queryEnum,fileUploadAppRequestDto);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 
@@ -379,7 +379,8 @@ public class FileUploadAppWebController {
 
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppQueryRequestVo);
 
-        Pager<FileUploadAppRequestDto> pager = Pager.build().toPageSize(fileUploadAppQueryRequestVo.getPageSize()).toPageNo(fileUploadAppQueryRequestVo.getPageNo());
+        Pager<FileUploadAppRequestDto> pager = Pager.build();
+        pager.toPageSize(fileUploadAppQueryRequestVo.getPageSize()).toPageNo(fileUploadAppQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadAppRequestDto );
 
         FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;

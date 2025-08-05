@@ -79,7 +79,7 @@ public class ConfigMap {
    
 //    public static void main(String[] agr){
 //        String prefixKey = "111";
-//        List<Config> list = new ArrayList();
+//        List<Config> list = new ArrayList<>();
 //        list.add(new Config(3,prefixKey,"0",100));
 //        list.add(new Config(1,prefixKey,"100",0));
 //        list.add(new Config(2,prefixKey,"200",0));

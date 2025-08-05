@@ -132,7 +132,7 @@ public class FileUploadActionWaterWebController {
     public   void   list( OutputResponse out, FileUploadActionWaterQueryRequestVo fileUploadActionWaterQueryRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build( ).clone(fileUploadActionWaterQueryRequestVo);
 
-        Pager pager =  Pager.build().toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
+        Pager<FileUploadActionWaterRequestDto> pager =  Pager.build().toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
          FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;
         ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum,pager);
@@ -170,7 +170,7 @@ public class FileUploadActionWaterWebController {
         FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;
         List<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterListByQuery(queryEnum,fileUploadActionWaterRequestDto);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 
@@ -373,7 +373,7 @@ public class FileUploadActionWaterWebController {
 
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterQueryRequestVo);
 
-        Pager pager = Pager.build().toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
+        Pager<FileUploadActionWaterRequestDto> pager = Pager.build();toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
 
         FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;

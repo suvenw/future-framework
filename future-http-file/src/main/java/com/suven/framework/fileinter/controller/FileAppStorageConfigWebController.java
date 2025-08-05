@@ -138,12 +138,12 @@ public class FileAppStorageConfigWebController {
     public   void   list( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
 
-        Pager pager =  Pager.build().toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
+        Pager<FileAppStorageConfigRequestDto> pager =  Pager.build().toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
          FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
         ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
@@ -176,7 +176,7 @@ public class FileAppStorageConfigWebController {
         FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
         List<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigListByQuery(queryEnum,fileAppStorageConfigRequestDto);
         if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList());
+            out.write( new ArrayList<>());
             return ;
         }
 
@@ -379,7 +379,8 @@ public class FileAppStorageConfigWebController {
 
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigQueryRequestVo);
 
-        Pager pager = Pager.build().toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
+        Pager<FileAppStorageConfigRequestDto> pager = Pager.build();
+        pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
 
         FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;

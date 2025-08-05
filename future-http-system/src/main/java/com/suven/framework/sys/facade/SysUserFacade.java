@@ -235,7 +235,7 @@ public class SysUserFacade {
 	public ResponseResultPageVo getSysUserList(Pager page) {
 		ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page,SysUserQueryEnum.DESC_ID);
 		if (null == resultList || resultList.getList().isEmpty()) {
-			return new ResponseResultPageVo();
+			return new ResponseResultPageVo<>();
 		}
 		List<Long> userIds = new ArrayList<>(); //后面处理等级等信息
 		List<SysUserResponseVo> listVo = new ArrayList<>();
@@ -243,7 +243,8 @@ public class SysUserFacade {
 			userIds.add(e.getId());
 			listVo.add(SysUserResponseVo.build().clone(e));
 		});
-		ResponseResultPageVo result = new ResponseResultPageVo().toList(listVo)
+		ResponseResultPageVo<SysUserResponseVo> result = new ResponseResultPageVo<>();
+		result.toList(listVo)
 				.toIsNextPage(resultList.getIsNextPage())
 				.toPageIndex(resultList.getPageIndex())
 				.toTotal(resultList.getTotal())
