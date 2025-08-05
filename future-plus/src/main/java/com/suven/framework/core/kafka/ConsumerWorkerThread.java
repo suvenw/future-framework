@@ -2,6 +2,7 @@ package com.suven.framework.core.kafka;
 
 import com.suven.framework.core.spring.SpringUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.common.protocol.types.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,17 +22,17 @@ import java.util.Optional;
  */
 
 
-public class ConsumerWorkerThread implements Runnable {
+public class ConsumerWorkerThread<T> implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private final ConsumerRecord<String, String> consumerRecord;
-    private final KafkaConsumerAbstractHandler kafkaConsumerHandler;
+    private final KafkaConsumerAbstractHandler<T> kafkaConsumerHandler;
 
 
-    public ConsumerWorkerThread(ConsumerRecord record,KafkaConsumerAbstractHandler kafkaConsumerHandler) {
+    public ConsumerWorkerThread(ConsumerRecord<String, String> record, KafkaConsumerAbstractHandler<T> kafkaConsumerHandler) {
        this.consumerRecord = record;
-       KafkaConsumerAbstractHandler consumer = SpringUtil.getBean(kafkaConsumerHandler.getClass());
+       KafkaConsumerAbstractHandler<T> consumer = SpringUtil.getBean(kafkaConsumerHandler.getClass());
        this.kafkaConsumerHandler = consumer;
 
    }
@@ -63,14 +64,14 @@ public class ConsumerWorkerThread implements Runnable {
 //        return clazz;
 //    }
 
-    private Class getParameterType(){
+    private Class<T> getParameterType(){
         Method[] methods = kafkaConsumerHandler.getClass().getDeclaredMethods();
         for(Method method : methods){
             Class[] parameterClasses = method.getParameterTypes();
             if(!"executeConsumer".equals(method.getName())|| parameterClasses==null || parameterClasses.length < 1){
                 continue;
             }
-            Class parameterType = parameterClasses[0];
+            Class<T> parameterType = parameterClasses[0];
             if(parameterType == Object.class){
                 continue;
             }

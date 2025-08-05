@@ -62,7 +62,7 @@ public abstract class RocketMQConsumerAbstractHandler<T> implements RocketMQList
 
                 Type genType = getClass().getGenericSuperclass();
                 Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-                entityClass =  (Class)params[0];
+                entityClass =  (Class<T>)params[0];
                 T data = serializable(body,entityClass);
                 onSuccessService(data);
                 delCheckRedisKey(globalId);

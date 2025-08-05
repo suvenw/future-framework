@@ -59,7 +59,7 @@ public class KafkaProducerService {
             message.setValue(value + " " +i);
             message2.setValue(value2 + "-------" +i);
             this.send(message);
-            list.add(message2);
+            list.add(message2)
             if(i%10==0){
                 this.send(message2,list.toArray());
                 list.clear();
