@@ -1,7 +1,7 @@
 package com.suven.framework.util.tool;
 
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.IBaseApi;
-import org.apache.commons.collections.ObjectTrues;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,7 @@ public class IoUtilConverter {
      * @return
      */
     public static  <T extends IBaseApi> Map<Long,T> listConverterMap(List<T> list){
-        if(ObjectTrues.isNotEmpty(list)){
+        if(ObjectTrue.isNotEmpty(list)){
             return Collections.emptyMap();
         }
         return list.stream().collect(Collectors.toMap(T::getId, entity -> entity));
@@ -30,7 +30,7 @@ public class IoUtilConverter {
      * @return
      */
     public  static <T extends IBaseApi> Map<Long,List<T>> listConverterMapGroup(List<T> list){
-        if(ObjectTrues.isNotEmpty(list)){
+        if(ObjectTrue.isNotEmpty(list)){
             return Collections.emptyMap();
         }
         return list.stream().collect(Collectors.groupingBy(T::getId));
