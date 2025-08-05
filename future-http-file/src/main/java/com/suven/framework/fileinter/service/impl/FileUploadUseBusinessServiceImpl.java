@@ -317,7 +317,6 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      */
     @Override
     public ResponseResultPageVo<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultPage = new ResponseResultPageVo();
         Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
@@ -327,7 +326,8 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
         }
         List<FileUploadUseBusinessResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadUseBusinessResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = new ResponseResultPageVo<>();
+        resultList.convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 

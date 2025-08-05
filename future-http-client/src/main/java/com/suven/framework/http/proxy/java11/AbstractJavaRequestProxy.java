@@ -119,6 +119,7 @@ public abstract class AbstractJavaRequestProxy extends AbstractHttpProxy impleme
      * @throws IOException 返回网络请求异常信息
      */
     @Override
+    @SuppressWarnings("unchecked")
     public HttpClientResponse getHttpClientResponse(Object httpResponse, HttpResponseBodyHandler responseBodyHandler) throws IOException {
         HttpResponse<String> response = ( HttpResponse<String>)httpResponse;
         int code = response.statusCode();

@@ -130,7 +130,7 @@ public class SysDepartWebController {
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
          SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDepartResponseDto> resultList = sysDepartService.getSysDepartByNextPage(page,queryEnum);
@@ -140,8 +140,8 @@ public class SysDepartWebController {
         }
 
         List<SysDepartShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
@@ -169,7 +169,7 @@ public class SysDepartWebController {
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DEPART_NAME;
         List<SysDepartResponseDto> resultList = sysDepartService.getSysDepartListByQuery(page,queryEnum);
@@ -403,7 +403,7 @@ public class SysDepartWebController {
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build().clone(sysDepartQueryRequestVo);
 
         Pager page =  Pager.build();
-        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
 
         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;

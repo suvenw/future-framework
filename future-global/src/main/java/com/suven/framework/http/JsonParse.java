@@ -65,7 +65,7 @@ public class JsonParse {
 			headers.putAll(headerMap);
 		}
 		try {
-			T header = headerClass.newInstance();
+			T header = headerClass.getDeclaredConstructor().newInstance();
 			Field[] fields = FieldUtils.getAllFields(headerClass);
 			for (Field field : fields) {
 				try {
@@ -108,7 +108,7 @@ public class JsonParse {
 
 	public static <T> T parseFrom( Map map,  final Class<T> clazz) throws Exception {
 
-		T instance= clazz.newInstance();
+		T instance= clazz.getDeclaredConstructor().newInstance();
 		List<Field> fields = FieldUtils.getAllFieldsList(clazz);
 		for (Field field : fields) {
 			String fieldName = field.getName();

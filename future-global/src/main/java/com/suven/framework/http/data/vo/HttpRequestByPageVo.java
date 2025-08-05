@@ -32,14 +32,14 @@ public class HttpRequestByPageVo extends HttpFromRequestVo {
 
 
 
-
+    @SuppressWarnings("unchecked")
     public <T extends HttpRequestByPageVo> T  toStatus(int status) {
         this.status = status;
         return (T)this;
     }
 
 
-
+    @SuppressWarnings("unchecked")
     public <T extends HttpRequestByPageVo> T  toSort(int sort) {
         this.sort = sort;
         return (T)this;
