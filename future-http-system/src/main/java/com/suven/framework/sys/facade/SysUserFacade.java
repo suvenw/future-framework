@@ -43,9 +43,9 @@ import static com.suven.framework.common.enums.SysResultCodeEnum.SYS_AUTH_ACCESS
 
 
 /**   
- * @Title: SysUserFacade.java
+ * Title: SysUserFacade.java
  * @author xxx.xxx
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0  
  *  <pre>
  * 修改记录

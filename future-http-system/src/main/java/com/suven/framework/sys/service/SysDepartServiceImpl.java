@@ -33,11 +33,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysDepartServiceImpl.java
+ * ClassName: SysDepartServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:31
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:31
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 组织机构表 RPC业务接口逻辑实现类
@@ -257,7 +257,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:13:31
+   * date 2022-02-28 16:13:31
    */
   @Override
   public List<SysDepartResponseDto> getSysDepartListByQuery( Object  paramObject, SysDepartQueryEnum queryEnum){
@@ -279,7 +279,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<SysDepartResponseDto> getSysDepartListByPage(Pager page, SysDepartQueryEnum queryEnum){
@@ -304,7 +304,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public ResponseResultPageVo<SysDepartResponseDto> getSysDepartByQueryPage(Pager page, SysDepartQueryEnum queryEnum){
@@ -329,7 +329,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public ResponseResultPageVo<SysDepartResponseDto> getSysDepartByNextPage(Pager page, SysDepartQueryEnum queryEnum){
@@ -354,7 +354,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<SysDepartResponseDto> getSysDepartByIdList(Collection<Long> idList){

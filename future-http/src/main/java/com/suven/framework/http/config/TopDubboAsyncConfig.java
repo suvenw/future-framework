@@ -8,9 +8,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @ClassName:
  * Description:
  * @Author lixiangling
- * @Date 2018/7/26 21:37
+ * date 2018/7/26 21:37
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  * --------------------------------------------------------
  * modifyer    modifyTime                 comment
  * <p>

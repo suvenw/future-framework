@@ -7,10 +7,10 @@
 package com.suven.framework.common.platform;
 
 /** 
- * @ClassName: FingerJMSMessage 
+ * ClassName: FingerJMSMessage
  * Description: TODO(这里用一句话描述这个类的作用)
  * @author Carson yuchanghong@tydic.com 
- * @date 2015-4-30 下午2:50:16 
+ * date 2015-4-30 下午2:50:16
  *  
  */
 public class FingerJMSMessage {

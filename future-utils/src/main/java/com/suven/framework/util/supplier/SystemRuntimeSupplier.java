@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 /**
  * @author Created by 陈淦彬
- * @date 2022/8/3
+ * date 2022/8/3
  */
 public class SystemRuntimeSupplier implements Supplier<SystemRuntimeException> {
     SystemRuntimeException exception;

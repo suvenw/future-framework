@@ -4,10 +4,10 @@ import com.suven.framework.http.api.ApiPackages;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2021-12-23
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2021-12-23
  * @WeeK 星期: 星期四
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  文档扫描包根文目录

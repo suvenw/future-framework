@@ -11,10 +11,10 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2022-01-13
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2022-01-13
  * @WeeK 星期: 星期四
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  类型属性验证类

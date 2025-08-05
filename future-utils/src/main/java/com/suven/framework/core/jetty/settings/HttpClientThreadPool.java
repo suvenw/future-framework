@@ -10,9 +10,9 @@ import java.util.concurrent.Executors;
 
 
 /**
- * @Title: HttpClientThreadPool.java
+ * Title: HttpClientThreadPool.java
  * @author suven
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  * Description: (说明)    注意：这个线程池只给关注关系使用
  * Copyright: (c) 2018 gc by https://www.suven.top

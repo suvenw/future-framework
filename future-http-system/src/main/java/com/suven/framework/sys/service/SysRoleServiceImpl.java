@@ -31,11 +31,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysRoleServiceImpl.java
+ * ClassName: SysRoleServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:43
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:43
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色表 RPC业务接口逻辑实现类
@@ -261,7 +261,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:10:43
+   * date 2022-02-28 16:10:43
    */
   @Override
   public List<SysRoleResponseDto> getSysRoleListByQuery( Object  paramObject, SysRoleQueryEnum queryEnum){
@@ -283,7 +283,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     @Override
     public List<SysRoleResponseDto> getSysRoleListByPage(Pager page, SysRoleQueryEnum queryEnum){
@@ -308,7 +308,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     @Override
     public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum){
@@ -333,7 +333,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     @Override
     public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum){
@@ -384,7 +384,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<SysRoleResponseDto> getSysDepartByIdList(Collection<Long> idList){

@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2023-02-03
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2023-02-03
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  api请求参数转换后的请求参数对象

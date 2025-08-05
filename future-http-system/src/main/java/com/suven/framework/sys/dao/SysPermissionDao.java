@@ -24,11 +24,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysPermissionDao.java
+ * ClassName: SysPermissionDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:30
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:30
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限表 的数据库查询逻辑实现类
@@ -66,7 +66,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
      * 保存创建SysPermission,并且保存到缓存中
      * @param sysPermission
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
 
     public SysPermission saveId(SysPermission sysPermission){
@@ -86,7 +86,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
          * 保存创建SysPermission,并且保存到缓存中
          * @param sysPermission
          * @author suven
-         * @date 2022-02-28 16:10:30
+         * date 2022-02-28 16:10:30
          */
 
         public SysPermission saveToId(SysPermission sysPermission){
@@ -106,7 +106,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
      * 批量保存创建SysPermission,并且保存到缓存中
      * @param sysPermissionList
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     public boolean saveBatchId(List<SysPermission> sysPermissionList){
             if(null == sysPermissionList)
@@ -129,7 +129,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     public List<SysPermission> getListByPage(IPage<SysPermission> iPage, QueryWrapper<SysPermission> queryWrapper ){
 
@@ -158,7 +158,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     public List<SysPermission> getListByQuery( QueryWrapper<SysPermission> queryWrapper ){
 
@@ -183,7 +183,7 @@ public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, Sy
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     public QueryWrapper<SysPermission> builderQueryEnum(SysPermissionQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysPermission> queryWrapper = new QueryWrapper<>();

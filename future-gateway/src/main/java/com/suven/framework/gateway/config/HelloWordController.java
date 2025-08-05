@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author : jiagang
- * @date : Created in 2022/7/20 9:38
+ * date : Created in 2022/7/20 9:38
  */
 @RestController
 @RequestMapping("test")

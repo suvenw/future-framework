@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysPositionServiceImpl.java
+ * ClassName: SysPositionServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:52
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:52
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description:  RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:13:52
+   * date 2022-02-28 16:13:52
    */
   @Override
   public List<SysPositionResponseDto> getSysPositionListByQuery( Object  paramObject, SysPositionQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     @Override
     public List<SysPositionResponseDto> getSysPositionListByPage(Pager page, SysPositionQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     @Override
     public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     @Override
     public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum){

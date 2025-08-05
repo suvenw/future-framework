@@ -7,12 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @ClassName: ROCKET_MQ队列配置
+ * ClassName: ROCKET_MQ队列配置
  * Description:
  * @Author lixiangling
- * @Date 2018/5/23 9:36
+ * date 2018/5/23 9:36
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  * --------------------------------------------------------
  * modifyer    modifyTime                 comment
  *
@@ -21,9 +21,9 @@ import java.util.Map;
 
 
 /**
- * @Title: RocketMQMessage.java
+ * Title: RocketMQMessage.java
  * @author Joven.wang
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录

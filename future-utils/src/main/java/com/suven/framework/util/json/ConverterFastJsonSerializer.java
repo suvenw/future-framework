@@ -23,7 +23,7 @@ public class ConverterFastJsonSerializer {
      * LocalDateTime 序列化（将 LocalDateTime类型 转换为 时间戳 返回给前端 ）
      *
      * @author Chimm Huang
-     * @date 2020/3/7
+     * date 2020/3/7
      */
     public static class LocalDateTimeSerializer implements ObjectSerializer {
         @Override
@@ -43,7 +43,7 @@ public class ConverterFastJsonSerializer {
      * LocalDateTime 反序列化（将前端传递的 时间戳 转换为 LocalDateTime 类型）
      *
      * @author Chimm Huang
-     * @date 2020/3/7
+     * date 2020/3/7
      */
     public static class LocalDateTimeDeserializer implements ObjectDeserializer {
 

@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysDepartRoleUserServiceImpl.java
+ * ClassName: SysDepartRoleUserServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:21
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:21
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色用户表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:14:21
+   * date 2022-02-28 16:14:21
    */
   @Override
   public List<SysDepartRoleUserResponseDto> getSysDepartRoleUserListByQuery( Object  paramObject, SysDepartRoleUserQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     @Override
     public List<SysDepartRoleUserResponseDto> getSysDepartRoleUserListByPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     @Override
     public ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     @Override
     public ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){

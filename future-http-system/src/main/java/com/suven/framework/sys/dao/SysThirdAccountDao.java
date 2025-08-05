@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysThirdAccountDao.java
+ * ClassName: SysThirdAccountDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:47
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:47
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 第三方登陆表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
      * 保存创建SysThirdAccount,并且保存到缓存中
      * @param sysThirdAccount
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
 
     public SysThirdAccount saveId(SysThirdAccount sysThirdAccount){
@@ -83,7 +83,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
          * 保存创建SysThirdAccount,并且保存到缓存中
          * @param sysThirdAccount
          * @author suven
-         * @date 2022-02-28 16:09:47
+         * date 2022-02-28 16:09:47
          */
 
         public SysThirdAccount saveToId(SysThirdAccount sysThirdAccount){
@@ -103,7 +103,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
      * 批量保存创建SysThirdAccount,并且保存到缓存中
      * @param sysThirdAccountList
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     public boolean saveBatchId(List<SysThirdAccount> sysThirdAccountList){
             if(null == sysThirdAccountList)
@@ -126,7 +126,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     public List<SysThirdAccount> getListByPage(IPage<SysThirdAccount> iPage, QueryWrapper<SysThirdAccount> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     public List<SysThirdAccount> getListByQuery( QueryWrapper<SysThirdAccount> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysThirdAccountDao extends AbstractMyBatisDao<SysThirdAccountMapper
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     public QueryWrapper<SysThirdAccount> builderQueryEnum(SysThirdAccountQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysThirdAccount> queryWrapper = new QueryWrapper<>();

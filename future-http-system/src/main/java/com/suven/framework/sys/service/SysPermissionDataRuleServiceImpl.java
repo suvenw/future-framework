@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysPermissionDataRuleServiceImpl.java
+ * ClassName: SysPermissionDataRuleServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:35
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:35
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限规则表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:10:35
+   * date 2022-02-28 16:10:35
    */
   @Override
   public List<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleListByQuery( Object  paramObject, SysPermissionDataRuleQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     @Override
     public List<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleListByPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     @Override
     public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     @Override
     public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){

@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysPermissionDataRuleDao.java
+ * ClassName: SysPermissionDataRuleDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:35
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:35
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限规则表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
      * 保存创建SysPermissionDataRule,并且保存到缓存中
      * @param sysPermissionDataRule
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
 
     public SysPermissionDataRule saveId(SysPermissionDataRule sysPermissionDataRule){
@@ -83,7 +83,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
          * 保存创建SysPermissionDataRule,并且保存到缓存中
          * @param sysPermissionDataRule
          * @author suven
-         * @date 2022-02-28 16:10:35
+         * date 2022-02-28 16:10:35
          */
 
         public SysPermissionDataRule saveToId(SysPermissionDataRule sysPermissionDataRule){
@@ -103,7 +103,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
      * 批量保存创建SysPermissionDataRule,并且保存到缓存中
      * @param sysPermissionDataRuleList
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     public boolean saveBatchId(List<SysPermissionDataRule> sysPermissionDataRuleList){
             if(null == sysPermissionDataRuleList)
@@ -126,7 +126,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     public List<SysPermissionDataRule> getListByPage(IPage<SysPermissionDataRule> iPage, QueryWrapper<SysPermissionDataRule> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     public List<SysPermissionDataRule> getListByQuery( QueryWrapper<SysPermissionDataRule> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysPermissionDataRuleDao extends AbstractMyBatisDao<SysPermissionDa
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:35
+     * date 2022-02-28 16:10:35
      */
     public QueryWrapper<SysPermissionDataRule> builderQueryEnum(SysPermissionDataRuleQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysPermissionDataRule> queryWrapper = new QueryWrapper<>();

@@ -10,7 +10,7 @@ import javax.net.ssl.X509TrustManager;
 * @ClassName: MyX509TrustManager
 * Description: 证书信任管理器（用于https请求）
 * @author tluo
-* @date 2015年12月16日 下午7:17:05
+* date 2015年12月16日 下午7:17:05
  */
 public class MyX509TrustManager implements X509TrustManager {
 

@@ -3,8 +3,8 @@ package com.suven.framework.common.enums;
 /**
  * @author Joven.wang
  * @version V1.0
- * @Title: GlobalServiceInfo.java
- * @date 2019年2月20日
+ * Title: GlobalServiceInfo.java
+ * date 2019年2月20日
  * Description: TODO(说明)
  * 账号是否可用的属性值枚举类
  */

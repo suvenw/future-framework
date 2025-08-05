@@ -11,7 +11,7 @@ import java.util.Map;
  * 11.苹果PAD ,12.安卓PAD, 13.windowPAD, 15.小程序PAD, 16.H5移动端PAD
  * @CreateDate 2018-11-15  12:45
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 public enum PlatformEnum {
     DEFAULT(0,"缺省平台"),

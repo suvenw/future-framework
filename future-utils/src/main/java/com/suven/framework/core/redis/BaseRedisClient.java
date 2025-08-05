@@ -20,9 +20,9 @@
 //import java.util.Map.Entry;
 //
 ///**
-// * @Title: BaseredisClusterServer.java
+// * Title: BaseredisClusterServer.java
 // * @author Joven.wang
-// * @date 2015年2月10日
+// * date 2015年2月10日
 // * @version V1.0
 // * Description: TODO(说明) 对象缓存统一模板实现类; 方法名,命名规范: 保存,更新:addCacheXxx ;
 // *               查找:findCacheXxx; 删除:delCacheXxx
@@ -77,12 +77,12 @@
 //	}
 //
 //	/**
-//	 * @Title:
+//	 * Title:
 //	 * Description: redis中value为int值加1
 //	 * @param
 //	 * @return
 //	 * @author liulu
-//	 * @date 2018/5/31 11:17
+//	 * date 2018/5/31 11:17
 //	 */
 //	public long generateAdd(String key){
 //		if(StringUtils.isEmpty(key)){
@@ -92,12 +92,12 @@
 //	}
 //
 //	/**
-//	 * @Title:
+//	 * Title:
 //	 * Description: redis中value为int值减1
 //	 * @param
 //	 * @return
 //	 * @author liulu
-//	 * @date 2018/5/31 11:17
+//	 * date 2018/5/31 11:17
 //	 */
 //	public long generateSubtract(String key){
 //		if(StringUtils.isEmpty(key)){
@@ -107,12 +107,12 @@
 //	}
 //
 //	/**
-//	 * @Title:
+//	 * Title:
 //	 * Description: redis中value为int值加1,有效时间
 //	 * @param
 //	 * @return
 //	 * @author liulu
-//	 * @date 2018/5/31 11:17
+//	 * date 2018/5/31 11:17
 //	 */
 //	public long generateAdd(String key,int time,boolean refreshTime){
 //		if(StringUtils.isEmpty(key)){
@@ -122,12 +122,12 @@
 //	}
 //
 //	/**
-//	 * @Title:
+//	 * Title:
 //	 * Description: redis中value为int值减1
 //	 * @param
 //	 * @return
 //	 * @author liulu
-//	 * @date 2018/5/31 11:17
+//	 * date 2018/5/31 11:17
 //	 */
 //	public long generateSubtract(String key,int time,boolean refreshTime){
 //		if(StringUtils.isEmpty(key)){
@@ -551,7 +551,7 @@
 //
 //
 //	/**
-//	 * @Title:
+//	 * Title:
 //	 * Description: 设备控制并发锁的的过期时间
 //	 * @param
 //	 * @return
@@ -1207,7 +1207,7 @@
 //	}
 //
 //	/**
-//	 * @Title: getFieldValueByName
+//	 * Title: getFieldValueByName
 //	 * Description: TODO 获取对象o的fieldName属性值，不存在则抛出异常
 //	 */
 //	private Object getFieldValueByName(String fieldName, Object o) {

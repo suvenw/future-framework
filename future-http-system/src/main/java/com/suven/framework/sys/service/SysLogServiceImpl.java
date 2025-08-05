@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysLogServiceImpl.java
+ * ClassName: SysLogServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:19
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:19
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysLogServiceImpl  implements SysLogService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:10:19
+   * date 2022-02-28 16:10:19
    */
   @Override
   public List<SysLogResponseDto> getSysLogListByQuery( Object  paramObject, SysLogQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysLogServiceImpl  implements SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     @Override
     public List<SysLogResponseDto> getSysLogListByPage(Pager page, SysLogQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysLogServiceImpl  implements SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     @Override
     public ResponseResultPageVo<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysLogServiceImpl  implements SysLogService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     @Override
     public ResponseResultPageVo<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum){

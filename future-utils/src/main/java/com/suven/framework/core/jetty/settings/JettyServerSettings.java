@@ -11,9 +11,9 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * @Title: JettyServerSettings.java
+ * Title: JettyServerSettings.java
  * @author suven
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  * Description: (说明)  jetty service 服务启动环境配置类
  * Copyright: (c) 2018 gc by https://www.suven.top

@@ -31,11 +31,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysPermissionServiceImpl.java
+ * ClassName: SysPermissionServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:30
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:30
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限表 RPC业务接口逻辑实现类
@@ -260,7 +260,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:10:30
+   * date 2022-02-28 16:10:30
    */
   @Override
   public List<SysPermissionResponseDto> getSysPermissionListByQuery( Object  paramObject, SysPermissionQueryEnum queryEnum){
@@ -282,7 +282,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     @Override
     public List<SysPermissionResponseDto> getSysPermissionListByPage(Pager page, SysPermissionQueryEnum queryEnum){
@@ -307,7 +307,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     @Override
     public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum){
@@ -332,7 +332,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      */
     @Override
     public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum){

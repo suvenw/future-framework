@@ -12,11 +12,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDataLogMapper.java
+ * ClassName: SysDataLogMapper.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:02
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:02
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description:  的数据库sql编写实现类

@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysDepartPermissionServiceImpl.java
+ * ClassName: SysDepartPermissionServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:27
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:27
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门权限表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:14:27
+   * date 2022-02-28 16:14:27
    */
   @Override
   public List<SysDepartPermissionResponseDto> getSysDepartPermissionListByQuery( Object  paramObject, SysDepartPermissionQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      */
     @Override
     public List<SysDepartPermissionResponseDto> getSysDepartPermissionListByPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      */
     @Override
     public ResponseResultPageVo<SysDepartPermissionResponseDto> getSysDepartPermissionByQueryPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:27
+     * date 2022-02-28 16:14:27
      */
     @Override
     public ResponseResultPageVo<SysDepartPermissionResponseDto> getSysDepartPermissionByNextPage(Pager page, SysDepartPermissionQueryEnum queryEnum){

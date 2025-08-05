@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * @ClassName:   Page 
+ * ClassName:   Page
  * @author       Joven.wang 
- * @date         2014年7月28日
+ * date         2014年7月28日
  * @version      V1.0.0 
  * Description: (作用描述) 
  *  页码初始大小1，页码数大小100条

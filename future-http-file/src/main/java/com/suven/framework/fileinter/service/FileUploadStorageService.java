@@ -116,7 +116,7 @@ public interface FileUploadStorageService {
     * @param paramObject Object
     * @return 返回列表对象列表
     * @author suven
-    * @date 2024-04-18 23:55:18
+    * date 2024-04-18 23:55:18
     */
     List<FileUploadStorageResponseDto> getFileUploadStorageListByQuery(FileUploadStorageQueryEnum queryEnum,Object  paramObject);
 

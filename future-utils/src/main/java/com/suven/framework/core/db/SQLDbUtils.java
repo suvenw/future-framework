@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Title: Dbutils.java
+ * Title: Dbutils.java
  * @author Joven.wang
- * @date 2016年1月21日
+ * date 2016年1月21日
  * @version V1.0
  * Description: TODO(说明)
  */

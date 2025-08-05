@@ -8,7 +8,7 @@ package com.suven.framework.http.inters;
  * @Description //TODO ${END}$
  * @CreateDate 2018-11-15  12:45
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 
 public interface ProjectModuleParameter {

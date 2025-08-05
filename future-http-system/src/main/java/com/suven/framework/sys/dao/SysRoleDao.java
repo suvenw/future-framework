@@ -23,11 +23,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysRoleDao.java
+ * ClassName: SysRoleDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:43
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:43
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色表 的数据库查询逻辑实现类
@@ -65,7 +65,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
      * 保存创建SysRole,并且保存到缓存中
      * @param sysRole
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
 
     public SysRole saveId(SysRole sysRole){
@@ -85,7 +85,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
          * 保存创建SysRole,并且保存到缓存中
          * @param sysRole
          * @author suven
-         * @date 2022-02-28 16:10:43
+         * date 2022-02-28 16:10:43
          */
 
         public SysRole saveToId(SysRole sysRole){
@@ -105,7 +105,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
      * 批量保存创建SysRole,并且保存到缓存中
      * @param sysRoleList
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     public boolean saveBatchId(List<SysRole> sysRoleList){
             if(null == sysRoleList)
@@ -128,7 +128,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     public List<SysRole> getListByPage(IPage<SysRole> iPage, QueryWrapper<SysRole> queryWrapper ){
 
@@ -157,7 +157,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     public List<SysRole> getListByQuery( QueryWrapper<SysRole> queryWrapper ){
 
@@ -182,7 +182,7 @@ public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> imple
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      */
     public QueryWrapper<SysRole> builderQueryEnum(SysRoleQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();

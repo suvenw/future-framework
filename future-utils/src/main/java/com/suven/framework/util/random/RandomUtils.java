@@ -11,9 +11,9 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 /** 
- * @ClassName: RandomUtils 
+ * ClassName: RandomUtils
  * Description: TODO(这里用一句话描述这个类的作用) 
- * @date 2015-4-14 下午2:27:21
+ * date 2015-4-14 下午2:27:21
  *  
  */
 public class RandomUtils {
@@ -21,7 +21,7 @@ public class RandomUtils {
 	private static final Random random = new Random();
 	/**
 	 * 
-	 * @Title: randomUUID 
+	 * Title: randomUUID 
 	 * Description: TODO(这里用一句话描述这个方法的作用) 
 	 * @param @return    设定文件 
 	 * @return String    返回类型 

@@ -7,8 +7,8 @@ import java.util.Map;
 /**
  * @author Joven.wang
  * @version V1.0
- * @Title: GlobalServiceInfo.java
- * @date 2019年2月20日
+ * Title: GlobalServiceInfo.java
+ * date 2019年2月20日
  * Description: TODO(说明)
  * 订单支付类型属性值枚举类, 包括:1.支付宝支付 ,2.银联支付, 3.微信支付, 4.财付通支付, 5.钱包支付
  */

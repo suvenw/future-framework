@@ -11,9 +11,9 @@
 // * @ClassName:DubboSentinelConfigSetting.java
 // * Description:
 // * @Author suven.wang
-// * @Date 2018/9/4 14:12
+// * date 2018/9/4 14:12
 // * Copyright: (c) 2018 gc by https://www.suven.top
-// * @Version : 1.0.0
+// * @version : 1.0.0
 // * --------------------------------------------------------
 // * modifyer    modifyTime                 comment
 // * <p>

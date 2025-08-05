@@ -12,11 +12,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDictMapper.java
+ * ClassName: SysDictMapper.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:09
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:09
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 后台字典类型表 的数据库sql编写实现类

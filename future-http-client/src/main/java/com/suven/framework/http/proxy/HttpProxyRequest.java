@@ -6,9 +6,9 @@ import okhttp3.MediaType;
 import java.util.Objects;
 
 /**
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2023-03-21
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2023-03-21
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  http 网络请求,个性业务参数扩张请求接口类

@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysLogDao.java
+ * ClassName: SysLogDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:19
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:19
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
      * 保存创建SysLog,并且保存到缓存中
      * @param sysLog
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
 
     public SysLog saveId(SysLog sysLog){
@@ -83,7 +83,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
          * 保存创建SysLog,并且保存到缓存中
          * @param sysLog
          * @author suven
-         * @date 2022-02-28 16:10:19
+         * date 2022-02-28 16:10:19
          */
 
         public SysLog saveToId(SysLog sysLog){
@@ -103,7 +103,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
      * 批量保存创建SysLog,并且保存到缓存中
      * @param sysLogList
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     public boolean saveBatchId(List<SysLog> sysLogList){
             if(null == sysLogList)
@@ -126,7 +126,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     public List<SysLog> getListByPage(IPage<SysLog> iPage, QueryWrapper<SysLog> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     public List<SysLog> getListByQuery( QueryWrapper<SysLog> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implemen
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      */
     public QueryWrapper<SysLog> builderQueryEnum(SysLogQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysLog> queryWrapper = new QueryWrapper<>();

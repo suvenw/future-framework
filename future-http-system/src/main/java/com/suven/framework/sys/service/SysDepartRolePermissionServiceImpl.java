@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysDepartRolePermissionServiceImpl.java
+ * ClassName: SysDepartRolePermissionServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:36
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:36
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色权限表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:13:36
+   * date 2022-02-28 16:13:36
    */
   @Override
   public List<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionListByQuery( Object  paramObject, SysDepartRolePermissionQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     @Override
     public List<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionListByPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     @Override
     public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     @Override
     public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){

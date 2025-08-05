@@ -9,11 +9,11 @@ import java.lang.annotation.*;
  */
 
 /**
- * @ClassName: PickLog.java
+ * ClassName: PickLog.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-12-20 10:56:17
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-12-20 10:56:17
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志注解

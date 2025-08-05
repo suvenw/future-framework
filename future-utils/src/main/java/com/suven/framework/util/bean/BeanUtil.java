@@ -24,9 +24,9 @@ import java.util.*;
 
 
 /**
- * @Title: XmlSerializer.java
+ * Title: XmlSerializer.java
  * @author Joven.wang
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录
@@ -419,9 +419,9 @@ public class BeanUtil {
 	 * @ClassName:
 	 * Description:
 	 * @Author lixiangling
-	 * @Date 2018/7/26 9:17
+	 * date 2018/7/26 9:17
 	 * Copyright: (c) 2018 gc by https://www.suven.top
-	 * @Version : 1.0.0
+	 * @version : 1.0.0
 	 * --------------------------------------------------------
 	 * modifyer    modifyTime                 comment
 	 * <p>

@@ -116,7 +116,7 @@ public interface FileAppStorageConfigService {
     * @param paramObject Object
     * @return 返回列表对象列表
     * @author suven
-    * @date 2024-04-19 00:21:54
+    * date 2024-04-19 00:21:54
     */
     List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByQuery(FileAppStorageConfigQueryEnum queryEnum,Object  paramObject);
 

@@ -10,11 +10,11 @@ import com.suven.framework.http.data.entity.BaseByTimeEntity;
 import com.suven.framework.http.api.ApiDesc;
 
 /**
- * @ClassName: SysUserResponseDto.java
+ * ClassName: SysUserResponseDto.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:37
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:37
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户表 RPC业务接口交互数据返回实现类

@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysDepartRolePermissionService.java
+ * ClassName: SysDepartRolePermissionService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:36
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:36
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色权限表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysDepartRolePermissionService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:13:36
+    * date 2022-02-28 16:13:36
     */
     List<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionListByQuery(Object  paramObject, SysDepartRolePermissionQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysDepartRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     List<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionListByPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysDepartRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysDepartRolePermissionService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:36
+     * date 2022-02-28 16:13:36
      */
     ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
 

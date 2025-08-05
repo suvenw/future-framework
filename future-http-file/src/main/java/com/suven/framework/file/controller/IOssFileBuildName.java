@@ -1,10 +1,10 @@
 package com.suven.framework.file.controller;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2021-05-11
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2021-05-11
  * @WeeK 星期: 星期二
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  生成阿里oss文件名称的实现方法接口

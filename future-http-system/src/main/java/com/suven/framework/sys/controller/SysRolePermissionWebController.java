@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 
 
 /**
- * @ClassName: SysRolePermissionWebController.java
+ * ClassName: SysRolePermissionWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:49
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:49
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色权限表 的控制服务类
@@ -59,7 +59,7 @@ import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysRolePermission")
+ * RequestMapping("/sys/sysRolePermission")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -85,10 +85,10 @@ public class SysRolePermissionWebController {
     private SysRolePermissionService  sysRolePermissionService;
 
     /**
-     * @Title: 跳转到角色权限表主界面
+     * Title: 跳转到角色权限表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -102,13 +102,13 @@ public class SysRolePermissionWebController {
 
 
     /**
-     * @Title: 获取角色权限表分页信息
+     * Title: 获取角色权限表分页信息
      * Description:sysRolePermissionQueryRequestVo @{Link SysRolePermissionQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysRolePermissionShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -142,12 +142,12 @@ public class SysRolePermissionWebController {
     }
 
 /**
-     * @Title: 根据条件查谒角色权限表分页信息
+     * Title: 根据条件查谒角色权限表分页信息
      * Description:sysRolePermissionQueryRequestVo @{Link SysRolePermissionQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysRolePermissionShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -181,12 +181,12 @@ public class SysRolePermissionWebController {
 
 
     /**
-     * @Title: 新增角色权限表信息
+     * Title: 新增角色权限表信息
      * Description:sysRolePermissionAddRequestVo @{Link SysRolePermissionAddRequestVo}
      * @param sysRolePermissionAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -212,12 +212,12 @@ public class SysRolePermissionWebController {
         out.write( sysRolePermissionresponseDto.getId());
     }
     /**
-     * @Title: 修改角色权限表信息
+     * Title: 修改角色权限表信息
      * Description:sysRolePermissionAddRequestVo @{Link SysRolePermissionAddRequestVo}
      * @param  sysRolePermissionAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -243,12 +243,12 @@ public class SysRolePermissionWebController {
     }
 
     /**
-     * @Title: 查看角色权限表信息
+     * Title: 查看角色权限表信息
      * Description:sysRolePermissionRequestVo @{Link SysRolePermissionRequestVo}
      * @param
      * @return  SysRolePermissionResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -272,12 +272,12 @@ public class SysRolePermissionWebController {
 
 
     /**
-     * @Title: 跳转角色权限表编辑界面
+     * Title: 跳转角色权限表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysRolePermissionShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +302,12 @@ public class SysRolePermissionWebController {
 
 
     /**
-     * @Title: 跳转角色权限表新增编辑界面
+     * Title: 跳转角色权限表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -320,12 +320,12 @@ public class SysRolePermissionWebController {
     }
 
     /**
-     * @Title: 删除角色权限表信息
+     * Title: 删除角色权限表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -350,12 +350,12 @@ public class SysRolePermissionWebController {
 
 
     /**
-     * @Title: 导出角色权限表信息
+     * Title: 导出角色权限表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:49
+     * date 2022-02-28 16:10:49
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

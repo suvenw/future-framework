@@ -32,11 +32,11 @@ import com.suven.framework.util.excel.ExcelUtils;
 
 
 /**
- * @ClassName: SysThirdAccountServiceImpl.java
+ * ClassName: SysThirdAccountServiceImpl.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:47
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:47
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 第三方登陆表 RPC业务接口逻辑实现类
@@ -256,7 +256,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
    * @param paramObject Object
    * @return
    * @author suven
-   * @date 2022-02-28 16:09:47
+   * date 2022-02-28 16:09:47
    */
   @Override
   public List<SysThirdAccountResponseDto> getSysThirdAccountListByQuery( Object  paramObject, SysThirdAccountQueryEnum queryEnum){
@@ -278,7 +278,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     @Override
     public List<SysThirdAccountResponseDto> getSysThirdAccountListByPage(Pager page, SysThirdAccountQueryEnum queryEnum){
@@ -303,7 +303,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     @Override
     public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum){
@@ -328,7 +328,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:09:47
+     * date 2022-02-28 16:09:47
      */
     @Override
     public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum){

@@ -15,11 +15,11 @@ import com.suven.framework.http.data.vo.ResponseResultPageVo;
 
 
 /**
- * @ClassName: SysDepartRoleUserService.java
+ * ClassName: SysDepartRoleUserService.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:14:21
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:14:21
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 部门角色用户表 RPC业务接口逻辑实现类
@@ -118,7 +118,7 @@ public interface SysDepartRoleUserService {
     * @param paramObject Object
     * @return
     * @author suven
-    * @date 2022-02-28 16:14:21
+    * date 2022-02-28 16:14:21
     */
     List<SysDepartRoleUserResponseDto> getSysDepartRoleUserListByQuery(Object  paramObject, SysDepartRoleUserQueryEnum queryEnum);
 
@@ -128,7 +128,7 @@ public interface SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     List<SysDepartRoleUserResponseDto> getSysDepartRoleUserListByPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
 
@@ -140,7 +140,7 @@ public interface SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
 
@@ -149,7 +149,7 @@ public interface SysDepartRoleUserService {
      * @param page BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:14:21
+     * date 2022-02-28 16:14:21
      */
     ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
 

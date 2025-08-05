@@ -5,9 +5,9 @@ package com.suven.framework.http.client;
 import java.io.Serializable;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2019-10-18 12:35:25
- * @Version 版本: v1.0.0
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2019-10-18 12:35:25
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  http get 接口公共基础参数实现类;

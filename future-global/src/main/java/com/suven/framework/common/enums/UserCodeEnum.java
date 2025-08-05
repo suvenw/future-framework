@@ -9,7 +9,7 @@ import java.util.Map;
  * @Description 账号来源属性值枚举类,包括:0."缺省平台", 1.手机号码 ,2.邮箱地址, 3.QQ, 4.微信, 5.微博, 6.土豆, 7.facebook ,8.telegram
  * @CreateDate 2018-11-19  20:47
  * @WeeK 星期一QQ
- * @Version v2.0
+ * @version v2.0
  **/
 public enum UserCodeEnum {
 

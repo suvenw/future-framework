@@ -6,11 +6,11 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 
 /**
- * @ClassName: SysLogAddRequestVo.java
+ * ClassName: SysLogAddRequestVo.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:19
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:19
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志表 http业务接口交互数据请求参数实现类

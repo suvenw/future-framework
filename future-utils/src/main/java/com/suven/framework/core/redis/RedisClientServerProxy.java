@@ -19,7 +19,7 @@ import java.util.*;
 /**
  * @author Joven.wang
  * @version V1.0
- * @date 2016年7月27日
+ * date 2016年7月27日
  * Description: TODO(说明)
  */
 //@ConditionalOnMissingBean(name = "redisConnection")

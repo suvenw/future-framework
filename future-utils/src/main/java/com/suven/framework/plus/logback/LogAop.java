@@ -12,9 +12,9 @@
 // * @ClassName:
 // * Description:
 // * @Author lixiangling
-// * @Date 2018/6/22 11:08
+// * date 2018/6/22 11:08
 // * Copyright: (c) 2018 gc by https://www.suven.top
-// * @Version : 1.0.0
+// * @version : 1.0.0
 // * --------------------------------------------------------
 // * modifyer    modifyTime                 comment
 // *

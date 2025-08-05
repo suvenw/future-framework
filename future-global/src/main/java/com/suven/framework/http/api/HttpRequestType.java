@@ -11,7 +11,7 @@ package com.suven.framework.http.api;
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * </pre>
- * @date 创建时间: 2024-01-02
+ * date 创建时间: 2024-01-02
  **/
 public interface HttpRequestType {
     /**

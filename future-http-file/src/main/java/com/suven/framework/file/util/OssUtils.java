@@ -14,7 +14,7 @@ import java.io.InputStream;
 /**
  * Description: 阿里云OSS工具类
  * @author 黄聪
- * @date 2015年10月29日 下午3:59:12
+ * date 2015年10月29日 下午3:59:12
  */
 public class OssUtils {
 

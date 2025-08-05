@@ -4,9 +4,9 @@ package com.suven.framework.http.validator;
  * @ClassName:
  * Description:
  * @Author lixiangling
- * @Date 2018/5/16 10:56
+ * date 2018/5/16 10:56
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  */
   public interface ParamValidatorConstant {
     interface Base{

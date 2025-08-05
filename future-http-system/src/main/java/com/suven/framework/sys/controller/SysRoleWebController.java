@@ -45,11 +45,11 @@ import com.suven.framework.sys.dto.enums.SysRoleQueryEnum;
 
 
 /**
- * @ClassName: SysRoleWebController.java
+ * ClassName: SysRoleWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:43
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:43
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 角色表 的控制服务类
@@ -61,7 +61,7 @@ import com.suven.framework.sys.dto.enums.SysRoleQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysRole")
+ * RequestMapping("/sys/sysRole")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -87,10 +87,10 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 跳转到角色表主界面
+     * Title: 跳转到角色表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -104,13 +104,13 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 获取角色表分页信息
+     * Title: 获取角色表分页信息
      * Description:sysRoleQueryRequestVo @{Link SysRoleQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysRoleShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -144,12 +144,12 @@ public class SysRoleWebController {
     }
 
 /**
-     * @Title: 根据条件查谒角色表分页信息
+     * Title: 根据条件查谒角色表分页信息
      * Description:sysRoleQueryRequestVo @{Link SysRoleQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysRoleShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -182,12 +182,12 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 新增角色表信息
+     * Title: 新增角色表信息
      * Description:sysRoleAddRequestVo @{Link SysRoleAddRequestVo}
      * @param sysRoleAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -213,12 +213,12 @@ public class SysRoleWebController {
         out.write( sysRoleresponseDto.getId());
     }
     /**
-     * @Title: 修改角色表信息
+     * Title: 修改角色表信息
      * Description:sysRoleAddRequestVo @{Link SysRoleAddRequestVo}
      * @param  sysRoleAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -244,12 +244,12 @@ public class SysRoleWebController {
     }
 
     /**
-     * @Title: 查看角色表信息
+     * Title: 查看角色表信息
      * Description:sysRoleRequestVo @{Link SysRoleRequestVo}
      * @param
      * @return  SysRoleResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -273,12 +273,12 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 跳转角色表编辑界面
+     * Title: 跳转角色表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysRoleShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -303,12 +303,12 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 跳转角色表新增编辑界面
+     * Title: 跳转角色表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -321,12 +321,12 @@ public class SysRoleWebController {
     }
 
     /**
-     * @Title: 删除角色表信息
+     * Title: 删除角色表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -351,12 +351,12 @@ public class SysRoleWebController {
 
 
     /**
-     * @Title: 导出角色表信息
+     * Title: 导出角色表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:43
+     * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

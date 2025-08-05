@@ -4,9 +4,9 @@ package com.suven.framework.util.tool;
  * @ClassName:
  * Description: 将版本的数字类型转换成字符类型
  * @Author liulu
- * @Date 2018/5/28 18:12
+ * date 2018/5/28 18:12
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  */
 public class VersionUtils {
 

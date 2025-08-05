@@ -44,11 +44,11 @@ import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
 
 
 /**
- * @ClassName: SysUserRoleWebController.java
+ * ClassName: SysUserRoleWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:11:27
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:11:27
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户角色关系表 的控制服务类
@@ -60,7 +60,7 @@ import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysUserRole")
+ * RequestMapping("/sys/sysUserRole")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -86,10 +86,10 @@ public class SysUserRoleWebController {
     private SysUserRoleService  sysUserRoleService;
 
     /**
-     * @Title: 跳转到用户角色关系表主界面
+     * Title: 跳转到用户角色关系表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -103,13 +103,13 @@ public class SysUserRoleWebController {
 
 
     /**
-     * @Title: 获取用户角色关系表分页信息
+     * Title: 获取用户角色关系表分页信息
      * Description:sysUserRoleQueryRequestVo @{Link SysUserRoleQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysUserRoleShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -143,12 +143,12 @@ public class SysUserRoleWebController {
     }
 
 /**
-     * @Title: 根据条件查谒用户角色关系表分页信息
+     * Title: 根据条件查谒用户角色关系表分页信息
      * Description:sysUserRoleQueryRequestVo @{Link SysUserRoleQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysUserRoleShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -182,12 +182,12 @@ public class SysUserRoleWebController {
 
 
     /**
-     * @Title: 新增用户角色关系表信息
+     * Title: 新增用户角色关系表信息
      * Description:sysUserRoleAddRequestVo @{Link SysUserRoleAddRequestVo}
      * @param sysUserRoleAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -213,12 +213,12 @@ public class SysUserRoleWebController {
         out.write( sysUserRoleresponseDto.getId());
     }
     /**
-     * @Title: 修改用户角色关系表信息
+     * Title: 修改用户角色关系表信息
      * Description:sysUserRoleAddRequestVo @{Link SysUserRoleAddRequestVo}
      * @param  sysUserRoleAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -244,12 +244,12 @@ public class SysUserRoleWebController {
     }
 
     /**
-     * @Title: 查看用户角色关系表信息
+     * Title: 查看用户角色关系表信息
      * Description:sysUserRoleRequestVo @{Link SysUserRoleRequestVo}
      * @param
      * @return  SysUserRoleResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -273,12 +273,12 @@ public class SysUserRoleWebController {
 
 
     /**
-     * @Title: 跳转用户角色关系表编辑界面
+     * Title: 跳转用户角色关系表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysUserRoleShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -303,12 +303,12 @@ public class SysUserRoleWebController {
 
 
     /**
-     * @Title: 跳转用户角色关系表新增编辑界面
+     * Title: 跳转用户角色关系表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -321,12 +321,12 @@ public class SysUserRoleWebController {
     }
 
     /**
-     * @Title: 删除用户角色关系表信息
+     * Title: 删除用户角色关系表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -351,12 +351,12 @@ public class SysUserRoleWebController {
 
 
     /**
-     * @Title: 导出用户角色关系表信息
+     * Title: 导出用户角色关系表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:11:27
+     * date 2022-02-28 16:11:27
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

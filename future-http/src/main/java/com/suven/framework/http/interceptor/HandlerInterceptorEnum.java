@@ -16,7 +16,7 @@ import java.util.Map;
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * </pre>
- * @date 创建时间: 2023-12-15
+ * date 创建时间: 2023-12-15
  **/
 public enum HandlerInterceptorEnum  implements IEnum<Integer,String>,InterceptorOrderValue{
 

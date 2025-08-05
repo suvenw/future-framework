@@ -9,7 +9,7 @@ import java.util.Map;
  * @Description //TODO ${END}$
  * @CreateDate 2018-12-19  20:10
  * @WeeK 星期三
- * @Version v2.0
+ * @version v2.0
  **/
 public enum NumberEnum {
     MINUS_ONE(-1),

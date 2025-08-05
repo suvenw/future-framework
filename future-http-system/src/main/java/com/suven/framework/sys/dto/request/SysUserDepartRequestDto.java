@@ -13,7 +13,7 @@ import java.util.List;
 * @ClassName: SysUserDepartRequestDto.java
 * Description: 用户部门表的数据交互处理类
 * @author xxx.xxx
-* @date   2019-11-27 17:49:58
+* date   2019-11-27 17:49:58
 * @version V1.0.0
 * <p>
     * ----------------------------------------------------------------------------

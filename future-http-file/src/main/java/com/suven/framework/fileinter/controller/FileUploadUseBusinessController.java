@@ -62,12 +62,12 @@ public class FileUploadUseBusinessController {
     }
 
     /**
-    * @Title: 分页获取信息
+    * Title: 分页获取信息
     * Description:fileUploadUseBusinessQueryRequestVo @{Link FileUploadUseBusinessQueryRequestVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:21:42
+    * date 2024-04-19 00:21:42
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *
@@ -100,12 +100,12 @@ public class FileUploadUseBusinessController {
 
 
     /**
-    * @Title: 查看信息
+    * Title: 查看信息
     * Description:HttpRequestByIdVo @{Link HttpRequestByIdVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:21:42
+    * date 2024-04-19 00:21:42
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *

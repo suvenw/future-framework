@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysDictItemDao.java
+ * ClassName: SysDictItemDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:15
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:15
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 数据字典明细表 的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
      * 保存创建SysDictItem,并且保存到缓存中
      * @param sysDictItem
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      */
 
     public SysDictItem saveId(SysDictItem sysDictItem){
@@ -83,7 +83,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
          * 保存创建SysDictItem,并且保存到缓存中
          * @param sysDictItem
          * @author suven
-         * @date 2022-02-28 16:10:15
+         * date 2022-02-28 16:10:15
          */
 
         public SysDictItem saveToId(SysDictItem sysDictItem){
@@ -103,7 +103,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
      * 批量保存创建SysDictItem,并且保存到缓存中
      * @param sysDictItemList
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      */
     public boolean saveBatchId(List<SysDictItem> sysDictItemList){
             if(null == sysDictItemList)
@@ -126,7 +126,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      */
     public List<SysDictItem> getListByPage(IPage<SysDictItem> iPage, QueryWrapper<SysDictItem> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      */
     public List<SysDictItem> getListByQuery( QueryWrapper<SysDictItem> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDic
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:15
+     * date 2022-02-28 16:10:15
      */
     public QueryWrapper<SysDictItem> builderQueryEnum(SysDictItemQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysDictItem> queryWrapper = new QueryWrapper<>();

@@ -5,9 +5,9 @@ import com.suven.framework.util.bean.BeanUtil;
 import java.io.Serializable;
 
 /**
- * @Title: JettyWebServerFactory.java
+ * Title: JettyWebServerFactory.java
  * @author Joven.wang
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录

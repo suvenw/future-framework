@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @ClassName: GoodsTypeEnum
+ * ClassName: GoodsTypeEnum
  * Description: TODO
  * @Author suven.wang
- * @Date 2018/6/26 19:57
+ * date 2018/6/26 19:57
  * Copyright: (c) 2018 gc by https://www.suven.top
- * @Version : 1.0.0
+ * @version : 1.0.0
  */
 public enum GoodsTypeEnum {
     GOODS_COMMON(1, 1000,"普通"),

@@ -21,11 +21,11 @@ import java.util.List;
 
 
 /**
- * @ClassName: SysPositionDao.java
+ * ClassName: SysPositionDao.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:13:52
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:13:52
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description:  的数据库查询逻辑实现类
@@ -63,7 +63,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
      * 保存创建SysPosition,并且保存到缓存中
      * @param sysPosition
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
 
     public SysPosition saveId(SysPosition sysPosition){
@@ -83,7 +83,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
          * 保存创建SysPosition,并且保存到缓存中
          * @param sysPosition
          * @author suven
-         * @date 2022-02-28 16:13:52
+         * date 2022-02-28 16:13:52
          */
 
         public SysPosition saveToId(SysPosition sysPosition){
@@ -103,7 +103,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
      * 批量保存创建SysPosition,并且保存到缓存中
      * @param sysPositionList
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     public boolean saveBatchId(List<SysPosition> sysPositionList){
             if(null == sysPositionList)
@@ -126,7 +126,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
      * @param queryWrapper BasePage
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     public List<SysPosition> getListByPage(IPage<SysPosition> iPage, QueryWrapper<SysPosition> queryWrapper ){
 
@@ -155,7 +155,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
      * @param queryWrapper QueryWrapper
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     public List<SysPosition> getListByQuery( QueryWrapper<SysPosition> queryWrapper ){
 
@@ -180,7 +180,7 @@ public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPos
      * @param queryObject 参数对象实现
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:52
+     * date 2022-02-28 16:13:52
      */
     public QueryWrapper<SysPosition> builderQueryEnum(SysPositionQueryEnum queryEnum,  Object queryObject){
            QueryWrapper<SysPosition> queryWrapper = new QueryWrapper<>();

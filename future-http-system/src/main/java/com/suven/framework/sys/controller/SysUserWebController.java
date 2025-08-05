@@ -45,10 +45,10 @@ import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 
 
 /**
- * @ClassName: SysUserWebController.java
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:09:37
- * @Version 版本: v1.0.0
+ * ClassName: SysUserWebController.java
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:09:37
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户表 的控制服务类
@@ -60,7 +60,7 @@ import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysUser")
+ * RequestMapping("/sys/sysUser")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -96,9 +96,9 @@ public class SysUserWebController {
 
     /**
      * @return 字符串url
-     * @Title: 跳转到用户表主界面
+     * Title: 跳转到用户表主界面
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -114,11 +114,11 @@ public class SysUserWebController {
     /**
      * @param
      * @return ResponseResultPageVo 对象 List<SysUserShowResponseVo>
-     * @Title: 获取用户表分页信息
+     * Title: 获取用户表分页信息
      * Description:sysUserQueryRequestVo @{Link SysUserQueryRequestVo}
      * @throw
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -154,10 +154,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return ResponseResultPageVo 对象 List<SysUserShowResponseVo>
-     * @Title: 根据条件查谒用户表分页信息
+     * Title: 根据条件查谒用户表分页信息
      * Description:sysUserQueryRequestVo @{Link SysUserQueryRequestVo}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -192,10 +192,10 @@ public class SysUserWebController {
     /**
      * @param sysUserAddRequestVo 对象
      * @return long类型id
-     * @Title: 新增用户表信息
+     * Title: 新增用户表信息
      * Description:sysUserAddRequestVo @{Link SysUserAddRequestVo}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -234,10 +234,10 @@ public class SysUserWebController {
     /**
      * @param sysUserAddRequestVo 对象
      * @return boolean 类型1或0;
-     * @Title: 修改用户表信息
+     * Title: 修改用户表信息
      * Description:sysUserAddRequestVo @{Link SysUserAddRequestVo}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -285,10 +285,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return SysUserResponseVo  对象
-     * @Title: 查看用户表信息
+     * Title: 查看用户表信息
      * Description:sysUserRequestVo @{Link SysUserRequestVo}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -313,10 +313,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return SysUserShowResponseVo 对象
-     * @Title: 跳转用户表编辑界面
+     * Title: 跳转用户表编辑界面
      * Description:id @{Link Long}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -341,10 +341,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return 返回新增加的url
-     * @Title: 跳转用户表新增编辑界面
+     * Title: 跳转用户表新增编辑界面
      * Description:id @{Link Long}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifyer    modifyTime                 comment
      * <p>
@@ -359,10 +359,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return boolean 类型1或0;
-     * @Title: 删除用户表信息
+     * Title: 删除用户表信息
      * Description:id @{Link Long}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>
@@ -388,10 +388,10 @@ public class SysUserWebController {
     /**
      * @param
      * @return
-     * @Title: 导出用户表信息
+     * Title: 导出用户表信息
      * Description:id @{Link Long}
      * @author suven
-     * @date 2022-02-28 16:09:37
+     * date 2022-02-28 16:09:37
      * --------------------------------------------------------
      * modifier    modifyTime                 comment
      * <p>

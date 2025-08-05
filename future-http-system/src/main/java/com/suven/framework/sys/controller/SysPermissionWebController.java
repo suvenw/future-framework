@@ -51,11 +51,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName: SysPermissionWebController.java
+ * ClassName: SysPermissionWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:30
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:30
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 菜单权限表 的控制服务类
@@ -67,7 +67,7 @@ import java.util.Map;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysPermission")
+ * RequestMapping("/sys/sysPermission")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -106,10 +106,10 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 跳转到菜单权限表主界面
+     * Title: 跳转到菜单权限表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -123,13 +123,13 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 获取菜单权限表分页信息
+     * Title: 获取菜单权限表分页信息
      * Description:sysPermissionQueryRequestVo @{Link SysPermissionQueryRequestVo}
      * @param
      * @return  ResponseResultPageVo 对象 List<SysPermissionShowResponseVo>
      * @throw
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -166,11 +166,11 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 新增菜单权限表信息
+     * Title: 新增菜单权限表信息
      * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -257,12 +257,12 @@ public class SysPermissionWebController {
     }
 
     /**
-     * @Title: 新增菜单权限表信息
+     * Title: 新增菜单权限表信息
      * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
      * @param sysPermissionAddRequestVo 对象
      * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -288,12 +288,12 @@ public class SysPermissionWebController {
         out.write( sysPermissionresponseDto.getId());
     }
     /**
-     * @Title: 修改菜单权限表信息
+     * Title: 修改菜单权限表信息
      * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
      * @param  sysPermissionAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -319,12 +319,12 @@ public class SysPermissionWebController {
     }
 
     /**
-     * @Title: 查看菜单权限表信息
+     * Title: 查看菜单权限表信息
      * Description:sysPermissionRequestVo @{Link SysPermissionRequestVo}
      * @param
      * @return  SysPermissionResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -348,12 +348,12 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 跳转菜单权限表编辑界面
+     * Title: 跳转菜单权限表编辑界面
      * Description:id @{Link Long}
      * @param
      * @return SysPermissionShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -378,12 +378,12 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 跳转菜单权限表新增编辑界面
+     * Title: 跳转菜单权限表新增编辑界面
      * Description:id @{Link Long}
      * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -396,12 +396,12 @@ public class SysPermissionWebController {
     }
 
     /**
-     * @Title: 删除菜单权限表信息
+     * Title: 删除菜单权限表信息
      * Description:id @{Link Long}
      * @param
      * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -426,12 +426,12 @@ public class SysPermissionWebController {
 
 
     /**
-     * @Title: 导出菜单权限表信息
+     * Title: 导出菜单权限表信息
      * Description:id @{Link Long}
      * @param
      * @return
      * @author suven
-     * @date 2022-02-28 16:10:30
+     * date 2022-02-28 16:10:30
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *

@@ -7,7 +7,7 @@ import java.util.Map;
  * @ClassName 广告类型
  * @Author xinye
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 
 public enum BannerTypeEnum {

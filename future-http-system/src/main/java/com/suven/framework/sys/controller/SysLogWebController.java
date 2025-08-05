@@ -43,11 +43,11 @@ import com.suven.framework.sys.dto.enums.SysLogQueryEnum;
 
 
 /**
- * @ClassName: SysLogWebController.java
+ * ClassName: SysLogWebController.java
  *
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2022-02-28 16:10:19
- * @Version 版本: v1.0.0
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2022-02-28 16:10:19
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 系统日志表 的控制服务类
@@ -59,9 +59,9 @@ import com.suven.framework.sys.dto.enums.SysLogQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * @RequestMapping("/sys/sysLog")
+ * RequestMapping("/sys/sysLog")
  * </pre>
- * Copyright: (c) 2021 gc by https://www.suven.top
+ * Copyright: (c) 2021 gc by <a href="https://www.suven.top">www.suven.top</a>
  **/
 
 
@@ -85,10 +85,10 @@ public class SysLogWebController {
     private SysLogService  sysLogService;
 
     /**
-     * @Title: 跳转到系统日志表主界面
+     * Title: 跳转到系统日志表主界面
      * @return 字符串url
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -102,13 +102,11 @@ public class SysLogWebController {
 
 
     /**
-     * @Title: 获取系统日志表分页信息
+     * Title: 获取系统日志表分页信息
      * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
-     * @param
-     * @return  ResponseResultPageVo 对象 List<SysLogShowResponseVo>
-     * @throw
+     *  ResponseResultPageVo 对象 List<SysLogShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -124,30 +122,30 @@ public class SysLogWebController {
     public   void   list( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
+        Pager<SysLogRequestDto> page =  Pager.build();
+        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
          SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
         ResponseResultPageVo<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
         List<SysLogShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysLogShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo,page.getSize(),resultList.getTotal())
+        ResponseResultPageVo<SysLogShowResponseVo> result = new ResponseResultPageVo<>();
+        result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
     }
 
 /**
-     * @Title: 根据条件查谒系统日志表分页信息
+     * Title: 根据条件查谒系统日志表分页信息
      * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
      * @param
      * @return   ResponseResultPageVo 对象 List<SysLogShowResponseVo>
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -163,8 +161,8 @@ public class SysLogWebController {
     public   void   queryList( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
+        Pager<SysLogRequestDto> page =  Pager.build();
+        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
         List<SysLogResponseDto> resultList = sysLogService.getSysLogListByQuery(page,queryEnum);
@@ -181,12 +179,11 @@ public class SysLogWebController {
 
 
     /**
-     * @Title: 新增系统日志表信息
+     * Title: 新增系统日志表信息
      * Description:sysLogAddRequestVo @{Link SysLogAddRequestVo}
      * @param sysLogAddRequestVo 对象
-     * @return long类型id
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -212,12 +209,12 @@ public class SysLogWebController {
         out.write( sysLogresponseDto.getId());
     }
     /**
-     * @Title: 修改系统日志表信息
+     * Title: 修改系统日志表信息
      * Description:sysLogAddRequestVo @{Link SysLogAddRequestVo}
      * @param  sysLogAddRequestVo 对象
      * @return  boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -243,12 +240,10 @@ public class SysLogWebController {
     }
 
     /**
-     * @Title: 查看系统日志表信息
+     * Title: 查看系统日志表信息
      * Description:sysLogRequestVo @{Link SysLogRequestVo}
-     * @param
-     * @return  SysLogResponseVo  对象
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -272,12 +267,10 @@ public class SysLogWebController {
 
 
     /**
-     * @Title: 跳转系统日志表编辑界面
+     * Title: 跳转系统日志表编辑界面
      * Description:id @{Link Long}
-     * @param
-     * @return SysLogShowResponseVo 对象
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -302,12 +295,11 @@ public class SysLogWebController {
 
 
     /**
-     * @Title: 跳转系统日志表新增编辑界面
+     * Title: 跳转系统日志表新增编辑界面
      * Description:id @{Link Long}
-     * @param
      * @return  返回新增加的url
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -320,12 +312,10 @@ public class SysLogWebController {
     }
 
     /**
-     * @Title: 删除系统日志表信息
+     * Title: 删除系统日志表信息
      * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -350,12 +340,10 @@ public class SysLogWebController {
 
 
     /**
-     * @Title: 导出系统日志表信息
+     * Title: 导出系统日志表信息
      * Description:id @{Link Long}
-     * @param
-     * @return
      * @author suven
-     * @date 2022-02-28 16:10:19
+     * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
      *  modifier    modifyTime                 comment
      *
@@ -372,8 +360,8 @@ public class SysLogWebController {
 
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build().clone(sysLogQueryRequestVo);
 
-        Pager page =  Pager.build();
-        pager.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
+        Pager<SysLogRequestDto> page =  Pager.build();
+        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
 
         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
@@ -392,8 +380,8 @@ public class SysLogWebController {
 
     /**
     * 通过excel导入数据
-    * @param out
-    * @param files
+    * @param out  输出对象
+    * @param files 文件对象
     */
     @RequestMapping(value = UrlCommand.sys_sysLog_import, method = RequestMethod.POST)
     //@RequiresPermissions("sys:log:import")

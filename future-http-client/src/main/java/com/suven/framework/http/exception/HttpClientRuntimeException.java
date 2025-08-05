@@ -17,10 +17,10 @@
 package com.suven.framework.http.exception;
 
 /**
- * @Author 作者 : suven.wang
- * @CreateDate 创建时间: 2021-09-13
+ * @author 作者 : suven.wang
+ * CreateDate 创建时间: 2021-09-13
  * @WeeK 星期: 星期四
- * @Version 版本: v1.0.0
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  @Description (说明):  网络请求自定义异常实现

@@ -253,7 +253,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
        * @param paramObject Object 参数对像
        * @return 查询表对象列表
        * @author suven
-       * @date 2024-04-19 00:21:42
+       * date 2024-04-19 00:21:42
        */
       @Override
       public List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByQuery(FileUploadUseBusinessQueryEnum queryEnum, Object  paramObject ){
@@ -338,7 +338,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByIdList(Collection<Long> idList){

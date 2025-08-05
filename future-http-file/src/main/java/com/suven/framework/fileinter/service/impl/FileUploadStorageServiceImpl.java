@@ -248,7 +248,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
        * @param paramObject Object 参数对像
        * @return 查询表对象列表
        * @author suven
-       * @date 2024-04-18 23:55:18
+       * date 2024-04-18 23:55:18
        */
       @Override
       public List<FileUploadStorageResponseDto> getFileUploadStorageListByQuery(FileUploadStorageQueryEnum queryEnum, Object  paramObject ){
@@ -354,7 +354,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * @param idList Collection<Long>
      * @return
      * @author suven
-     * @date 2022-02-28 16:13:31
+     * date 2022-02-28 16:13:31
      */
     @Override
     public List<FileUploadStorageResponseDto> getFileUploadStorageByIdList(Collection<Long> idList){

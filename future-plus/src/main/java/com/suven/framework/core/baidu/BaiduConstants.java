@@ -6,7 +6,7 @@ package com.suven.framework.core.baidu;
  * @Description //TODO ${END}$
  * @CreateDate 2018-11-29  11:06
  * @WeeK 星期四
- * @Version v2.0
+ * @version v2.0
  **/
 public class BaiduConstants {
     //设置APPID/AK/SK

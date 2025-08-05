@@ -62,12 +62,12 @@ public class FileDataDetailedController {
     }
 
     /**
-    * @Title: 分页获取信息
+    * Title: 分页获取信息
     * Description:fileDataDetailedQueryRequestVo @{Link FileDataDetailedQueryRequestVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:20:28
+    * date 2024-04-19 00:20:28
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *
@@ -101,12 +101,12 @@ public class FileDataDetailedController {
 
 
     /**
-    * @Title: 查看信息
+    * Title: 查看信息
     * Description:HttpRequestByIdVo @{Link HttpRequestByIdVo}
     * @param
     * @return
     * @author suven
-    * @date 2024-04-19 00:20:28
+    * date 2024-04-19 00:20:28
     *  --------------------------------------------------------
     *  modifyer    modifyTime                 comment
     *

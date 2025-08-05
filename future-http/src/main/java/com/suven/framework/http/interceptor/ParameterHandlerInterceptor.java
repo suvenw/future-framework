@@ -34,9 +34,9 @@ import java.util.Set;
 import static com.suven.framework.common.enums.SysResultCodeEnum.*;
 
 /**
- * @Title: ParameterHandlerInterceptor.java
+ * Title: ParameterHandlerInterceptor.java
  * @author Joven.wang
- * @date   2019-10-18 12:35:25
+ * date   2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录
@@ -110,13 +110,13 @@ public class ParameterHandlerInterceptor extends AbstractHandlerInterceptorAdapt
 
 
     /**
-     * @Title: 公共参数校验
+     * Title: 公共参数校验
      * Description:
      * @param
      * @return
      * @throw
      * @author lixiangling
-     * @date 2018/5/28 14:06
+     * date 2018/5/28 14:06
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -133,13 +133,13 @@ public class ParameterHandlerInterceptor extends AbstractHandlerInterceptorAdapt
 
     }
     /**
-     * @Title: GET请求参数校验
+     * Title: GET请求参数校验
      * Description:
      * @param
      * @return
      * @throw
      * @author lixiangling
-     * @date 2018/5/28 14:06
+     * date 2018/5/28 14:06
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *
@@ -149,13 +149,13 @@ public class ParameterHandlerInterceptor extends AbstractHandlerInterceptorAdapt
 
     }
     /**
-     * @Title: POST请求参数校验
+     * Title: POST请求参数校验
      * Description:
      * @param
      * @return
      * @throw
      * @author lixiangling
-     * @date 2018/5/28 14:06
+     * date 2018/5/28 14:06
      *  --------------------------------------------------------
      *  modifyer    modifyTime                 comment
      *

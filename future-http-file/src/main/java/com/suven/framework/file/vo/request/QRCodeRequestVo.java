@@ -6,10 +6,10 @@ import com.suven.framework.http.data.vo.RequestParserVo;
 
 
 /**
- * @ClassName: QRCodeUserInfoRequestVo.java
- * @Author 作者 : suven
- * @CreateDate 创建时间: 2021-08-03 14:19:17
- * @Version 版本: v1.0.0
+ * ClassName: QRCodeUserInfoRequestVo.java
+ * @author 作者 : suven
+ * CreateDate 创建时间: 2021-08-03 14:19:17
+ * @version 版本: v1.0.0
  * <pre>
  *
  *  Description: 用户表 http业务接口交互数据请求参数实现类
