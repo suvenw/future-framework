@@ -97,17 +97,17 @@ public abstract class AbstractMyBatisDao<M extends BaseMapper<T>, T extends IBas
     }
 
 
-//    /**
-//     * 判断数据库操作是否成功
-//     *
-//     * @param result 数据库操作返回影响条数，可能为 null
-//     * @return boolean，成功返回 true，失败返回 false
-//     * @deprecated 3.3.1
-//     */
-//    protected boolean result(Long result) {
-//        // 默认 null 视为操作失败
-//        return SqlHelper.retBool(result);
-//    }
+    /**
+     * 判断数据库操作是否成功
+     *
+     * @param result 数据库操作返回影响条数，可能为 null
+     * @return boolean，成功返回 true，失败返回 false
+     * @deprecated 3.3.1
+     */
+    public boolean returnBool(Long result) {
+        // 默认 null 视为操作失败
+        return SqlUtil.retBool(result);
+    }
 
 
     @CatDBSign

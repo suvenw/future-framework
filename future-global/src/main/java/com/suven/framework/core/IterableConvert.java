@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.core.ReflectUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -26,11 +27,11 @@ import static java.util.Arrays.asList;
 
 /**
  * @author 作者 : suven
- * @date 创建时间: 2023-11-30
+ * date 创建时间: 2023-11-30
  * @version 版本: v1.0.0
  * <pre>
  *
- *  @description (说明):
+ *  description (说明):
 
  * </pre>
  * <pre>
@@ -41,7 +42,7 @@ import static java.util.Arrays.asList;
 public class IterableConvert {
 
 
-    private static Logger log = LoggerFactory.getLogger(IterableConvert.class);
+    private final static Logger log = LoggerFactory.getLogger(IterableConvert.class);
 
     /**
      * 将 object 和 newElements 合并成一个数组
@@ -52,6 +53,7 @@ public class IterableConvert {
      * @return 结果数组
      */
     @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T> Consumer<T>[] append(Consumer<T> object, Consumer<T>... newElements) {
         if (object == null) {
             return newElements;
@@ -62,12 +64,21 @@ public class IterableConvert {
         return result;
     }
 
+        /**
+     * 向集合中添加元素，如果元素不为null的话
+     *
+     * @param coll 要添加元素的集合
+     * @param item 要添加的元素
+     * @param <T> 集合和元素的类型参数
+     */
     public static <T> void addIfNotNull(Collection<T> coll, T item) {
+        // 如果元素为null，则直接返回不执行添加操作
         if (item == null) {
             return;
         }
         coll.add(item);
     }
+
 
 
 
@@ -89,26 +100,27 @@ public class IterableConvert {
 
 
     /**
-     * List 以ID分组 Map<Long,List<T>>
-     * Map<Integer, List<T>> groupBy = appleList.stream().collect(Collectors.groupingBy(T::getId));
+     * 将List集合转换为以ID为键的Map集合
      *
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return 返回以实体ID为键，实体对象为值的Map集合；如果输入列表为空，则返回空Map
      */
     public static < T extends IBaseApi> Map<Long, T> convertMap(List<T> list){
+        // 如果列表为空，返回空Map
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
         }
-        Map<Long,T> map = list.stream().collect(Collectors.toMap(T::getId, entity -> entity));
-        return  map;
+        // 使用Stream API将List转换为Map，以实体ID作为键，实体对象作为值
+        return list.stream().collect(Collectors.toMap(T::getId, entity -> entity));
     }
+
 
 
     /**
      * List 以ID分组 Map<Long,List<T>>
      * Map<Integer, List<T>> groupBy = appleList.stream().collect(Collectors.groupingBy(T::getId));
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return 返回以实体ID为键，实体对象为值的Map集合；如果输入列表为空，则返回空Map
      */
     public static  < I extends Serializable, T extends IDApi<I>,V extends IBeanClone>  Map<I,V > convertMap(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
@@ -118,7 +130,7 @@ public class IterableConvert {
             try {
                 return  clazz.getDeclaredConstructor().newInstance().clone(entity);
             } catch (Exception e) {
-                e.printStackTrace();
+               log.info("convertMap Exception ", e);
             }
             return null;
         }));
@@ -129,20 +141,18 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象
      * K extends Serializable 为T对象具体的属性值;存储在map集合的Key属性,但不能有重复key
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
      * <p> 备注:但不能有重复key <p/>
      *  1.使用例子:
      *   List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(2l));
      *   Map<Long,BaseStatusEntity> map =  converterMap(list,BaseEntity::getId, BaseStatusEntity.class);
-     *
      *   Map<Integer, List<T>> groupBy = appleList.stream().collect(Collectors.groupingBy(T::getId));
      *   And the following produces a Map mapping a unique identifier to students:
      *   Map<String, Student> studentIdToStudent
      *   students.stream().collect(toMap(Student::getId,Functions.identity());
-     * @param list
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
      *
-     * @return
+     * @return 返回以实体ID为键，实体对象为值的Map集合；如果输入列表为空，则返回空Map
      */
     public static <T,K, V extends IBeanClone> Map<K, V> convertMap(Collection<T> list, Function<T,K> keyMapper, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
@@ -150,10 +160,10 @@ public class IterableConvert {
         }
         return list.stream().collect(Collectors.toMap(keyMapper, entity ->{
             try {
-                V value =  clazz.getDeclaredConstructor().newInstance().clone(entity);
+                V  value =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 return value;
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
             return null;
         }));
@@ -164,21 +174,20 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象
      * K extends Serializable 为T对象具体的属性值;存储在map集合的Key属性,但有重复key,后面的值 value2 会覆盖前端的value1值
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
      * <p> 备注:但有重复key,后面的值 value2 会覆盖前端的value1值<p/>
      *  1.使用例子:
      *   List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(2l));
      *   Map<Long,BaseStatusEntity> map =  converterMap(list,BaseEntity::getId, BaseStatusEntity.class);
-     *
      *   Map<Integer, List<T>> groupBy = appleList.stream().collect(Collectors.groupingBy(T::getId));
      *   And the following produces a Map mapping a unique identifier to students:
      *   Map<String, Student> studentIdToStudent
      *   students.stream().collect(toMap(Student::getId,Functions.identity());
-     * @param list
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
      *
-     * @return
+     * @return 存储结果map集合
      */
+    @SuppressWarnings("unchecked")
     public static <T,K, V extends IBeanClone> Map<K, V> convertMapSame(Collection<T> list, Function<T,K> keyMapper, Class<V> clazz) {
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
@@ -187,7 +196,7 @@ public class IterableConvert {
             try {
                 return clazz.getDeclaredConstructor().newInstance().clone(entity);
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
             return null;
         },(value1, value2) ->{
@@ -204,14 +213,13 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象或Object对象
      * K extends Serializable 为T对象主键ID属性值;存储在map集合的Key属性
      * V extends IBeanClone 必须是IBeanClone接口实现业,值为克隆后的对象
-     *
      * List 以keyMapper属性分组 Map<K,List<T>>
      * Map<Integer, List<T>> groupBy = appleList.stream().collect(Collectors.groupingBy(T::getId));
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Map<Long,BaseEntity> map =  convertMapGroup(list,BaseEntity::getId);
-     * @param list
-     * @return Map
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return Map 存储结果map集合
      */
     public static <T,K>  Map<K,List<T>> convertMapGroup(List<T> list,Function<T,K> keyMapper){
         if(ObjectTrue.isEmpty(list)){
@@ -224,29 +232,30 @@ public class IterableConvert {
     /**
      * 将map<K,V> 集合转换成List<V>集合实现方法
      * Map<Long,T> map --> list<T>
-     * @param map
-     * @return
+     * @param map 待转换的Map集合，键为Serializable类型，值为泛型T
+     * @return 转换后的List集合，包含原Map的所有值；如果输入为null则返回空列表
      */
     public static <T>  List<T> convertMapToList(Map<Serializable,T> map){
+        // 处理空值情况，避免空指针异常
         if(null ==map){
             return Collections.emptyList();
         }
+        // 使用Stream API将Map的values转换为List
         List<T> result = map.values().stream().collect(Collectors.toList());
         return result;
     }
 
 
+
     /** List<A> list --> list<B>
      * T extends Serializable 为系列化对象或Object对象
      * V extends IBeanClone 必须是IBeanClone接口实现业,值为克隆后的对象
-     *
      * List 以为V为对象基于T做克隆属性后的对象的集合;
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  List<BaseStatusEntity> resultList =  convertList(list, BaseStatusEntity.class);
-     * @param list
-     * @return   List<B>
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return   List<B> 存储结果list集合
      */
     public static < T, V extends IBeanClone>  List<V> convertList(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
@@ -254,9 +263,10 @@ public class IterableConvert {
         }
         List<V> result =  list.stream().map(entity -> {
               try {
-                  return  (V)clazz.getDeclaredConstructor().newInstance().clone(entity);
+                  V clone =  clazz.getDeclaredConstructor().newInstance().clone(entity);
+                  return clone;
               } catch (Exception e) {
-                  e.printStackTrace();
+                    log.info("convertMap Exception ", e);
               }
               return null;
           }).collect(Collectors.toList());
@@ -266,14 +276,12 @@ public class IterableConvert {
     /** List<A> list --> list<B>
      * T extends Serializable 为系列化对象或Object对象
      * V extends IBeanClone 必须是IBeanClone接口实现业,值为克隆后的对象
-     *
      * List 以为V为对象基于T做克隆属性后的对象的集合;
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  List<BaseStatusEntity> resultList =  convertList(list, BaseStatusEntity.class);
-     * @param list
-     * @return   List<B>
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return   List<B> 存储结果list集合
      */
     public static < T, K,V extends IBeanClone>  List<V> convertList(Collection<T> list, Class<V> clazz, Function<V,K> function){
         if(ObjectTrue.isEmpty(list)){
@@ -281,13 +289,13 @@ public class IterableConvert {
         }
         List<V> result =  list.stream().map(entity -> {
             try {
-                V clone = (V)clazz.getDeclaredConstructor().newInstance().clone(entity);
+                V clone = clazz.getDeclaredConstructor().newInstance().clone(entity);
                 if(ObjectTrue.isNotEmpty(function)){
                     function.apply(clone);
                 }
                 return clone;
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
             return null;
         }).collect(Collectors.toList());
@@ -298,14 +306,12 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象或Object对象
      * K extends Serializable 为T对象主键ID属性值;存储在map集合的Key属性
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Map<Long,BaseStatusEntity> map =  convertLinkedHashMap(list,BaseEntity::getId, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return Map 存储结果map集合
      */
     public  static <I extends Serializable,T extends IDApi<I>,V extends IBeanClone> Map<I, V> convertLinkedHashMap(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
@@ -318,7 +324,7 @@ public class IterableConvert {
                 V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 map.put(key,vo);
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
         });
         return map;
@@ -328,14 +334,12 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象或Object对象
      * K extends Serializable 为T对象具体的属性值;存储在map集合的Key属性
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Map<Long,BaseStatusEntity> map =  convertLinkedHashMap(list,BaseEntity::getId, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return Map 存储结果map集合
      */
     public  static <T,K,V extends IBeanClone> Map<K, V> convertLinkedHashMap(Collection<T> list, Function<T,K> keyMapper, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
@@ -348,7 +352,7 @@ public class IterableConvert {
                 V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
                 map.put(key,vo);
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
         });
         return map;
@@ -359,15 +363,14 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象或Object对象
      * K extends Serializable 为T对象具体的属性值;存储在map集合的Key属性
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Map<Long,BaseStatusEntity> map =  convertGroupMap(list, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return Map 存储结果map集合
      */
+    @SuppressWarnings("unchecked")
     public  static <K extends IBaseApi,V extends IBeanClone>   Map<Long, Collection<V>> convertGroupMap(Collection<K> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyMap();
@@ -375,10 +378,10 @@ public class IterableConvert {
         Multimap<Long,V > map =   ArrayListMultimap.create();
         list.forEach(entity ->{
             try {
-                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
+                V vo = Objects.requireNonNull(newInstance(clazz)).clone(entity);
                 map.put(entity.groupId() ,vo);
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
         });
         Map<Long,Collection<V>> mapList =  map.asMap();
@@ -390,14 +393,12 @@ public class IterableConvert {
      * T extends Serializable 为系列化对象或Object对象
      * K extends Serializable 为T对象具体的属性值;存储在map集合的Key属性
      * V extends IBeanClone 为返回map存储结果对象
-     *
      * List 以keyMapper属性分组 Map<Long,List<T>>
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Multimap<Serializable,BaseStatusEntity> map =  convertMultimap(list,BaseEntity::getId, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 待转换的实体对象列表，列表中的对象必须实现IBaseApi接口
+     * @return Multimap 存储结果map集合
      */
     public  static <T,K , V extends IBeanClone> Multimap<K, V> convertMultimap(Collection<T> list, Function<T,K> keyMapper, Class<V> clazz){
 
@@ -407,11 +408,11 @@ public class IterableConvert {
         }
         list.forEach(entity ->{
             try {
-                V vo =  clazz.getDeclaredConstructor().newInstance().clone(entity);
+                V vo =  Objects.requireNonNull(newInstance(clazz)).clone(entity);
                 K key =  keyMapper.apply(entity);
                 map.put(key,vo);
             } catch (Exception e) {
-                e.printStackTrace();
+                  log.info("convertMap Exception ", e);
             }
         });
         return map;
@@ -421,13 +422,12 @@ public class IterableConvert {
     /**
      * T extends Serializable 为系列化对象或Object对象
      * V 为T(Object)对象的指定属性的类型,返回指定属性的类型的值
-     *
      * List 以keyMapper属性的值的集合
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  List<Long> resultList =  convertFieldsList(list,BaseEntity::getId, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 结果集合
+     * @return 集合结果
      */
     public  static <T,V> List<V> convertFieldsList(Collection<T> list, Function<T,V> keyMapper){
 
@@ -441,13 +441,12 @@ public class IterableConvert {
     /**
      * T extends Serializable 为系列化对象或Object对象
      * V 为T(Object)对象的指定属性的类型,返回指定属性的类型的值
-     *
      * List 以keyMapper属性的值的集合
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  Set<Long> resultSet =  convertFieldsSet(list,BaseEntity::getId, BaseStatusEntity.class);
-     * @param list
-     * @return
+     * @param list 结果集合
+     * @return 去重集合结果
      */
     public  static <T,V> Set<V> convertFieldsSet(Collection<T> list, Function<T,V> keyMapper){
 
@@ -572,7 +571,6 @@ public class IterableConvert {
     }
     /**
      * 对集合进行转换操作，并根据条件进行过滤，返回按键映射关系的结果集合。
-     *
      * List<String> originalList = Arrays.asList("apple", "banana", "cherry", "date");
      * Predicate<String> filter = str -> str.length() > 5; // 过滤长度大于5的字符串
      * Function<String, Integer> keyFunc = String::length; // 将字符串长度作为键
@@ -667,6 +665,7 @@ public class IterableConvert {
     }
 
     /**
+     *  集合转Map
      * List -> Map
      * 需要注意的是：
      * toMap 如果集合对象有重复的key，会报错Duplicate key ....
@@ -674,12 +673,8 @@ public class IterableConvert {
      *  可以用 (k1,k2)->k1 来设置，如果有重复的key,则保留key1,舍弃key2
      *     List<T> list =  new ArrayList<>();
      *     Map<Long,T> map = list.stream().collect(Collectors.toMap(T::getId, a -> a,(k1, k2)->k1));
-     *
-     *
      *  List 以ID分组 Map<Integer,List<Apple>>
      *  Map<Integer, List<Apple>> groupBy = appleList.stream().collect(Collectors.groupingBy(Apple::getId));
-     */
-    /**
      * 对集合进行转换操作并生成映射关系，返回结果集合。
      *
      * @param from          源集合
@@ -837,7 +832,7 @@ public class IterableConvert {
 
 
     public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
-        return org.springframework.util.CollectionUtils.containsAny(source, candidates);
+        return CollectionUtils.containsAny(source, candidates);
     }
 
     /**
@@ -902,8 +897,7 @@ public class IterableConvert {
             return new ArrayList<>();
         }
         List<T>  list =  from.stream().filter(predicate).distinct().collect(Collectors.toList());
-        List<List<T>> groupList = Lists.partition(list, batchSize);
-        return groupList;
+        return Lists.partition(list, batchSize);
     }
 
 
@@ -914,6 +908,7 @@ public class IterableConvert {
      * @param from      源集合
      * @return 去重后的结果列表
      */
+    @SuppressWarnings("unchecked")
     public static  <T, R>  List<List<R>> listPartition(Collection<T> from, Function<T, R> keyMapper,int batchSize){
         if (ObjectTrue.isEmpty(from)) {
             return new ArrayList<>();
@@ -1012,46 +1007,108 @@ public class IterableConvert {
         }
         return from.stream().filter(predicate).collect(Collectors.toList());
     }
+        /**
+     * 过滤并转换集合中的元素
+     *
+     * @param <T> 输入集合元素类型
+     * @param <U> 输出集合元素类型
+     * @param from 待处理的输入集合
+     * @param predicate 用于过滤元素的谓词条件
+     * @param func 用于转换元素的函数
+     * @return 过滤并转换后的新列表
+     */
     public static <T, U> List<U> filterConvertList(Collection<T> from, Predicate<T> predicate,Function<T, U> func) {
+        // 如果输入集合为空，则返回空列表
         if (ObjectTrue.isEmpty(from)) {
             return new ArrayList<>();
         }
+        // 使用Stream API进行过滤和转换操作
         return from.stream().filter(predicate).map(func).collect(Collectors.toList());
     }
 
+
+        /**
+     * 根据指定的谓词条件过滤集合中的元素，返回符合条件的元素列表
+     *
+     * @param <T> 集合元素的类型
+     * @param from 要过滤的原始集合
+     * @param predicate 一个或多个过滤条件谓词
+     * @return 包含所有符合条件元素的新列表
+     */
     @SafeVarargs
     public static <T> List<T> filterList(Collection<T> from, Predicate<T>...predicate) {
+        // 如果输入集合为空，直接返回空列表
         if (ObjectTrue.isEmpty(from)) {
             return new ArrayList<>();
         }
+
+        // 使用Stream API逐个应用过滤条件
         Stream<T> stream = from.stream();
         for (Predicate<T> tPredicate : predicate) {
             stream.filter(tPredicate);
         }
+
+        // 收集过滤后的结果并返回
         return stream.collect(Collectors.toList());
     }
+
+        /**
+     * 过滤并转换集合中的元素到新的列表
+     *
+     * @param <T> 输入集合元素类型
+     * @param <U> 输出列表元素类型
+     * @param from 源集合，用于过滤和转换的原始数据
+     * @param func 转换函数，将类型T的元素转换为类型U
+     * @param predicate 一个或多个过滤条件，只有满足所有条件的元素才会被转换
+     * @return 包含经过过滤和转换后元素的新列表
+     */
     @SafeVarargs
     public static <T, U> List<U> filterConvertList(Collection<T> from, Function<T, U> func, Predicate<T>... predicate) {
         if (ObjectTrue.isEmpty(from)) {
             return new ArrayList<>();
         }
+        // 构建流处理管道，应用所有过滤条件
         Stream<T> stream = from.stream();
         for (Predicate<T> tPredicate : predicate) {
             stream.filter(tPredicate);
         }
+        // 应用转换函数并收集结果到列表
         return stream.map(func).collect(Collectors.toList());
     }
 
+
+        /**
+     * 在列表中查找第一个满足条件的元素
+     *
+     * @param <T> 元素类型
+     * @param from 要搜索的列表
+     * @param predicate 判断元素是否满足条件的谓词函数
+     * @return 返回第一个满足条件的元素，如果没有找到则返回null
+     */
     public static <T> T findFirst(List<T> from, Predicate<T> predicate) {
         return findFirst(from, predicate, Function.identity());
     }
 
+
+        /**
+     * 在列表中查找第一个满足条件的元素，并将其转换为指定类型返回
+     *
+     * @param <T> 输入列表元素的类型
+     * @param <U> 转换后返回值的类型
+     * @param from 要搜索的列表
+     * @param predicate 用于过滤元素的条件谓词
+     * @param func 用于转换匹配元素的函数
+     * @return 找到的第一个满足条件的元素经过转换后的结果，如果未找到则返回null
+     */
     public static <T, U> U findFirst(List<T> from, Predicate<T> predicate, Function<T, U> func) {
+        // 检查输入列表是否为空
         if (ObjectTrue.isEmpty(from)) {
             return null;
         }
+        // 使用Stream API过滤元素，找到第一个匹配的元素并进行转换
         return from.stream().filter(predicate).findFirst().map(func).orElse(null);
     }
+
     /**
      * 获取数据的指定索引的对象
      * @param array 数组
@@ -1067,15 +1124,32 @@ public class IterableConvert {
     }
 
 
+        /**
+     * 获取列表中的第一个元素
+     *
+     * @param <T> 列表元素的类型
+     * @param from 要获取元素的列表
+     * @return 如果列表不为空，返回列表的第一个元素；否则返回null
+     */
     public static <T> T getFirst(List<T> from) {
         return !ObjectTrue.isEmpty(from) ? from.get(0) : null;
     }
 
+
+        /**
+     * 从集合中获取最大值
+     *
+     * @param <T> 集合元素类型
+     * @param <V> 值类型，必须实现Comparable接口
+     * @param from 源集合
+     * @param valueFunc 用于提取比较值的函数
+     * @return 集合中元素对应的最大值，如果集合为空则返回null
+     */
     public static <T, V extends Comparable<? super V>> V getMaxValue(Collection<T> from, Function<T, V> valueFunc) {
         if (ObjectTrue.isEmpty(from)) {
             return null;
         }
-        assert from.size() > 0; // 断言，避免告警
+        // 使用Stream API找出集合中valueFunc对应的值最大的元素
         Optional<T> optionals = from.stream().max(Comparator.comparing(valueFunc));
         if (optionals.isPresent()) {
             T t = optionals.get();
@@ -1085,46 +1159,91 @@ public class IterableConvert {
 
     }
 
+
+    /**
+     * 从列表中获取最小值
+     *
+     * @param <T> 列表元素的类型
+     * @param <V> 值类型，必须实现Comparable接口
+     * @param from 要查找的元素列表
+     * @param valueFunc 用于从元素中提取可比较值的函数
+     * @return 列表中元素的最小值，如果列表为空则返回null
+     */
     public static <T, V extends Comparable<? super V>> V getMinValue(List<T> from, Function<T, V> valueFunc) {
+        // 检查列表是否为空
         if (ObjectTrue.isEmpty(from)) {
             return null;
         }
-        assert from.size() > 0; // 断言，避免告警
+
+        // 使用Stream API查找具有最小值的元素
         Optional<T> optionals = from.stream().min(Comparator.comparing(valueFunc));
+
+        // 如果找到元素，则应用函数获取对应的值
         if (optionals.isPresent()) {
             T t = optionals.get();
             return valueFunc.apply(t);
         }
+
         return null;
     }
 
+
+        /**
+     * 计算列表中元素经过函数转换后的累积值
+     *
+     * @param <T> 列表元素的类型
+     * @param <V> 转换后值的类型，必须实现Comparable接口
+     * @param from 要处理的元素列表
+     * @param valueFunc 将元素T转换为值V的函数
+     * @param accumulator 用于累积两个值V的二元操作符
+     * @return 累积计算的结果，如果列表为空则返回null
+     */
     public static <T, V extends Comparable<? super V>> V getSumValue(List<T> from, Function<T, V> valueFunc,
                                                                      BinaryOperator<V> accumulator) {
+        // 检查输入列表是否为空
         if (ObjectTrue.isEmpty(from)) {
             return null;
         }
-        assert from.size() > 0; // 断言，避免告警
-
+        // 对列表元素进行转换并累积计算
         Optional<V> optionals = from.stream().map(valueFunc).reduce(accumulator);
-        if (optionals.isPresent()) {
-            return optionals.get();
-        }
-        return null;
+        return optionals.orElse(null);
     }
 
+
+        /**
+     * 计算列表中满足条件的元素的值的总和
+     *
+     * @param <T> 列表元素的类型
+     * @param <V> 值的类型，必须实现Comparable接口
+     * @param from 要处理的元素列表
+     * @param predicate 用于过滤元素的条件谓词
+     * @param valueFunc 从元素中提取值的函数
+     * @param accumulator 用于累加值的二元操作符
+     * @return 满足条件的元素值的总和，如果列表为空或没有满足条件的元素则返回null
+     */
     public static <T, V extends Comparable<? super V>> V getSumValue(List<T> from, Predicate<T> predicate,
                                                                      Function<T, V> valueFunc, BinaryOperator<V> accumulator) {
         if (ObjectTrue.isEmpty(from)) {
             return null;
         }
+        // 过滤满足条件的元素，提取值并进行累加
         Optional<V> optionals = from.stream().filter(predicate).map(valueFunc).reduce(accumulator);
         return optionals.orElse(null);
     }
 
 
+
+        /**
+     * 检查多个集合中是否至少有一个为空集合
+     *
+     * @param collections 可变参数，传入一个或多个集合对象
+     * @return 如果传入的集合中至少有一个为空，则返回true；如果所有集合都不为空，则返回false
+     */
     public static boolean isAnyEmpty(Collection<?>... collections) {
+        // 使用Stream API检查是否至少有一个集合为空
         return Arrays.stream(collections).anyMatch(ObjectTrue::isEmpty);
     }
+
 
     /**
      * 合并多个具有相同键的值列表，并返回合并后的结果列表。
@@ -1141,9 +1260,18 @@ public class IterableConvert {
 
 
 
+        /**
+     * 创建一个包含单个元素的集合，如果输入为null则返回空集合
+     *
+     * @param <T> 集合元素的类型
+     * @param deptId 要包含在集合中的元素，可以为null
+     * @return 当deptId不为null时，返回包含该元素的单例集合；当deptId为null时，返回空集合
+     */
     public static <T> Collection<T> singleton(T deptId) {
+        // 如果deptId为null，返回空集合；否则返回包含deptId的单例集合
         return deptId == null ? Collections.emptyList() : Collections.singleton(deptId);
     }
+
 
 
     /**
@@ -1222,9 +1350,9 @@ public class IterableConvert {
 
     /**
      * 转换统计由总数按页大小，获取得到分页数；
-     * @param pageSize
-     * @param total
-     * @return
+     * @param pageSize 页大小
+     * @param total 总数
+     * @return 分页数
      */
     public static long getPages(int pageSize, long total) {
         if (pageSize == 0) {
@@ -1327,15 +1455,14 @@ public class IterableConvert {
     /** List<A> list --> list<B>
      * T extends Serializable 为系列化对象或Object对象
      * V extends IBeanClone 必须是IBeanClone接口实现业,值为克隆后的对象
-     *
      * List 以为V为对象基于T做克隆属性后的对象的集合;
-     *
      *  1.使用例子:
      *  List list = Arrays.asList( new BaseEntity().toId(1l), new BaseEntity().toId(3l),new BaseEntity().toId(2l));
      *  List<BaseStatusEntity> resultList =  convertList(list, BaseStatusEntity.class);
-     * @param list
-     * @return   List<B>
+     * @param list 源集合
+     * @return   List<B> 转换后的集合
      */
+    @SuppressWarnings("unchecked")
     public static < T, V extends IBeanClone>  List<V> convertBySpringList(Collection<T> list, Class<V> clazz){
         if(ObjectTrue.isEmpty(list)){
             return Collections.emptyList();
@@ -1351,6 +1478,23 @@ public class IterableConvert {
             return null;
         }).collect(Collectors.toList());
         return result;
+    }
+
+        /**
+     * 创建指定类的新实例
+     *
+     * @param clazz 要创建实例的类对象，必须实现IBeanClone接口
+     * @return 成功时返回新创建的实例，失败时返回null
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends IBeanClone>T newInstance(Class<T> clazz ){
+        try {
+            // 通过反射调用无参构造函数创建新实例
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            log.info("newInstance Exception", e);
+        }
+        return null;
     }
 
 

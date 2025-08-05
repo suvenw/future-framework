@@ -335,7 +335,7 @@
 //
 //    @CatDBSign
 //    public Collection<T> getListByIds(Collection<Long> idList) {
-//        if(CollectionUtils.isEmpty(idList)){
+//        if(ObjectTrues.isEmpty(idList)){
 //            return new ArrayList<>();
 //        }
 //        Collection<T> list  =  listByIds(idList);

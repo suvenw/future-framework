@@ -234,7 +234,7 @@
 //
 //    @CatDBSign
 //    public List<T> getListByIds(Collection<Long> idList) {
-//        if(CollectionUtils.isEmpty(idList)){
+//        if(ObjectTrues.isEmpty(idList)){
 //            return new ArrayList<>();
 //        }
 //        Map<Long,T> map =  getMapByIds(idList);
@@ -247,7 +247,7 @@
 //
 //    @CatDBSign
 //    public Map<Long,T> getMapByIds(Collection<Long> idList) {
-//        if(CollectionUtils.isEmpty(idList)){
+//        if(ObjectTrues.isEmpty(idList)){
 //            return new HashMap<>();
 //        }
 //        Map<Long,T> map = myBatisRedisClient.findMapCache(getEntityClass(), idList);
@@ -284,7 +284,7 @@
 //
 //        }
 //        //从db中批量查找作品信息;
-//        if(CollectionUtils.isNotEmpty(list)){
+//        if(ObjectTrues.isNotEmpty(list)){
 //            for (T entity : list) {
 //                map.put(entity.getId(), entity);
 //            }

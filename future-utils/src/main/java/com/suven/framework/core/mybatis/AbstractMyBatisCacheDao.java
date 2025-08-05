@@ -4,7 +4,7 @@ package com.suven.framework.core.mybatis;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectTrues;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
@@ -124,7 +124,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
    @CatCacheSign
     public List<T> getListByIds(Collection<Long> idList) {
-        if(CollectionUtils.isEmpty(idList)){
+        if(ObjectTrues.isEmpty(idList)){
             return new ArrayList<>();
         }
         Map<Long,T> map =  getMapByIds(idList);
@@ -137,7 +137,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
     @CatCacheSign
     public Map<Long,T> getMapByIds(Collection<Long> idList) {
-        if(CollectionUtils.isEmpty(idList)){
+        if(ObjectTrues.isEmpty(idList)){
             return new HashMap<>();
         }
         Map<Long,T> map = this.getRedis().findMapCache(getEntityClass(), idList);
@@ -174,7 +174,7 @@ public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends
 
         }
         //从db中批量查找作品信息;
-        if(CollectionUtils.isNotEmpty(list)){
+        if(ObjectTrues.isNotEmpty(list)){
             for (T entity : list) {
                 map.put(entity.getId(), entity);
             }

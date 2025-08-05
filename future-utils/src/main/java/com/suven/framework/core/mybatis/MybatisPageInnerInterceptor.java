@@ -2,7 +2,7 @@ package com.suven.framework.core.mybatis;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.ObjectTrues;
 import com.baomidou.mybatisplus.core.toolkit.ParameterUtils;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
@@ -45,7 +45,7 @@ public class MybatisPageInnerInterceptor extends PaginationInnerInterceptor {
         boolean addOrdered = false;
         String buildSql = boundSql.getSql();
         List<OrderItem> orders = page.orders();
-        if (CollectionUtils.isNotEmpty(orders)) {
+        if (ObjectTrues.isNotEmpty(orders)) {
             addOrdered = true;
             buildSql = this.concatOrderBy(buildSql, orders);
         }

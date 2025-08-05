@@ -226,6 +226,7 @@ ext.libraries = [
     "thumbnailator"                                 : "net.coobird:thumbnailator:${versions.thumbnailator_version}",
     "easy-captcha"                                  : "com.github.whvcse:easy-captcha:${versions.easy_captcha_version}",
     "hutool-core"                                   : "cn.hutool:hutool-core:${versions.hutool_version}",
+    "hutool-all"                                   : "cn.hutool:hutool-all:${versions.hutool_version}",
     "jpinyin"                                       : "com.github.stuxuhai:jpinyin:${versions.jpinyin_version}",
     "reflections"                                   : "org.reflections:reflections:0.10.2",
     "fastjson"                                      : "com.alibaba:fastjson:${versions.fastjson_version}",
