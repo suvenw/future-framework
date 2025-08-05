@@ -126,7 +126,8 @@ public class SysRoleWebController {
     public   void   list( OutputSystem out, SysRoleQueryRequestVo sysRoleQueryRequestVo){
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build( ).clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
          SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
@@ -164,7 +165,8 @@ public class SysRoleWebController {
     public   void   queryList( OutputSystem out, SysRoleQueryRequestVo sysRoleQueryRequestVo){
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build( ).clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
         List<SysRoleResponseDto> resultList = sysRoleService.getSysRoleListByQuery(page,queryEnum);
@@ -371,7 +373,8 @@ public class SysRoleWebController {
 
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build().clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
 
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;

@@ -219,7 +219,7 @@ public class TopTools {
 		}
 		BigDecimal b = new BigDecimal(Double.toString(v));
 		BigDecimal one = new BigDecimal("1");
-		return b.divide(one, scale, BigDecimal.ROUND_UP).doubleValue();
+		return b.divide(one, scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public static double divideAndRoundUp(double v1, double v2, int scale) {

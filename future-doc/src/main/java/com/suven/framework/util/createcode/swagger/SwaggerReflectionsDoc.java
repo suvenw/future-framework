@@ -604,7 +604,7 @@ public class SwaggerReflectionsDoc {
             if(path.toUpperCase().contains(search.toUpperCase()) ){
                 searchPathsMap.put( path, requestMethodMap);
                 for (Object object: requestMethodMap.entrySet()){
-                    Map.Entry entry = (Map.Entry)object;
+                    Map.Entry<?,?> entry = ( Map.Entry<?,?>)object;
                     if (entry != null && entry.getValue() instanceof SwaggerRequestMethodBean ) {
                         SwaggerRequestMethodBean methodBean = (SwaggerRequestMethodBean)entry.getValue() ;
                         tags.addAll(methodBean.getTags());

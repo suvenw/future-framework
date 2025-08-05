@@ -129,7 +129,8 @@ public class SysDepartWebController {
     public   void   list( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
          SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDepartResponseDto> resultList = sysDepartService.getSysDepartByNextPage(page,queryEnum);
@@ -167,7 +168,8 @@ public class SysDepartWebController {
     public   void   queryList( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DEPART_NAME;
         List<SysDepartResponseDto> resultList = sysDepartService.getSysDepartListByQuery(page,queryEnum);
@@ -400,7 +402,8 @@ public class SysDepartWebController {
 
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build().clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
 
         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;

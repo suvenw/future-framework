@@ -55,7 +55,7 @@ public class SwaggerReflection {
     public Reflections initReflections() {
         logger.info(" -------------Swagger initReflections document  start init --------- PostConstruct -------------"  );
         Map<String, ApiPackages> apiPackagesMap = applicationContext.getBeansOfType(ApiPackages.class);
-        Set<String> packageList  = new HashSet(16);
+        Set<String> packageList  = new HashSet<>(16);
 //        packageList.add("com");
         if(apiPackagesMap != null && !apiPackagesMap.isEmpty()){
             apiPackagesMap.values().forEach(com ->{

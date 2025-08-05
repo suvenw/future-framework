@@ -125,7 +125,8 @@ public class SysUserRoleWebController {
     public   void   list( OutputSystem out, SysUserRoleQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
          SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
@@ -163,7 +164,8 @@ public class SysUserRoleWebController {
     public   void   queryList( OutputSystem out, SysUserIdQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.USER_ID;
         List<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleListByQuery(page,queryEnum);
@@ -371,7 +373,8 @@ public class SysUserRoleWebController {
 
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build().clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
 
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;

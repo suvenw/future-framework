@@ -124,7 +124,8 @@ public class SysPositionWebController {
     public   void   list( OutputSystem out, SysPositionQueryRequestVo sysPositionQueryRequestVo){
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build( ).clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
          SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
         ResponseResultPageVo<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
@@ -162,7 +163,8 @@ public class SysPositionWebController {
     public   void   queryList( OutputSystem out, SysPositionQueryRequestVo sysPositionQueryRequestVo){
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build( ).clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
         SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
         List<SysPositionResponseDto> resultList = sysPositionService.getSysPositionListByQuery(page,queryEnum);
@@ -370,7 +372,8 @@ public class SysPositionWebController {
 
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build().clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.build().toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
+        Pager page =  Pager.build();
+        pager.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
 
         SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
