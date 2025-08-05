@@ -28,10 +28,10 @@ public class RocketMQProductWithPayload<T>{
     public RocketMQProductWithPayload(){}
 
     public static <T> RocketMQProductWithPayload build(T body, long globalId, int retryCount) {
-        RocketMQProductWithPayload mq = new RocketMQProductWithPayload();
-        mq.globalId = globalId;
-        mq.retryCount = retryCount;
-        mq.body = body;
+        RocketMQProductWithPayload<T> mq = new RocketMQProductWithPayload<>();
+        mq.setGlobalId(globalId);
+        mq.setRetryCount(retryCount);
+        mq.setBody(body);
         return mq;
     }
 

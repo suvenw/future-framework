@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -198,7 +199,7 @@ public class TopTools {
 		}
 		BigDecimal b = new BigDecimal(Double.toString(v));
 		BigDecimal one = new BigDecimal("1");
-		return b.divide(one, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return b.divide(one, scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public static double roundDown(double v, int scale) {
@@ -208,7 +209,7 @@ public class TopTools {
 		}
 		BigDecimal b = new BigDecimal(Double.toString(v));
 		BigDecimal one = new BigDecimal("1");
-		return b.divide(one, scale, BigDecimal.ROUND_DOWN).doubleValue();
+		return b.divide(one, scale, RoundingMode.HALF_DOWN).doubleValue();
 	}
 
 	public static double roundUp(double v, int scale) {
@@ -230,7 +231,7 @@ public class TopTools {
 		BigDecimal bd1 = new BigDecimal(v1);
 		BigDecimal bd2 = new BigDecimal(v2);
 
-		return bd1.divide(bd2, scale, BigDecimal.ROUND_UP).doubleValue();
+		return bd1.divide(bd2, scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	public static double divideAndRoundDown(double v1, double v2, int scale) {
@@ -242,7 +243,7 @@ public class TopTools {
 		BigDecimal bd1 = new BigDecimal(v1);
 		BigDecimal bd2 = new BigDecimal(v2);
 
-		return bd1.divide(bd2, scale, BigDecimal.ROUND_DOWN).doubleValue();
+		return bd1.divide(bd2, scale, RoundingMode.HALF_UP).doubleValue();
 	}
 
 	/**
@@ -275,11 +276,11 @@ public class TopTools {
 	 * @return
 	 */
 	public static <T> List<T> pageResult(List<T> list, int startIndex, int fetchCount){
-		if(list != null && list.size() > 0){
+		if(list != null && !list.isEmpty()){
 			if(startIndex >= list.size()){
 				return null;
 			}
-			startIndex = startIndex < 0 ? 0 : startIndex;
+			startIndex = Math.max(startIndex, 0);
 			if(fetchCount <= 0){
 				return list.subList(startIndex, list.size());
 			}
@@ -319,16 +320,16 @@ public class TopTools {
 	 * @return {@link List}		返回结果是另一个 ArrayList 实例
 	 */
 	public static <T> List<T> subListCopy(List<T> source, int start, int count) {
-		if (source == null || source.size() == 0) {
+		if (source == null || source.isEmpty()) {
 			return new ArrayList<T>(0);
 		}
 
-		int fromIndex = start <= 0 ? 0 : start;
+		int fromIndex = Math.max(start, 0);
 		if (start > source.size()) {
 			fromIndex = source.size();
 		}
 
-		count = count <= 0 ? 0 : count;	//增加了边界处理
+		count = Math.max(count, 0);	//增加了边界处理
 		int endIndex = fromIndex + count;
 		if (endIndex > source.size()) {
 			endIndex = source.size();
@@ -350,13 +351,13 @@ public class TopTools {
 			return new ArrayList<T>(0);
 		}
 
-		int fromIndex = startIndex <= 0 ? 0 : startIndex;
+		int fromIndex = Math.max(startIndex, 0);
 		if (startIndex > source.size()) {
 			fromIndex = source.size();
 		}
 
-		stopIndex = stopIndex <= 0 ? 0 : stopIndex;//增加了边界处理
-		stopIndex = stopIndex <= startIndex ? startIndex : stopIndex;
+		stopIndex = Math.max(stopIndex, 0);//增加了边界处理
+		stopIndex = Math.max(stopIndex, startIndex);
 		if (stopIndex > source.size()) {
 			stopIndex = source.size();
 		}
