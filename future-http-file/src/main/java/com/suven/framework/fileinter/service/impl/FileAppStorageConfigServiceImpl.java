@@ -235,7 +235,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
           }
            Wrapper<FileAppStorageConfig> queryWrapper = fileAppStorageConfigRepository.builderQueryEnum( queryEnum, fileAppStorageConfigRequestDto);
             //分页对象        PageHelper
-           Pager<FileAppStorageConfig>   pager = Pager.build(0,1);
+           Pager<FileAppStorageConfig>   pager = Pager.of(0,1);
            pager.setSearchCount(false);
            List<FileAppStorageConfig>  list = fileAppStorageConfigRepository.getListByPage(pager,queryWrapper);
            if(null == list || list.isEmpty()){

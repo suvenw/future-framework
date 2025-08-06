@@ -134,7 +134,7 @@ public class SysUserWebController {
     public void list(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build();
+        Pager page = Pager.of();
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
@@ -173,7 +173,7 @@ public class SysUserWebController {
     public void queryList(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build();
+        Pager page = Pager.of();
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
@@ -408,7 +408,7 @@ public class SysUserWebController {
 
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.build();
+        Pager page = Pager.of();
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
 
@@ -597,7 +597,7 @@ public class SysUserWebController {
     @RequestMapping(value = UrlCommand.sys_user_userRoleList, method = RequestMethod.GET)
     //@RequiresPermissions("sys:user:queryUserRole")
     public void userRoleList(OutputSystem out, SysUserRoleRequestVo sysUserRoleRequestVo) {
-        Pager page = Pager.build();
+        Pager page = Pager.of();
         page.toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
         ResponseResultPageVo<SysUserResponseDto> dtos = sysUserService.getSysUserRoleId(page, sysUserRoleRequestVo.getRoleId(), sysUserRoleRequestVo.getUsername());
         out.write(dtos);

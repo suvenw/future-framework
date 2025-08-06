@@ -122,7 +122,7 @@ public class SysLogWebController {
     public   void   list( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
 
-        Pager<SysLogRequestDto> page =  Pager.build();
+        Pager<SysLogRequestDto> page =  Pager.of();
         page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
          SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
@@ -161,7 +161,7 @@ public class SysLogWebController {
     public   void   queryList( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
 
-        Pager<SysLogRequestDto> page =  Pager.build();
+        Pager<SysLogRequestDto> page =  Pager.of();
         page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
@@ -360,7 +360,7 @@ public class SysLogWebController {
 
             SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build().clone(sysLogQueryRequestVo);
 
-        Pager<SysLogRequestDto> page =  Pager.build();
+        Pager<SysLogRequestDto> page =  Pager.of();
         page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
 

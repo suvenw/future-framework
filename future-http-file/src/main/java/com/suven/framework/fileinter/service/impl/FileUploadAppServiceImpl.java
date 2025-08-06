@@ -235,7 +235,7 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
           }
            Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum( queryEnum, fileUploadAppRequestDto);
             //分页对象        PageHelper
-           Pager<FileUploadApp>   pager = Pager.build(0,1);
+           Pager<FileUploadApp>   pager = Pager.of(0,1);
            pager.setSearchCount(false);
            List<FileUploadApp>  list = fileUploadAppRepository.getListByPage(pager,queryWrapper);
            if(null == list || list.isEmpty()){

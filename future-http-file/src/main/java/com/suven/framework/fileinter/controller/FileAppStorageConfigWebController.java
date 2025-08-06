@@ -138,7 +138,7 @@ public class FileAppStorageConfigWebController {
     public   void   list( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
 
-        Pager<FileAppStorageConfigRequestDto> pager =  Pager.build();
+        Pager<FileAppStorageConfigRequestDto> pager =  Pager.of();
         pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
          FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
@@ -380,7 +380,7 @@ public class FileAppStorageConfigWebController {
 
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigQueryRequestVo);
 
-        Pager<FileAppStorageConfigRequestDto> pager = Pager.build();
+        Pager<FileAppStorageConfigRequestDto> pager = Pager.of();
         pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
 

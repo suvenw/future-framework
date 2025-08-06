@@ -235,7 +235,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
           }
            Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum( queryEnum, fileUploadUseBusinessRequestDto);
             //分页对象        PageHelper
-           Pager<FileUploadUseBusiness>   pager = Pager.build(0,1);
+           Pager<FileUploadUseBusiness>   pager = Pager.of(0,1);
            pager.setSearchCount(false);
            List<FileUploadUseBusiness>  list = fileUploadUseBusinessRepository.getListByPage(pager,queryWrapper);
            if(null == list || list.isEmpty()){

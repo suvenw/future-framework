@@ -138,7 +138,7 @@ public class FileDataDetailedWebController {
     public   void   list( OutputResponse out, FileDataDetailedQueryRequestVo fileDataDetailedQueryRequestVo){
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build( ).clone(fileDataDetailedQueryRequestVo);
 
-        Pager<FileDataDetailedRequestDto> pager =  Pager.build(fileDataDetailedQueryRequestVo.getPageNo(),fileDataDetailedQueryRequestVo.getPageSize());
+        Pager<FileDataDetailedRequestDto> pager =  Pager.of(fileDataDetailedQueryRequestVo.getPageNo(),fileDataDetailedQueryRequestVo.getPageSize());
         pager.toParamObject(fileDataDetailedRequestDto );
          FileDataDetailedQueryEnum queryEnum =  FileDataDetailedQueryEnum.DESC_ID;
         ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(queryEnum,pager);
@@ -379,7 +379,7 @@ public class FileDataDetailedWebController {
 
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build().clone(fileDataDetailedQueryRequestVo);
 
-        Pager<FileDataDetailedRequestDto> pager = Pager.build();
+        Pager<FileDataDetailedRequestDto> pager = Pager.of();
         pager.toPageSize(fileDataDetailedQueryRequestVo.getPageSize()).toPageNo(fileDataDetailedQueryRequestVo.getPageNo());
         pager.toParamObject(fileDataDetailedRequestDto );
 

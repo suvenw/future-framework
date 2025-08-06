@@ -230,7 +230,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
           }
            Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository.builderQueryEnum( queryEnum, fileUploadActionWaterRequestDto);
             //分页对象        PageHelper
-           Pager<FileUploadActionWater>  pager = Pager.build(0,1);
+           Pager<FileUploadActionWater>  pager = Pager.of(0,1);
            pager.setSearchCount(false);
            List<FileUploadActionWater>  list = fileUploadActionWaterRepository.getListByPage(pager,queryWrapper);
            if(null == list || list.isEmpty()){

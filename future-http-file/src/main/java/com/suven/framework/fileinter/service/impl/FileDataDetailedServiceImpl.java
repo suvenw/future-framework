@@ -236,7 +236,7 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
           }
            Wrapper<FileDataDetailed> queryWrapper = fileDataDetailedRepository.builderQueryEnum( queryEnum, fileDataDetailedRequestDto);
             //分页对象        PageHelper
-           Pager<FileDataDetailed>   pager = Pager.build(0,1);
+           Pager<FileDataDetailed>   pager = Pager.of(0,1);
            pager.setSearchCount(false);
           ResponseResultPageVo<FileDataDetailed>   pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
            if(null == pageVo || ObjectTrue.isEmpty(pageVo.getList()) ){
