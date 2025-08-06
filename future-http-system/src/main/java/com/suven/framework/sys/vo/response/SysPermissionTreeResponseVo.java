@@ -106,20 +106,13 @@ public class SysPermissionTreeResponseVo extends BaseStatusEntity implements Ser
      */
     private String createBy;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+
 
     /**
      * 更新人
      */
     private String updateBy;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
     /**
      * alwaysShow
@@ -152,7 +145,6 @@ public class SysPermissionTreeResponseVo extends BaseStatusEntity implements Ser
         this.perms = permission.getPerms();
         this.permsType = String.valueOf(permission.getPermsType());
         this.component = permission.getComponent();
-        this.createTime = permission.getCreateTime();
         this.delFlag = permission.getDelFlag();
         this.description = permission.getDescription();
         this.icon = permission.getIcon();
@@ -161,7 +153,6 @@ public class SysPermissionTreeResponseVo extends BaseStatusEntity implements Ser
         this.name = permission.getName();
         this.parentId = String.valueOf(permission.getParentId());
         this.sortNo = permission.getSortNo();
-        this.updateTime = permission.getUpdateTime();
         this.redirect = permission.getRedirect();
         this.url = permission.getUrl();
         this.hidden = permission.getHidden() == 1 ? true : false;
@@ -337,13 +328,7 @@ public class SysPermissionTreeResponseVo extends BaseStatusEntity implements Ser
         this.createBy = createBy;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 
     public String getUpdateBy() {
         return updateBy;
@@ -353,13 +338,6 @@ public class SysPermissionTreeResponseVo extends BaseStatusEntity implements Ser
         this.updateBy = updateBy;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public long getKey() {
         return key;

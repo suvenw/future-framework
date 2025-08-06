@@ -8,6 +8,7 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IBeanClone;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -32,16 +33,16 @@ public class BaseEntity implements IBaseApi, IBeanClone {
     @ApiDesc(value =  "创建时间")
     @TableField(value = "create_date", fill = FieldFill.INSERT)
     @ExcelProperty("创建时间")
-    private Date createDate; //创建时间;
+    private LocalDateTime createDate; //创建时间;
     @ApiDesc(value =  "修改时间")
     @TableField(value = "modify_date", fill = FieldFill.INSERT_UPDATE)
     @ExcelProperty("修改时间")
-    private Date modifyDate; //修改时间;
+    private LocalDateTime modifyDate; //修改时间;
 
 
     public BaseEntity() {
         super();
-        this.modifyDate = this.createDate = new Date();
+        this.modifyDate = this.createDate = LocalDateTime.now();
     }
 
 
@@ -68,31 +69,31 @@ public class BaseEntity implements IBaseApi, IBeanClone {
         return(T) this;
     }
 
-    public Date getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public IBaseApi toCreateDate(Date createDate) {
+    public IBaseApi toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public Date getModifyDate() {
+    public LocalDateTime getModifyDate() {
         if(null == modifyDate ){
-            modifyDate = new Date();
+            modifyDate = LocalDateTime.now();
         }
         return modifyDate;
     }
-    public void setModifyDate(Date modifyDate) {
+    public void setModifyDate(LocalDateTime modifyDate) {
         this.modifyDate = modifyDate;
     }
 
 
-    public IBaseApi toModifyDate(Date modifyDate) {
+    public IBaseApi toModifyDate(LocalDateTime modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }
