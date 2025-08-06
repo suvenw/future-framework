@@ -9,6 +9,7 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IBeanClone;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -33,11 +34,11 @@ public class BaseTenantEntity  implements IBaseApi, IBeanClone {
     @ApiDesc(value =  "创建时间")
     @TableField(value = "create_date", fill = FieldFill.INSERT)
     @ExcelProperty("创建时间")
-    private Date createDate; //创建时间;
+    private LocalDateTime createDate; //创建时间;
     @ApiDesc(value =  "修改时间")
     @TableField(value = "modify_date", fill = FieldFill.INSERT_UPDATE)
     @ExcelProperty("修改时间")
-    private Date modifyDate; //修改时间;
+    private LocalDateTime modifyDate; //修改时间;
 
     @ApiDesc(value =  "租户ID,租户主键值")
     @ExcelIgnore
@@ -49,7 +50,7 @@ public class BaseTenantEntity  implements IBaseApi, IBeanClone {
 
     public BaseTenantEntity() {
         super();
-        this.modifyDate = this.createDate = new Date();
+        this.modifyDate = this.createDate = LocalDateTime.now();
     }
 
 
@@ -87,40 +88,27 @@ public class BaseTenantEntity  implements IBaseApi, IBeanClone {
         this.tenantId = tenantId;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public IBaseApi toCreateDate(Date createDate) {
-        this.createDate = createDate;
-        return this;
-    }
-
-    public Date getModifyDate() {
-        if(null == modifyDate ){
-            modifyDate = new Date();
-        }
-        return modifyDate;
-    }
-    public void setModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-
-    public IBaseApi toModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-        return this;
-    }
-
     public int getDeleted() {
         return deleted;
     }
 
     public void setDeleted(int deleted) {
         this.deleted = deleted;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(LocalDateTime modifyDate) {
+        this.modifyDate = modifyDate;
     }
 }

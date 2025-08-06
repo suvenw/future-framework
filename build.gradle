@@ -145,8 +145,6 @@ allprojects {
         all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
         all*.exclude group: 'com.intellij', module: 'openapi'
     }
-
-
 }
 ext {
     set('springCloudVersion', "2025.0.0")

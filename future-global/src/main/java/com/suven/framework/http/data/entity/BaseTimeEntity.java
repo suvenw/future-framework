@@ -8,6 +8,7 @@ import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IBeanClone;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -32,16 +33,16 @@ public class BaseTimeEntity  implements IBaseApi, IBeanClone {
     @ApiDesc(value =  "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     @ExcelProperty("创建时间")
-    private Date createTime; //创建时间;
+    private LocalDateTime createTime; //创建时间;
     @ApiDesc(value =  "修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     @ExcelProperty("修改时间")
-    private Date updateTime; //修改时间;
+    private LocalDateTime updateTime; //修改时间;
 
 
     public BaseTimeEntity() {
         super();
-        this.createTime = this.updateTime = new Date();
+        this.createTime = this.updateTime =  LocalDateTime.now();
     }
 
 
@@ -69,30 +70,30 @@ public class BaseTimeEntity  implements IBaseApi, IBeanClone {
 
 
 
-    public IBaseApi toCreateTime(Date createTime) {
+    public IBaseApi toCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
         return this;
     }
 
-    public IBaseApi toUpdateTime(Date updateTime) {
+    public IBaseApi toUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
         return this;
     }
 
 
-    public Date getCreateTime() {
+    public LocalDateTime getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
+    public LocalDateTime getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
 }
