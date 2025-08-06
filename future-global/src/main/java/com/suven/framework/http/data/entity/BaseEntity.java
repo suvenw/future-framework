@@ -27,7 +27,7 @@ public class BaseEntity implements IBaseApi, IBeanClone {
 
     @ApiDesc(value =  "对应的业务主键值")
     @ExcelIgnore
-    private long id; //表主键id;
+    private Long id; //表主键id;
     //	private long globalId; //全局id 用于分表分库使用
     @ApiDesc(value =  "创建时间")
     @TableField(value = "create_date", fill = FieldFill.INSERT)

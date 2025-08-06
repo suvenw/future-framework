@@ -9,6 +9,7 @@ import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IBeanClone;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -33,11 +34,11 @@ public class BaseByDateEntity  implements IBaseApi, IBeanClone, Serializable {
     @ApiDesc(value =  "创建时间")
     @TableField(value = "create_date", fill = FieldFill.INSERT)
     @ExcelProperty("创建时间")
-    private Date createDate; //创建时间;
+    private LocalDateTime createDate; //创建时间;
     @ApiDesc(value =  "修改时间")
     @TableField(value = "last_modified_date", fill = FieldFill.INSERT_UPDATE)
     @ExcelProperty("修改时间")
-    private Date lastModifiedDate; //修改时间;
+    private LocalDateTime lastModifiedDate; //修改时间;
 
     @ApiDesc(value =  "创建人")
     @TableField(value = "created_by", fill = FieldFill.INSERT)
@@ -51,7 +52,7 @@ public class BaseByDateEntity  implements IBaseApi, IBeanClone, Serializable {
 
     public BaseByDateEntity() {
         super();
-        this.createDate = this.lastModifiedDate = new Date();
+        this.createDate = this.lastModifiedDate = LocalDateTime.now() ;
     }
 
 
@@ -79,29 +80,30 @@ public class BaseByDateEntity  implements IBaseApi, IBeanClone, Serializable {
 
 
 
-    public IBaseApi toCreateDate(Date createDate) {
+    public IBaseApi toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public IBaseApi toLastModifiedDate(Date lastModifiedDate) {
+    public IBaseApi toLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
         return this;
     }
 
-    public Date getCreateDate() {
+
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 
-    public Date getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
