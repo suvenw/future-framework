@@ -124,7 +124,7 @@ public class SysRolePermissionWebController {
     public   void   list( OutputSystem out, SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo){
             SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build( ).clone(sysRolePermissionQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysRolePermissionRequestDto );
          SysRolePermissionQueryEnum queryEnum =  SysRolePermissionQueryEnum.DESC_ID;
@@ -163,7 +163,7 @@ public class SysRolePermissionWebController {
     public   void   queryList( OutputSystem out, SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo){
             SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build( ).clone(sysRolePermissionQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysRolePermissionRequestDto );
         SysRolePermissionQueryEnum queryEnum =  SysRolePermissionQueryEnum.DESC_ID;
@@ -372,7 +372,7 @@ public class SysRolePermissionWebController {
 
             SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build().clone(sysRolePermissionQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysRolePermissionRequestDto );
 

@@ -124,7 +124,7 @@ public class SysUserDepartWebController {
     public   void   list( OutputSystem out, SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo){
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build( ).clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
          SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
@@ -163,7 +163,7 @@ public class SysUserDepartWebController {
     public   void   queryList( OutputSystem out, SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo){
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build( ).clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
         SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
@@ -372,7 +372,7 @@ public class SysUserDepartWebController {
 
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build().clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
 

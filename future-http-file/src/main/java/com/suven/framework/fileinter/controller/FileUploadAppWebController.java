@@ -138,7 +138,7 @@ public class FileUploadAppWebController {
     public   void   list( OutputResponse out, FileUploadAppQueryRequestVo fileUploadAppQueryRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build( ).clone(fileUploadAppQueryRequestVo);
 
-        Pager<FileUploadAppRequestDto> pager =  Pager.build(fileUploadAppQueryRequestVo.getPageNo(),fileUploadAppQueryRequestVo.getPageSize());
+        Pager<FileUploadAppRequestDto> pager =  Pager.of(fileUploadAppQueryRequestVo.getPageNo(),fileUploadAppQueryRequestVo.getPageSize());
         pager.toParamObject(fileUploadAppRequestDto );
          FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;
         ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
@@ -379,7 +379,7 @@ public class FileUploadAppWebController {
 
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppQueryRequestVo);
 
-        Pager<FileUploadAppRequestDto> pager = Pager.build();
+        Pager<FileUploadAppRequestDto> pager = Pager.of();
         pager.toPageSize(fileUploadAppQueryRequestVo.getPageSize()).toPageNo(fileUploadAppQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadAppRequestDto );
 

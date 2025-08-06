@@ -138,7 +138,7 @@ public class FileUploadStorageWebController {
     public   void   list( OutputResponse out, FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo){
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build( ).clone(fileUploadStorageQueryRequestVo);
 
-        Pager<FileUploadStorageRequestDto> pager =  Pager.build();
+        Pager<FileUploadStorageRequestDto> pager =  Pager.of();
         pager.toPageSize(fileUploadStorageQueryRequestVo.getPageSize()).toPageNo(fileUploadStorageQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadStorageRequestDto );
          FileUploadStorageQueryEnum queryEnum =  FileUploadStorageQueryEnum.DESC_ID;
@@ -380,7 +380,7 @@ public class FileUploadStorageWebController {
 
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build().clone(fileUploadStorageQueryRequestVo);
 
-        Pager<FileUploadStorageRequestDto> pager = Pager.build();
+        Pager<FileUploadStorageRequestDto> pager = Pager.of();
         pager.toPageSize(fileUploadStorageQueryRequestVo.getPageSize()).toPageNo(fileUploadStorageQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadStorageRequestDto );
 

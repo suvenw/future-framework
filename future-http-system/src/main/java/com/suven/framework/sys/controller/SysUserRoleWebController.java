@@ -125,7 +125,7 @@ public class SysUserRoleWebController {
     public   void   list( OutputSystem out, SysUserRoleQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager<SysUserRoleRequestDto> page =  Pager.build();
+        Pager<SysUserRoleRequestDto> page =  Pager.of();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
          SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;
@@ -164,7 +164,7 @@ public class SysUserRoleWebController {
     public   void   queryList( OutputSystem out, SysUserIdQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.USER_ID;
@@ -373,7 +373,7 @@ public class SysUserRoleWebController {
 
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build().clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
 

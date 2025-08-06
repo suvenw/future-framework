@@ -123,7 +123,7 @@ public class SysPermissionDataRuleWebController {
     public   void   list( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager page =  Pager.of();
         page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
          SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
@@ -162,7 +162,7 @@ public class SysPermissionDataRuleWebController {
     public   void   queryList( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager<SysPermissionDataRuleRequestDto> page =  Pager.build();
+        Pager<SysPermissionDataRuleRequestDto> page =  Pager.of();
         page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
         SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
@@ -371,7 +371,7 @@ public class SysPermissionDataRuleWebController {
 
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build().clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager<SysPermissionDataRuleRequestDto> page =  Pager.build();
+        Pager<SysPermissionDataRuleRequestDto> page =  Pager.of();
         page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
 

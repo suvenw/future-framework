@@ -81,7 +81,7 @@ public class FileUploadUseBusinessController {
     @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadUseBusinessRequestVo fileUploadUseBusinessRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessRequestVo);
-        Pager<FileUploadUseBusinessRequestDto> pager = Pager.build(fileUploadUseBusinessRequestVo.getPageNo(),fileUploadUseBusinessRequestVo.getPageSize());
+        Pager<FileUploadUseBusinessRequestDto> pager = Pager.of(fileUploadUseBusinessRequestVo.getPageNo(),fileUploadUseBusinessRequestVo.getPageSize());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
         ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum.DESC_ID,pager);
 

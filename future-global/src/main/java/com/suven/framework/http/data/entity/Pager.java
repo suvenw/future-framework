@@ -55,7 +55,7 @@ public class Pager<T> implements Serializable {
      * 创建默认有下一页的分页对象
      * @return Pager对象
      */
-	public  static <T> Pager<T> build(){
+	public  static <T> Pager<T> of(){
 		return new Pager<>(true);
 	}
 
@@ -63,7 +63,7 @@ public class Pager<T> implements Serializable {
      * 创建默认有下一页的分页对象,且返回条数小于等于指定的pageMaxSize值;
      * @return Pager对象
      */
-    public  static <T> Pager<T> build(int pageMaxSize){
+    public  static <T> Pager<T> of(int pageMaxSize){
         return new Pager<>(true,pageMaxSize);
     }
 
@@ -71,13 +71,13 @@ public class Pager<T> implements Serializable {
 	/**
 	 * 创建分页对象时,设置页码的大小值默认为100条;是否有下一页,默认为false;
 	 */
-	public static <T> Pager<T> build(int pageNo, int pageSize){
-		Pager<T> build = build();
+	public static <T> Pager<T> of(int pageNo, int pageSize){
+		Pager<T> build = of();
 		return build.toPageNo(pageNo).toPageSize(pageSize);
 	}
 
-	public static <T> Pager<T> build(T paramObject, int pageNo, int pageSize){
-		Pager<T> build = build();
+	public static <T> Pager<T> of(T paramObject, int pageNo, int pageSize){
+		Pager<T> build = of();
 		return build.toPageNo(pageNo).toPageSize(pageSize).toParamObject(paramObject);
 	}
 

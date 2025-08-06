@@ -230,7 +230,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
           }
            Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum( queryEnum, fileUploadStorageRequestDto);
             //分页对象        PageHelper
-           Pager<FileUploadStorage>  pager = Pager.build(0,1);
+           Pager<FileUploadStorage>  pager = Pager.of(0,1);
            pager.setSearchCount(false);
            List<FileUploadStorage>  list = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
            if(null == list || list.isEmpty()){

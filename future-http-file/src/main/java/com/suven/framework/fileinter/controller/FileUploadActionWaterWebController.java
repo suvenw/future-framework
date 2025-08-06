@@ -132,7 +132,7 @@ public class FileUploadActionWaterWebController {
     public   void   list( OutputResponse out, FileUploadActionWaterQueryRequestVo fileUploadActionWaterQueryRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build( ).clone(fileUploadActionWaterQueryRequestVo);
 
-        Pager<FileUploadActionWaterRequestDto> pager =  Pager.build();
+        Pager<FileUploadActionWaterRequestDto> pager =  Pager.of();
         pager.toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
          FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;
@@ -374,7 +374,7 @@ public class FileUploadActionWaterWebController {
 
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterQueryRequestVo);
 
-        Pager<FileUploadActionWaterRequestDto> pager = Pager.build();
+        Pager<FileUploadActionWaterRequestDto> pager = Pager.of();
         pager.toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
 
