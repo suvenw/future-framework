@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.io.InputStream;
 
@@ -71,10 +73,9 @@ public class SysRoleServiceImpl  implements SysRoleService {
         if(sysRoleRequestDto== null){
             return null;
         }
-        Date date = new Date();
         SysRole sysRole = SysRole.build().clone(sysRoleRequestDto);
-        sysRole.toCreateTime(date);
-        sysRole.toUpdateTime(date);
+        sysRole.toCreateTime(LocalDateTime.now());
+        sysRole.toUpdateTime(LocalDateTime.now());
         boolean result = sysRoleDao.save(sysRole);
         if(!result){
             return null;
@@ -96,9 +97,9 @@ public class SysRoleServiceImpl  implements SysRoleService {
             return null;
         }
         SysRole sysRole = SysRole.build().clone(sysRoleRequestDto);
-        Date date = new Date();
-        sysRole.toCreateTime(date);
-        sysRole.toUpdateTime(date);
+        LocalTime date = LocalTime.now();
+        sysRole.toCreateTime(LocalDateTime.now());
+        sysRole.toUpdateTime(LocalDateTime.now());
         sysRole = sysRoleDao.saveId(sysRole);
         if(null == sysRole){
             return null;
@@ -175,7 +176,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
           }
 
         SysRole sysRole = SysRole.build().clone(sysRoleRequestDto);
-        sysRole.setUpdateTime(new Date());
+        sysRole.setUpdateTime(LocalDateTime.now());
         return sysRoleDao.updateById(sysRole);
 
 

@@ -16,6 +16,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.io.InputStream;
 
@@ -85,8 +86,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         String userPassword = coverPassword(sysUser.getPassword(), sysUser.getSalt());
         sysUser.setPassword(userPassword);
-        sysUser.setCreateTime(new Date());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setCreateTime(LocalDateTime.now());
+        sysUser.setUpdateTime(LocalDateTime.now());
         boolean result = sysUserDao.save(sysUser);
         if (!result) {
             return null;
@@ -201,7 +202,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser sysUser = SysUser.build().clone(sysUserRequestDto);
         sysUser.setPassword(getSysUser.getPassword());
         sysUser.setSalt(getSysUser.getSalt());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         return sysUserDao.updateById(sysUser);
 
 
@@ -214,7 +215,7 @@ public class SysUserServiceImpl implements SysUserService {
             return false;
         }
         SysUser sysUser = SysUser.build().clone(sysUserRequestDto);
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         return sysUserDao.updateById(sysUser);
 
 
@@ -474,7 +475,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         SysUser sysUser = sysUserDao.getById(idList.get(0));
         sysUser.toStatus(TbStatusEnum.ENABLE.index());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         boolean result = sysUserDao.updateById(sysUser);
         return result;
     }
@@ -493,7 +494,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         SysUser sysUser = sysUserDao.getById(idList.get(0));
         sysUser.toStatus(TbStatusEnum.DISABLE.index());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         boolean result = sysUserDao.updateById(sysUser);
         return result;
     }
@@ -531,7 +532,7 @@ public class SysUserServiceImpl implements SysUserService {
             return false;
         }
         SysUser sysUser = sysUserDao.getById(statusReqVo.getId());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
         boolean result = sysUserDao.updateById(sysUser);
         return result;
     }
@@ -549,7 +550,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         SysUser sysUser = sysUserDao.getById(statusReqVo.getId());
         sysUser.toStatus(statusReqVo.getBan());
-        sysUser.setUpdateTime(new Date());
+        sysUser.setUpdateTime(LocalDateTime.now());
 
         boolean result = sysUserDao.updateById(sysUser);
 

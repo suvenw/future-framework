@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.io.InputStream;
 
@@ -75,8 +76,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
         }
         Date date = new Date();
         SysPermission sysPermission = SysPermission.build().clone(sysPermissionRequestDto);
-        sysPermission.toCreateTime(date);
-        sysPermission.toUpdateTime(date);
+        sysPermission.toCreateTime(LocalDateTime.now());
+        sysPermission.toUpdateTime(LocalDateTime.now());
         boolean result = sysPermissionDao.save(sysPermission);
         if(!result){
             return null;
@@ -174,7 +175,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
           }
 
         SysPermission sysPermission = SysPermission.build().clone(sysPermissionRequestDto);
-        sysPermission.toUpdateTime(new Date());
+        sysPermission.toUpdateTime(LocalDateTime.now());
         return sysPermissionDao.updateById(sysPermission);
 
 
