@@ -308,7 +308,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
     @Override
     public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      */
     @Override
     public ResponseResultPageVo<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum){
-        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysThirdAccountResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());

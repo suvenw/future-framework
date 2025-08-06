@@ -308,7 +308,7 @@ public class SysLogServiceImpl  implements SysLogService {
     @Override
     public ResponseResultPageVo<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysLogServiceImpl  implements SysLogService {
      */
     @Override
     public ResponseResultPageVo<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum){
-        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());

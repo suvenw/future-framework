@@ -312,7 +312,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
     @Override
     public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -336,7 +336,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      */
     @Override
     public ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum){
-        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
 //        Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());

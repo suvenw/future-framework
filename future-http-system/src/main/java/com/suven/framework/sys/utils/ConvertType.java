@@ -612,38 +612,38 @@ public class ConvertType {
 
 	public static<F,T> T entityToModel(F entity, Class<T> modelClass) {
 		log.info("entityToModel : Entity属性的值赋值到Model");
-		Object model = null;
+		T model = null;
 		if (entity == null || modelClass ==null) {
 			return null;
 		}
 
 		try {
-			model = modelClass.newInstance();
+			model = modelClass.getDeclaredConstructor().newInstance();
 		} catch (InstantiationException e) {
 			log.error("entityToModel : 实例化异常", e);
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			log.error("entityToModel : 安全权限异常", e);
 		}
 		BeanUtils.copyProperties(entity, model);
-		return (T)model;
+		return model;
 	}
 
 	/**
 	 * 判断 list 是否为空
 	 *
-	 * @param list
+	 * @param list 判断是否为空,list 聚合
 	 * @return true or false
 	 * list == null		: true
 	 * list.size() == 0	: true
 	 */
-	public static boolean listIsEmpty(Collection list) {
-		return (list == null || list.size() == 0);
+	public static boolean listIsEmpty(Collection<?> list) {
+		return (list == null || list.isEmpty());
 	}
 
 	/**
 	 * 判断 list 是否不为空
 	 *
-	 * @param list
+	 * @param list 判断是否为空,list 聚合
 	 * @return true or false
 	 * list == null		: false
 	 * list.size() == 0	: false

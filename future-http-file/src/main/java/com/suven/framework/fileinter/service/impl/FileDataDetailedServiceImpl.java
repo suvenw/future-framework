@@ -1,6 +1,7 @@
 package com.suven.framework.fileinter.service.impl;
 
 
+import com.suven.framework.core.ObjectTrue;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -237,11 +238,11 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
             //分页对象        PageHelper
            Pager<FileDataDetailed>   pager = Pager.build(0,1);
            pager.setSearchCount(false);
-           List<FileDataDetailed>  list = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
+          ResponseResultPageVo<FileDataDetailed>   pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
+           if(null == pageVo || ObjectTrue.isEmpty(pageVo.getList()) ){
                  return null;
            }
-           FileDataDetailed fileDataDetailed = list.get(0);
+           FileDataDetailed fileDataDetailed = pageVo.getList().get(0);
            FileDataDetailedResponseDto fileDataDetailedResponseDto = FileDataDetailedResponseDto.build().clone(fileDataDetailed);
 
             return fileDataDetailedResponseDto ;
@@ -282,11 +283,11 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
 
         Wrapper<FileDataDetailed> queryWrapper =fileDataDetailedRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
-        List<FileDataDetailed>  list = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        ResponseResultPageVo<FileDataDetailed> pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
+        if(null == pageVo || null == pageVo.getList() ){
+            return new ArrayList<>();
         }
-        List<FileDataDetailedResponseDto>  resDtoList =  IterableConvert.convertList(list,FileDataDetailedResponseDto.class);
+        List<FileDataDetailedResponseDto>  resDtoList =  IterableConvert.convertList(pageVo.getList(),FileDataDetailedResponseDto.class);
         return resDtoList;
 
     }
@@ -320,14 +321,11 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
         Wrapper<FileDataDetailed> queryWrapper = fileDataDetailedRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
-        List<FileDataDetailed>  list = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        ResponseResultPageVo<FileDataDetailed>   pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
+        if(null == pageVo || ObjectTrue.isEmpty(pageVo.getList()) ){
+           return new ResponseResultPageVo<>();
         }
-        boolean isNext =  pager.isNextPage(list);
-        List<FileDataDetailedResponseDto>  resDtoList =  IterableConvert.convertList(list,FileDataDetailedResponseDto.class);
-
-        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
+        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = pageVo.convertBuild(FileDataDetailedResponseDto.class);
 
         return resultList;
 

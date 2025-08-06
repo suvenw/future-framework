@@ -135,7 +135,7 @@ public class SysUserWebController {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
         Pager page = Pager.build();
-        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
         ResponseResultPageVo<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
@@ -145,8 +145,8 @@ public class SysUserWebController {
         }
 
         List<SysUserShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(), SysUserShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo()
-                .setResult(listVo, page.getSize(), resultList.getTotal())
+        ResponseResultPageVo<SysUserShowResponseVo> result = new ResponseResultPageVo<>();
+        result.of(listVo, page.getSize(), resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write(result);
     }
@@ -174,7 +174,7 @@ public class SysUserWebController {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
         Pager page = Pager.build();
-        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
         List<SysUserResponseDto> resultList = sysUserService.getSysUserListByQuery(page, queryEnum);
@@ -409,7 +409,7 @@ public class SysUserWebController {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
         Pager page = Pager.build();
-        pager.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
+        page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
 
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
@@ -598,7 +598,7 @@ public class SysUserWebController {
     //@RequiresPermissions("sys:user:queryUserRole")
     public void userRoleList(OutputSystem out, SysUserRoleRequestVo sysUserRoleRequestVo) {
         Pager page = Pager.build();
-        pager.toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
+        page.toPageSize(sysUserRoleRequestVo.getPageSize()).toPageNo(sysUserRoleRequestVo.getPageNo());
         ResponseResultPageVo<SysUserResponseDto> dtos = sysUserService.getSysUserRoleId(page, sysUserRoleRequestVo.getRoleId(), sysUserRoleRequestVo.getUsername());
         out.write(dtos);
     }
@@ -696,7 +696,7 @@ public class SysUserWebController {
 //            return;
 //        }
 //        long userId = Long.valueOf(userIdStr);
-//        ResponseResultPageVo result = new ResponseResultPageVo();
+//        ResponseResultPageVo result = new ResponseResultPageVo<>();
 //        List<DepartTreeRespVo> departList = userFacade.getUserDepartList(userId);
 //        if (ObjectTrue.isEmpty(departList)) {
 //            out.write(SysResultCodeEnum.SYS_USER_DEPART_FIND_FAIL);

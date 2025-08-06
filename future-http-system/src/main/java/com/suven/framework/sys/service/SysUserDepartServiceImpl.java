@@ -308,7 +308,7 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
     @Override
     public ResponseResultPageVo<SysUserDepartResponseDto> getSysUserDepartByQueryPage(Pager page, SysUserDepartQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysUserDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysUserDepart> queryWrapper = sysUserDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysUserDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
      */
     @Override
     public ResponseResultPageVo<SysUserDepartResponseDto> getSysUserDepartByNextPage(Pager page, SysUserDepartQueryEnum queryEnum){
-        ResponseResultPageVo<SysUserDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserDepartResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysUserDepart> queryWrapper = sysUserDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysUserDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());

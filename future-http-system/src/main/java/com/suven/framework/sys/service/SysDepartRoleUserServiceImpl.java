@@ -308,7 +308,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
     @Override
     public ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysDepartRoleUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartRoleUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartRoleUser> queryWrapper = sysDepartRoleUserDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartRoleUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
      */
     @Override
     public ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
-        ResponseResultPageVo<SysDepartRoleUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartRoleUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartRoleUser> queryWrapper = sysDepartRoleUserDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartRoleUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());

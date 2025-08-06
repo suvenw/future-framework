@@ -531,6 +531,13 @@ public class IterableConvert {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 将集合转换为Set集合，并过滤掉null元素
+     *
+     * @param <T> 集合元素类型
+     * @param from 源集合
+     * @return 转换后的Set集合，不包含null元素
+     */
     public static <T> Set<T> convertSet(Collection<T> from){
         return from.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
@@ -831,6 +838,13 @@ public class IterableConvert {
     }
 
 
+    /**
+     * 检查源集合是否包含候选集合中的任何元素
+     *
+     * @param source 源集合
+     * @param candidates 候选集合，用于检查其元素是否存在于源集合中
+     * @return 如果源集合包含候选集合中的任何元素，则返回true；否则返回false
+     */
     public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
         return CollectionUtils.containsAny(source, candidates);
     }

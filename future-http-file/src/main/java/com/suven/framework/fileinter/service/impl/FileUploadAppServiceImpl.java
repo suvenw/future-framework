@@ -317,7 +317,7 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      */
     @Override
     public ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = new ResponseResultPageVo();
+        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = new ResponseResultPageVo<>();
         Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);

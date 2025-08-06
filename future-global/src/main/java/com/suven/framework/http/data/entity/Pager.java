@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class Pager<T> implements Serializable {
 
-	private static final long serialVersionUID = 171123346864199339L;
 	private int PAGE_MAX_SIZE = 100;//设置页码数大小;
 	private final Integer PAGE_INIT = 1;  //设置页码初始大小1;
 	private int indexId = 0;     //获取下标ID索引值;(初始时传0,pageType传1,获取最新数据; 1.刷新 传最大ID, 3.上一页也是传获取最大ID,2.下一页,传本页的最小ID)
@@ -36,7 +35,7 @@ public class Pager<T> implements Serializable {
 	}
 	/**
 	 * 创建对象时,设置页码的是否需要下一次;
-	 * @param isNextPage
+	 * @param isNextPage 默认为false;
 	 */
 	public Pager(boolean isNextPage){
 		this.isNextPage = isNextPage;
@@ -44,7 +43,7 @@ public class Pager<T> implements Serializable {
 
 	/**
 	 * 创建对象时,设置页码的是否需要下一次;
-	 * @param isNextPage
+	 * @param isNextPage	默认为false;
 	 */
 	public Pager(boolean isNextPage, int pageMaxSize){
 		this.isNextPage = isNextPage;
@@ -54,7 +53,7 @@ public class Pager<T> implements Serializable {
 
 	/**
      * 创建默认有下一页的分页对象
-     * @return
+     * @return Pager对象
      */
 	public  static <T> Pager<T> build(){
 		return new Pager<>(true);
@@ -62,7 +61,7 @@ public class Pager<T> implements Serializable {
 
     /**
      * 创建默认有下一页的分页对象,且返回条数小于等于指定的pageMaxSize值;
-     * @return
+     * @return Pager对象
      */
     public  static <T> Pager<T> build(int pageMaxSize){
         return new Pager<>(true,pageMaxSize);
@@ -116,7 +115,7 @@ public class Pager<T> implements Serializable {
 
 	/**
 	 * 通过new 对象初始化是否需要下一页;返回大小是否加1的值;
-	 * @return
+	 * @return  integer
 	 */
 	public int getPageSize() {
 		int pageSize = this.getSize();
@@ -128,7 +127,7 @@ public class Pager<T> implements Serializable {
 
 	/**
 	 * 获取真实页面 不判断是否包含下一页
-	 * @return
+	 * @return  integer
 	 */
 	public int getRealPageSize() {
 		return pageSize;
@@ -136,7 +135,7 @@ public class Pager<T> implements Serializable {
 	
 	/**
 	 * 返回页大小数
-	 * @return
+	 * @return  integer
 	 */
 	public int getSize(){
 		if(pageSize <= 0 || pageSize > PAGE_MAX_SIZE) {
@@ -155,7 +154,7 @@ public class Pager<T> implements Serializable {
 
     /**
      * 返回的结果为1,2,3,4
-     * @return
+     * @return  integer
      */
     public int getPageNo() {
 		if (this.pageNo < PAGE_INIT){
@@ -174,7 +173,7 @@ public class Pager<T> implements Serializable {
 	/**
 	 * 获取数据库查询的第几页的大小值;
      * 返回的结果为10,20,30 (1->0, 2->10,3->30)
-	 * @return
+	 * @return  int
 	 */
 	public int getStart(){
 		int offset = (this.getPageNo() - PAGE_INIT) * this.getSize() ;//分页获取缓存信息;
@@ -183,7 +182,7 @@ public class Pager<T> implements Serializable {
 	
 	/**
 	 * 获取下标为1开始的页结束的大小
-	 * @return
+	 * @return  int
 	 */
 	public int getOneEndSize(){
 		int endset = this.getPageNo() *  this.getSize();//获取第几页的下标值
@@ -196,7 +195,7 @@ public class Pager<T> implements Serializable {
 	/**
 	 * //获取下标为0开始的结束页大小
 	 * 用于redis set 数据组排序列表
-	 * @return
+	 * @return  int
 	 */
 	public int getZeroEndSize(){
 		int endset = this.getPageNo() *  this.getSize() - PAGE_INIT ;
@@ -209,8 +208,8 @@ public class Pager<T> implements Serializable {
 	
 	/**
 	 * 验证查询结果集是否还有一下页实现方法
-	 * @param size
-	 * @return
+	 * @param size 查询结果集的大小
+	 * @return  boolean
 	 */
 	public boolean isNextPage(int size){
         return isNextPage && this.getSize() < size;
@@ -250,7 +249,7 @@ public class Pager<T> implements Serializable {
 
 	/**
 	 * 获取分页的开始Id和页条数大小的集合;
-	 * @return
+	 * @return List<Integer>
 	 */
 	public List<Integer> getPageNoSizeList(){
 		List<Integer> param = new ArrayList<>();

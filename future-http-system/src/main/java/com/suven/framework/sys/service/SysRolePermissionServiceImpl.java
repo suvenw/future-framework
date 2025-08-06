@@ -311,7 +311,7 @@ public class SysRolePermissionServiceImpl  implements SysRolePermissionService {
     @Override
     public ResponseResultPageVo<SysRolePermissionResponseDto> getSysRolePermissionByQueryPage(Pager page, SysRolePermissionQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysRolePermission> queryWrapper = sysRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -335,7 +335,7 @@ public class SysRolePermissionServiceImpl  implements SysRolePermissionService {
      */
     @Override
     public ResponseResultPageVo<SysRolePermissionResponseDto> getSysRolePermissionByNextPage(Pager page, SysRolePermissionQueryEnum queryEnum){
-        ResponseResultPageVo<SysRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysRolePermission> queryWrapper = sysRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());

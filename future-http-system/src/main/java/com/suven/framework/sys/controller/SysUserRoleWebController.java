@@ -125,13 +125,13 @@ public class SysUserRoleWebController {
     public   void   list( OutputSystem out, SysUserRoleQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysUserRoleRequestDto> page =  Pager.build();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
          SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.DESC_ID;
         ResponseResultPageVo<SysUserRoleResponseDto> resultList = sysUserRoleService.getSysUserRoleByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
