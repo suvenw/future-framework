@@ -7,8 +7,8 @@ plugins {
 
 
 group = 'com.suven.framework'
-//version = '0.1.1-releases'
-version = '0.0.4-SNAPSHOT'
+//version = '0.1.2-releases'
+version = '0.0.6-SNAPSHOT'
 def name = 'future-framework'
 def mavenUrl = project.findProperty('mavenUrl') ?: "http://192.168.3.100:9091/nexus/"
 def nexusUsername = project.findProperty('nexusUsername') ?: System.getenv('NEXUS_USERNAME') ?: 'admin'
@@ -32,50 +32,6 @@ jar {
             'Implementation-Title': project.name,
             'Implementation-Version': project.version
         )
-    }
-}
-
-// 配置根项目的 Maven 发布
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            
-            // 添加 POM 信息
-            pom {
-                name = project.name
-                description = 'Future Framework'
-                url = "http://192.168.3.100:9091/nexus/future-framework"
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'suven'
-                        name = 'Suven'
-                        email = 'suvenw@163.com'
-                    }
-                }
-            }
-        }
-    }
-    
-    repositories {
-        maven {
-            def releasesRepoUrl = "${mavenUrl}/repository/maven-releases/"
-            def snapshotsRepoUrl = "${mavenUrl}/repository/maven-snapshots/"
-            url = project.version.toString().endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            
-            credentials {
-                username = nexusUsername
-                password = nexusPassword
-            }
-            
-            allowInsecureProtocol = true // 显式允许不安全协议
-        }
     }
 }
 
@@ -203,7 +159,7 @@ dependencies {
 
 
 // 添加构建信息打印任务
-task buildInfo {
+tasks.register('buildInfo') {
     doLast {
         println "=============================================="
         println "Project: ${project.name}"
@@ -228,10 +184,10 @@ subprojects.each { subproject ->
 }
 
 // 添加发布到 Nexus 的任务
-task publishToNexus {
+tasks.register('publishToNexus') {
     group = 'publishing'
     description = 'Publishes all Maven publications to Nexus repository'
-    
+
     // 确保所有子项目的发布任务都被依赖
     subprojects.each { subproject ->
         if (subproject.plugins.hasPlugin('maven-publish')) {
@@ -241,7 +197,7 @@ task publishToNexus {
             }
         }
     }
-    
+
     // 也依赖根项目的发布任务
     if (rootProject.plugins.hasPlugin('maven-publish')) {
         rootProject.tasks.withType(org.gradle.api.publish.maven.tasks.PublishToMavenRepository).each { publishTask ->
@@ -249,7 +205,7 @@ task publishToNexus {
             println "Added dependency on ${rootProject.name}:${publishTask.name}"
         }
     }
-    
+
     doFirst {
         println "=============================================="
         println "Starting to publish all projects to Nexus"
@@ -257,7 +213,7 @@ task publishToNexus {
         println "Using credentials: ${nexusUsername}"
         println "=============================================="
     }
-    
+
     doLast {
         println "=============================================="
         println "Publishing completed for ${rootProject.name}:${rootProject.version}"
@@ -267,21 +223,21 @@ task publishToNexus {
 }
 
 // 添加一个任务来发布单个项目
-task publishSingleProject {
+tasks.register('publishSingleProject') {
     group = 'publishing'
     description = 'Publishes a single project to Nexus repository. Usage: ./gradlew publishSingleProject -PprojectPath=:subproject'
-    
+
     doLast {
         def projectPath = project.findProperty('projectPath')
         if (!projectPath) {
             throw new GradleException("Please specify a project path with -PprojectPath=:subproject")
         }
-        
+
         def proj = project(projectPath)
         if (!proj.plugins.hasPlugin('maven-publish')) {
             throw new GradleException("Project ${projectPath} does not have the maven-publish plugin applied")
         }
-        
+
         println "=============================================="
         println "Publishing ${proj.name}:${proj.version} to Nexus"
         println "Nexus URL: ${mavenUrl}"
@@ -290,7 +246,7 @@ task publishSingleProject {
         proj.tasks.withType(PublishToMavenRepository).forEach { task ->
             task.execute()
         }
-        
+
         println "=============================================="
         println "Publishing completed for ${proj.name}"
         println "=============================================="
