@@ -317,7 +317,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      */
     @Override
     public ResponseResultPageVo<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultPage = new ResponseResultPageVo();
+        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultPage = new ResponseResultPageVo<>();
         Wrapper<FileAppStorageConfig> queryWrapper = fileAppStorageConfigRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);

@@ -134,7 +134,7 @@ public class SysDictWebController {
         }
 
         List<SysDictShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDictShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        ResponseResultPageVo<SysDictShowResponseVo> result = new ResponseResultPageVo<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -371,7 +371,7 @@ public class SysDictWebController {
 
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build().clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysDictRequestDto> page =  Pager.build();
         page.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
 

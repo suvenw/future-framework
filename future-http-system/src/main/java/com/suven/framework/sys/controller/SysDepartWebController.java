@@ -129,18 +129,18 @@ public class SysDepartWebController {
     public   void   list( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysDepartRequestDto> page =  Pager.build();
         page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
          SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;
         ResponseResultPageVo<SysDepartResponseDto> resultList = sysDepartService.getSysDepartByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
         List<SysDepartShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        ResponseResultPageVo<SysDepartShowResponseVo> result = new ResponseResultPageVo<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -168,7 +168,7 @@ public class SysDepartWebController {
     public   void   queryList( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysDepartRequestDto> page =  Pager.build();
         page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DEPART_NAME;

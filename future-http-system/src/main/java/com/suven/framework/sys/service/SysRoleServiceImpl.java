@@ -313,7 +313,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
     @Override
     public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -337,7 +337,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      */
     @Override
     public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum){
-        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());

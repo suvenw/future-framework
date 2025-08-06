@@ -308,7 +308,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
     @Override
     public ResponseResultPageVo<SysDepartPermissionResponseDto> getSysDepartPermissionByQueryPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysDepartPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartPermission> queryWrapper = sysDepartPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
      */
     @Override
     public ResponseResultPageVo<SysDepartPermissionResponseDto> getSysDepartPermissionByNextPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
-        ResponseResultPageVo<SysDepartPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartPermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartPermission> queryWrapper = sysDepartPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());

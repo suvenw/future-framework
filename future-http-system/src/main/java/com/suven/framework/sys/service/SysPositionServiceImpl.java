@@ -308,7 +308,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
     @Override
     public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
      */
     @Override
     public ResponseResultPageVo<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum){
-        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPositionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());

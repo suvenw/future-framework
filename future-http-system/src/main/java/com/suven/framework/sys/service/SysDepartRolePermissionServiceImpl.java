@@ -308,7 +308,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
     @Override
     public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartRolePermission> queryWrapper = sysDepartRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysDepartRolePermissionServiceImpl  implements SysDepartRolePermiss
      */
     @Override
     public ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum){
-        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDepartRolePermissionResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDepartRolePermission> queryWrapper = sysDepartRolePermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartRolePermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());

@@ -124,18 +124,18 @@ public class SysPositionWebController {
     public   void   list( OutputSystem out, SysPositionQueryRequestVo sysPositionQueryRequestVo){
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build( ).clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysPositionRequestDto> page =  Pager.build();
         page.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
          SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
         ResponseResultPageVo<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new ResponseResultPageVo<>());
             return ;
         }
 
         List<SysPositionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPositionShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        ResponseResultPageVo<SysPositionShowResponseVo> result = new ResponseResultPageVo<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -163,7 +163,7 @@ public class SysPositionWebController {
     public   void   queryList( OutputSystem out, SysPositionQueryRequestVo sysPositionQueryRequestVo){
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build( ).clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.build();
+        Pager<SysPositionRequestDto> page =  Pager.build();
         page.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
         SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;

@@ -312,7 +312,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      */
     @Override
     public ResponseResultPageVo<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultPage = new ResponseResultPageVo();
+
         Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);

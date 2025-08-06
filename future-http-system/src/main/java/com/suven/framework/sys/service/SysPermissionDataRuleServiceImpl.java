@@ -308,7 +308,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
     @Override
     public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      */
     @Override
     public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
-        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());

@@ -308,7 +308,7 @@ public class SysDictItemServiceImpl  implements SysDictItemService {
     @Override
     public ResponseResultPageVo<SysDictItemResponseDto> getSysDictItemByQueryPage(Pager page, SysDictItemQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysDictItemResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDictItemResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDictItem> queryWrapper = sysDictItemDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDictItem> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -332,7 +332,7 @@ public class SysDictItemServiceImpl  implements SysDictItemService {
      */
     @Override
     public ResponseResultPageVo<SysDictItemResponseDto> getSysDictItemByNextPage(Pager page, SysDictItemQueryEnum queryEnum){
-        ResponseResultPageVo<SysDictItemResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysDictItemResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysDictItem> queryWrapper = sysDictItemDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDictItem> iPage = new Page<>(page.getPageNo(), page.getPageSize());

@@ -352,7 +352,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public ResponseResultPageVo<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum) {
 
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -377,7 +377,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public ResponseResultPageVo<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         ;
         //分页对象        PageHelper
@@ -558,7 +558,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public ResponseResultPageVo<SysUserResponseDto> getUserByDepIdPage(long depId) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         List<SysUserResponseDto> resDtoList = new ArrayList<>();
 
 
@@ -574,7 +574,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public ResponseResultPageVo<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo();
+        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
         ;
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(basePage.getPageNo(), basePage.getPageSize());

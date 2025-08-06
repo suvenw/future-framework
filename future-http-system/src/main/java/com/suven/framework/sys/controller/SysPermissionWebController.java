@@ -197,7 +197,7 @@ public class SysPermissionWebController {
     @RequestMapping(value = UrlCommand.sys_role_query_queryRolePermission,method = RequestMethod.GET)
     //@RequiresPermissions({"sys:sysPermission:queryRolePermission"})
     public void queryRolePermission(OutputSystem out, SysRolePermissionSaveRequestVo requestVo) {
-        List<String> list = this.sysRolePermissionFacade.queryRolePermission(requestVo);
+        List<Long> list = this.sysRolePermissionFacade.queryRolePermission(requestVo);
         out.write(list, new String[0]);
     }
 
