@@ -4,7 +4,7 @@ package com.suven.framework.sys.dao;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
 import com.suven.framework.sys.entity.SysDepartPermission;
@@ -41,7 +41,7 @@ import java.util.Map;
 
 
 @Service("sysDepartPermissionDao")
-public class SysDepartPermissionDao extends AbstractMyBatisDao<SysDepartPermissionMapper, SysDepartPermission> implements IBaseExcelData{
+public class SysDepartPermissionDao extends AbstractMyBatisRepository<SysDepartPermissionMapper, SysDepartPermission> implements IBaseExcelData{
 
 
     public PageUtils queryPage(Map<String, Object> params) {

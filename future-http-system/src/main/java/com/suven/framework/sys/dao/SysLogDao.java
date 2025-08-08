@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysLogMapper;
@@ -44,7 +44,7 @@ import java.util.List;
 
 
 @Service("sysLogDao")
-public class SysLogDao extends AbstractMyBatisDao<SysLogMapper, SysLog> implements IBaseExcelData{
+public class SysLogDao extends AbstractMyBatisRepository<SysLogMapper, SysLog> implements IBaseExcelData{
 
     @Autowired
     private SysLogMapper  sysLogMapper;

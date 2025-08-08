@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysRoleMapper;
@@ -46,7 +46,7 @@ import java.util.List;
 
 
 @Service("sysRoleDao")
-public class SysRoleDao extends AbstractMyBatisDao<SysRoleMapper, SysRole> implements IBaseExcelData{
+public class SysRoleDao extends AbstractMyBatisRepository<SysRoleMapper, SysRole> implements IBaseExcelData{
 
     @Autowired
     private SysRoleMapper  sysRoleMapper;

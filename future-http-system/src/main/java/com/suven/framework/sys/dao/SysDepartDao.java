@@ -4,7 +4,7 @@ package com.suven.framework.sys.dao;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.sys.entity.SysDepart;
@@ -41,7 +41,7 @@ import java.util.Map;
 
 
 @Service("sysDepartDao")
-public class SysDepartDao extends AbstractMyBatisDao<SysDepartMapper, SysDepart> implements IBaseExcelData{
+public class SysDepartDao extends AbstractMyBatisRepository<SysDepartMapper, SysDepart> implements IBaseExcelData{
 
 
 

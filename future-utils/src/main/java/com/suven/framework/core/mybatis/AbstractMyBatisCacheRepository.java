@@ -34,7 +34,7 @@ import java.util.*;
  */
 @SuppressWarnings("unchecked")
 @Component
-public abstract class AbstractMyBatisCacheDao<M extends BaseMapper<T>, T extends IBaseApi> extends AbstractMyBatisDao<M,T> implements IService<T>, IBaseExcelData {
+public abstract class AbstractMyBatisCacheRepository<M extends BaseMapper<T>, T extends IBaseApi> extends AbstractMyBatisRepository<M,T> implements IService<T>, IBaseExcelData {
 
 
 

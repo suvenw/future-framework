@@ -4,7 +4,7 @@ package com.suven.framework.sys.dao;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.entity.SysDataLog;
@@ -43,7 +43,7 @@ import java.util.Map;
 
 @Transactional
 @Service("sysDataLogDao")
-public class SysDataLogDao extends AbstractMyBatisDao<SysDataLogMapper, SysDataLog> implements IBaseExcelData{
+public class SysDataLogDao extends AbstractMyBatisRepository<SysDataLogMapper, SysDataLog> implements IBaseExcelData{
 
     @Autowired
     private SysDataLogMapper  sysDataLogMapper;

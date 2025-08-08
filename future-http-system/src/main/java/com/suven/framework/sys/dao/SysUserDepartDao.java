@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysUserDepartMapper;
@@ -48,7 +48,7 @@ import java.util.List;
 
 
 @Service("sysUserDepartDao")
-public class SysUserDepartDao extends AbstractMyBatisDao<SysUserDepartMapper, SysUserDepart> implements IBaseExcelData{
+public class SysUserDepartDao extends AbstractMyBatisRepository<SysUserDepartMapper, SysUserDepart> implements IBaseExcelData{
 
     @Autowired
     private SysUserDepartMapper  sysUserDepartMapper;

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysPermissionMapper;
@@ -47,7 +47,7 @@ import java.util.List;
 
 
 @Service("sysPermissionDao")
-public class SysPermissionDao extends AbstractMyBatisDao<SysPermissionMapper, SysPermission> implements IBaseExcelData{
+public class SysPermissionDao extends AbstractMyBatisRepository<SysPermissionMapper, SysPermission> implements IBaseExcelData{
 
     @Autowired
     private SysPermissionMapper  sysPermissionMapper;
