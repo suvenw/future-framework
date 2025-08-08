@@ -8,7 +8,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
 import com.suven.framework.fileinter.entity.FileDataDetailed;
 import com.suven.framework.fileinter.mapper.FileDataDetailedMapper;
@@ -42,7 +42,7 @@ import java.util.List;
  **/
 
 @Repository("fileDataDetailedRepository")
-public class FileDataDetailedRepository extends AbstractMyBatisDao<FileDataDetailedMapper, FileDataDetailed> implements IBaseExcelData {
+public class FileDataDetailedRepository extends AbstractMyBatisRepository<FileDataDetailedMapper, FileDataDetailed> implements IBaseExcelData {
 
 
 

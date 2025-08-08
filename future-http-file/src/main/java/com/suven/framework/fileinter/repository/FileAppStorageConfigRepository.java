@@ -8,7 +8,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
 import com.suven.framework.fileinter.entity.FileAppStorageConfig;
 import com.suven.framework.fileinter.mapper.FileAppStorageConfigMapper;
@@ -42,7 +42,7 @@ import java.util.List;
  **/
 
 @Repository("fileAppStorageConfigRepository")
-public class FileAppStorageConfigRepository extends AbstractMyBatisDao<FileAppStorageConfigMapper, FileAppStorageConfig> implements IBaseExcelData {
+public class FileAppStorageConfigRepository extends AbstractMyBatisRepository<FileAppStorageConfigMapper, FileAppStorageConfig> implements IBaseExcelData {
 
 
 

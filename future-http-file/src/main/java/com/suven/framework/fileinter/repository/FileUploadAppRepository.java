@@ -8,7 +8,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
 import com.suven.framework.fileinter.entity.FileUploadApp;
 import com.suven.framework.fileinter.mapper.FileUploadAppMapper;
@@ -43,7 +43,7 @@ import java.util.List;
  **/
 
 @Repository("fileUploadAppRepository")
-public class FileUploadAppRepository extends AbstractMyBatisDao<FileUploadAppMapper, FileUploadApp> implements IBaseExcelData {
+public class FileUploadAppRepository extends AbstractMyBatisRepository<FileUploadAppMapper, FileUploadApp> implements IBaseExcelData {
 
 
 

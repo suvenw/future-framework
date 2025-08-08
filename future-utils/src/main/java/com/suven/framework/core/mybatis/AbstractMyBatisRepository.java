@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
  * @since 2018-06-23
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractMyBatisDao<M extends BaseMapper<T>, T extends IBaseApi>extends ServiceImpl<M,T> implements IService<T> {
+public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T extends IBaseApi>extends ServiceImpl<M,T> implements IService<T> {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 

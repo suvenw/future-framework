@@ -9,7 +9,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
 import com.suven.framework.fileinter.entity.FileUploadUseBusiness;
 import com.suven.framework.fileinter.mapper.FileUploadUseBusinessMapper;
@@ -41,7 +41,7 @@ import java.util.List;
  **/
 
 @Repository("fileUploadUseBusinessRepository")
-public class FileUploadUseBusinessRepository extends AbstractMyBatisDao<FileUploadUseBusinessMapper, FileUploadUseBusiness> implements IBaseExcelData {
+public class FileUploadUseBusinessRepository extends AbstractMyBatisRepository<FileUploadUseBusinessMapper, FileUploadUseBusiness> implements IBaseExcelData {
 
 
 

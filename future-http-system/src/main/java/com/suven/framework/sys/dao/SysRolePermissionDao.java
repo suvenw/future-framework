@@ -4,7 +4,7 @@ package com.suven.framework.sys.dao;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.sys.entity.SysRolePermission;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 
 
 @Service("sysRolePermissionDao")
-public class SysRolePermissionDao extends AbstractMyBatisDao<SysRolePermissionMapper, SysRolePermission> implements IBaseExcelData{
+public class SysRolePermissionDao extends AbstractMyBatisRepository<SysRolePermissionMapper, SysRolePermission> implements IBaseExcelData{
 
     @Autowired
     private SysRolePermissionMapper  sysRolePermissionMapper;

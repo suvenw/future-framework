@@ -9,7 +9,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
 import com.suven.framework.fileinter.entity.FileUploadActionWater;
 import com.suven.framework.fileinter.mapper.FileUploadActionWaterMapper;
@@ -44,7 +44,7 @@ import java.util.List;
  **/
 
 @Repository("fileUploadActionWaterRepository")
-public class FileUploadActionWaterRepository extends AbstractMyBatisDao<FileUploadActionWaterMapper, FileUploadActionWater> implements IBaseExcelData {
+public class FileUploadActionWaterRepository extends AbstractMyBatisRepository<FileUploadActionWaterMapper, FileUploadActionWater> implements IBaseExcelData {
 
 
 

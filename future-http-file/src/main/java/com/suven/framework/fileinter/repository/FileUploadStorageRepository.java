@@ -8,7 +8,7 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
 import com.suven.framework.fileinter.entity.FileUploadStorage;
 import com.suven.framework.fileinter.mapper.FileUploadStorageMapper;
@@ -43,7 +43,7 @@ import java.util.List;
  **/
 
 @Repository("fileUploadStorageRepository")
-public class FileUploadStorageRepository extends AbstractMyBatisDao<FileUploadStorageMapper, FileUploadStorage> implements IBaseExcelData{
+public class FileUploadStorageRepository extends AbstractMyBatisRepository<FileUploadStorageMapper, FileUploadStorage> implements IBaseExcelData{
 
 
 

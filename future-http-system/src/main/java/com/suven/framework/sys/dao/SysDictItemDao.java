@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysDictItemMapper;
@@ -44,7 +44,7 @@ import java.util.List;
 
 
 @Service("sysDictItemDao")
-public class SysDictItemDao extends AbstractMyBatisDao<SysDictItemMapper, SysDictItem> implements IBaseExcelData{
+public class SysDictItemDao extends AbstractMyBatisRepository<SysDictItemMapper, SysDictItem> implements IBaseExcelData{
 
     @Autowired
     private SysDictItemMapper  sysDictItemMapper;

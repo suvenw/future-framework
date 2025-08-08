@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.suven.framework.util.PageUtils;
 import com.suven.framework.core.db.ext.Query;
-import com.suven.framework.core.mybatis.AbstractMyBatisDao;
+import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
 
 import com.suven.framework.sys.mapper.SysPositionMapper;
@@ -44,7 +44,7 @@ import java.util.List;
 
 
 @Service("sysPositionDao")
-public class SysPositionDao extends AbstractMyBatisDao<SysPositionMapper, SysPosition> implements IBaseExcelData{
+public class SysPositionDao extends AbstractMyBatisRepository<SysPositionMapper, SysPosition> implements IBaseExcelData{
 
     @Autowired
     private SysPositionMapper  sysPositionMapper;
