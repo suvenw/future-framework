@@ -12,7 +12,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.fileinter.facade.FileUploadStorageFacade;
@@ -83,13 +83,13 @@ public class FileUploadStorageController {
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build().clone(fileUploadStorageRequestVo);
         Pager<FileUploadStorageRequestDto> pager =  Pager.of( fileUploadStorageRequestVo.getPageNo(),fileUploadStorageRequestVo.getPageSize());
         pager.toParamObject(fileUploadStorageRequestDto );
-        ResponseResultPageVo<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(FileUploadStorageQueryEnum.DESC_ID,pager);
+        PageResult<FileUploadStorageResponseDto> resultList = fileUploadStorageService.getFileUploadStorageByNextPage(FileUploadStorageQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResponseResultPageVo<FileUploadStorageRequestVo> list =  resultList.convertBuild(FileUploadStorageRequestVo.class);
+        PageResult<FileUploadStorageRequestVo> list =  resultList.convertBuild(FileUploadStorageRequestVo.class);
         out.write(list);
 
         out.write(list);

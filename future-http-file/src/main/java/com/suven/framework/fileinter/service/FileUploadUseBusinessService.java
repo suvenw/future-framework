@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadUseBusinessRequestDto
 import com.suven.framework.fileinter.dto.response.FileUploadUseBusinessResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadUseBusinessService {
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    ResponseResultPageVo<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager);
 
     /**
      * 通过分页获取FileUploadUseBusiness 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileUploadUseBusinessService {
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    ResponseResultPageVo<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount);
 
 
 

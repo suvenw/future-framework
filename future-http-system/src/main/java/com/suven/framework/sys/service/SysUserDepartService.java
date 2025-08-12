@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysUserDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysUserDepartResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserDepartQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -142,7 +142,7 @@ public interface SysUserDepartService {
      * @author suven
      * date 2022-02-28 16:14:14
      */
-    ResponseResultPageVo<SysUserDepartResponseDto> getSysUserDepartByNextPage(Pager page, SysUserDepartQueryEnum queryEnum);
+    PageResult<SysUserDepartResponseDto> getSysUserDepartByNextPage(Pager page, SysUserDepartQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysUserDepart 用户部门关系表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysUserDepartService {
      * @author suven
      * date 2022-02-28 16:14:14
      */
-    ResponseResultPageVo<SysUserDepartResponseDto> getSysUserDepartByQueryPage(Pager page, SysUserDepartQueryEnum queryEnum);
+    PageResult<SysUserDepartResponseDto> getSysUserDepartByQueryPage(Pager page, SysUserDepartQueryEnum queryEnum);
 
 
 

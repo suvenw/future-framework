@@ -12,7 +12,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.fileinter.facade.FileDataDetailedFacade;
@@ -84,13 +84,13 @@ public class FileDataDetailedController {
         Pager<FileDataDetailedRequestDto> pager = Pager.of();
         pager.toPageSize(fileDataDetailedRequestVo.getPageSize()).toPageNo(fileDataDetailedRequestVo.getPageNo());
         pager.toParamObject(fileDataDetailedRequestDto );
-        ResponseResultPageVo<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(FileDataDetailedQueryEnum.DESC_ID,pager);
+        PageResult<FileDataDetailedResponseDto> resultList = fileDataDetailedService.getFileDataDetailedByNextPage(FileDataDetailedQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResponseResultPageVo<FileDataDetailedRequestVo> list =  resultList.convertBuild(FileDataDetailedRequestVo.class);
+        PageResult<FileDataDetailedRequestVo> list =  resultList.convertBuild(FileDataDetailedRequestVo.class);
         out.write(list);
 
         out.write(list);

@@ -12,7 +12,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.fileinter.facade.FileUploadAppFacade;
@@ -83,13 +83,13 @@ public class FileUploadAppController {
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppRequestVo);
         Pager<FileUploadAppRequestDto> pager = Pager.of(fileUploadAppRequestVo.getPageNo(),fileUploadAppRequestVo.getPageSize());
         pager.toParamObject(fileUploadAppRequestDto );
-        ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(FileUploadAppQueryEnum.DESC_ID,pager);
+        PageResult<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(FileUploadAppQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResponseResultPageVo<FileUploadAppRequestVo> list =  resultList.convertBuild(FileUploadAppRequestVo.class);
+        PageResult<FileUploadAppRequestVo> list =  resultList.convertBuild(FileUploadAppRequestVo.class);
         out.write(list);
 
         out.write(list);

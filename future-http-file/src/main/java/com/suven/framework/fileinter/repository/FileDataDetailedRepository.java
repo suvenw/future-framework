@@ -14,7 +14,7 @@ import com.suven.framework.fileinter.entity.FileDataDetailed;
 import com.suven.framework.fileinter.mapper.FileDataDetailedMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -123,9 +123,9 @@ public class FileDataDetailedRepository extends AbstractMyBatisRepository<FileDa
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      */
-    public ResponseResultPageVo<FileDataDetailed> getListByPage(Pager<FileDataDetailed> pager, Wrapper<FileDataDetailed> queryWrapper ){
+    public PageResult<FileDataDetailed> getListByPage(Pager<FileDataDetailed> pager, Wrapper<FileDataDetailed> queryWrapper ){
 
-        ResponseResultPageVo<FileDataDetailed> pageVo = new ResponseResultPageVo<>();
+        PageResult<FileDataDetailed> pageVo = new PageResult<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }

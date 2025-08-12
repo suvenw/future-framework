@@ -23,7 +23,7 @@ import com.suven.framework.sys.dto.enums.SysRoleQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -312,9 +312,9 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * date 2022-02-28 16:10:43
      */
     @Override
-    public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum){
+    public PageResult<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+        PageResult<SysRoleResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -325,8 +325,8 @@ public class SysRoleServiceImpl  implements SysRoleService {
         }
         List<SysRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysRoleResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList);
+        return PageResult;
     }
 
     /**
@@ -337,8 +337,8 @@ public class SysRoleServiceImpl  implements SysRoleService {
      * date 2022-02-28 16:10:43
      */
     @Override
-    public ResponseResultPageVo<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum){
-        ResponseResultPageVo<SysRoleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum){
+        PageResult<SysRoleResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -349,8 +349,8 @@ public class SysRoleServiceImpl  implements SysRoleService {
         }
         List<SysRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysRoleResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return PageResult;
 
     }
 

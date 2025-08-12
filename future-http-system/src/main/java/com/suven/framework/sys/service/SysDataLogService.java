@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -142,7 +142,7 @@ public interface SysDataLogService {
      * @author suven
      * date 2022-02-28 16:10:02
      */
-    ResponseResultPageVo<SysDataLogResponseDto> getSysDataLogByNextPage(Pager page, SysDataLogQueryEnum queryEnum);
+    PageResult<SysDataLogResponseDto> getSysDataLogByNextPage(Pager page, SysDataLogQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysDataLog 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysDataLogService {
      * @author suven
      * date 2022-02-28 16:10:02
      */
-    ResponseResultPageVo<SysDataLogResponseDto> getSysDataLogByQueryPage(Pager page, SysDataLogQueryEnum queryEnum);
+    PageResult<SysDataLogResponseDto> getSysDataLogByQueryPage(Pager page, SysDataLogQueryEnum queryEnum);
 
 
 

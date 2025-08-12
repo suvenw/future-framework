@@ -122,7 +122,7 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 		}
 		if(body.getClass().isArray()){
 			List data = Arrays.asList((Object[]) body);
-			ResponseResultPageVo<?> pageVo = new ResponseResultPageVo<>().of(data,data.size());
+			PageResult<?> pageVo = new PageResult<>().of(data,data.size());
 			return pageVo;
 		}
 		return body;

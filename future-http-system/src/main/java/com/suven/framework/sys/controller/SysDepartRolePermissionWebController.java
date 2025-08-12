@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -104,7 +104,7 @@ public class SysDepartRolePermissionWebController {
      * Title: 获取部门角色权限表分页信息
      * Description:sysDepartRolePermissionQueryRequestVo @{Link SysDepartRolePermissionQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysDepartRolePermissionShowResponseVo>
+     * @return  PageResult 对象 List<SysDepartRolePermissionShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:13:36
@@ -127,14 +127,14 @@ public class SysDepartRolePermissionWebController {
         page.toPageSize(sysDepartRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartRolePermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRolePermissionRequestDto );
          SysDepartRolePermissionQueryEnum queryEnum =  SysDepartRolePermissionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionByNextPage(page,queryEnum);
+        PageResult<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new PageResult());
             return ;
         }
 
         List<SysDepartRolePermissionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartRolePermissionShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        PageResult result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -144,7 +144,7 @@ public class SysDepartRolePermissionWebController {
      * Title: 根据条件查谒部门角色权限表分页信息
      * Description:sysDepartRolePermissionQueryRequestVo @{Link SysDepartRolePermissionQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysDepartRolePermissionShowResponseVo>
+     * @return   PageResult 对象 List<SysDepartRolePermissionShowResponseVo>
      * @author suven
      * date 2022-02-28 16:13:36
      *  --------------------------------------------------------
@@ -376,7 +376,7 @@ public class SysDepartRolePermissionWebController {
         page.toParamObject(sysDepartRolePermissionRequestDto );
 
         SysDepartRolePermissionQueryEnum queryEnum =  SysDepartRolePermissionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionByNextPage(page,queryEnum);
+        PageResult<SysDepartRolePermissionResponseDto> resultList = sysDepartRolePermissionService.getSysDepartRolePermissionByNextPage(page,queryEnum);
         List<SysDepartRolePermissionResponseDto> data = resultList.getList();
 
         //写入文件

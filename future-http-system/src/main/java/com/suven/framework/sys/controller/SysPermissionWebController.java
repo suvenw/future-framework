@@ -8,7 +8,7 @@ import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.inters.IResultCodeEnum;
@@ -126,7 +126,7 @@ public class SysPermissionWebController {
      * Title: 获取菜单权限表分页信息
      * Description:sysPermissionQueryRequestVo @{Link SysPermissionQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysPermissionShowResponseVo>
+     * @return  PageResult 对象 List<SysPermissionShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:10:30
@@ -149,14 +149,14 @@ public class SysPermissionWebController {
         page.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionRequestDto );
          SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
+        PageResult<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
         List<SysPermissionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionShowResponseVo.class);
-        ResponseResultPageVo<SysPermissionShowResponseVo> result = new ResponseResultPageVo<>();
+        PageResult<SysPermissionShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal());
         out.write( result);
     }
@@ -453,7 +453,7 @@ public class SysPermissionWebController {
         page.toParamObject(sysPermissionRequestDto );
 
         SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
+        PageResult<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
         List<SysPermissionResponseDto> data = resultList.getList();
 
         //写入文件
@@ -514,7 +514,7 @@ public class SysPermissionWebController {
     public void getPermRuleListByPermId(OutputSystem out, SysPermissionDataRuleIdRequestVo sysPermissionDataRule) {
         List<SysPermissionDataRuleResponseDto> permRuleList = sysPermissionDataRuleService
                 .getSysPermissionDataRuleListByQuery(sysPermissionDataRule, SysPermissionDataRuleQueryEnum.PERMISSION_ID);
-        ResponseResultPageVo<SysPermissionDataRuleResponseDto> result = new ResponseResultPageVo().toList(permRuleList);
+        PageResult<SysPermissionDataRuleResponseDto> result = new PageResult().toList(permRuleList);
         out.write(result);
     }
 

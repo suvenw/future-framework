@@ -11,7 +11,7 @@ import com.suven.framework.fileinter.entity.FileUploadActionWater;
 import com.suven.framework.fileinter.repository.FileUploadActionWaterRepository;
 import com.suven.framework.fileinter.service.FileUploadActionWaterService;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -295,9 +295,9 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      * date 2024-04-19 00:14:12 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager){
 
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultPage = getFileUploadActionWaterByNextPage(queryEnum,pager,false);
+        PageResult<FileUploadActionWaterResponseDto> resultPage = getFileUploadActionWaterByNextPage(queryEnum,pager,false);
         return resultPage;
     }
 
@@ -311,7 +311,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      * date 2024-04-19 00:14:12 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount){
+    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount){
 
         Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
@@ -322,7 +322,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
         }
         List<FileUploadActionWaterResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadActionWaterResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = new ResponseResultPageVo<>();
+        PageResult<FileUploadActionWaterResponseDto> resultList = new PageResult<>();
         resultList.convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;

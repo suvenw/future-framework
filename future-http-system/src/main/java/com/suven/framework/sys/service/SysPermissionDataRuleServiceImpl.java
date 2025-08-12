@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysPermissionDataRuleQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      * date 2022-02-28 16:10:35
      */
     @Override
-    public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
+    public PageResult<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+        PageResult<SysPermissionDataRuleResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
         }
         List<SysPermissionDataRuleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionDataRuleResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList);
+        return PageResult;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      * date 2022-02-28 16:10:35
      */
     @Override
-    public ResponseResultPageVo<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
-        ResponseResultPageVo<SysPermissionDataRuleResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
+        PageResult<SysPermissionDataRuleResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
         }
         List<SysPermissionDataRuleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionDataRuleResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return PageResult;
 
     }
 

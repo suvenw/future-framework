@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -104,7 +104,7 @@ public class SysDictWebController {
      * Title: 获取后台字典类型表分页信息
      * Description:sysDictQueryRequestVo @{Link SysDictQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysDictShowResponseVo>
+     * @return  PageResult 对象 List<SysDictShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:10:09
@@ -127,14 +127,14 @@ public class SysDictWebController {
         page.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
          SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysDictResponseDto> resultList = sysDictService.getSysDictByNextPage(page,queryEnum);
+        PageResult<SysDictResponseDto> resultList = sysDictService.getSysDictByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new PageResult());
             return ;
         }
 
         List<SysDictShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDictShowResponseVo.class);
-        ResponseResultPageVo<SysDictShowResponseVo> result = new ResponseResultPageVo<>();
+        PageResult<SysDictShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -144,7 +144,7 @@ public class SysDictWebController {
      * Title: 根据条件查谒后台字典类型表分页信息
      * Description:sysDictQueryRequestVo @{Link SysDictQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysDictShowResponseVo>
+     * @return   PageResult 对象 List<SysDictShowResponseVo>
      * @author suven
      * date 2022-02-28 16:10:09
      *  --------------------------------------------------------
@@ -376,7 +376,7 @@ public class SysDictWebController {
         page.toParamObject(sysDictRequestDto );
 
         SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysDictResponseDto> resultList = sysDictService.getSysDictByNextPage(page,queryEnum);
+        PageResult<SysDictResponseDto> resultList = sysDictService.getSysDictByNextPage(page,queryEnum);
         List<SysDictResponseDto> data = resultList.getList();
 
         //写入文件

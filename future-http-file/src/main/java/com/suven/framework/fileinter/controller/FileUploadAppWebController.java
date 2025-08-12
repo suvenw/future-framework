@@ -24,7 +24,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
@@ -119,7 +119,7 @@ public class FileUploadAppWebController {
      * Title: 获取分页信息
      * Description:fileUploadAppQueryRequestVo @{Link FileUploadAppQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<FileUploadAppShowResponseVo>
+     * @return  PageResult 对象 List<FileUploadAppShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
@@ -141,13 +141,13 @@ public class FileUploadAppWebController {
         Pager<FileUploadAppRequestDto> pager =  Pager.of(fileUploadAppQueryRequestVo.getPageNo(),fileUploadAppQueryRequestVo.getPageSize());
         pager.toParamObject(fileUploadAppRequestDto );
          FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
+        PageResult<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
-        ResponseResultPageVo<FileUploadAppShowResponseVo> result = resultList.convertBuild(FileUploadAppShowResponseVo.class);
+        PageResult<FileUploadAppShowResponseVo> result = resultList.convertBuild(FileUploadAppShowResponseVo.class);
         out.write( result);
     }
 
@@ -155,7 +155,7 @@ public class FileUploadAppWebController {
      * Title: 根据条件查谒分页信息
      * Description:fileUploadAppQueryRequestVo @{Link FileUploadAppQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<FileUploadAppShowResponseVo>
+     * @return   PageResult 对象 List<FileUploadAppShowResponseVo>
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      *  --------------------------------------------------------
@@ -384,7 +384,7 @@ public class FileUploadAppWebController {
         pager.toParamObject(fileUploadAppRequestDto );
 
         FileUploadAppQueryEnum queryEnum =  FileUploadAppQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
+        PageResult<FileUploadAppResponseDto> resultList = fileUploadAppService.getFileUploadAppByNextPage(queryEnum,pager);
         List<FileUploadAppResponseDto> data = resultList.getList();
 
         //写入文件

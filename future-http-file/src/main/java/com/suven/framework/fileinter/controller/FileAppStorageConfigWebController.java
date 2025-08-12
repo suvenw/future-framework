@@ -24,7 +24,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
@@ -119,7 +119,7 @@ public class FileAppStorageConfigWebController {
      * Title: 获取分页信息
      * Description:fileAppStorageConfigQueryRequestVo @{Link FileAppStorageConfigQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<FileAppStorageConfigShowResponseVo>
+     * @return  PageResult 对象 List<FileAppStorageConfigShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
@@ -142,13 +142,13 @@ public class FileAppStorageConfigWebController {
         pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
          FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
+        PageResult<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
-        ResponseResultPageVo<FileAppStorageConfigShowResponseVo> result = resultList.convertBuild(FileAppStorageConfigShowResponseVo.class);
+        PageResult<FileAppStorageConfigShowResponseVo> result = resultList.convertBuild(FileAppStorageConfigShowResponseVo.class);
         out.write( result);
     }
 
@@ -156,7 +156,7 @@ public class FileAppStorageConfigWebController {
      * Title: 根据条件查谒分页信息
      * Description:fileAppStorageConfigQueryRequestVo @{Link FileAppStorageConfigQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<FileAppStorageConfigShowResponseVo>
+     * @return   PageResult 对象 List<FileAppStorageConfigShowResponseVo>
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
      *  --------------------------------------------------------
@@ -385,7 +385,7 @@ public class FileAppStorageConfigWebController {
         pager.toParamObject(fileAppStorageConfigRequestDto );
 
         FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
+        PageResult<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
         List<FileAppStorageConfigResponseDto> data = resultList.getList();
 
         //写入文件

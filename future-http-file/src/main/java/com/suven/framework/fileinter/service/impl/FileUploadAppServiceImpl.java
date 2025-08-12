@@ -23,7 +23,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -300,9 +300,9 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager){
 
-        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = getFileUploadAppByNextPage(queryEnum,pager,false);
+        PageResult<FileUploadAppResponseDto> resultPage = getFileUploadAppByNextPage(queryEnum,pager,false);
         return resultPage;
     }
 
@@ -316,8 +316,8 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileUploadAppResponseDto> resultPage = new ResponseResultPageVo<>();
+    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount){
+        PageResult<FileUploadAppResponseDto> resultPage = new PageResult<>();
         Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
@@ -327,7 +327,7 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
         }
         List<FileUploadAppResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadAppResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileUploadAppResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
+        PageResult<FileUploadAppResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 

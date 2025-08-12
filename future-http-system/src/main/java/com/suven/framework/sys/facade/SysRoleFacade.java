@@ -1,7 +1,7 @@
 package com.suven.framework.sys.facade;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
 import com.suven.framework.sys.dto.request.SysUserRoleRequestDto;

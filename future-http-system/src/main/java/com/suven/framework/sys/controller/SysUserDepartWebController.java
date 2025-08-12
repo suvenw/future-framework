@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -105,7 +105,7 @@ public class SysUserDepartWebController {
      * Title: 获取用户部门关系表分页信息
      * Description:sysUserDepartQueryRequestVo @{Link SysUserDepartQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysUserDepartShowResponseVo>
+     * @return  PageResult 对象 List<SysUserDepartShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:14:14
@@ -128,14 +128,14 @@ public class SysUserDepartWebController {
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
          SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartByNextPage(page,queryEnum);
+        PageResult<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new PageResult());
             return ;
         }
 
         List<SysUserDepartShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysUserDepartShowResponseVo.class);
-        ResponseResultPageVo result = new ResponseResultPageVo<>();
+        PageResult result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -145,7 +145,7 @@ public class SysUserDepartWebController {
      * Title: 根据条件查谒用户部门关系表分页信息
      * Description:sysUserDepartQueryRequestVo @{Link SysUserDepartQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysUserDepartShowResponseVo>
+     * @return   PageResult 对象 List<SysUserDepartShowResponseVo>
      * @author suven
      * date 2022-02-28 16:14:14
      *  --------------------------------------------------------
@@ -377,7 +377,7 @@ public class SysUserDepartWebController {
         page.toParamObject(sysUserDepartRequestDto );
 
         SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartByNextPage(page,queryEnum);
+        PageResult<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartByNextPage(page,queryEnum);
         List<SysUserDepartResponseDto> data = resultList.getList();
 
         //写入文件

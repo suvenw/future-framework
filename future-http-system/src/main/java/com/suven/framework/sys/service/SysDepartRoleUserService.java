@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysDepartRoleUserRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartRoleUserResponseDto;
 import com.suven.framework.sys.dto.enums.SysDepartRoleUserQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -142,7 +142,7 @@ public interface SysDepartRoleUserService {
      * @author suven
      * date 2022-02-28 16:14:21
      */
-    ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
+    PageResult<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysDepartRoleUser 部门角色用户表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysDepartRoleUserService {
      * @author suven
      * date 2022-02-28 16:14:21
      */
-    ResponseResultPageVo<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
+    PageResult<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum);
 
 
 

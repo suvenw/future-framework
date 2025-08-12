@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysDepartRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartRolePermissionResponseDto;
 import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -142,7 +142,7 @@ public interface SysDepartRolePermissionService {
      * @author suven
      * date 2022-02-28 16:13:36
      */
-    ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
+    PageResult<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByNextPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysDepartRolePermission 部门角色权限表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysDepartRolePermissionService {
      * @author suven
      * date 2022-02-28 16:13:36
      */
-    ResponseResultPageVo<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
+    PageResult<SysDepartRolePermissionResponseDto> getSysDepartRolePermissionByQueryPage(Pager page, SysDepartRolePermissionQueryEnum queryEnum);
 
 
 

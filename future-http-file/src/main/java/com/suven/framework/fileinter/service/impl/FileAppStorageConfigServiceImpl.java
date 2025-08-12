@@ -23,7 +23,7 @@ import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -300,9 +300,9 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * date 2024-04-19 00:21:54 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager){
+    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager){
 
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultPage = getFileAppStorageConfigByNextPage(queryEnum,pager,false);
+        PageResult<FileAppStorageConfigResponseDto> resultPage = getFileAppStorageConfigByNextPage(queryEnum,pager,false);
         return resultPage;
     }
 
@@ -316,8 +316,8 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * date 2024-04-19 00:21:54 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager, boolean searchCount){
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultPage = new ResponseResultPageVo<>();
+    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager, boolean searchCount){
+        PageResult<FileAppStorageConfigResponseDto> resultPage = new PageResult<>();
         Wrapper<FileAppStorageConfig> queryWrapper = fileAppStorageConfigRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
@@ -327,7 +327,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
         }
         List<FileAppStorageConfigResponseDto>  resDtoList =  IterableConvert.convertList(list,FileAppStorageConfigResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = new ResponseResultPageVo().convertBuild(resDtoList,isNext,pager.getTotal());
+        PageResult<FileAppStorageConfigResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;
 
