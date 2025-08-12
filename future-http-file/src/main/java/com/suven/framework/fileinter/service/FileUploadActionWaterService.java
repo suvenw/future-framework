@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadActionWaterRequestDto
 import com.suven.framework.fileinter.dto.response.FileUploadActionWaterResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadActionWaterService {
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    ResponseResultPageVo<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager);
 
     /**
      * 通过分页获取FileUploadActionWater 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileUploadActionWaterService {
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    ResponseResultPageVo<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount);
 
 
 

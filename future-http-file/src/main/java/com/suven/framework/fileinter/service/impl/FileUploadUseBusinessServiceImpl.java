@@ -23,7 +23,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -300,9 +300,9 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * date 2024-04-19 00:21:42 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager){
 
-        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultPage = getFileUploadUseBusinessByNextPage(queryEnum,pager,false);
+        PageResult<FileUploadUseBusinessResponseDto> resultPage = getFileUploadUseBusinessByNextPage(queryEnum,pager,false);
         return resultPage;
     }
 
@@ -316,7 +316,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * date 2024-04-19 00:21:42 创建时间
      */
     @Override
-    public ResponseResultPageVo<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount){
+    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount){
         Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
@@ -326,7 +326,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
         }
         List<FileUploadUseBusinessResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadUseBusinessResponseDto.class);
         boolean isNext =  pager.isNextPage(resDtoList);
-        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = new ResponseResultPageVo<>();
+        PageResult<FileUploadUseBusinessResponseDto> resultList = new PageResult<>();
         resultList.convertBuild(resDtoList,isNext,pager.getTotal());
 
         return resultList;

@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -107,7 +107,7 @@ public class SysRoleWebController {
      * Title: 获取角色表分页信息
      * Description:sysRoleQueryRequestVo @{Link SysRoleQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysRoleShowResponseVo>
+     * @return  PageResult 对象 List<SysRoleShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:10:43
@@ -130,14 +130,14 @@ public class SysRoleWebController {
         page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
          SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
+        PageResult<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo());
+            out.write( new PageResult());
             return ;
         }
 
         List<SysRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysRoleShowResponseVo.class);
-        ResponseResultPageVo<SysRoleShowResponseVo> result = new ResponseResultPageVo<>();
+        PageResult<SysRoleShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -147,7 +147,7 @@ public class SysRoleWebController {
      * Title: 根据条件查谒角色表分页信息
      * Description:sysRoleQueryRequestVo @{Link SysRoleQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysRoleShowResponseVo>
+     * @return   PageResult 对象 List<SysRoleShowResponseVo>
      * @author suven
      * date 2022-02-28 16:10:43
      *  --------------------------------------------------------
@@ -378,7 +378,7 @@ public class SysRoleWebController {
         page.toParamObject(sysRoleRequestDto );
 
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
+        PageResult<SysRoleResponseDto> resultList = sysRoleService.getSysRoleByNextPage(page,queryEnum);
         List<SysRoleResponseDto> data = resultList.getList();
 
         //写入文件

@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -104,7 +104,7 @@ public class SysLogWebController {
     /**
      * Title: 获取系统日志表分页信息
      * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
-     *  ResponseResultPageVo 对象 List<SysLogShowResponseVo>
+     *  PageResult 对象 List<SysLogShowResponseVo>
      * @author suven
      * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
@@ -126,14 +126,14 @@ public class SysLogWebController {
         page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
         page.toParamObject(sysLogRequestDto );
          SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
+        PageResult<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
         List<SysLogShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysLogShowResponseVo.class);
-        ResponseResultPageVo<SysLogShowResponseVo> result = new ResponseResultPageVo<>();
+        PageResult<SysLogShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -143,7 +143,7 @@ public class SysLogWebController {
      * Title: 根据条件查谒系统日志表分页信息
      * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysLogShowResponseVo>
+     * @return   PageResult 对象 List<SysLogShowResponseVo>
      * @author suven
      * date 2022-02-28 16:10:19
      *  --------------------------------------------------------
@@ -365,7 +365,7 @@ public class SysLogWebController {
         page.toParamObject(sysLogRequestDto );
 
         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
+        PageResult<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
         List<SysLogResponseDto> data = resultList.getList();
 
         //写入文件

@@ -17,7 +17,7 @@ import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.util.excel.ExcelUtils;
 import org.slf4j.Logger;
@@ -113,7 +113,7 @@ public class FileUploadActionWaterWebController {
      * Title: 获取分页信息
      * Description:fileUploadActionWaterQueryRequestVo @{Link FileUploadActionWaterQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<FileUploadActionWaterShowResponseVo>
+     * @return  PageResult 对象 List<FileUploadActionWaterShowResponseVo>
      * @throw
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
@@ -136,13 +136,13 @@ public class FileUploadActionWaterWebController {
         pager.toPageSize(fileUploadActionWaterQueryRequestVo.getPageSize()).toPageNo(fileUploadActionWaterQueryRequestVo.getPageNo());
         pager.toParamObject(fileUploadActionWaterRequestDto );
          FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum,pager);
+        PageResult<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum,pager);
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
-        ResponseResultPageVo<FileUploadActionWaterShowResponseVo> result = resultList.convertBuild(FileUploadActionWaterShowResponseVo.class);
+        PageResult<FileUploadActionWaterShowResponseVo> result = resultList.convertBuild(FileUploadActionWaterShowResponseVo.class);
         out.write( result);
     }
 
@@ -150,7 +150,7 @@ public class FileUploadActionWaterWebController {
      * Title: 根据条件查谒分页信息
      * Description:fileUploadActionWaterQueryRequestVo @{Link FileUploadActionWaterQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<FileUploadActionWaterShowResponseVo>
+     * @return   PageResult 对象 List<FileUploadActionWaterShowResponseVo>
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      *  --------------------------------------------------------
@@ -379,7 +379,7 @@ public class FileUploadActionWaterWebController {
         pager.toParamObject(fileUploadActionWaterRequestDto );
 
         FileUploadActionWaterQueryEnum queryEnum =  FileUploadActionWaterQueryEnum.DESC_ID;
-        ResponseResultPageVo<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum,pager);
+        PageResult<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum,pager);
         List<FileUploadActionWaterResponseDto> data = resultList.getList();
 
         //写入文件

@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysPermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
 import com.suven.framework.sys.dto.enums.SysPermissionQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 
 
 
@@ -142,7 +142,7 @@ public interface SysPermissionService {
      * @author suven
      * date 2022-02-28 16:10:30
      */
-    ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum);
+    PageResult<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum);
 
     /**
      * 通过分页获取SysPermission 菜单权限表信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface SysPermissionService {
      * @author suven
      * date 2022-02-28 16:10:30
      */
-    ResponseResultPageVo<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum);
+    PageResult<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum);
 
 
 

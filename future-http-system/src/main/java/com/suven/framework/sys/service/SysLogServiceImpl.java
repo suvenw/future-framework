@@ -22,7 +22,7 @@ import com.suven.framework.sys.dto.enums.SysLogQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -306,9 +306,9 @@ public class SysLogServiceImpl  implements SysLogService {
      * date 2022-02-28 16:10:19
      */
     @Override
-    public ResponseResultPageVo<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum){
+    public PageResult<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum){
 
-        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+        PageResult<SysLogResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -319,8 +319,8 @@ public class SysLogServiceImpl  implements SysLogService {
         }
         List<SysLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysLogResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList);
+        return PageResult;
     }
 
     /**
@@ -331,8 +331,8 @@ public class SysLogServiceImpl  implements SysLogService {
      * date 2022-02-28 16:10:19
      */
     @Override
-    public ResponseResultPageVo<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum){
-        ResponseResultPageVo<SysLogResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum){
+        PageResult<SysLogResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -343,8 +343,8 @@ public class SysLogServiceImpl  implements SysLogService {
         }
         List<SysLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysLogResponseDto.class);
         boolean isNext =  page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
+        return PageResult;
 
     }
 

@@ -12,7 +12,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.fileinter.facade.FileAppStorageConfigFacade;
@@ -84,13 +84,13 @@ public class FileAppStorageConfigController {
         Pager<FileAppStorageConfigRequestDto> pager = Pager.of();
         pager.toPageSize(fileAppStorageConfigRequestVo.getPageSize()).toPageNo(fileAppStorageConfigRequestVo.getPageNo());
         pager.toParamObject(fileAppStorageConfigRequestDto );
-        ResponseResultPageVo<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum.DESC_ID,pager);
+        PageResult<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResponseResultPageVo<FileAppStorageConfigRequestVo> list =  resultList.convertBuild(FileAppStorageConfigRequestVo.class);
+        PageResult<FileAppStorageConfigRequestVo> list =  resultList.convertBuild(FileAppStorageConfigRequestVo.class);
         out.write(list);
 
         out.write(list);

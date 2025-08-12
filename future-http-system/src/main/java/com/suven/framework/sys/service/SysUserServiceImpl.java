@@ -30,7 +30,7 @@ import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 
@@ -351,9 +351,9 @@ public class SysUserServiceImpl implements SysUserService {
      * date 2022-02-28 16:09:37
      */
     @Override
-    public ResponseResultPageVo<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum) {
+    public PageResult<SysUserResponseDto> getSysUserByQueryPage(Pager page, SysUserQueryEnum queryEnum) {
 
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+        PageResult<SysUserResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -364,8 +364,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList);
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList);
+        return PageResult;
     }
 
     /**
@@ -377,21 +377,21 @@ public class SysUserServiceImpl implements SysUserService {
      * date 2022-02-28 16:09:37
      */
     @Override
-    public ResponseResultPageVo<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysUserResponseDto> getSysUserByNextPage(Pager page, SysUserQueryEnum queryEnum) {
+        PageResult<SysUserResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysUser> queryWrapper = sysUserDao.builderQueryEnum(queryEnum, page.getParamObject());
         ;
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
         iPage.setSearchCount(true);
-        List<SysUser> list = sysUserDao.getListByPage(iPage, queryWrapper);
+        PageResult list = sysUserDao.getListByPage(iPage, queryWrapper);
         if (null == list) {
             list = new ArrayList<>();
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = page.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
+        return PageResult;
 
     }
 
@@ -558,24 +558,24 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public ResponseResultPageVo<SysUserResponseDto> getUserByDepIdPage(long depId) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysUserResponseDto> getUserByDepIdPage(long depId) {
+        PageResult<SysUserResponseDto> PageResult = new PageResult<>();
         List<SysUserResponseDto> resDtoList = new ArrayList<>();
 
 
         List<Long> userIds = sysUserDepartDao.getUserIdByDepId(depId);
         if (ObjectTrue.isEmpty(userIds)) {
-            return ResponseResultPageVo.toTotal(0).toList(resDtoList);
+            return PageResult.toTotal(0).toList(resDtoList);
         }
         Collection<SysUser> list = sysUserDao.getListByIds(userIds);
         resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
 
-        return ResponseResultPageVo.toTotal(list.size()).toList(resDtoList);
+        return PageResult.toTotal(list.size()).toList(resDtoList);
     }
 
     @Override
-    public ResponseResultPageVo<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username) {
-        ResponseResultPageVo<SysUserResponseDto> ResponseResultPageVo = new ResponseResultPageVo<>();
+    public PageResult<SysUserResponseDto> getSysUserRoleId(Pager basePage, long roleId , String username) {
+        PageResult<SysUserResponseDto> PageResult = new PageResult<>();
         ;
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(basePage.getPageNo(), basePage.getPageSize());
@@ -586,8 +586,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         List<SysUserResponseDto> resDtoList = IterableConvert.convertList(list, SysUserResponseDto.class);
         boolean isNext = basePage.isNextPage(resDtoList);
-        ResponseResultPageVo.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
-        return ResponseResultPageVo;
+        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int) iPage.getTotal());
+        return PageResult;
     }
 
 }

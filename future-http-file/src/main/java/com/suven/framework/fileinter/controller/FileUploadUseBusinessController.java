@@ -12,7 +12,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.fileinter.facade.FileUploadUseBusinessFacade;
@@ -83,13 +83,13 @@ public class FileUploadUseBusinessController {
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessRequestVo);
         Pager<FileUploadUseBusinessRequestDto> pager = Pager.of(fileUploadUseBusinessRequestVo.getPageNo(),fileUploadUseBusinessRequestVo.getPageSize());
         pager.toParamObject(fileUploadUseBusinessRequestDto );
-        ResponseResultPageVo<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum.DESC_ID,pager);
+        PageResult<FileUploadUseBusinessResponseDto> resultList = fileUploadUseBusinessService.getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum.DESC_ID,pager);
 
         if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
             out.writeSuccess();
             return;
         }
-        ResponseResultPageVo<FileUploadUseBusinessRequestVo> list =  resultList.convertBuild(FileUploadUseBusinessRequestVo.class);
+        PageResult<FileUploadUseBusinessRequestVo> list =  resultList.convertBuild(FileUploadUseBusinessRequestVo.class);
         out.write(list);
 
         out.write(list);

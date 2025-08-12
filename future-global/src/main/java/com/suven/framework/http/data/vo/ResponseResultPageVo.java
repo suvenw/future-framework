@@ -18,7 +18,7 @@ import java.util.List;
  * Description: 返回列表规范对象list
  */
 
-public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
+public  class PageResult<T> implements IResponseResultPage<T> {
     @ApiDesc(value= "返回分页结果指定对象的聚合 ")
 	private List<T> list;
     @ApiDesc(value= "是否有下一页,1.有下一页,0:没有下一页")
@@ -31,11 +31,11 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 
 
 
-	public ResponseResultPageVo( ) {
+	public PageResult( ) {
 		list = new ArrayList<>();
 	}
 
-	public ResponseResultPageVo(int isNextPage) {
+	public PageResult(int isNextPage) {
 		super();
 		this.isNextPage = isNextPage;
 		list = new ArrayList<>();
@@ -47,7 +47,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param pageSize  查询条件的条数大小;
 	 * @return 返回列表规范对象list
 	 */
-	public ResponseResultPageVo<T> of(List<T> resultList, int pageSize){
+	public PageResult<T> of(List<T> resultList, int pageSize){
 		return of(resultList,pageSize,0);
 	}
 	/**
@@ -57,7 +57,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param total  查询条件的结果总条数;
 	 * @return 返回列表规范对象list
 	 */
-	public ResponseResultPageVo<T> of(List<T> resultList, int pageSize, long total ){
+	public PageResult<T> of(List<T> resultList, int pageSize, long total ){
 		if(null == resultList){
 			resultList = new ArrayList<>(0);
 		}
@@ -78,7 +78,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	public int getIsNextPage() {
 		return isNextPage;
 	}
-	public ResponseResultPageVo<T> toIsNextPage(int isNextPage) {
+	public PageResult<T> toIsNextPage(int isNextPage) {
 		this.isNextPage = isNextPage;
 		return this;
 	}
@@ -86,7 +86,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 		this.isNextPage = isNextPage;
 	}
 
-    public ResponseResultPageVo<T> toIsNextPage(boolean isNextPage) {
+    public PageResult<T> toIsNextPage(boolean isNextPage) {
         this.isNextPage = isNextPage? 1 : 0;
         return this;
     }
@@ -105,7 +105,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param dataList 要转换的集合对象，可以为null
 	 * @return 返回当前ResultPageVo对象，支持链式调用
 	 */
-	public ResponseResultPageVo<T> toList(Collection<T> dataList) {
+	public PageResult<T> toList(Collection<T> dataList) {
 		if (list != null) {
 			this.list = new ArrayList<>(dataList);
 		}else {
@@ -121,7 +121,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
         return pageIndex;
     }
 
-    public ResponseResultPageVo<T> toPageIndex(long pageIndex) {
+    public PageResult<T> toPageIndex(long pageIndex) {
         this.pageIndex = pageIndex;
         return this;
     }
@@ -134,7 +134,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 		this.total = total;
 	}
 
-	public ResponseResultPageVo<T> toTotal(long total) {
+	public PageResult<T> toTotal(long total) {
 		this.total = total;
 		return this;
 	}
@@ -149,10 +149,10 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param targetClazz 需要转换成结果目录对象
 	 * @return ResultPageVo 转换结果
 	 */
-	public <V extends IBeanClone> ResponseResultPageVo<V> convertBuild(Class<V> targetClazz){
+	public <V extends IBeanClone> PageResult<V> convertBuild(Class<V> targetClazz){
 		List<V> resultList = IterableConvert.convertList(this.getList(), targetClazz);
 
-		ResponseResultPageVo<V> result = new ResponseResultPageVo<>();
+		PageResult<V> result = new PageResult<>();
 		result.toList(resultList)
 				.toIsNextPage(this.getIsNextPage())
 				.toPageIndex(this.getPageIndex())
@@ -166,7 +166,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param isNextPage        分页信息, 是否有下一页,
 	 * @return ResultPageVo
 	 */
-	public ResponseResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage ) {
+	public PageResult<T> convertBuild(List<T> resultList, boolean isNextPage ) {
 		this.toList(resultList).toIsNextPage(isNextPage);
 		return this;
 	}
@@ -177,7 +177,7 @@ public  class ResponseResultPageVo<T> implements IResponseResultPage<T> {
 	 * @param isNextPage        分页信息, 是否有下一页,
 	 * @return ResultPageVo
 	 */
-	public ResponseResultPageVo<T> convertBuild(List<T> resultList, boolean isNextPage , long total) {
+	public PageResult<T> convertBuild(List<T> resultList, boolean isNextPage , long total) {
 		this.toList(resultList).toIsNextPage(isNextPage).toTotal(total);
 		return this;
 	}

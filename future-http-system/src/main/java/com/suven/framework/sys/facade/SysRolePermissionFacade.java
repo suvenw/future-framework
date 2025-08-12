@@ -1,7 +1,7 @@
 package com.suven.framework.sys.facade;
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
 import com.suven.framework.sys.service.SysPermissionService;
@@ -59,10 +59,10 @@ public class SysRolePermissionFacade {
         return sysMsgEnum;
     }
 
-	public ResponseResultPageVo<SysPermissionResponseVo> queryUserPermission(long userId) {
+	public PageResult<SysPermissionResponseVo> queryUserPermission(long userId) {
 		List<SysPermissionResponseDto> responseDtoList = sysPermissionService.queryByUser(userId);
 		List<SysPermissionResponseVo> list = IterableConvert.convertList(responseDtoList,SysPermissionResponseVo.class);
-		ResponseResultPageVo<SysPermissionResponseVo> resultList = new ResponseResultPageVo<>();
+		PageResult<SysPermissionResponseVo> resultList = new PageResult<>();
 		resultList.toList(list);
 		return resultList;
 	}

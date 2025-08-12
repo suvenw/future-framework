@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.ResponseResultPageVo;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
@@ -105,7 +105,7 @@ public class SysPositionWebController {
      * Title: 获取分页信息
      * Description:sysPositionQueryRequestVo @{Link SysPositionQueryRequestVo}
      * @param
-     * @return  ResponseResultPageVo 对象 List<SysPositionShowResponseVo>
+     * @return  PageResult 对象 List<SysPositionShowResponseVo>
      * @throw
      * @author suven
      * date 2022-02-28 16:13:52
@@ -128,14 +128,14 @@ public class SysPositionWebController {
         page.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
          SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
+        PageResult<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new ResponseResultPageVo<>());
+            out.write( new PageResult<>());
             return ;
         }
 
         List<SysPositionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPositionShowResponseVo.class);
-        ResponseResultPageVo<SysPositionShowResponseVo> result = new ResponseResultPageVo<>();
+        PageResult<SysPositionShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -145,7 +145,7 @@ public class SysPositionWebController {
      * Title: 根据条件查谒分页信息
      * Description:sysPositionQueryRequestVo @{Link SysPositionQueryRequestVo}
      * @param
-     * @return   ResponseResultPageVo 对象 List<SysPositionShowResponseVo>
+     * @return   PageResult 对象 List<SysPositionShowResponseVo>
      * @author suven
      * date 2022-02-28 16:13:52
      *  --------------------------------------------------------
@@ -377,7 +377,7 @@ public class SysPositionWebController {
         page.toParamObject(sysPositionRequestDto );
 
         SysPositionQueryEnum queryEnum =  SysPositionQueryEnum.DESC_ID;
-        ResponseResultPageVo<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
+        PageResult<SysPositionResponseDto> resultList = sysPositionService.getSysPositionByNextPage(page,queryEnum);
         List<SysPositionResponseDto> data = resultList.getList();
 
         //写入文件
