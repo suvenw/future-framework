@@ -7,10 +7,11 @@ plugins {
 
 
 group = 'com.suven.framework'
-//version = '0.1.2-releases'
-version = '0.0.7-SNAPSHOT'
+//// 使用SNAPSHOT版本，允许重新部署
+ version = '0.1.4-releases'
+//version = '0.0.4-SNAPSHOT'
 def name = 'future-framework'
-def mavenUrl = project.findProperty('mavenUrl') ?: "http://192.168.3.100:9091/nexus/"
+def mavenUrl = project.findProperty('mavenUrl') ?: "http://192.168.3.100:9091/nexus"
 def nexusUsername = project.findProperty('nexusUsername') ?: System.getenv('NEXUS_USERNAME') ?: 'admin'
 def nexusPassword = project.findProperty('nexusPassword') ?: System.getenv('NEXUS_PASSWORD') ?: 'suven123'
 
@@ -103,6 +104,7 @@ allprojects {
 
                 repositories {
                     maven {
+                        // 恢复使用原始的仓库路径
                         def releasesRepoUrl = "${mavenUrl}/repository/maven-releases/"
                         def snapshotsRepoUrl = "${mavenUrl}/repository/maven-snapshots/"
                         url = project.version.toString().endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
@@ -113,6 +115,15 @@ allprojects {
                         }
 
                         allowInsecureProtocol = true // 显式允许不安全协议
+                        
+                        // 添加更多日志输出以便调试
+                        println "Publishing to: ${url}"
+                        println "Using credentials: ${nexusUsername}:${nexusPassword.take(2)}***"
+                        
+                        // 添加额外的配置选项
+                        authentication {
+                            basic(BasicAuthentication)
+                        }
                     }
                 }
             }

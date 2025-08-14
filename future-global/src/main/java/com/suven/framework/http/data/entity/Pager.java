@@ -50,6 +50,11 @@ public class Pager<T> implements Serializable {
 		this.PAGE_MAX_SIZE = pageMaxSize;
 	}
 
+	public  Pager(int pageNo, int pageSize){
+		this.pageNo = pageNo;
+		this.pageSize = pageSize;
+		this.isNextPage = true;
+	}
 
 	/**
      * 创建默认有下一页的分页对象

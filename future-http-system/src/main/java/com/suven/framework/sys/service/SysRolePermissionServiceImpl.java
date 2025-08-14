@@ -3,6 +3,7 @@ package com.suven.framework.sys.service;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.http.inters.IResultCodeEnum;
 
 import org.springframework.stereotype.Service;
@@ -75,6 +76,7 @@ public class SysRolePermissionServiceImpl  implements SysRolePermissionService {
         if(sysRolePermissionRequestDto== null){
             return null;
         }
+
         SysRolePermission sysRolePermission = SysRolePermission.build().clone(sysRolePermissionRequestDto);
         boolean result = sysRolePermissionDao.save(sysRolePermission);
         if(!result){

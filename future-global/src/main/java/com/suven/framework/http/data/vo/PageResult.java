@@ -40,6 +40,15 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 		this.isNextPage = isNextPage;
 		list = new ArrayList<>();
 	}
+	/**
+	 * 创建分页返回列表规范对象list
+	 * @param resultList 返回的列表集合;
+	 * resultList size ==  pageSize  查询条件的条数大小;
+	 * @return 返回列表规范对象list
+	 */
+	public PageResult<T> of(List<T> resultList){
+		return of(resultList,resultList.size(),0);
+	}
 
 	/**
 	 * 创建分页返回列表规范对象list
