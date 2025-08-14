@@ -384,7 +384,7 @@ public class SysUserServiceImpl implements SysUserService {
         //分页对象        PageHelper
         Page<SysUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
         iPage.setSearchCount(true);
-        PageResult list = sysUserDao.getListByPage(iPage, queryWrapper);
+        List<SysUser>  list = sysUserDao.getListByPage(iPage, queryWrapper);
         if (null == list) {
             list = new ArrayList<>();
         }

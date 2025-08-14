@@ -134,7 +134,7 @@ public class SysUserWebController {
     public void list(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.of();
+        Pager page = new  Pager(sysUserQueryRequestVo.getPageNo(), sysUserQueryRequestVo.getPageSize());
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;

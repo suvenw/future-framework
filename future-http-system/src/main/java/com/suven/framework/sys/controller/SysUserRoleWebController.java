@@ -136,7 +136,7 @@ public class SysUserRoleWebController {
         }
 
         List<SysUserRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysUserRoleShowResponseVo.class);
-        PageResult result = new PageResult<>();
+        PageResult<SysUserRoleShowResponseVo> result = new PageResult<>();
         result.of(listVo,page.getSize(),resultList.getTotal())
                 .toPageIndex(resultList.getPageIndex());
         out.write( result);
@@ -164,7 +164,7 @@ public class SysUserRoleWebController {
     public   void   queryList( OutputSystem out, SysUserIdQueryRequestVo sysUserRoleQueryRequestVo){
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build( ).clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysUserRoleRequestDto> page =  Pager.of();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
         SysUserRoleQueryEnum queryEnum =  SysUserRoleQueryEnum.USER_ID;
