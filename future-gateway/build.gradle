@@ -19,10 +19,9 @@ apply from: '../build-lib.gradle'
 
         // ===================== 微服务服务 使用 spring cloud gateway 服务启动依赖包 =====================
         implementation "org.springframework.cloud:spring-cloud-dependencies:${versions.spring_cloud_dds_version}"
-        implementation "org.springframework.cloud:spring-cloud-starter-gateway:${versions.spring_cloud_version}"
-        implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_version}"
-        implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_version}"
-        implementation "org.springframework.cloud:spring-cloud-loadbalancer:${versions.spring_cloud_version}"
+        implementation "org.springframework.cloud:spring-cloud-starter-gateway:${versions.spring_cloud_gateway_version}"
+        implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_starter_version}"
+        implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_starter_version}"
         implementation "io.netty:netty-all:${versions.netty_all_version}"
         implementation "net.logstash.logback:logstash-logback-encoder:5.3"
         implementation 'org.reflections:reflections:0.9.10'

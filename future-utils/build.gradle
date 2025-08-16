@@ -63,7 +63,7 @@ dependencies{
     implementation 'org.apache.httpcomponents:httpasyncclient:4.1.2'
     implementation 'org.hibernate:hibernate-validator:5.3.5.Final'
 
-    implementation 'org.freemarker:freemarker:2.3.28'
+
     implementation 'org.scala-lang:scala-library:2.13.0-RC1'
     implementation 'org.mockito:mockito-all:1.9.5'
     implementation 'commons-beanutils:commons-beanutils:1.9.3'

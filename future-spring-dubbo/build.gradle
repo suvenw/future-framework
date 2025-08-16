@@ -19,8 +19,8 @@ dependencies{
 
         // ===================== 微服务服务 使用 spring cloud  服务启动依赖包 =====================
     implementation "org.springframework.cloud:spring-cloud-dependencies:${versions.spring_cloud_dds_version}"
-    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_version}"
-    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_starter_version}"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_starter_version}"
     implementation "org.springframework.boot:spring-boot-starter:${versions.spring_boot_version}"
     implementation "io.netty:netty-all:${versions.netty_all_version}"
     implementation 'org.reflections:reflections:0.9.10'
@@ -45,6 +45,8 @@ dependencies{
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${versions.spring_cloud_alibaba_version}"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${versions.spring_cloud_alibaba_version}"
 //    implementation "com.alibaba.cloud:spring-cloud-starter-dubbo:${versions.spring_cloud_alibaba_version}"
+    implementation "org.apache.dubbo:dubbo:${versions.dubbo_version}"
+    implementation  "org.apache.dubbo:dubbo-spring-boot-starter:${versions.dubbo_version}"
     implementation 'com.alibaba.spring:spring-context-support:1.0.11'
 
     implementation "com.alibaba.nacos:nacos-api:${versions.alibaba_nacos_version}"

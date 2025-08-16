@@ -15,8 +15,8 @@ dependencies{
 
         // ===================== 微服务服务 使用 spring cloud  服务启动依赖包 =====================
         implementation "org.springframework.cloud:spring-cloud-dependencies:${versions.spring_cloud_dds_version}"
-        implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_version}"
-        implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_version}"
+        implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_starter_version}"
+        implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${versions.spring_cloud_starter_version}"
         implementation "org.springframework.boot:spring-boot-starter:${versions.spring_boot_version}"
         implementation "io.netty:netty-all:${versions.netty_all_version}"
         implementation 'org.reflections:reflections:0.9.10'
@@ -31,7 +31,9 @@ dependencies{
         implementation "org.apache.dubbo:dubbo-spring-boot-autoconfigure:${versions.dubbo_spring_boot_version}"
         implementation "org.apache.dubbo:dubbo-spring-boot-actuator:${versions.dubbo_spring_boot_version}"
         implementation "org.apache.dubbo:dubbo-spring-boot-compatible:${versions.dubbo_spring_boot_version}"
-        //        implementation 'org.apache.dubbo:dubbo-spring-boot-autoconfigure-compatible:3.1.9'
+        implementation "org.apache.dubbo:dubbo:${versions.dubbo_version}"
+        implementation  "org.apache.dubbo:dubbo-spring-boot-starter:${versions.dubbo_version}"
+        implementation  "org.apache.dubbo:dubbo-spring-boot-compatible:${versions.dubbo_version}"
         // =====================  使用dubboRpc 服务启动依赖包 =====================
 
         // ===================== 微服务服务 使用 nacos 作注册配置中心服务启动依赖包 =====================

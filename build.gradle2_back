@@ -8,8 +8,8 @@ plugins {
 
 group = 'com.suven.framework'
 //// 使用SNAPSHOT版本，允许重新部署
- version = '0.1.7-releases'
-//version = '0.0.5-SNAPSHOT'
+// version = '0.1.4-releases'
+version = '0.0.5-SNAPSHOT'
 def name = 'future-framework'
 def mavenUrl = project.findProperty('mavenUrl') ?: "http://192.168.3.100:9091/nexus"
 def nexusUsername = project.findProperty('nexusUsername') ?: System.getenv('NEXUS_USERNAME') ?: 'admin'
@@ -30,8 +30,8 @@ jar {
     enabled = true
     manifest {
         attributes(
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version
         )
     }
 }
@@ -43,7 +43,7 @@ allprojects {
     // 确保所有项目使用相同的 group 和 version
     group = rootProject.group
     version = rootProject.version
-
+    
     repositories {
         maven { url "${mavenUrl}/repository/maven-public/"
             allowInsecureProtocol = true // 显式允许不安全协议
@@ -54,13 +54,13 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
         options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
-
+        
         // 打印编译信息
         doFirst {
             println "Compiling  with Java -------"
         }
     }
-
+    
     // 为所有项目添加测试日志输出
     tasks.withType(Test) {
         testLogging {
@@ -79,10 +79,7 @@ allprojects {
                 publications {
                     mavenJava(MavenPublication) {
                         from project.components.java
-
-                        // 修改版本号，去掉SNAPSHOT后缀中的时间戳和构建号
-                        version = project.version.toString().replace('-SNAPSHOT', '')
-
+                        
                         // 添加 POM 信息
                         pom {
                             name = project.name
@@ -107,9 +104,10 @@ allprojects {
 
                 repositories {
                     maven {
-                        // 由于我们去掉了SNAPSHOT后缀，所以始终使用releases仓库
-                        def repoUrl = "${mavenUrl}/repository/maven-releases/"
-                        url = repoUrl
+                        // 恢复使用原始的仓库路径
+                        def releasesRepoUrl = "${mavenUrl}/repository/maven-releases/"
+                        def snapshotsRepoUrl = "${mavenUrl}/repository/maven-snapshots/"
+                        url = project.version.toString().endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 
                         credentials {
                             username = nexusUsername
@@ -117,11 +115,11 @@ allprojects {
                         }
 
                         allowInsecureProtocol = true // 显式允许不安全协议
-
+                        
                         // 添加更多日志输出以便调试
                         println "Publishing to: ${url}"
                         println "Using credentials: ${nexusUsername}:${nexusPassword.take(2)}***"
-
+                        
                         // 添加额外的配置选项
                         authentication {
                             basic(BasicAuthentication)
@@ -131,7 +129,7 @@ allprojects {
             }
         }
     }
-
+    
     jar {
         exclude 'logback.xml'
         exclude 'META-INF/cat'
@@ -143,7 +141,7 @@ allprojects {
         provided
         // 使用 implementation 替代已弃用的 compile
         implementation.extendsFrom provided
-
+        
         all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
         all*.exclude group: 'commons-logging', module: 'commons-logging'
         all*.exclude group: 'log4j', module: 'log4j'
@@ -194,11 +192,47 @@ subprojects.each { subproject ->
     evaluationDependsOn(subproject.path)
 }
 
+// 添加一个任务，用于在发布前修改版本号
+tasks.register('setReleaseVersion') {
+    group = 'publishing'
+    description = '设置发布版本号，去掉SNAPSHOT后缀和时间戳'
+    
+    doLast {
+        // 保存原始版本号，以便在发布后恢复
+        project.ext.originalVersion = project.version
+        
+        // 修改根项目和所有子项目的版本号
+        allprojects {
+            project.version = project.version.toString().replace('-SNAPSHOT', '')
+            println "设置项目 ${project.name} 的版本号为: ${project.version}"
+        }
+    }
+}
+
+// 添加一个任务，用于在发布后恢复版本号
+tasks.register('restoreVersion') {
+    group = 'publishing'
+    description = '恢复原始版本号'
+    
+    doLast {
+        if (project.hasProperty('originalVersion')) {
+            // 恢复根项目和所有子项目的版本号
+            allprojects {
+                project.version = project.ext.originalVersion
+                println "恢复项目 ${project.name} 的版本号为: ${project.version}"
+            }
+        }
+    }
+}
+
 // 添加发布到 Nexus 的任务
 tasks.register('publishToNexus') {
     group = 'publishing'
     description = 'Publishes all Maven publications to Nexus repository'
-
+    
+    // 在发布前设置版本号
+    dependsOn setReleaseVersion
+    
     // 确保所有子项目的发布任务都被依赖
     subprojects.each { subproject ->
         if (subproject.plugins.hasPlugin('maven-publish')) {
@@ -227,9 +261,12 @@ tasks.register('publishToNexus') {
 
     doLast {
         println "=============================================="
-        println "Publishing completed for ${rootProject.name}:${rootProject.version}"
+        println "Publishing completed for ${rootProject.name}:${project.version}"
         println "All artifacts have been published to Nexus"
         println "=============================================="
+        
+        // 在发布后恢复版本号
+        tasks.restoreVersion.execute()
     }
 }
 
@@ -237,6 +274,9 @@ tasks.register('publishToNexus') {
 tasks.register('publishSingleProject') {
     group = 'publishing'
     description = 'Publishes a single project to Nexus repository. Usage: ./gradlew publishSingleProject -PprojectPath=:subproject'
+
+    // 在发布前设置版本号
+    dependsOn setReleaseVersion
 
     doLast {
         def projectPath = project.findProperty('projectPath')
@@ -261,6 +301,9 @@ tasks.register('publishSingleProject') {
         println "=============================================="
         println "Publishing completed for ${proj.name}"
         println "=============================================="
+        
+        // 在发布后恢复版本号
+        tasks.restoreVersion.execute()
     }
 }
 
