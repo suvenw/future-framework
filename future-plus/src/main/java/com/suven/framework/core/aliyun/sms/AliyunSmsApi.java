@@ -51,6 +51,7 @@ public class AliyunSmsApi {
             System.setProperty("sun.net.client.defaultReadTimeout", String.valueOf(rTimeout));
             //初始化ascClient,暂时不支持多region（请勿修改）
             DefaultProfile profile = DefaultProfile.getProfile(aliyunSmsConfigSetting.getRegionId(), aliyunSmsConfigSetting.getAccessKeyId(),aliyunSmsConfigSetting.getAccessSecret());
+
             DefaultProfile.addEndpoint("cn-hangzhou","cn-hangzhou", aliyunSmsConfigSetting.getProduct(), aliyunSmsConfigSetting.getDomain());
 
             client = new DefaultAcsClient(profile);

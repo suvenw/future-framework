@@ -61,8 +61,16 @@ public abstract class RocketMQConsumerAbstractHandler<T> implements RocketMQList
                 byte[] body =  converter(object);
 
                 Type genType = getClass().getGenericSuperclass();
-                Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-                entityClass =  (Class<T>)params[0];
+                if (genType instanceof ParameterizedType) {
+                    Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+                    if (params.length > 0 && params[0] instanceof Class) {
+                        entityClass = (Class<T>) params[0];
+                    } else {
+                        throw new IllegalStateException("无法获取泛型类型参数");
+                    }
+                } else {
+                    throw new IllegalStateException("未找到泛型父类信息");
+                }
                 T data = serializable(body,entityClass);
                 onSuccessService(data);
                 delCheckRedisKey(globalId);
@@ -111,7 +119,7 @@ public abstract class RocketMQConsumerAbstractHandler<T> implements RocketMQList
             return null;
         }
         if (String.class == clazz) {
-            return (T)new String(data);
+            return (T)String.valueOf( data);
         }
 
         T josn = TypeSerializer.parseObject( clazz,data);

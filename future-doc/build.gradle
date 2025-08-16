@@ -12,6 +12,7 @@ dependencies {
 
     implementation fileTree(dir: "lib", include: '*.jar')
 
+
     implementation "org.springframework:spring-context:${versions.spring_version}"
     implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
     implementation 'com.alibaba:fastjson:1.2.58'

@@ -54,7 +54,7 @@ public class KafkaAutoConfigSetting {
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         /** 创建kafka 消费工厂**/
-        ConsumerFactory consumerFactory = new DefaultKafkaConsumerFactory(consumer.valueOf());
+        ConsumerFactory<String, String> consumerFactory = new DefaultKafkaConsumerFactory<>(consumer.valueOf());
         consumerFactory.createConsumer();
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);

@@ -2,7 +2,6 @@ package com.suven.framework.core.rocketmq;
 
 import com.suven.framework.common.constants.GlobalConfigConstants;
 import com.suven.framework.core.TypeSerializer;
-import com.suven.framework.plus.logback.GlobalRpcLogbackThread;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -312,13 +311,11 @@ public class RocketMQApi {
                     rocketMqJsonMessage = TypeSerializer.parseString(rocketMQMessage);
                 }
                 String globalIds = String.valueOf(globalId);
-                String traceId = GlobalRpcLogbackThread.getLogbackTraceIdInMDC(globalIds);
 //                sendResult = rocketMQTemplate.syncSend(userTopic, );
 //                message =  MessageBuilder.withPayload(payload).setHeader(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON_VALUE).build();
                 message = new Message(rocketMqTopic.getTopic(),rocketMqTopic.getTag(),messageKeys,prefixByte);
                 message.setTransactionId(globalIds);
                 message.putUserProperty("globalId",globalIds);
-                message.putUserProperty(GlobalConfigConstants.LOGBACK_TRACE_ID,traceId);
                 if(delayLevel >0){
                     message.setDelayTimeLevel(delayLevel);
                 }
