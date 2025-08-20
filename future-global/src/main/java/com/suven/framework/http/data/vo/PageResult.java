@@ -36,7 +36,7 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 	 * 每页显示条数，默认 20
 	 */
 	@ApiDesc(value= "每页显示条数，默认 20")
-	protected long size = 20;
+	protected long pageSize = 20;
 
 	/**
 	 * 当前页
@@ -101,6 +101,8 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 		}
 		boolean isNext = isNextPage(iPage.getRecords(), iPage.getSize());
 		this.toIsNextPage(isNext).toList(iPage.getRecords()).toTotal(iPage.getTotal());
+		this.setCurrent(iPage.getCurrent());
+		this.setPageSize(iPage.getSize());
 		return this;
 	}
 
@@ -220,4 +222,19 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 		return this;
 	}
 
+	public long getCurrent() {
+		return current;
+	}
+
+	public void setCurrent(long current) {
+		this.current = current;
+	}
+
+	public long getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(long pageSize) {
+		this.pageSize = pageSize;
+	}
 }
