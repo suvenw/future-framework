@@ -3,9 +3,12 @@ package com.suven.framework.sys.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.Query;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
 import com.suven.framework.sys.entity.SysDepartPermission;
 import com.suven.framework.sys.mapper.SysDepartPermissionMapper;
@@ -123,24 +126,22 @@ public class SysDepartPermissionDao extends AbstractMyBatisRepository<SysDepartP
      * @author suven
      * date 2022-02-28 16:14:27
      */
-    public List<SysDepartPermission> getListByPage(IPage<SysDepartPermission> iPage, QueryWrapper<SysDepartPermission> queryWrapper ){
+    public PageResult<SysDepartPermission> getListByPage(IPage<SysDepartPermission> iPage, QueryWrapper<SysDepartPermission> queryWrapper ){
 
 
+        PageResult<SysDepartPermission> pageResult = new PageResult<>();
         List<SysDepartPermission> resDtoList = new ArrayList<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }
 
         IPage<SysDepartPermission> page = super.page(iPage, queryWrapper);
-        if(null == page){
-            return resDtoList;
+        if(null == page || ObjectTrue.isEmpty(page.getRecords())){
+            return pageResult;
         }
 
-        List<SysDepartPermission>  list = page.getRecords();
-        if(null == list || list.isEmpty()){
-            return resDtoList;
-        }
-        return list;
+        pageResult.of( page);
+        return pageResult;
 
         }
     /**

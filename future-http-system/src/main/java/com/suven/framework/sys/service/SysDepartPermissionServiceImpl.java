@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.core.ObjectTrue;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -240,11 +241,11 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
             //分页对象        PageHelper
            Page<SysDepartPermission> iPage = new Page<>(0, 1);
            iPage.setSearchCount(false);
-           List<SysDepartPermission>  list = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
-           if(null == list || list.isEmpty()){
+           PageResult<SysDepartPermission>  list = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
+           if(null == list || ObjectTrue.isEmpty(list.getList())){
                  return null;
            }
-           SysDepartPermission sysDepartPermission = list.get(0);
+           SysDepartPermission sysDepartPermission = list.getList().get(0);
            SysDepartPermissionResponseDto sysDepartPermissionResponseDto = SysDepartPermissionResponseDto.build().clone(sysDepartPermission);
 
             return sysDepartPermissionResponseDto ;
@@ -287,11 +288,11 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
         //分页对象        PageHelper
         Page<SysDepartPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
         iPage.setSearchCount(false);
-        List<SysDepartPermission>  list = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<SysDepartPermission>  pageResult = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
+        if(null == pageResult || ObjectTrue.isEmpty(pageResult.getList())  ){
+            return new ArrayList<>();
         }
-        List<SysDepartPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartPermissionResponseDto.class);
+        List<SysDepartPermissionResponseDto>  resDtoList =  IterableConvert.convertList(pageResult.getList(),SysDepartPermissionResponseDto.class);
         return resDtoList;
 
     }
@@ -308,19 +309,17 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
     @Override
     public PageResult<SysDepartPermissionResponseDto> getSysDepartPermissionByQueryPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
 
-        PageResult<SysDepartPermissionResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysDepartPermission> queryWrapper = sysDepartPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
         iPage.setSearchCount(false);
-        List<SysDepartPermission>  list = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<SysDepartPermission>  pageResult = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
+        if(null == pageResult ){
+            pageResult = new PageResult<>();
+            return pageResult.convertBuild(SysDepartPermissionResponseDto.class);
         }
-        List<SysDepartPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartPermissionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+
+        return pageResult.convertBuild(SysDepartPermissionResponseDto.class);
     }
 
     /**
@@ -332,19 +331,15 @@ public class SysDepartPermissionServiceImpl  implements SysDepartPermissionServi
      */
     @Override
     public PageResult<SysDepartPermissionResponseDto> getSysDepartPermissionByNextPage(Pager page, SysDepartPermissionQueryEnum queryEnum){
-        PageResult<SysDepartPermissionResponseDto> PageResult = new PageResult<>();
         QueryWrapper<SysDepartPermission> queryWrapper = sysDepartPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
         iPage.setSearchCount(true);
-        List<SysDepartPermission>  list = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<SysDepartPermission>  pageResult = sysDepartPermissionDao.getListByPage(iPage,queryWrapper);
+        if(null == pageResult || ObjectTrue.isEmpty(pageResult.getList()) ){
+          return new PageResult<>();
         }
-        List<SysDepartPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartPermissionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        return pageResult.convertBuild(SysDepartPermissionResponseDto.class);
 
     }
 
