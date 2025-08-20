@@ -41,5 +41,6 @@ dependencies {
     implementation libraries.'protostuff-runtime'
     implementation libraries.'commons-lang3'
     implementation libraries.'jakarta.servlet-api'
+    implementation libraries.'mybatisPlus'
 }
 

@@ -1,5 +1,6 @@
 package com.suven.framework.http.data.vo;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.IBeanClone;
@@ -25,9 +26,23 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 	private int isNextPage;
     @ApiDesc(value= "下一页的开始索引的表ID值,类型为long")
 	private long pageIndex;
-
+	/**
+	 * 总数
+	 */
 	@ApiDesc(value= "数据总数")
     private long total;
+
+	/**
+	 * 每页显示条数，默认 20
+	 */
+	@ApiDesc(value= "每页显示条数，默认 20")
+	protected long size = 20;
+
+	/**
+	 * 当前页
+	 */
+	@ApiDesc(value= "当前页,默认 1")
+	protected long current = 1;
 
 
 
@@ -75,7 +90,21 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 		return this;
 	}
 
-	public  boolean isNextPage(List<T> list, int pageSize){
+	/**
+	 * 创建分页返回列表规范对象list
+	 * @param iPage IPage 返回的列表集合;
+	 * @return 返回列表规范对象list
+	 */
+	public PageResult<T> of(IPage<T> iPage){
+		if(null == iPage){
+			return this;
+		}
+		boolean isNext = isNextPage(iPage.getRecords(), iPage.getSize());
+		this.toIsNextPage(isNext).toList(iPage.getRecords()).toTotal(iPage.getTotal());
+		return this;
+	}
+
+	public  boolean isNextPage(List<T> list, long pageSize){
 		if(null != list && list.size() > pageSize && list.size() > 1){
 			list.remove(pageSize);
 			return true;
