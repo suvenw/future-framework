@@ -8,7 +8,7 @@ import com.suven.framework.core.redis.RedisClientServer;
 import com.suven.framework.core.redis.RedisKeys;
 import com.suven.framework.core.redis.RedisShortKeyUtil;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
 import com.suven.framework.sys.dto.request.SysUserLoginRequestDto;

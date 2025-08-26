@@ -10,7 +10,7 @@ import com.suven.framework.sys.dto.request.SysRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
 import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

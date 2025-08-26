@@ -7,7 +7,7 @@ package com.suven.framework.http.handler;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.IResponseResultPage;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import jakarta.servlet.ServletOutputStream;

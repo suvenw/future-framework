@@ -1,7 +1,7 @@
 package com.suven.framework.sys.facade;
 
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
 import com.suven.framework.sys.service.SysPermissionService;
@@ -11,13 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.suven.framework.sys.service.SysRolePermissionService;
-import com.suven.framework.sys.dto.request.SysRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
-import com.suven.framework.sys.vo.request.SysRolePermissionRequestVo;
-import com.suven.framework.sys.vo.response.SysRolePermissionResponseVo;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**

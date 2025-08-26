@@ -43,7 +43,7 @@ public class BaseTenantEntity  implements IBaseApi, IBeanClone, Serializable {
 
     @ApiDesc(value =  "租户ID,租户主键值")
     @ExcelIgnore
-    private long tenantId;
+    private String tenantId;
     @ApiDesc(value =  "租户ID,租户主键值")
     @ExcelIgnore
     private int deleted = TbDeteledEnum.NORMAL.index();
@@ -78,14 +78,11 @@ public class BaseTenantEntity  implements IBaseApi, IBeanClone, Serializable {
         return(T) this;
     }
 
-    public long getTenantId() {
+    public String getTenantId() {
         return tenantId;
     }
-    public String getTenantIds() {
-        return String.valueOf(tenantId);
-    }
 
-    public void setTenantId(long tenantId) {
+    public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
     }
 

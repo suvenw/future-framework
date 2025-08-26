@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileAppStorageConfigRequestDto;
 import com.suven.framework.fileinter.dto.response.FileAppStorageConfigResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

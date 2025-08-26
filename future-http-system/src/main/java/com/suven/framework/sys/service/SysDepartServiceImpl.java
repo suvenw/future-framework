@@ -23,7 +23,7 @@ import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 

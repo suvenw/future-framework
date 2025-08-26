@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysUserDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysUserDepartResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserDepartQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

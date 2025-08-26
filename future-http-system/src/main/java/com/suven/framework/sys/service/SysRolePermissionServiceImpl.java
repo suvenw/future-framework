@@ -3,7 +3,6 @@ package com.suven.framework.sys.service;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.http.inters.IResultCodeEnum;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +25,7 @@ import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.common.enums.ResultEnum;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 
 

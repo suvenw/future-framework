@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileDataDetailedRequestDto;
 import com.suven.framework.fileinter.dto.response.FileDataDetailedResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

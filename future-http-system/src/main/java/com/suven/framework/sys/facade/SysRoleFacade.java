@@ -1,12 +1,10 @@
 package com.suven.framework.sys.facade;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
 import com.suven.framework.sys.dto.request.SysUserRoleRequestDto;
 import com.suven.framework.sys.dto.response.SysUserRoleResponseDto;
-import com.suven.framework.sys.entity.SysUserRole;
 import com.suven.framework.sys.service.SysUserRoleService;
 import com.suven.framework.sys.vo.response.UserRoleVo;
 import com.suven.framework.core.ObjectTrue;
@@ -14,15 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.suven.framework.sys.service.SysRoleService;
-import com.suven.framework.sys.dto.request.SysRoleRequestDto;
 import com.suven.framework.sys.dto.response.SysRoleResponseDto;
-import com.suven.framework.sys.vo.request.SysRoleRequestVo;
-import com.suven.framework.sys.vo.response.SysRoleResponseVo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**

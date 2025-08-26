@@ -17,7 +17,7 @@ import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.util.excel.ExcelUtils;
 import org.slf4j.Logger;
