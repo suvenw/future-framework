@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadUseBusinessRequestDto
 import com.suven.framework.fileinter.dto.response.FileUploadUseBusinessResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

@@ -1,6 +1,7 @@
 package com.suven.framework.sys.controller;
 
 
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.*;
 import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.inters.IResultCodeEnum;

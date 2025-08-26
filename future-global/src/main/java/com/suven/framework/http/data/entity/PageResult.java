@@ -1,4 +1,4 @@
-package com.suven.framework.http.data.vo;
+package com.suven.framework.http.data.entity;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.suven.framework.core.IterableConvert;

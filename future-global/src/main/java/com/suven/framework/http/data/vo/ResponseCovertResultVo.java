@@ -4,13 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.IResponseResultPage;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.poi.ss.formula.functions.T;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**

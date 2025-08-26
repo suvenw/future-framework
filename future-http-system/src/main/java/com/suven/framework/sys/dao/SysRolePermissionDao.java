@@ -3,12 +3,9 @@ package com.suven.framework.sys.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.Query;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.api.IBaseExcelData;
-import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
 import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.sys.entity.SysRolePermission;
 import com.suven.framework.sys.mapper.SysRolePermissionMapper;

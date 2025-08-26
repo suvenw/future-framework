@@ -11,7 +11,7 @@ import com.suven.framework.fileinter.entity.FileUploadActionWater;
 import com.suven.framework.fileinter.repository.FileUploadActionWaterRepository;
 import com.suven.framework.fileinter.service.FileUploadActionWaterService;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

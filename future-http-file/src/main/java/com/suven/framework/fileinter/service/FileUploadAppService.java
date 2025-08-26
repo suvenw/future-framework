@@ -9,7 +9,7 @@ import com.suven.framework.fileinter.dto.request.FileUploadAppRequestDto;
 import com.suven.framework.fileinter.dto.response.FileUploadAppResponseDto;
 import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

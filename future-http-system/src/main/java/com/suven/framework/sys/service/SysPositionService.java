@@ -9,7 +9,7 @@ import com.suven.framework.sys.dto.request.SysPositionRequestDto;
 import com.suven.framework.sys.dto.response.SysPositionResponseDto;
 import com.suven.framework.sys.dto.enums.SysPositionQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 
 
 

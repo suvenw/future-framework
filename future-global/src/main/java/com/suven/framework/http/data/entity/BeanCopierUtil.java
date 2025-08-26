@@ -49,9 +49,9 @@ public abstract class BeanCopierUtil {
         BeanCopier beanCopier = getBeanCopier(sourceClass, targetClass);
 
         for (S source : sourceList) {
-            T target = targetClass.newInstance();
+            T target = targetClass.getDeclaredConstructor().newInstance();
             targetList.add(target);
-            if (source == null || target == null) {
+            if (source == null ) {
                 continue;
             }
             beanCopier.copy(source, target, null);

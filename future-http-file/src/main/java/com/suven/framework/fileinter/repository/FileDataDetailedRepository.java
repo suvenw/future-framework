@@ -14,7 +14,7 @@ import com.suven.framework.fileinter.entity.FileDataDetailed;
 import com.suven.framework.fileinter.mapper.FileDataDetailedMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.PageResult;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
