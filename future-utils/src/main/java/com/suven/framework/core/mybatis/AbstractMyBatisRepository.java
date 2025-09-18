@@ -29,10 +29,7 @@ import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.google.common.collect.Lists;
 import com.suven.framework.common.cat.CatDBSign;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.core.db.DataSourceGroup;
-import com.suven.framework.core.db.DataSourceHolder;
-import com.suven.framework.core.db.DataSourceTypeEnum;
-import com.suven.framework.core.db.ext.DSClassAnnoExplain;
+
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.util.json.JsonUtils;
 import org.slf4j.Logger;
@@ -76,24 +73,12 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
 
     protected  void masterDataSource(){
         Class<T> entityClass =  getEntityClass();
-        DataSourceGroup dataSourceGroup = DSClassAnnoExplain.getDataSourceGroupByClass(entityClass);
-        if(dataSourceGroup == null){
-            return;
-        }
-        dataSourceGroup.setDataType(DataSourceTypeEnum.MASTER);
-        logger.info(" masterDataSource DataSourceGroup[{}]", JsonUtils.toJson(dataSourceGroup));
-        DataSourceHolder.putDataSource(dataSourceGroup);
+//        DataSourceHolderService.masterDataSource(entityClass);
     }
 
     protected   void slaveDataSource(){
         Class<T> entityClass =  getEntityClass();
-        DataSourceGroup dataSourceGroup = DSClassAnnoExplain.getDataSourceGroupByClass(entityClass);
-        if(dataSourceGroup == null){
-            return;
-        }
-        dataSourceGroup.setDataType(DataSourceTypeEnum.SLAVE);
-        logger.info(" slaveDataSource DataSourceGroup[{}]", JsonUtils.toJson(dataSourceGroup));
-        DataSourceHolder.putDataSource(dataSourceGroup);
+//        DataSourceHolderService.slaveDataSource(entityClass);
     }
 
 

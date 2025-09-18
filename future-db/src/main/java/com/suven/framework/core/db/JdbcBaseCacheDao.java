@@ -1,21 +1,22 @@
-//package com.suven.framework.core.db;
+package com.suven.framework.core.db;//package com.suven.framework.core.db;
 //
-//import com.google.common.collect.Lists;
-//import com.suven.framework.core.IterableConvert;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+//import com.baomidou.mybatisplus.core.toolkit.ReflectionKit;
 //import org.springframework.beans.factory.annotation.Autowired;
+//import com.suven.framework.common.api.IBaseApi;
+//import com.suven.framework.common.api.IBaseExcelData;
+//import com.suven.framework.common.enums.QueryTypeEnum;
+//import com.suven.framework.core.redis.BaseRedisClient;
+//import com.google.common.collect.Lists;
+//import org.apache.commons.collections.ObjectTrues;
 //import org.springframework.jdbc.core.ParameterizedPreparedStatementSetter;
 //import org.springframework.jdbc.core.RowMapper;
-//import com.suven.framework.common.api.IBaseApi;
-//import com.suven.framework.common.enums.QueryTypeEnum;
 //
 //import java.sql.PreparedStatement;
 //import java.sql.SQLException;
 //import java.util.*;
 //
 ///**
-// * Title: JdbcBaseEntityDao.java
+// * Title: JdbcBaseCacheDao.java
 // * @author Joven.wang
 // * date   2019-10-18 12:35:25
 // * @version V1.0
@@ -23,34 +24,42 @@
 // * 修改记录
 // *    修改后版本:     修改人：  修改日期:     修改内容:
 // * </pre>
-// * Description: (说明)通过 JDBC 映射关系的数据查询的基础实现类,该类是直接查找数据库的,需要实现数据缓存,可以使用 JdbcBaseCacheDao;
+// * Description: (说明)通过 JDBC 映射关系的数据查询的基础实现类,包括数据缓存到redis中和从redis缓存中查询的实现类;
+// * 需要直接查找数据库的,可以使用基础 JdbcBaseEntityDao;
 // * Copyright: (c) 2018 gc by https://www.suven.top
 // *
 // */
-//public abstract class JdbcBaseEntityDao<T extends IBaseApi>  {
+//public abstract class JdbcBaseCacheDao<T extends IBaseApi> extends BaseRedisClient<T> implements IBaseExcelData {
 //
-//
-//	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 //
 //	@Autowired
 //	private JdbcBaseDataSource dataSource;
+//
 //
 //	public JdbcBaseDataSource getDataSource(){
 //		return dataSource;
 //	}
 //
+//	public Class<T> getEntityClass(){
+//		Class<?>  clazz = ReflectionKit.getSuperClassGenericType(getClass(), 1);
+//		if(clazz == null || ! IBaseApi.class.isAssignableFrom(clazz) ){
+//			throw new RuntimeException("Please fill in the JdbcBaseDataSource on the class [" +clazz +"],which must Module Class<T> extends IBaseApi ") ;
+//		}
+//		return (Class<T>)clazz;
+//	}
+//
 //	/**
 //	 * 保存创建UserAlias,并且保存到缓存中
-//	 * @param entity 类说明
+//	 * @param entity
 //	 */
 //	protected T saveEntity(T entity,String sql, List<Object> dbList ){
-//		if(null == entity){
+//		if(null == entity)
 //			return  null;
-//		}
 //
 //		long id = dataSource.insert(entity.getClass(),sql, "id", dbList.toArray());
 //		if(id > 0){
 //			entity.setId(id);
+//			this.addCache(entity);//增加到缓存
 //			return entity;
 //		}
 //		return null;
@@ -58,15 +67,16 @@
 //	}
 //	/**
 //	 * 保存创建UserAlias,并且保存到缓存中
-//	 * @param entity 对象实体
+//	 * @param entity
 //	 */
 //	protected T saveEntity(T entity,String sql,String idName, List<Object> dbList ){
-//		if(null == entity) {
-//			return null;
-//		}
+//		if(null == entity)
+//			return  null;
+//
 //		long id = dataSource.insert(entity.getClass(),sql, idName, dbList.toArray());
 //		if(id > 0){
 //			entity.setId(id);
+//			this.addCache(entity);//增加到缓存
 //			return entity;
 //		}
 //		return null;
@@ -75,112 +85,113 @@
 //
 //	/**
 //	 * 保存创建UserAlias,并且保存到缓存中
-//	 * @param entity 对象实体
+//	 * @param entity
 //	 */
 //	protected boolean saveIdEntity(T entity,String sql, List<Object> dbList ){
-//		if(null == entity || null == sql || null == dbList) {
-//			return false;
-//		}
+//		if(null == entity || null == sql || null == dbList)
+//			return  false;
 //
 //		if(entity.getId() <= 0){
 //			logger.error("Entity entity by id Must be greater than zero(0)");
 //			throw new RuntimeException("Entity entity by id Must be greater than zero(0)");
 //		}
 //		boolean id = dataSource.update(entity.getClass(),sql, dbList.toArray());
-//		return id;
-//
+//		if(id){
+//			this.addCache(entity);//增加到缓存
+//			return true;
+//		}
+//		return false;
 //
 //	}
 //
 //	/**
 //	 * 更新userAlias信息,where条件为userAliasId,更新userAlias
-//	 * @param sql sql语句
+//	 * @param sql
 //	 */
 //	public boolean updateEntity(T entity,String sql, List<Object> dbList){
 //		boolean flg = false ;
-//		if(null == sql || dbList.isEmpty()){
-//			return  false;
-//		}
+//		if(null == sql || dbList.isEmpty())
+//			return  flg;
 //
 //		flg = dataSource.update(entity.getClass(),sql,dbList.toArray());
-//		return flg;
+//		if(flg){
+//			this.addCache( entity); //更新到缓存;
+//		}return flg;
 //
 //	}
 //
 //	/**
 //	 * 通过主键userAliasId删除userAlias
-//	 *  @param entityIdList 对象实体主键Id集体
-//	 */
-//	public int  updateStatusByIdList(Class<T> clazz, String sql ,List<Long> entityIdList,Object ... args){
-//		if(entityIdList == null || entityIdList.isEmpty()){
-//			return 0;
-//		}
-//
-//		return dataSource.updateByInToList(clazz,sql,entityIdList,args);
-//
-//	}
-//
-//	/**
-//	 * 通过主键userAliasId删除userAlias
-//	 *  @param entityId 对象实体主键Id
+//	 *  @param entityId
 //	 */
 //	public boolean  delEntityById(Class<T> clazz , String sql ,long entityId){
-//		if(entityId == 0){
+//		if(entityId == 0)
 //			return false;
-//		}
+//		this.delCache(clazz,entityId);//删除缓存
 //		return dataSource.update(clazz,sql,entityId);
 //
 //	}
 //
 //	/**
 //	 * 通过主键userAliasId删除userAlias
-//	 *  @param entityIdList 对象实体主键Id集合
+//	 *  @param entityIdList
 //	 */
 //	public int  delEntityByIdList(Class<T> clazz , String sql ,List<Long> entityIdList){
-//		if(entityIdList == null || entityIdList.isEmpty()) {
+//		if(entityIdList == null || entityIdList.isEmpty())
 //			return 0;
-//		}
+//		this.delCache(clazz,entityIdList);//删除缓存
 //		return dataSource.updateByInToList(clazz,sql,entityIdList);
 //
 //	}
 //
 //	/**
 //	 * 通过主键userAlias删除userAlias
-//	 *  @param entity 对象实体
+//	 *  @param entity
 //	 */
 //	public boolean  delEntity(T entity,String sql){
-//		if(null == entity || entity.getId() < 0) {
+//		if(null == entity || entity.getId() < 0)
 //			return false;
-//		}
+//		this.delCache(entity);//删除缓存
 //		return dataSource.update(entity.getClass(),sql,entity.getId());
 //
 //	}
 //	/**
 //	 * 通过主键atyAnnualReportId查找AtyAnnualReport
-//	 * @param entityId 对象实体主键Id
+//	 * @param entityId
 //	 */
 //	public T getEntityById(Class<T> clazz , RowMapper<T> rowMapper, String sql , long entityId){
-//		if(entityId <= 0) {
-//			return null;
+//		if(entityId <= 0)
+//			return  null;
+//		T entity = this.findCacheById(clazz, entityId );//从缓存中查找
+//		if(null != entity){
+//			return entity;
 //		}
 //
-//		T entity = dataSource.queryT(clazz,sql, rowMapper, entityId);
+//		entity = dataSource.queryT(clazz,sql, rowMapper, entityId);
+//		if(null == entity){
+//			return null;
+//		}
+//		this.addCache(entity);//增加到缓存;
 //		return  entity;
 //	}
 //
 //	/**
 //	 * 通过名字 videoName查找Video
-//	 * @param findFileName 搜索名称
+//	 * @param videoFileName
 //	 */
-//	public T getEntityByName(Class<T> clazz , RowMapper<T> rowMapper, String sql , String findFileName){
-//		if(findFileName == null) {
-//			return null;
+//	public T getEntityByName(Class<T> clazz , RowMapper<T> rowMapper, String sql , String videoFileName){
+//		if(videoFileName == null)
+//			return  null;
+//		T entity = this.findCacheById(clazz, videoFileName );//从缓存中查找
+//		if(null != entity){
+//			return entity;
 //		}
 //
-//		T entity = dataSource.queryT(clazz,sql, rowMapper, findFileName);
+//		entity = dataSource.queryT(clazz,sql, rowMapper, videoFileName);
 //		if(null == entity){
 //			return null;
 //		}
+//		this.addCache(entity);//增加到缓存;
 //		return  entity;
 //	}
 //
@@ -190,46 +201,106 @@
 //	 */
 //	public List<T>  getEntityListByIdList(Class<T> clazz , RowMapper<T> rowMapper, String sql , Collection<Long> colle, Object... values){
 //		if(null == colle || colle.isEmpty()) {
-//		   return  null;
+//			return  null;
 //		}
 //		List<T> list = new ArrayList<>();
 //		//查找从缓存中没有查找到的AtyAnnualReport实现;
+//		Map<Long,T> map = this.findMapCache(clazz, colle );//从缓存中查找
+//		if(null != map ){
+//			list = new ArrayList<>( map.values());
+//			if( map.size() == colle.size()){
+//				return list;
+//			}
+//		}
+//		//查找从缓存中没有查找到的OpusInfo实现;
+//		Set<Long> removeKeys = new HashSet<>();
+//		if(null != map && !map.isEmpty()){
+//			Set<Long> mapKeys = map.keySet();
+//			colle.removeAll(mapKeys);//删除已查到的对象信息;
+//			removeKeys.addAll(mapKeys);
+//		}
+//		//删除之后为空集合,返回上面结果;
+//		if(colle.isEmpty()){
+//			return list;
+//		}
+//
+//
 //		if(colle.size() > dataSource.LISTS_PARTITON_SIZE){
 //			/*** 如果大于100条,则查用分页查询;返回结果值; */
 //			List<List<Long>> partition = Lists.partition(new ArrayList<>(colle),  dataSource.LISTS_PARTITON_SIZE);
-//			if(null !=partition && !partition.isEmpty()){
+//			if(ObjectTrues.isNotEmpty(partition)){
 //				for(List<Long> colles : partition ){
-//					List<T>  dbList = dataSource.queryByInToList(clazz,sql, rowMapper, colles,values);
+//					List<T>  dbList = dataSource.queryByInToList(clazz,sql, rowMapper, colles);
 //					if(null != dbList && !dbList.isEmpty()){
+//						this.addCacheList(clazz, dbList);
 //						list.addAll(dbList);
 //					}
 //				}
 //			}
 //		}else{
+//
 //			List<T>  dbList = dataSource.queryByInToList(clazz,sql, rowMapper, colle);
 //			if(null != dbList && !dbList.isEmpty()){
+//				this.addCacheList(clazz, dbList);
 //				list.addAll(dbList);
 //			}
 //		}
+//		colle.addAll(removeKeys);
 //		return  list;
 //	}
 //
 //	/**
 //	 * 通过主键id集合批量查找AtyAnnualReport
-//	 * @param colle 集合
+//	 * @param colle
 //	 */
-//	public Map<Long,T>  getEntityMapByIdList(Class<T> clazz , RowMapper<T> rowMapper, String sql , Collection<Long> colle, Object... values){
+//	public Map<Long,T>  getEntityMapByIdList(Class<T> clazz , RowMapper<T> rowMapper, String sql , Collection<Long> colle){
+//		if(ObjectTrues.isEmpty(colle)){
+//			return new HashMap<Long, T>();
+//		}
+//		Map<Long,T> map = this.findMapCache(clazz, colle);
+//		if(null != map && map.size() == colle.size() ){
+//			return map;
+//		}
 //
-//		List<T> list = getEntityListByIdList(clazz,rowMapper,sql,colle,values);
-//		if(null == list ){
-//			return new HashMap<>(1);
+//		Set<Long> removeKeys = new HashSet<>(); //存储删除已查到的对象信息;
+//		//查找从缓存中没有查找到的OpusInfo实现;
+//		if(null != map && !map.isEmpty()){
+//			Set<Long> mapKeys = map.keySet();
+//			colle.removeAll(mapKeys);//删除已查到的对象信息;
+//			removeKeys.addAll(mapKeys);
+//		}
+//		if(map == null){
+//			map = new HashMap<>();
+//		}
+//		List<T> list = new ArrayList<>();
+//
+//		/** 如果批量id 少于指定值时100条,直接查询**/
+//		if(colle.size() < dataSource.LISTS_PARTITON_SIZE && !colle.isEmpty()){
+//			list = dataSource.queryByInToList(clazz,sql, rowMapper, colle);
+//		}else{
+//			/*** 如果大于100条,则查用分页查询;返回结果值; */
+//			List<List<Long>> partition = Lists.partition(new ArrayList<>(colle), dataSource.LISTS_PARTITON_SIZE);
+//			if(ObjectTrues.isNotEmpty(partition)){
+//				for(List<Long> ids : partition ){
+//					List<T> dbList = dataSource.queryByInToList(clazz,sql,rowMapper, ids);
+//					if(null != dbList && !dbList.isEmpty()){
+//						list.addAll(dbList);
+//					}
+//				}
+//			}
+//
 //		}
 //		//从db中批量查找作品信息;
-//		Map<Long,T> map = IterableConvert.convertMap(list);
+//		if(ObjectTrues.isNotEmpty(list)){
+//			for (T entity : list) {
+//				map.put(entity.getId(), entity);
+//			}
+//			this.addCacheList(clazz, list);
+//
+//		}
+//		colle.addAll(removeKeys); //重新赋值已经删除的key 保证传递与返回 colle 一致
 //		return map;
 //	}
-//
-//
 //
 //
 //
@@ -240,7 +311,17 @@
 //	 */
 //	public List<T>  getEntityByPage(Class<T> clazz , RowMapper<T> rowMapper, String sql , List<Object> paramList){
 //
+//		String redisKey = this.getListForRedisKey("",clazz,
+//				paramList.toArray());
+//
+//		List<T> list  = this.findResultByCache(redisKey,clazz);//从缓存中查找
+//		if(null != list && !list.isEmpty()){
+//			return list;
+//		}
 //		List<T> dbList = dataSource.query(clazz,sql, rowMapper ,paramList.toArray());
+//		if(null != dbList && !dbList.isEmpty()){
+//			this.addResultToCache(redisKey,dbList);
+//		}
 //		return  dbList;
 //
 //	}
@@ -251,36 +332,40 @@
 //	 */
 //	public List<T>  getEntityByPageNoCache(Class<T> clazz , RowMapper<T> rowMapper, String sql , List<Object> paramList){
 //
+//		String redisKey = this.getListForRedisKey("",clazz,
+//				paramList.toArray());
+//
 //		List<T> dbList = dataSource.query(clazz,sql, rowMapper ,paramList.toArray());
+//		if(null != dbList && !dbList.isEmpty()){
+//			this.addResultToCache(redisKey,dbList);
+//		}
 //		return  dbList;
 //
 //	}
 //
 //	public boolean batchUpdate(Class<T> clazz ,String sql ,final List<T> list) {
-//		if(null == list || list.isEmpty() ) {
-//			return false;
-//		}
+//		boolean flg = false ;
+//		if(null == list || list.isEmpty() )
+//			return  flg;
 //
 //		int[][] ids = dataSource.batchUpdate(clazz,sql, list, new BatchSetter());
 //		if(null != ids && ids.length > 0){
-//			return true;
-//		}return false;
+//			flg = true;
+//			this.addCacheList(clazz,list);
+//		}return flg;
 //	}
-//
-//
 //
 //
 //	/**
 //	 *
-//	 * @param index 索引下标值，以1开始
-//	 * @param preparedStatement 数据库参数对象
-//	 * @param entity 查询结果对象
-//	 * @Exceptin SQLException 异常处理
+//	 * @param index
+//	 * @param preparedStatement
+//	 * @param entity
 //	 *  preparedStatement.setLong(1, users.get(idx).getId());
 //	 *  preparedStatement.setString(2, users.get(idx).getUsername());
 //	 *  preparedStatement.setString(3, users.get(idx).getPassword());
 //	 */
-//	protected abstract void setSetterValues(int index ,PreparedStatement preparedStatement, T entity) throws SQLException;
+//	protected abstract void setSetterValues(int index ,PreparedStatement preparedStatement, T entity);
 //
 //	/**
 //	 * 批量更新的实现转换实现
@@ -297,18 +382,25 @@
 //		}
 //	}
 //
+//
 //	/**
 //	 * 通过分页Pager查找UserAlias
 //	 * @param paramList
-//	 * @Return 统计数
 //	 */
 //	public int getEntityByPageCount(Class<T> clazz , String sql , List<Object> paramList){
 //
+////		String redisKey = this.("",clazz,
+////				paramList.toArray());
+////
+////		List<T> list  = this.findResultByCache(redisKey,clazz);//从缓存中查找
+////		if(null != list && !list.isEmpty()){
+////			return list;
+////		}
 //		int total = dataSource.queryInt(clazz,sql ,paramList.toArray());
+////			this.addResultToCache(redisKey,total);
 //		return  total;
 //
 //	}
-//
 //
 //	/**
 //	 *  增加 拼装 查询sql语句的查询条件 及 赋值
@@ -328,5 +420,6 @@
 //		sql.append(queryType.getJdbcKey());
 //		list.add(value);
 //	}
+//
 //
 //}

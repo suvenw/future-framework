@@ -1,4 +1,4 @@
-package com.suven.framework.core.db;
+package com.suven.framework.core.mybatis;
 
 import com.suven.framework.common.enums.SQLFormatEnum;
 import com.suven.framework.common.enums.SqlTypeEnum;
@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.sql.ResultSet;
+// import java.sql.SQLData; // 注释掉错误的导入
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class SQLDbUtils {
 	 * @return 创建表的sql语句
 	 */
 	public static String creatTableSQL(Class<?> obj,String tableName) throws Exception{
-		return creatTableServer(obj.newInstance(), SQLFormatEnum.CREATE_TABLE, tableName);
+		return creatTableServer(obj.getDeclaredConstructor().newInstance(), SQLFormatEnum.CREATE_TABLE, tableName);
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class SQLDbUtils {
 	 * @return 创建表的sql语句
 	 */
 	public static String creatTableIdSQLClass(Class<?>  obj) throws Exception{
-		return creatTableServer(obj.newInstance(),  SQLFormatEnum.CREATE_TABLE_ID, null);
+		return creatTableServer(obj.getDeclaredConstructor().newInstance(),  SQLFormatEnum.CREATE_TABLE_ID, null);
 	}
 	/**
 	 * 通过sql 格式实现
@@ -243,7 +244,7 @@ public class SQLDbUtils {
 				}
 
 			}
-			if(null != tableNames && !"".equals(tableNames)){
+			if(null != tableNames && !tableNames.isEmpty()){
 				tableName = tableNames;
 			}
 			sql = String.format(sqlFormatType.getValue(), tableName,
@@ -344,7 +345,7 @@ public class SQLDbUtils {
 			public T mapRow(ResultSet rs, int rowNum) {
 				T clazz = null;
 				try {
-					clazz = klass.newInstance();
+					clazz = klass.getDeclaredConstructor().newInstance();
 					Field[] fds = klass.getDeclaredFields();
 					setFields(rs, clazz, fds);
 					if (klass.getGenericSuperclass() != null) { //如果存在父类;
@@ -397,7 +398,7 @@ public class SQLDbUtils {
         Method method;
 		try {
 			method = cls.getMethod("values");
-			 Enum<?>[] inter = (Enum[]) method.invoke(cls.newInstance());
+			 Enum<?>[] inter = (Enum[]) method.invoke(cls.getDeclaredConstructor().newInstance());
 	        for (Enum<?> enums : inter) {
 	        	if(enums.name().equals("name")){
 	        		return enums;

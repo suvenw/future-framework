@@ -49,6 +49,8 @@ dependencies{
         implementation libraries.'protostuff-runtime'
         implementation libraries.'commons-lang3'
         implementation libraries.'jakarta.servlet-api'
+        implementation libraries."lombok"
+        annotationProcessor libraries."lombok"
 
         implementation 'com.baidu.aip:java-sdk:4.5.0'
 //        implementation 'org.apache.rocketmq:rocketmq-client:5.3.3'

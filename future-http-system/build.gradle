@@ -17,6 +17,7 @@ dependencies {
     implementation project(':future-http')
     implementation project(':future-global')
     implementation project(':future-doc')
+    implementation project(':future-db')
 
     implementation libraries."fastjson"
     implementation libraries."guava"
