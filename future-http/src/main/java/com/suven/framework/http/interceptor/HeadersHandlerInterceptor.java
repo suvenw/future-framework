@@ -1,6 +1,5 @@
 package com.suven.framework.http.interceptor;
 
-import com.suven.framework.core.db.DataSourceHolder;
 import com.suven.framework.http.NetworkUtil;
 import com.suven.framework.http.api.HttpRequestTypeEnum;
 import com.suven.framework.http.message.HttpRequestPostMessage;
@@ -116,7 +115,6 @@ public class HeadersHandlerInterceptor extends AbstractHandlerInterceptorAdapter
             throws Exception {
         logger.debug("JsonHandlerInterceptorAdapter afterCompletion method 3 ...." );
         ParameterMessage.clear();
-        DataSourceHolder.remove();
 
     }
 

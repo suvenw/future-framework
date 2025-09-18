@@ -15,19 +15,17 @@
  */
 package com.suven.framework.core.db.druid;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.suven.framework.util.json.JsonUtils;
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Title: DruidDataSourceConfigWrapper.java
@@ -56,7 +54,7 @@ public class DruidDataSourceConfigWrapper implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        logger.warn("afterPropertiesSet druid toString[{}]", JsonUtils.toJson(druid));
+        logger.warn("afterPropertiesSet druid toString[{}]", JSON.toJSONString(druid));
     }
 
     public DruidDataSource convertDruidDataSource(DataSourceConnectionInfo connectionInfo){
@@ -65,7 +63,7 @@ public class DruidDataSourceConfigWrapper implements InitializingBean {
             DruidDataSourceFactory.config(dataSource, druid);
             this.initWrapper(dataSource,connectionInfo);
         }catch (Exception e){
-            e.printStackTrace();
+           logger.info("DruidDataSourceConfigWrapper convertDruidDataSource error",e);
         }
         return dataSource;
     }

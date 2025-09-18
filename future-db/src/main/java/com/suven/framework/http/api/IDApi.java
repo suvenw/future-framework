@@ -1,7 +1,6 @@
 package com.suven.framework.http.api;
 
 
-import com.suven.framework.util.ids.GlobalId;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,11 +18,5 @@ public interface IDApi<ID extends Serializable> {
         return 0L;
     };
 
-    public default long initId(){
-        return GlobalId.get().nextId();
-    }
-    public default List<Long> initIds(int count){
-            return GlobalId.get().nextIds(count);
-    }
 
 }

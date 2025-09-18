@@ -22,6 +22,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidFilterConfiguration
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidStatViewServletConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidWebStatFilterConfiguration;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.suven.framework.core.db.DataSourceTypeEnum;
 import com.suven.framework.util.json.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +44,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.util.ClassUtils;
 
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -122,7 +126,7 @@ public class DruidDataSourceAutoConfig  implements  InitializingBean {
             }
             String moduleName = group.getName();
             dataSource.initDataSourceGroup(moduleName,group);
-            logger.info("Init DataSourceGroupProperties  ==:" + JsonUtils.toJson(group));
+            logger.info("Init DataSourceGroupProperties  ==:" + JSONUtils.toJSONString(group));
             DataSourceConnectionInfo info =   group.getMaster();
 
             DruidDataSource masterDatasource =  this.druidDataSourceInit(info);

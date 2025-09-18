@@ -1,11 +1,9 @@
 package com.suven.framework.core.db.druid;
 
 import com.suven.framework.core.db.DataSourceTypeEnum;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public  class DruidDatasourceGroup  implements Serializable {
@@ -60,9 +58,16 @@ public  class DruidDatasourceGroup  implements Serializable {
                 for (int index = 0; index < slave.size(); index++) {
                     String moduleName = name;
                     String slaveName = DataSourceTypeEnum.SLAVE.name().toLowerCase();
-                    String dataSourceSlaveName = StringUtils.join(Arrays.asList(moduleName, slaveName, index), "_");
+                    String dataSourceSlaveName = getDatasourceName(moduleName, slaveName, index);
                     slaveModuleDatasourceNameList.add(dataSourceSlaveName);
                 }
             }
+        }
+
+        private  static String getDatasourceName(String moduleName, String slaveName, int index){
+            StringBuilder  sb = new StringBuilder();
+            String split = "_";
+            sb.append(moduleName).append(split).append(slaveName).append(split).append(index);
+            return sb.toString();
         }
     }

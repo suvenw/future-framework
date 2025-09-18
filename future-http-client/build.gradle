@@ -14,6 +14,7 @@ dependencies{
 
     implementation libraries."commons-lang3"
     implementation libraries."lombok"
+    annotationProcessor libraries."lombok"
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
     implementation 'cn.hutool:hutool-all:5.7.14'

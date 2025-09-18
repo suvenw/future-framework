@@ -123,11 +123,10 @@ public class OkHttpUtil {
         String responseBody = "";
         MultipartBody.Builder builder = new MultipartBody.Builder();
         //添加参数
-        if (params != null && params.keySet().size() > 0) {
+        if (params != null && !params.isEmpty()) {
             for (String key : params.keySet()) {
-                if (params.get(key) instanceof File) {
-                    File file = (File) params.get(key);
-                    builder.addFormDataPart(key, file.getName(), RequestBody.create(MediaType.parse(fileType), file));
+                if (params.get(key) instanceof File file) {
+                    builder.addFormDataPart(key, file.getName(), RequestBody.create(file,MediaType.parse(fileType)));
                     continue;
                 }
                 builder.addFormDataPart(key, params.get(key).toString());

@@ -1,7 +1,7 @@
 package com.suven.framework.fileinter.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.suven.framework.core.db.SQLDbUtils;
+import com.suven.framework.core.mybatis.SQLDbUtils;
 import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.data.entity.BaseTenantEntity;

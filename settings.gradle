@@ -1,6 +1,6 @@
 rootProject.name = 'future-framework'
 
-include 'future-http', 'future-utils', 'future-global', 'future-plus', 'future-http-client'
+include 'future-http', 'future-utils', 'future-global', 'future-plus', 'future-http-client', 'future-db'
 
 include 'future-http-file', 'future-http-system', 'swagger-ui-layer', 'future-doc'
 include 'future-gateway', 'future-spring-cloud', 'future-spring-dubbo', 'future-spring-dubbo-consumer', 'future-poems-service'

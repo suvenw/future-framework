@@ -1,10 +1,11 @@
-//package top.suven.future.core.db.ext;
+//package com.suven.framework.core.db.ext;
 //
 //import com.suven.framework.common.constants.ReflectionsScan;
 //import com.suven.framework.core.db.DataSourceGroup;
 //import com.suven.framework.core.db.DataSourceGroupEnumInterface;
 //import com.suven.framework.core.db.DataSourceHolder;
 //import com.suven.framework.core.db.DatasourceEnumManager;
+//import com.suven.framework.core.db.ext.DS;
 //import org.apache.commons.lang3.reflect.MethodUtils;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;

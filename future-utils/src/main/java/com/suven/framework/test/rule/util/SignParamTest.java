@@ -40,7 +40,7 @@ public class SignParamTest {
 	 * @param param
 	 * @return
 	 */
-	public static String getServerSign(Map param)  {
+	public static String getServerSign(Map<String, Object>  param)  {
 		String signParam="";
 		param = getParameterMap(param);
 		if(param.containsKey("sign")){
@@ -55,7 +55,7 @@ public class SignParamTest {
 	/**
 	 * 获取签名的参数 格式a=1&b=1
 	 * @param param
-	 * @return
+	 * @return 加密串
 	 */
 	public static String getServerSignParam(Map<String, Object> param){
 		return getSignParam(param);
