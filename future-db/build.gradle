@@ -1,0 +1,50 @@
+// 项目名称描述 统一架构spring-dubbo 模式
+plugins {
+    id 'java'
+}
+// 项目名称描述,统一工具类
+description = 'future-db'
+//引用项目的公共版包版本信息
+
+apply from: '../build-lib.gradle'// 项目名称描述,统一架构扩展
+//引用项目的公共版包版本信息
+
+dependencies{
+
+    implementation fileTree(dir: "lib", include: '*.jar')
+    
+    // 项目内部依赖
+    implementation project(':future-global')
+    implementation project(':future-utils')
+    implementation project(':future-http')
+
+    // Spring Boot 相关
+    implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_data_version}"
+
+    // 数据库相关
+    implementation 'com.alibaba:druid:1.2.27'
+    implementation 'com.alibaba:druid-spring-boot-starter:1.2.27'
+    
+    // MyBatis Plus 相关
+    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-spring-boot3-starter:${versions.mybatis_plus_boot_starter}"
+    
+    // Apache Commons 相关
+    implementation libraries."commons-lang3"
+    implementation 'commons-lang:commons-lang:2.6'  // 为了 WordUtils
+    
+    // JSON 处理
+    implementation libraries."fastjson"
+    
+    // 其他工具类
+    implementation libraries."reflections"
+    implementation libraries."guava"
+    
+    // Lombok
+    implementation libraries."lombok"
+    annotationProcessor libraries."lombok"
+
+}
