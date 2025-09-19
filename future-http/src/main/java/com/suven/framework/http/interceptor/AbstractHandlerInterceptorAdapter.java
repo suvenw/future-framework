@@ -120,12 +120,11 @@ public abstract class AbstractHandlerInterceptorAdapter extends HttpRequestArgum
         String validatorBeanType = null;
         try {
             validatorBeanType = handlerValidatorBeanType();
-            if (Objects.isNull(validatorBeanType)){
-                throw new RuntimeException("please implements IHandlerValidator Bean and Method");
-            }
-            Object bean = this.getApplicationContext().getBean(validatorBeanType);
-            if (bean instanceof HandlerValidator validator) {
-                return validator;
+            if (Objects.nonNull(validatorBeanType)){
+                Object bean = this.getApplicationContext().getBean(validatorBeanType);
+                if (bean instanceof HandlerValidator validator) {
+                    return validator;
+                }
             }
             return DefaultHandlerValidator.build();
         }catch (NoSuchBeanDefinitionException ex){
