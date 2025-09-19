@@ -18,6 +18,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -35,25 +36,52 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     final TypeToken<IBaseApi> type = new TypeToken<IBaseApi>(getClass()) {};
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        // 在此处可以根据需要判断是否对特定的Controller方法进行处理
-//        return type.getRawType().isAssignableFrom(returnType.getParameterType())
-        boolean isSup = checkMethodParameter(returnType);
-        return isSup;
+        // 跳过异常处理方法的返回
+        if (isExceptionResponse(returnType)) {
+            return false;
+        }
+        boolean bodyType= checkMethodParameter(returnType);
+        return bodyType;
     }
+        /**
+     * 判断方法参数是否为异常响应处理
+     *
+     * @param returnType 方法参数对象，包含方法的返回类型和注解信息
+     * @return 如果方法标记了ExceptionHandler注解则返回true，否则返回false
+     */
+    private boolean isExceptionResponse(MethodParameter returnType) {
+        // 检查方法是否标记为异常处理（可选）
+        return returnType.getMethodAnnotation(ExceptionHandler.class) != null;
+    }
+
+        /**
+     * 检查方法参数是否满足特定条件
+     *
+     * @param returnType 方法参数对象，包含方法的返回类型信息
+     * @return boolean 检查结果，当所有条件都满足时返回true，否则返回false
+     */
     private boolean checkMethodParameter(MethodParameter returnType){
         // 检查 returnType 是否是 RestController 注解的方法
         boolean isRestController = isRestController(returnType);
         boolean isSkip = this.isSkipWrap(returnType);
         // 检查 returnType 是否实现了多个接口
-        boolean isInterface = this.checkInterfaceImplementations(returnType);
-        boolean isEnum = this.checkEnum(returnType);
-        boolean isReturnType = this.isReturnType(returnType);
+//        boolean isInterface = this.checkInterfaceImplementations(returnType);
+        boolean isNotEnum = this.checkNotEnum(returnType);
+        boolean isNotReturnType = this.isNotReturnType(returnType);
         // 返回多接口判断结果
-        return isRestController || isSkip || isInterface || isEnum || isReturnType;
+        return isRestController && isSkip &&  isNotEnum && isNotReturnType;
     }
 
-    private boolean isReturnType(MethodParameter returnType){
-        Class<?> rawType = returnType.getParameterType();;
+
+        /**
+     * 判断方法返回类型是否需要包装
+     *
+     * @param returnType 方法返回类型参数
+     * @return true表示不需要包装，false表示需要包装
+     */
+    private boolean isNotReturnType(MethodParameter returnType){
+        Class<?> rawType = returnType.getParameterType();
+        // 判断返回类型是否为IResponseResult类型或其子类型
         boolean isResultType = rawType.isAssignableFrom(IResponseResult.class);
         // 如果返回的是 ResponseEntity，通常也不需要我们包装，它可能有自己的逻辑
         boolean isResponseEntity = rawType.isAssignableFrom(ResponseEntity.class);
@@ -61,16 +89,38 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     }
 
 
+
+        /**
+     * 判断方法参数所在的类是否被RestController注解标记
+     *
+     * @param returnType 方法参数对象，用于获取声明该参数的类信息
+     * @return 如果声明类被RestController注解标记则返回true，否则返回false
+     */
     private boolean isRestController(MethodParameter returnType){
         return returnType.getDeclaringClass().isAnnotationPresent(RestController.class);
     }
+
+        /**
+     * 判断是否跳过包装处理
+     *
+     * @param returnType 方法参数对象，用于获取声明类和方法注解信息
+     * @return boolean 返回true表示不跳过包装，false表示跳过包装
+     */
     private boolean isSkipWrap(MethodParameter returnType){
         Class<?> clazz = returnType.getDeclaringClass();
+        // 检查类或方法上是否有SkipWrap注解
         boolean skip = clazz.isAnnotationPresent(SkipWrap.class)
                 || returnType.hasMethodAnnotation(SkipWrap.class);
         return  !skip;
     }
 
+
+        /**
+     * 检查方法参数的返回类型是否实现了指定的接口
+     *
+     * @param returnType 方法参数对象，用于获取声明类及其接口信息
+     * @return 如果返回类型的声明类实现了interFaceList中的任意一个接口则返回true，否则返回false
+     */
     private boolean checkInterfaceImplementations(MethodParameter returnType) {
         Class<?>[] interfaces = returnType.getDeclaringClass().getInterfaces();
         // 判断 returnType 是否实现了指定的接口
@@ -83,18 +133,30 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         return false;
     }
 
-    private boolean checkEnum(MethodParameter returnType){
-        // 检查 returnType 是否为枚举类型
+
+    /**
+     * 检查方法参数返回类型是否为枚举类型且实现了IResultCodeEnum接口
+     * @param returnType 方法参数对象，包含返回类型信息
+     * @return 如果返回类型既是枚举类型又实现了IResultCodeEnum接口则返回false，否则返回true
+     */
+    private boolean checkNotEnum(MethodParameter returnType){
+        // 检查返回类型是否为枚举类型且实现了指定接口
         boolean isEnumType = returnType.getParameterType().isEnum();
-        // 检查 returnType 是否实现了指定的接口
         boolean isInterface = returnType.getParameterType().isAssignableFrom(IResultCodeEnum.class);
-        return isEnumType && isInterface;
+        return !(isEnumType && isInterface);
     }
+
 
     /**
      * Invoked after an {@code HttpMessageConverter} is selected and just before
      * its write method is invoked.
-     *
+     *         在此处对响应体进行处理
+     *          可以修改、包装、添加额外的数据等
+     *          返回最终的响应体
+     *          示例：在响应体中添加额外的数据
+     *          异常类型
+     *          已是标准返回，跳过
+     *          ResponseEntity 里可能已经是标准体或特殊响应，跳过
      * @param body                  the body to be written
      * @param returnType            the return type of the controller method
      * @param selectedContentType   the content type selected through content negotiation
@@ -107,13 +169,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
                                     Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                     ServerHttpRequest request, ServerHttpResponse response) {
-        // 在此处对响应体进行处理
-        // 可以修改、包装、添加额外的数据等
-        // 返回最终的响应体
-        // 示例：在响应体中添加额外的数据
-        //异常类型
-        // 已是标准返回，跳过
-        // ResponseEntity 里可能已经是标准体或特殊响应，跳过
+
         if (body instanceof ResponseEntity || body instanceof IResponseResult) {
             return body;
         }

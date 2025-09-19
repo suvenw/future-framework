@@ -37,9 +37,8 @@ import java.util.stream.Collectors;
  *
  *
  */
-
 @ControllerAdvice
-@Order(1) // 异常处理优先级最高
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler extends GlobalExceptionErrorResponse implements IResponseResultVoHandler {
 
 	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
