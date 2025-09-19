@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * @create: 2019-08-16 11:23
  **/
 @ControllerAdvice
+@Order(3) // Shiro异常处理优先级最低
 public class WebExceptionHandler {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 

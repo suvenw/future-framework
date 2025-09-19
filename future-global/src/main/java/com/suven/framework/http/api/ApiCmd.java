@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 
 /**
  * @author joven
- * @ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
- *     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
+ * ApiOperation(value="获取用户详细信息", notes="根据url的id来获取用户详细信息")
+ * ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
  * ---------------------
 
  */

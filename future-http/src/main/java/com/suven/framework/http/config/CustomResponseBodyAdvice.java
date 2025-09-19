@@ -3,21 +3,28 @@ package com.suven.framework.http.config;
 import com.google.common.reflect.TypeToken;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IResponseResult;
+import com.suven.framework.http.api.SkipWrap;
 import com.suven.framework.http.data.vo.ResponseCovertResultVo;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.Order;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.util.Arrays;
 import java.util.List;
 
-@ControllerAdvice
+@Component
 public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     List<Class<?>> interFaceList = Arrays.asList(IResponseResult.class,IBaseApi.class,IResultCodeEnum.class);
@@ -31,12 +38,23 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     }
     private boolean checkMethodParameter(MethodParameter returnType){
         // 检查 returnType 是否是 RestController 注解的方法
-        boolean isRestController = returnType.getDeclaringClass().isAnnotationPresent(RestController.class);
+        boolean isRestController = isRestController(returnType);
+        boolean isSkip = this.isSkipWrap(returnType);
         // 检查 returnType 是否实现了多个接口
         boolean isInterface = this.checkInterfaceImplementations(returnType);
         boolean isEnum = this.checkEnum(returnType);
         // 返回多接口判断结果
-        return isRestController || isInterface || isEnum;
+        return isRestController || isSkip || isInterface || isEnum;
+    }
+
+    private boolean isRestController(MethodParameter returnType){
+        return returnType.getDeclaringClass().isAnnotationPresent(RestController.class);
+    }
+    private boolean isSkipWrap(MethodParameter returnType){
+        Class<?> clazz = returnType.getDeclaringClass();
+        boolean skip = clazz.isAnnotationPresent(SkipWrap.class)
+                || returnType.hasMethodAnnotation(SkipWrap.class);
+        return  !skip;
     }
 
     private boolean checkInterfaceImplementations(MethodParameter returnType) {
@@ -80,6 +98,21 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 返回最终的响应体
         // 示例：在响应体中添加额外的数据
         //异常类型
+        // 已是标准返回，跳过
+        if (null != body && interFaceList.contains(body.getClass())){
+            return body;
+        }
+        // ResponseEntity 里可能已经是标准体或特殊响应，跳过
+        if (body instanceof ResponseEntity) {
+            return body;
+        }
+        // 特殊类型跳过（下载/流式等）
+        if (body instanceof Resource
+                || body instanceof byte[]
+                || body instanceof StreamingResponseBody
+                || body instanceof SseEmitter) {
+            return body;
+        }
         Object result =  ResponseCovertResultVo.convertData(body,false);
         return result;
     }

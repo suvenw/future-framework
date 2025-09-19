@@ -6,9 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Objects;
+import java.util.Optional;
 
 
 /**
@@ -115,17 +117,22 @@ public abstract class AbstractHandlerInterceptorAdapter extends HttpRequestArgum
      */
     @Override
     public HandlerValidator handlerValidator() {
+        String validatorBeanType = null;
         try {
-            String validatorBeanType = handlerValidatorBeanType();
+            validatorBeanType = handlerValidatorBeanType();
             if (Objects.isNull(validatorBeanType)){
                 throw new RuntimeException("please implements IHandlerValidator Bean and Method");
             }
-            HandlerValidator validator = getApplicationContext().getBean(validatorBeanType, HandlerValidator.class);
-            if (Objects.isNull(validator)){
-                validator = DefaultHandlerValidator.build();
+            Object bean = this.getApplicationContext().getBean(validatorBeanType);
+            if (bean instanceof HandlerValidator validator) {
+                return validator;
             }
-            return validator;
-        }catch (Exception e){}
+            return DefaultHandlerValidator.build();
+        }catch (NoSuchBeanDefinitionException ex){
+            log.debug("IHandlerValidator Bean and impl String:{} ",validatorBeanType);
+        } catch (Exception e){
+            log.info("IHandlerValidator Bean and Method exception", e);
+        }
         return null;
     }
 }
