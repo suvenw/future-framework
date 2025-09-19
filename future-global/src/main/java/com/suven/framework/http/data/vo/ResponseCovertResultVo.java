@@ -42,41 +42,37 @@ public class ResponseCovertResultVo{
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static Object convertData( Object body, boolean isNextPage ){
-
-		if(body instanceof IResultCodeEnum){
-			IResultCodeEnum codeEnum = (IResultCodeEnum) body;
-			IResponseResult returnVo =   build().of(codeEnum.getCode(),codeEnum.getMsg());
+	public static Object convertData(Object body, boolean isNextPage) {
+		if (body instanceof IResultCodeEnum codeEnum) {
+			IResponseResult returnVo = build().of(codeEnum.getCode(), codeEnum.getMsg());
 			return returnVo;
-		}//标准规范的对象接口
-		if (body instanceof IResponseResult) {
-			return body ;
+		} else if (body instanceof IResponseResult) {
+			return body;
+		} else if (body instanceof IBaseApi || body instanceof IResponseResultPage) {
+			IResponseResult returnVo = build().of(body);
+			return returnVo;
 		}
-		//自定义接口继承类
-		if(body instanceof IBaseApi || body instanceof IResponseResultPage){
-			IResponseResult returnVo =   build().of(body);
-			return returnVo;
-		}//常量类型
-		if(ClassUtils.isPrimitiveOrWrapper(body.getClass())){
+		if (ClassUtils.isPrimitiveOrWrapper(body.getClass())) {
 			JSONObject data = new JSONObject();
-			data.put("result",body);
-			if(body instanceof  Boolean) {
-				int value = (Boolean) body ? 1 : 0;
+			data.put("result", body);
+			if (body instanceof Boolean) {
+				int value = (Boolean)body ? 1 : 0;
 				data.put("result", value);
 			}
-			IResponseResult returnVo =   build().of(data);
+			IResponseResult returnVo = build().of(data);
 			return returnVo;
-		}
-		if(body instanceof String){
-			IResponseResult returnVo =  build().of(body);
+		} else if (body instanceof String) {
+			IResponseResult returnVo = build().of(body);
 			return returnVo;
-		}
-		if(body.getClass().isArray()){
-			List data = Arrays.asList((Object[]) body);
-			PageResult<?> pageVo = new PageResult<>().of(data,data.size());
+		} else if (body.getClass().isArray()) {
+			List<Object> data = Arrays.asList(body);
+			PageResult<Object> pageVo = new PageResult<>();
+			pageVo.setList(data);
 			return pageVo;
+		} else {
+			return body;
 		}
-		return body;
+
 	}
 
 
