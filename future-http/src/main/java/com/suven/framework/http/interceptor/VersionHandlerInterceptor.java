@@ -58,7 +58,7 @@ public class VersionHandlerInterceptor  extends AbstractHandlerInterceptorAdapte
      */
     @Override
     public String handlerValidatorBeanType() {
-        return null;
+        return HandlerInterceptorEnum.HANDEL_ORDER_VERSION.getValue();
     }
 
     /**

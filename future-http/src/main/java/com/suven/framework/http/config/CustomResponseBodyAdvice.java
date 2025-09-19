@@ -7,8 +7,10 @@ import com.suven.framework.http.api.SkipWrap;
 import com.suven.framework.http.data.vo.ResponseCovertResultVo;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,6 +19,7 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -24,7 +27,8 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 import java.util.Arrays;
 import java.util.List;
 
-@Component
+@RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     List<Class<?>> interFaceList = Arrays.asList(IResponseResult.class,IBaseApi.class,IResultCodeEnum.class);
@@ -32,7 +36,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         // 在此处可以根据需要判断是否对特定的Controller方法进行处理
-//        return type.getRawType().isAssignableFrom(returnType.getParameterType());
+//        return type.getRawType().isAssignableFrom(returnType.getParameterType())
         boolean isSup = checkMethodParameter(returnType);
         return isSup;
     }
@@ -43,9 +47,19 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 检查 returnType 是否实现了多个接口
         boolean isInterface = this.checkInterfaceImplementations(returnType);
         boolean isEnum = this.checkEnum(returnType);
+        boolean isReturnType = this.isReturnType(returnType);
         // 返回多接口判断结果
-        return isRestController || isSkip || isInterface || isEnum;
+        return isRestController || isSkip || isInterface || isEnum || isReturnType;
     }
+
+    private boolean isReturnType(MethodParameter returnType){
+        Class<?> rawType = returnType.getParameterType();;
+        boolean isResultType = rawType.isAssignableFrom(IResponseResult.class);
+        // 如果返回的是 ResponseEntity，通常也不需要我们包装，它可能有自己的逻辑
+        boolean isResponseEntity = rawType.isAssignableFrom(ResponseEntity.class);
+        return  !(isResultType || isResponseEntity);
+    }
+
 
     private boolean isRestController(MethodParameter returnType){
         return returnType.getDeclaringClass().isAnnotationPresent(RestController.class);
@@ -99,11 +113,8 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 示例：在响应体中添加额外的数据
         //异常类型
         // 已是标准返回，跳过
-        if (null != body && interFaceList.contains(body.getClass())){
-            return body;
-        }
         // ResponseEntity 里可能已经是标准体或特殊响应，跳过
-        if (body instanceof ResponseEntity) {
+        if (body instanceof ResponseEntity || body instanceof IResponseResult) {
             return body;
         }
         // 特殊类型跳过（下载/流式等）

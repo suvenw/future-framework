@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.util.NestedServletException;
 
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
  *
  *
  */
+
 @ControllerAdvice
 @Order(1) // 异常处理优先级最高
 public class GlobalExceptionHandler extends GlobalExceptionErrorResponse implements IResponseResultVoHandler {

@@ -61,7 +61,7 @@ public class UrlWhiteHandlerInterceptor extends AbstractHandlerInterceptorAdapte
      */
     @Override
     public String handlerValidatorBeanType() {
-        return null;
+        return  HandlerInterceptorEnum.HANDLER_ORDER_WHITE.getValue();
     }
 
     /**
