@@ -43,15 +43,19 @@ public class ResponseCovertResultVo{
 	 */
 	@SuppressWarnings("unchecked")
 	public static Object convertData(Object body, boolean isNextPage) {
+		//.1.标准规范对象接口
+		if (body instanceof IResponseResult) {
+			 return body;
+		 }//2.错误类型对象接口
 		if (body instanceof IResultCodeEnum codeEnum) {
 			IResponseResult returnVo = build().of(codeEnum.getCode(), codeEnum.getMsg());
 			return returnVo;
-		} else if (body instanceof IResponseResult) {
-			return body;
-		} else if (body instanceof IBaseApi || body instanceof IResponseResultPage) {
+
+		}//3.自定义接口继承类
+		else if (body instanceof IBaseApi || body instanceof IResponseResultPage) {
 			IResponseResult returnVo = build().of(body);
 			return returnVo;
-		}
+		}//4.常量类型转换 JSONObject 类对象
 		if (ClassUtils.isPrimitiveOrWrapper(body.getClass())) {
 			JSONObject data = new JSONObject();
 			data.put("result", body);
@@ -61,15 +65,18 @@ public class ResponseCovertResultVo{
 			}
 			IResponseResult returnVo = build().of(data);
 			return returnVo;
-		} else if (body instanceof String) {
+
+		}//5.字符串类型转换
+		else if (body instanceof String) {
 			IResponseResult returnVo = build().of(body);
 			return returnVo;
-		} else if (body.getClass().isArray()) {
+		}//6.数组类型转换  PageResult
+		else if (body.getClass().isArray()) {
 			List<Object> data = Arrays.asList(body);
 			PageResult<Object> pageVo = new PageResult<>();
 			pageVo.setList(data);
 			return pageVo;
-		} else {
+		} else {//未知类型
 			return body;
 		}
 

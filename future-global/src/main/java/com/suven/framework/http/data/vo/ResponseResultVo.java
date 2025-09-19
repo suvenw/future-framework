@@ -29,7 +29,7 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 	private int code = 0;     //状态码
 	private String msg = "";     //状态描述
 	private long times = System.currentTimeMillis();        //时间戳 13位
-	private Object data = new JSONObject();    //Json 内容
+	private Object data = new Object();    //Json 内容
 
 	public ResponseResultVo(){
 
