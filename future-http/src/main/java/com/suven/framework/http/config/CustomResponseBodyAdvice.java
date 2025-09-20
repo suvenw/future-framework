@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(1)
 public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     List<Class<?>> interFaceList = Arrays.asList(IResponseResult.class,IBaseApi.class,IResultCodeEnum.class);

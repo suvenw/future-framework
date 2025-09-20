@@ -90,7 +90,7 @@ public class SystemResultVo implements IResponseResult,Serializable {
 		this.code = code;
 		this.message = message;
 		this.success = success;
-		this.result = initData(result);
+		this.result = result;
 		return this;
 	}
 

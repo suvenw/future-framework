@@ -74,9 +74,10 @@ public class ResponseCovertResultVo{
 		else if (body.getClass().isArray()) {
 			List<Object> data = Arrays.asList(body);
 			PageResult<Object> pageVo = new PageResult<>();
-			pageVo.setList(data);
-			return pageVo;
-		} else {//未知类型
+			pageVo.toIsNextPage(isNextPage).setList(data);
+			IResponseResult returnVo = build().of(pageVo);
+			return returnVo;
+		} else {//未知
 			return body;
 		}
 

@@ -8,16 +8,15 @@ import com.suven.framework.http.message.ParameterMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
-import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.util.NestedServletException;
 
@@ -38,7 +37,7 @@ import java.util.stream.Collectors;
  *
  */
 @ControllerAdvice
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(2)
 public class GlobalExceptionHandler extends GlobalExceptionErrorResponse implements IResponseResultVoHandler {
 
 	private static Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
