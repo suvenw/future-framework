@@ -11,7 +11,9 @@ import com.suven.framework.http.interceptor.InterceptorConfigSetting;
 import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -32,10 +34,12 @@ public class StartWebMvcConfiguration implements WebMvcConfigurer {
     //WebMvcConfigurerAdapter WebMvcConfigurationSupport WebSecurityConfigurerAdapter
 
 
-    @Autowired
+    @Autowired(required = false)
     private ApplicationContext applicationContext;
-    @Autowired
+    @Autowired(required = false)
     private InterceptorConfigSetting configSetting;
+    @Autowired(required = false)
+    private TimeFormatProperties timeFormatProperties;
 
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
@@ -114,19 +118,18 @@ public class StartWebMvcConfiguration implements WebMvcConfigurer {
 
 
     /**
-     *
-     * @param converters initially an empty list of converters
+     * 配置消息转换器
+     * 移除默认的 MappingJackson2HttpMessageConverter，使用自定义的转换器
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 移除默认的 MappingJackson2HttpMessageConverter
-        converters.removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
+        converters.removeIf(converter ->
+                converter instanceof MappingJackson2HttpMessageConverter);
 
-        // 添加自定义的 CustomMappingJackson2HttpMessageConverter
-        converters.add(new JacksonHttpMessageConverter());
+        // 添加自定义的 JacksonHttpMessageConverter
+        converters.add(defaultJacksonConverter());
     }
-
-
 
 
     @Override
@@ -212,6 +215,34 @@ public class StartWebMvcConfiguration implements WebMvcConfigurer {
         }
         return list;
     }
+
+
+
+    /**
+     * 扩展消息转换器配置
+     * 可以添加额外的转换器
+     */
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // 如果需要，可以在这里添加额外的转换器配置
+    }
+
+    /**
+     * 默认的 Jackson 消息转换器
+     * 使用 JacksonUtil 的配置，确保统一的业务 JSON 转换
+     */
+    @Bean
+    @Primary
+    public JacksonHttpMessageConverter defaultJacksonConverter() {
+        JacksonHttpMessageConverter.TimeFormat format = JacksonHttpMessageConverter.TimeFormat.TIMESTAMP ;
+
+        // 如果配置了时间格式属性，使用配置的格式
+        if (timeFormatProperties != null && timeFormatProperties.isEnabled()) {
+            format = timeFormatProperties.getFormat();
+        }
+        return new JacksonHttpMessageConverter(format);
+    }
+
 //    private List<HandlerMethodArgumentResolver> addArgumentResolversExt() {
 //        Map<String,IHandlerMethodArgumentResolver> handlerMap = applicationContext.getBeansOfType(IHandlerMethodArgumentResolver.class);
 //        List<HandlerMethodArgumentResolver> list = new ArrayList<>();
