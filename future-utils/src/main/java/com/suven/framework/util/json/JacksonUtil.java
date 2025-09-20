@@ -26,12 +26,8 @@ public class JacksonUtil {
         static ObjectMapper INSTANCE = new ObjectMapper();
         // 在实例化过程中设置业务参数
         static {
-            init();
+            init(true);
         }
-        static void init() {
-            init(false); // 默认使用字符串格式
-        }
-        
         /**
          * 初始化 ObjectMapper
          * @param useTimestamp 是否使用时间戳格式，true=时间戳，false=字符串格式

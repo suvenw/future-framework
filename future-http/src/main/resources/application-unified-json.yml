@@ -1,0 +1,33 @@
+# 统一 JSON 转换配置示例
+# 通过配置控制整个系统的时间格式转换
+
+future:
+  http:
+    time-format:
+      # 时间格式类型
+      # STRING: 字符串格式 (yyyy-MM-dd HH:mm:ss) - 与 JacksonUtil 默认格式一致
+      # TIMESTAMP: 时间戳格式 (毫秒时间戳) STRING
+      format: TIMESTAMP
+      
+      # 是否启用时间格式转换
+      enabled: true
+
+# 使用说明：
+# 1. 字符串格式（默认，与 JacksonUtil 一致）：
+#    future.http.time-format.format: STRING
+#    返回结果：{"createTime": "2024-01-15 14:30:25"}
+#    与 JacksonUtil.toJson() 的结果完全一致
+#
+# 2. 时间戳格式：
+#    future.http.time-format.format: TIMESTAMP  
+#    返回结果：{"createTime": 1705297825000}
+#    与 JacksonUtil.toJsonWithTimestamp() 的结果一致
+#
+# 3. 禁用时间格式转换：
+#    future.http.time-format.enabled: false
+#    使用 Spring Boot 默认的时间格式
+#
+# 优势：
+# - 系统级统一：一次配置，全系统生效
+# - 与 JacksonUtil 一致：确保工具类和 HTTP 转换器使用相同的配置
+# - 维护简单：只需要在一个地方维护时间格式配置
