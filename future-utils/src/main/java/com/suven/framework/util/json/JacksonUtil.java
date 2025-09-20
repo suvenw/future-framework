@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -54,10 +55,33 @@ public class JacksonUtil {
             builder.addDeserializer(Long.class, new ConverterJacksonSerializer.DeserializerByLong());
             builder.addDeserializer(long.class, new ConverterJacksonSerializer.DeserializerByLong());
             
-            INSTANCE.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            configureObjectMapper(INSTANCE);
             INSTANCE.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 //            INSTANCE.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             INSTANCE.registerModule(builder);
+        }
+        /**
+         * 配置 ObjectMapper 以处理各种序列化场景
+         * 包括空对象、Object 类型等的序列化
+         *
+         * @param mapper 要配置的 ObjectMapper
+         */
+        private static void configureObjectMapper(ObjectMapper mapper) {
+            // 禁用 FAIL_ON_EMPTY_BEANS，允许序列化空对象
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
+            // 禁用 FAIL_ON_UNKNOWN_PROPERTIES，允许未知属性
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            // 允许序列化空值（使用新的配置方式）
+            mapper.configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);
+
+            // 配置日期格式
+            mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+            // 配置时区
+            mapper.setTimeZone(java.util.TimeZone.getTimeZone("GMT+8"));
         }
 
         /**
