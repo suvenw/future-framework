@@ -29,19 +29,65 @@ public class JacksonUtil {
             init();
         }
         static void init() {
+            init(false); // 默认使用字符串格式
+        }
+        
+        /**
+         * 初始化 ObjectMapper
+         * @param useTimestamp 是否使用时间戳格式，true=时间戳，false=字符串格式
+         */
+        static void init(boolean useTimestamp) {
             SimpleModule builder = new SimpleModule();
-            builder.addSerializer(LocalDateTime.class, new ConverterJacksonSerializer.SerializerByLocalDateTime());
-            builder.addDeserializer(LocalDateTime.class, new ConverterJacksonSerializer.DeserializerByLocalDateTime());
-            builder.addSerializer(Date.class, new ConverterJacksonSerializer.SerializerByDate());
-            builder.addDeserializer(Date.class, new ConverterJacksonSerializer.DeserializerDate());
+            
+            if (useTimestamp) {
+                // 使用时间戳格式
+                builder.addSerializer(LocalDateTime.class, new ConverterJacksonSerializer.TimestampSerializerByLocalDateTime());
+                builder.addDeserializer(LocalDateTime.class, new ConverterJacksonSerializer.TimestampDeserializerByLocalDateTime());
+                builder.addSerializer(Date.class, new ConverterJacksonSerializer.TimestampSerializerByDate());
+                builder.addDeserializer(Date.class, new ConverterJacksonSerializer.TimestampDeserializerByDate());
+            } else {
+                // 使用字符串格式（默认）
+                builder.addSerializer(LocalDateTime.class, new ConverterJacksonSerializer.SerializerByLocalDateTime());
+                builder.addDeserializer(LocalDateTime.class, new ConverterJacksonSerializer.DeserializerByLocalDateTime());
+                builder.addSerializer(Date.class, new ConverterJacksonSerializer.SerializerByDate());
+                builder.addDeserializer(Date.class, new ConverterJacksonSerializer.DeserializerDate());
+            }
+            
             builder.addSerializer(Long.class, new ConverterJacksonSerializer.SerializerByLong());
             builder.addSerializer(long.class, new ConverterJacksonSerializer.SerializerByLong());
             builder.addDeserializer(Long.class, new ConverterJacksonSerializer.DeserializerByLong());
             builder.addDeserializer(long.class, new ConverterJacksonSerializer.DeserializerByLong());
+            
             INSTANCE.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             INSTANCE.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 //            INSTANCE.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             INSTANCE.registerModule(builder);
+        }
+
+        /**
+         * 获取使用时间戳格式的 ObjectMapper
+         * @return 配置了时间戳序列化器的 ObjectMapper
+         */
+        public static ObjectMapper getTimestampObjectMapper() {
+            ObjectMapper mapper = new ObjectMapper();
+            SimpleModule builder = new SimpleModule();
+
+            // 使用时间戳格式
+            builder.addSerializer(LocalDateTime.class, new ConverterJacksonSerializer.TimestampSerializerByLocalDateTime());
+            builder.addDeserializer(LocalDateTime.class, new ConverterJacksonSerializer.TimestampDeserializerByLocalDateTime());
+            builder.addSerializer(Date.class, new ConverterJacksonSerializer.TimestampSerializerByDate());
+            builder.addDeserializer(Date.class, new ConverterJacksonSerializer.TimestampDeserializerByDate());
+
+            builder.addSerializer(Long.class, new ConverterJacksonSerializer.SerializerByLong());
+            builder.addSerializer(long.class, new ConverterJacksonSerializer.SerializerByLong());
+            builder.addDeserializer(Long.class, new ConverterJacksonSerializer.DeserializerByLong());
+            builder.addDeserializer(long.class, new ConverterJacksonSerializer.DeserializerByLong());
+
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+            mapper.registerModule(builder);
+
+            return mapper;
         }
 
 //        static void init2() {
@@ -90,6 +136,7 @@ public class JacksonUtil {
     public static ObjectMapper getInstance() {
         return SingletonJackson.INSTANCE;
     }
+
     /**
      * Java对象转JSON字符串
      *
@@ -104,6 +151,24 @@ public class JacksonUtil {
             return getInstance().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("The JacksonUtil toJsonString is error : \n", e);
+            throw new RuntimeException();
+        }
+    }
+    
+    /**
+     * Java对象转JSON字符串（时间戳格式）
+     *
+     * @param object 对象
+     * @return JSON字符串，时间类型转换为时间戳
+     */
+    public static String toJsonWithTimestamp(Object object) {
+        try {
+            if (Objects.isNull(object)){
+                return null;
+            }
+            return getInstance().writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("The JacksonUtil toJsonWithTimestamp is error : \n", e);
             throw new RuntimeException();
         }
     }
@@ -152,6 +217,22 @@ public class JacksonUtil {
             return getInstance().readValue(json, clazz);
         } catch (Exception e) {
             log.error("The JacksonUtil parseObject is error, json str is {}, class name is {} \n", json, clazz.getName(), e);
+            throw new RuntimeException();
+        }
+    }
+    
+    /**
+     * JSON字符串转对象（时间戳格式）
+     *
+     * @param json 字符串，时间戳格式
+     * @param clazz 转换类对象
+     * @return 返回对象，时间戳转换为时间类型
+     */
+    public static <T> T parseObjectWithTimestamp(String json, Class<T> clazz) {
+        try {
+            return getInstance().readValue(json, clazz);
+        } catch (Exception e) {
+            log.error("The JacksonUtil parseObjectWithTimestamp is error, json str is {}, class name is {} \n", json, clazz.getName(), e);
             throw new RuntimeException();
         }
     }

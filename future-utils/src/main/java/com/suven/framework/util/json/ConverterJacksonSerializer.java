@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
@@ -137,7 +139,89 @@ public class ConverterJacksonSerializer {
         }
     }
 
+    /**
+     * LocalDateTime 时间戳序列化器（转换为时间戳）
+     */
+    public static class TimestampSerializerByLocalDateTime extends JsonSerializer<LocalDateTime> {
+        @Override
+        public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            if (Objects.nonNull(value)) {
+                // 转换为中国时区（+8）的时间戳
+                long timestamp = value.toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+                gen.writeNumber(timestamp);
+            } else {
+                gen.writeNull();
+            }
+        }
+    }
 
+    /**
+     * LocalDateTime 时间戳反序列化器（从时间戳转换）
+     */
+    public static class TimestampDeserializerByLocalDateTime extends JsonDeserializer<LocalDateTime> {
+        @Override
+        public LocalDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+            try {
+                // 支持数字类型的时间戳
+                if (jsonParser.getCurrentToken().isNumeric()) {
+                    long timestamp = jsonParser.getLongValue();
+                    return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.ofHours(8));
+                }
+                // 支持字符串类型的时间戳
+                else if (jsonParser.getCurrentToken().isScalarValue()) {
+                    String timestampStr = jsonParser.getText();
+                    if (StringUtils.isNotBlank(timestampStr)) {
+                        long timestamp = Long.parseLong(timestampStr);
+                        return LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.ofHours(8));
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to deserialize timestamp to LocalDateTime: {}", jsonParser.getText(), e);
+            }
+            return null;
+        }
+    }
 
+    /**
+     * Date 时间戳序列化器（转换为时间戳）
+     */
+    public static class TimestampSerializerByDate extends JsonSerializer<Date> {
+        @Override
+        public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            if (Objects.nonNull(value)) {
+                long timestamp = value.getTime();
+                gen.writeNumber(timestamp);
+            } else {
+                gen.writeNull();
+            }
+        }
+    }
+
+    /**
+     * Date 时间戳反序列化器（从时间戳转换）
+     */
+    public static class TimestampDeserializerByDate extends JsonDeserializer<Date> {
+        @Override
+        public Date deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+            try {
+                // 支持数字类型的时间戳
+                if (jsonParser.getCurrentToken().isNumeric()) {
+                    long timestamp = jsonParser.getLongValue();
+                    return new Date(timestamp);
+                }
+                // 支持字符串类型的时间戳
+                else if (jsonParser.getCurrentToken().isScalarValue()) {
+                    String timestampStr = jsonParser.getText();
+                    if (StringUtils.isNotBlank(timestampStr)) {
+                        long timestamp = Long.parseLong(timestampStr);
+                        return new Date(timestamp);
+                    }
+                }
+            } catch (Exception e) {
+                log.warn("Failed to deserialize timestamp to Date: {}", jsonParser.getText(), e);
+            }
+            return null;
+        }
+    }
 
 }

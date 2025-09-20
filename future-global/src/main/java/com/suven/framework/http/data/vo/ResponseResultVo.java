@@ -35,7 +35,7 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 
 	}
 
-	public static IResponseResult build(){
+	public static ResponseResultVo build(){
 		return new ResponseResultVo();
 	}
 
@@ -70,13 +70,18 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 	public IResponseResult of(boolean success, int code, String message, Object result) {
 		this.code = code;
 		this.msg = message;
-		this.data = this.initData(result);
+		this.data = result;
 		return this;
 	}
 
 
 	public Object getData() {
 		return data;
+	}
+
+	public  ResponseResultVo setData(Object data) {
+		this.data = data;
+		return this;
 	}
 
 
@@ -113,11 +118,11 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 				int value = (Boolean) body ? 1 : 0;
 				data.put("result", value);
 			}
-			IResponseResult returnVo =   build().of(data);
+			IResponseResult returnVo =   build().setData(data);
 			return returnVo;
 		}
 		if(body instanceof String){
-			IResponseResult returnVo =  build().of(body);
+			IResponseResult returnVo =  new ResponseResultVo().of(body);
 			return returnVo;
 		}
 		if(body.getClass().isArray()){
@@ -127,5 +132,6 @@ public class ResponseResultVo implements IResponseResult, Serializable {
 		}
 		return body;
 	}
+
 
 }
