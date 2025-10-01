@@ -28,8 +28,8 @@ public enum HandlerInterceptorEnum  implements IEnum<Integer,String>,Interceptor
     HANDLER_ORDER_BLACK(5,HANDLER_VALIDATOR_BLACK,BlackHandlerInterceptor.class,"黑名单管理处理器"),
     HANDLER_ORDER_PARAMETER(6,HANDLER_VALIDATOR_PARAMETER,ParameterHandlerInterceptor.class,"参数校验处理器"),
     HANDLER_ORDER_PARAMETER_SIGN(7,HANDLER_VALIDATOR_PARAMETER_SIGN,ParameterSignHandlerInterceptor.class,"参数防篡改处理器"),
-    HANDLER_ORDER_TOKEN(5,HANDLER_VALIDATOR_TOKEN,TokenHandlerInterceptor.class,"用户token验证处理器"),
-    HANDEL_ORDER_VERSION(12,HANDLER_VALIDATOR_VERSION, VersionHandlerInterceptor.class,"Redis结果缓存管理处理器"),
+    HANDLER_ORDER_TOKEN(8,HANDLER_VALIDATOR_TOKEN,TokenHandlerInterceptor.class,"用户token验证处理器"),
+    HANDEL_ORDER_VERSION(9,HANDLER_VALIDATOR_VERSION, VersionHandlerInterceptor.class,"软件的版本号业务"),
     HANDLER_ORDER_TENANT(10,HANDLER_VALIDATOR_TENANT,TenantHandlerInterceptor.class,"多租户管理处理器"),
     HANDEL_ORDER_REDIS_CACHE(11,HANDLER_VALIDATOR_REDIS,RedisCacheHandlerInterceptor.class,"Redis结果缓存管理处理器"),
 

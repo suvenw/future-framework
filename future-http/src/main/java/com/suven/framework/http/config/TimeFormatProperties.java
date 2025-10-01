@@ -39,3 +39,4 @@ public class TimeFormatProperties {
         this.enabled = enabled;
     }
 }
+

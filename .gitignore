@@ -7,16 +7,13 @@ build/
 
 ### STS ###
 .apt_generated
-.classpath
-.factorypath
-.project
-.settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
+*.toglignore
+**/build/
+*.log.zip
+*.log
+*.bin
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -25,6 +22,51 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+# ---> Java
+.classpath
+bin/
+.project
+.settings/
+logs/
+.gradle/
+*.gradle/
+build/
+dest/
+out/
+node_modules/
+*.iml
+*.ipr
+*.iws
+*.ids
+.DS_Store
+work/
+.vagrant/
+*.idea/
+thriftproto
+*.pyc
+rebel.xml
+rebel-remote.xml/show-service/
+classes
+*.class
+MANIFEST.MF
+*.csv
+*.jar
+*.idea/*
+*.log*.log*.log*.log*.log*.log*.log*.log
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+qrcode.jpg
+shiduoduo.jpeg
+app.log
 
 ### NetBeans ###
 /nbproject/private/
