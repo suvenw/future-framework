@@ -8,7 +8,7 @@ plugins {
 
 group = 'com.suven.framework'
 //// 使用SNAPSHOT版本，允许重新部署
- version = '0.1.24-releases'
+ version = '0.1.26-releases'
 //version = '0.0.7-SNAPSHOT'
 def name = 'future-framework'
 def mavenUrl = project.findProperty('mavenUrl') ?: "http://192.168.3.100:9091/nexus"
