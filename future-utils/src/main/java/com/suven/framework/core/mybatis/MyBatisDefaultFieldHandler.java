@@ -15,31 +15,23 @@ import java.util.*;
  */
 public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
 
+
+
+    private static final String CREATE_TIME = "createDate";
+    private static final String UPDATE_TIME = "updateDate";
+    /**
+     * 插入时的填充策略
+     * @param metaObject 代理对象
+     */
     @Override
     public void insertFill(MetaObject metaObject) {
-//        if (Objects.nonNull(metaObject) && metaObject.getOriginalObject() instanceof BaseDO) {
-//            BaseDO baseDO = (BaseDO) metaObject.getOriginalObject();
-//
-//            LocalDateTime current = LocalDateTime.now();
-//            // 创建时间为空，则以当前时间为插入时间
-//            if (Objects.isNull(baseDO.getCreateTime())) {
-//                baseDO.setCreateTime(current);
-//            }
-//            // 更新时间为空，则以当前时间为更新时间
-//            if (Objects.isNull(baseDO.getUpdateTime())) {
-//                baseDO.setUpdateTime(current);
-//            }
-//
-//            Long userId = WebFrameworkUtils.getLoginUserId();
-//            // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
-//            if (Objects.nonNull(userId) && Objects.isNull(baseDO.getCreator())) {
-//                baseDO.setCreator(userId.toString());
-//            }
-//            // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
-//            if (Objects.nonNull(userId) && Objects.isNull(baseDO.getUpdater())) {
-//                baseDO.setUpdater(userId.toString());
-//            }
-//        }
+        // 新增时，同时设置创建时间和更新时间
+        LocalDateTime now = LocalDateTime.now();
+        if (metaObject.hasSetter(CREATE_TIME)) {
+            this.setFieldValByName(CREATE_TIME, now, metaObject);
+        }  if (metaObject.hasSetter(UPDATE_TIME)) {
+            this.setFieldValByName(UPDATE_TIME, now, metaObject);
+        }
     }
 
     public Long getLoginUserId(){
@@ -51,7 +43,7 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
     }
 
     public List<String> modifierFieldValByTime(){
-        return Arrays.asList("updateTime");
+        return Arrays.asList("updateDate");
     }
 
     public List<String> modifierFieldValByName(){
@@ -63,19 +55,10 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         // 更新时间为空，则以当前时间为更新时间
-        modifierFieldValByTime().forEach(time->{
-            if (time.equals("updateTime") || time.equals("updateDate")){
-                Object modifyTime = getFieldValByName(time, metaObject);
-                if (Objects.isNull(modifyTime)) {
-                    setFieldValByName(time, LocalDateTime.now(), metaObject);
-                }
-            }
-        });
-        modifierFieldValByName().forEach(name->{
-            Object fieldValByName = getFieldValueByNameMap(name);
-            if (Objects.isNull(fieldValByName)) {
-                setFieldValByName(name, fieldValByName, metaObject);
-            }
-    });
+        if (metaObject.hasSetter(UPDATE_TIME)) {
+            this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+        }
     }
+
+
 }
