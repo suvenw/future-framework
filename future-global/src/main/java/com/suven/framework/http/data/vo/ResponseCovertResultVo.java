@@ -56,7 +56,7 @@ public class ResponseCovertResultVo{
 			IResponseResult returnVo = build().of(body);
 			return returnVo;
 		}//4.常量类型转换 JSONObject 类对象
-		if (ClassUtils.isPrimitiveOrWrapper(body.getClass())) {
+		if (null != body && ClassUtils.isPrimitiveOrWrapper(body.getClass())) {
 			JSONObject data = new JSONObject();
 			data.put("result", body);
 			if (body instanceof Boolean) {
@@ -71,7 +71,7 @@ public class ResponseCovertResultVo{
 			IResponseResult returnVo = build().of(body);
 			return returnVo;
 		}//6.数组类型转换  PageResult
-		else if (body.getClass().isArray()) {
+		else if (null != body && body.getClass().isArray()) {
 			List<Object> data = Arrays.asList(body);
 			PageResult<Object> pageVo = new PageResult<>();
 			pageVo.toIsNextPage(isNextPage).setList(data);
