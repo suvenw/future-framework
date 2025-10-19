@@ -1,6 +1,7 @@
 package com.suven.framework.http.config;
 
 import com.google.common.reflect.TypeToken;
+import com.suven.framework.http.api.ApiResult;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.SkipWrap;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -63,31 +65,60 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     private boolean checkMethodParameter(MethodParameter returnType){
         // 检查 returnType 是否是 RestController 注解的方法
         boolean isRestController = isRestController(returnType);
-        boolean isSkip = this.isSkipWrap(returnType);
-        // 检查 returnType 是否实现了多个接口
-//        boolean isInterface = this.checkInterfaceImplementations(returnType);
-        boolean isNotEnum = this.checkNotEnum(returnType);
-        boolean isNotReturnType = this.isNotReturnType(returnType);
-        // 返回多接口判断结果
-        return isRestController && isSkip &&  isNotEnum && isNotReturnType;
+        // 是否跳过注解
+        boolean isSkipAnno  = isSkipAnnotation(returnType);
+        boolean isSkipReturnType = this.isSkipReturnType(returnType);
+        boolean isErrorEnum = this.checkNotEnum(returnType);
+        boolean   isSkipWrap = this.isSkipWrap(returnType);
+        //跳过的包装类型的情况
+        boolean isSkip =  isSkipReturnType || isErrorEnum || isSkipWrap;
+        return  (isRestController && isSkipAnno && !isSkip);
+
     }
 
 
         /**
      * 判断方法返回类型是否需要包装
-     *
+     * 排除一些不需要处理的情况
      * @param returnType 方法返回类型参数
      * @return true表示不需要包装，false表示需要包装
      */
-    private boolean isNotReturnType(MethodParameter returnType){
+    private boolean isSkipReturnType(MethodParameter returnType){
         Class<?> rawType = returnType.getParameterType();
         // 判断返回类型是否为IResponseResult类型或其子类型
         boolean isResultType = rawType.isAssignableFrom(IResponseResult.class);
+        // 排除一些不需要处理的情况
+        // 1. 如果方法返回void
+        boolean isVoid = returnType.getParameterType() == void.class;
+        // 2. 如果已经是 ResponseEntity 类型（Spring内置响应实体）
         // 如果返回的是 ResponseEntity，通常也不需要我们包装，它可能有自己的逻辑
         boolean isResponseEntity = rawType.isAssignableFrom(ResponseEntity.class);
-        return  !(isResultType || isResponseEntity);
+        return  (isResultType || isResponseEntity || isVoid);
     }
 
+
+
+    /**
+     * 判断是否应该跳过包装,不存在ApiResult 跳过包装,存在ApiResult 且skip为true也跳过包装,
+     * 返回值类型为ResponseEntity 跳过包装,返回值类型为HttpEntity 跳过包装,返回值类型为Resource
+     * 跳过包装,返回值类型为SseEmitter 跳过包装,返回值类型为StreamingResponseBody
+     * 跳过包装,返回值类型为ResponseCovertResultVo 跳过包装,返回值类型为ResponseCovertResultVo 跳过包装,
+     * 返回值类型为ResponseCovertResultVo 跳过包装,返回值类型为
+     */
+    private boolean isSkipAnnotation(MethodParameter returnType) {
+        // 检查方法上的注解
+        Class<?> clazz = returnType.getContainingClass();
+        ApiResult methodAnnotation = returnType.getMethodAnnotation(ApiResult.class);
+        if (methodAnnotation != null && !methodAnnotation.skip()) {
+            return true;
+        }
+        // 检查类上的注解
+        ApiResult classAnnotation = clazz.getAnnotation(ApiResult.class);
+        if (classAnnotation != null &&  !classAnnotation.skip()) {
+            return true;
+        }
+        return false;
+    }
 
 
         /**
@@ -111,7 +142,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 检查类或方法上是否有SkipWrap注解
         boolean skip = clazz.isAnnotationPresent(SkipWrap.class)
                 || returnType.hasMethodAnnotation(SkipWrap.class);
-        return  !skip;
+        return  skip;
     }
 
 
@@ -143,7 +174,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 检查返回类型是否为枚举类型且实现了指定接口
         boolean isEnumType = returnType.getParameterType().isEnum();
         boolean isInterface = returnType.getParameterType().isAssignableFrom(IResultCodeEnum.class);
-        return !(isEnumType && isInterface);
+        return (isEnumType && isInterface);
     }
 
 
@@ -177,7 +208,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof Resource
                 || body instanceof byte[]
                 || body instanceof StreamingResponseBody
-                || body instanceof SseEmitter) {
+                || body instanceof ResponseBodyEmitter) {
             return body;
         }
         Object result =  ResponseCovertResultVo.convertData(body,false);
