@@ -30,8 +30,8 @@ public @interface ApiDoc {
     String methodType()  default "";//接口请求类型;默认是ws
     Class<?>[] request() default Object.class;
     Class<?>[] response() default Object.class;//返回结果实现类
-    RequestEnum requestBody() default RequestEnum.JSON;
-    RequestMethod method() default RequestMethod.GET; // 修改为String类型，使用字符串常量
+    RequestBodyEnum requestBody() default RequestBodyEnum.JSON;
+    RequestMethodEnum method() default RequestMethodEnum.GET; // 修改为String类型，使用字符串常量
 
 
 }

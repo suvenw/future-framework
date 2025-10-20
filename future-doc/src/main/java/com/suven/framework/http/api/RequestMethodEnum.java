@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @see org.springframework.web.servlet.DispatcherServlet#setDispatchOptionsRequest
  * @see org.springframework.web.servlet.DispatcherServlet#setDispatchTraceRequest
  */
-public enum RequestMethod {
+public enum RequestMethodEnum {
 
 	GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE;
 
@@ -50,7 +50,7 @@ public enum RequestMethod {
 	 * @since 6.0.6
 	 */
 	@Nullable
-	public static RequestMethod resolve(String method) {
+	public static RequestMethodEnum resolve(String method) {
 		Assert.notNull(method, "Method must not be null");
 		return switch (method) {
 			case "GET" -> GET;
@@ -73,7 +73,7 @@ public enum RequestMethod {
 	 * @since 6.0.6
 	 */
 	@Nullable
-	public static RequestMethod resolve(HttpMethod httpMethod) {
+	public static RequestMethodEnum resolve(HttpMethod httpMethod) {
 		Assert.notNull(httpMethod, "HttpMethod must not be null");
 		return resolve(httpMethod.name());
 	}
