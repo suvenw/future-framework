@@ -1,6 +1,6 @@
 package com.suven.framework.http.api;
 
-public enum RequestEnum {
+public enum RequestBodyEnum {
     JSON,// json 提交
     TEXT, // text 文本提交
     FORM, // form 表单提交
