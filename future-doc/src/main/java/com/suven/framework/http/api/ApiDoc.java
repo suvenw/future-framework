@@ -4,7 +4,6 @@ package com.suven.framework.http.api;
 
 
 
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.annotation.*;
 
