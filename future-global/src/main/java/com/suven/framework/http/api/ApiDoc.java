@@ -3,6 +3,8 @@ package com.suven.framework.http.api;
 
 
 
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.lang.annotation.*;
 
 /**
@@ -25,11 +27,12 @@ public @interface ApiDoc {
     String  author() default "作者"; //作者名称;
     boolean isApp() default false; //； 是否是app前端业务接口
     String cmd() default "";//socket类型接口,自定义的功能码id
-    String method() default "GET"; // 修改为String类型，使用字符串常量
     String methodType()  default "";//接口请求类型;默认是ws
     Class<?>[] request() default Object.class;
     Class<?>[] response() default Object.class;//返回结果实现类
     RequestEnum requestBody() default RequestEnum.JSON;
+    RequestMethod method() default RequestMethod.GET; // 修改为String类型，使用字符串常量
+
 
 
 }
