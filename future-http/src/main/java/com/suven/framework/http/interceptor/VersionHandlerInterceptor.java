@@ -73,7 +73,6 @@ public class VersionHandlerInterceptor  extends AbstractHandlerInterceptorAdapte
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-        log.info(" url request VersionHandlerInterceptor  preHandle ===================order[{}]", getOrder());
         if(!this.isPostRequestMethod(request)){
             return true;
         }

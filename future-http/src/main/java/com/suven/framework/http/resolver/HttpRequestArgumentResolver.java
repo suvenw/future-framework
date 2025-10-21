@@ -56,7 +56,7 @@ public class HttpRequestArgumentResolver implements IHttpRequestArgumentResolver
             String key =  headerNames.nextElement();
             String value = request.getHeader(key);
             if(isCompatible) {
-                key = key.replace("-", "").replace("_", "").toLowerCase();
+                key = this.replaceLowerCase(key);
             }
             map.put(key, value);
         }
@@ -106,5 +106,13 @@ public class HttpRequestArgumentResolver implements IHttpRequestArgumentResolver
         }
         return Collections.emptyMap();
 
+    }
+
+    private String replaceLowerCase(String str) {
+        if (str == null) {
+            return null;
+        }
+        str = str.replace("-", "").replace("_", "").toLowerCase();
+        return str;
     }
 }

@@ -17,7 +17,6 @@ import java.util.Objects;
 @ConditionalOnBean(RedisProperties.class)
 @ConditionalOnProperty(name = RedisConstants.SPRING_REDIS_ENABLED, matchIfMissing = true)
 @ConfigurationProperties(prefix =RedisConstants.SPRING_REDIS_CONFIG)
-@Primary
 public class RedisConfigurationSetting  extends RedisProperties{
 
     private RedisClient client = new RedisClient();

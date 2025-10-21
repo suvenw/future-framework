@@ -59,7 +59,10 @@ public class TenantHandlerInterceptor  extends AbstractHandlerInterceptorAdapter
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-      String tenantId = request.getHeader(TenantContext.tenantId);
+      String tenantId = request.getHeader(TenantContext.TENANT__ID);
+        if (Objects.isNull(tenantId)){
+            tenantId = request.getHeader(TenantContext.tenantId);
+        }
         if (Objects.isNull(tenantId)){
             tenantId = request.getHeader(TenantContext.TENANT_ID);
         }

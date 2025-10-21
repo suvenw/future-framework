@@ -2,6 +2,8 @@ package com.suven.framework.http.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public interface IHttpRequestArgumentResolver {
@@ -9,7 +11,7 @@ public interface IHttpRequestArgumentResolver {
     /**
      * 字符节类型
      */
-    final String CHARSET_CONTENT_UTF8 = "UTF-8";
+    final Charset CHARSET_CONTENT_UTF8 = StandardCharsets.UTF_8;
     /**
      * 判断请求类型,是不是post请求类型,方法是否读取json实现逻辑
      * @param request http 请求信息
