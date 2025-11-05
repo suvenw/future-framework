@@ -30,9 +30,9 @@ public class MyBatisTenantLineInnerInterceptor extends TenantLineInnerIntercepto
         super(tenantLineHandler);
     }
  
-    private static List<String> IGNORE_STATEMENT_NAMES =  new ArrayList<>();
+    private  List<String> IGNORE_STATEMENT_NAMES =  new ArrayList<>();
 
-    public static List<String> getIgnoreStatementNames() {
+    public  List<String> getIgnoreStatementNames() {
         return IGNORE_STATEMENT_NAMES;
     }
 

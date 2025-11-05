@@ -18,4 +18,10 @@ public @interface DS {
 
     @AliasFor("dataSource")
     String value() default  "";//数据源
+
+    /**
+     * 忽略表级数据源
+     * @return false , true 为忽略这个表的租户关系
+     */
+    boolean ignoreTable() default false;
 }

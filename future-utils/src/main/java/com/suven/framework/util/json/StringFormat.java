@@ -31,7 +31,7 @@ public class StringFormat {
 	 */
 	public static String underscoreName(String name) {
 		StringBuilder result = new StringBuilder();
-		if (name != null && name.length() > 0) {
+		if (name != null && !name.isEmpty()) {
 			for (int i = 0; i < name.length(); i++) {
 				char c = name.charAt(i);
 				if (Character.isUpperCase(c)) {
@@ -67,14 +67,14 @@ public class StringFormat {
 			return name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
 		// 用下划线将原始字符串分割
-		String camels[] = name.split("_");
+		String[] camels = name.split("_");
 		for (String camel : camels) {
 			// 跳过原始字符串中开头、结尾的下换线或双重下划线
 			if (camel.isEmpty()) {
 				continue;
 			}
 			// 处理真正的驼峰片段
-			if (result.length() == 0) {
+			if (result.isEmpty()) {
 				// 第一个驼峰片段，全部字母都小写
 				result.append(camel.toLowerCase());
 			} else {
@@ -97,10 +97,10 @@ public class StringFormat {
 		}
 		String[] r = new String[collec.size()];
 		int i = 0 ;
-		for (Iterator<?> it = collec.iterator(); it.hasNext();) {
-			r[i] = String.valueOf(it.next());
-			i++;
-		}
+        for (Object o : collec) {
+            r[i] = String.valueOf(o);
+            i++;
+        }
 		return r;
 	}
 	/**
@@ -113,9 +113,9 @@ public class StringFormat {
 			return null;
 		}
 		String r = "";
-		for (Iterator<?> it = collec.iterator(); it.hasNext();) {
-			r +="," + it.next();
-		}
+        for (Object o : collec) {
+            r += "," + o;
+        }
 		return r.substring(1);
 	}
 
