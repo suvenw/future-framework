@@ -70,10 +70,10 @@ public class MyBatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         
         // 添加分页插件
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        interceptor.addInnerInterceptor(new MybatisPageInnerInterceptor());
         
         // 添加租户拦截器
-        interceptor.addInnerInterceptor(new TenantLineInnerInterceptor());
+        interceptor.addInnerInterceptor(new MyBatisTenantLineInnerInterceptor());
         
         return interceptor;
     }
