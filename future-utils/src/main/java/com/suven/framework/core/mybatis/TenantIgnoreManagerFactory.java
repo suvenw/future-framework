@@ -11,19 +11,19 @@ import java.util.Arrays;
 @Slf4j
 public class TenantIgnoreManagerFactory implements DisposableBean {
     
-    private MybatisIgnoreTenantLineHandler tenantIgnoreManager;
+    private IgnoreTenantLineHandler tenantIgnoreManager;
     
     /**
      * 创建默认的租户忽略管理器
      */
-    public MybatisIgnoreTenantLineHandler createTenantIgnoreManager() {
+    public IgnoreTenantLineHandler createTenantIgnoreManager() {
         return createTenantIgnoreManager("com");
     }
     
     /**
      * 创建指定包路径的租户忽略管理器
      */
-    public MybatisIgnoreTenantLineHandler createTenantIgnoreManager(String... entityPackages) {
+    public IgnoreTenantLineHandler createTenantIgnoreManager(String... entityPackages) {
         if (tenantIgnoreManager != null) {
             log.warn("租户忽略管理器已存在，返回现有实例");
             return tenantIgnoreManager;
@@ -37,7 +37,7 @@ public class TenantIgnoreManagerFactory implements DisposableBean {
     /**
      * 获取租户忽略管理器（如果不存在则创建）
      */
-    public MybatisIgnoreTenantLineHandler getOrCreateTenantIgnoreManager(String... entityPackages) {
+    public IgnoreTenantLineHandler getOrCreateTenantIgnoreManager(String... entityPackages) {
         if (tenantIgnoreManager == null) {
             return createTenantIgnoreManager(entityPackages);
         }

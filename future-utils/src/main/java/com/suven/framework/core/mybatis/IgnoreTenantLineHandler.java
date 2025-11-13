@@ -35,4 +35,8 @@ public interface IgnoreTenantLineHandler  extends TenantLineHandler {
      */
     public TenantIgnoreConfig getIgnoreConfigByEntity(String entityName) ;
 
+    /**
+     * 销毁方法
+     */
+    public void destroy();
 }
