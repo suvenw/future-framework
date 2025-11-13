@@ -1,13 +1,11 @@
 package com.suven.framework.core.mybatis;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.suven.framework.core.db.ext.TenantIgnore;
 import com.suven.framework.util.json.StringFormat;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
-import net.sf.jsqlparser.schema.Column;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
@@ -20,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 租户忽略管理器 - 手动创建和加载
  */
 @Slf4j
-public class MybatisIgnoreTenantLineHandler implements TenantLineHandler {
+public class MybatisIgnoreTenantLineHandler implements IgnoreTenantLineHandler {
     
     /**
      * 按表名存储的忽略配置
@@ -248,17 +246,17 @@ public class MybatisIgnoreTenantLineHandler implements TenantLineHandler {
 
 
 
-    /**
-     * 获取租户字段名
-     * <p>
-     * 默认字段名叫: tenant_id
-     *
-     * @return 租户字段名
-     */
-    @Override
-    public String getTenantIdColumn() {
-        return TenantLineHandler.super.getTenantIdColumn();
-    }
+//    /**
+//     * 获取租户字段名
+//     * <p>
+//     * 默认字段名叫: tenant_id
+//     *
+//     * @return 租户字段名
+//     */
+//    @Override
+//    public String getTenantIdColumn() {
+//        return TenantLineHandler.super.getTenantIdColumn();
+//    }
 
     /**
      * 根据表名判断是否忽略拼接多租户条件
