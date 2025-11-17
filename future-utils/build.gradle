@@ -19,7 +19,6 @@ dependencies{
     implementation "org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}"
     implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot_version}"
     implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_boot_version}"
-    implementation "org.springframework.boot:spring-boot-starter-log4j2:${versions.spring_boot_version}"
     implementation "org.springframework.boot:spring-boot-starter-logging:${versions.spring_boot_version}"
     implementation "org.springframework.data:spring-data-redis:${versions.spring_data_version}"
     implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_data_version}"
@@ -50,6 +49,7 @@ dependencies{
     implementation libraries."okhttp"
     implementation libraries."commons-lang3"
     implementation libraries."commons-io"
+    implementation libraries."freemarker-jakarta"
 
 
 
@@ -99,8 +99,8 @@ dependencies{
     implementation 'org.databene:databene-benerator:0.9.8'
     implementation 'org.mockito:mockito-all:2.0.2-beta'
 
-    implementation 'com.alibaba:druid:1.2.27'
-    implementation 'com.alibaba:druid-spring-boot-starter:1.2.27'
+    implementation 'com.alibaba:druid:1.2.20'
+    implementation 'com.alibaba:druid-spring-boot-starter:1.2.20'
 
 
     implementation 'org.lionsoul:ip2region:1.4'

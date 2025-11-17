@@ -8,12 +8,14 @@ import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Primary;
 
 import java.util.Objects;
 
 
 
 @Configuration
+@Primary
 @ConditionalOnBean(RedisProperties.class)
 @ConditionalOnProperty(name = RedisConstants.SPRING_REDIS_ENABLED, matchIfMissing = true)
 @ConfigurationProperties(prefix =RedisConstants.SPRING_REDIS_CONFIG)

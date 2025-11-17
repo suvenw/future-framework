@@ -16,25 +16,25 @@ public class PropertiesParam {
 	
 	
 	private final static boolean sys_redis_cluster_server_write_default = true;
-    private final static String sys_redis_cluster_server_write = "top.sys.redis.cluster.server.write";
+    private final static String sys_redis_cluster_server_write = "saas.sys.redis.cluster.server.write";
 
-    private final static String sys_redis_cluster_server_read = "top.sys.redis.cluster.server.write";
+    private final static String sys_redis_cluster_server_read = "saas.sys.redis.cluster.server.write";
 	private final static boolean sys_redis_cluster_server_read_default = true;
 
-    private final static String sys_dao_is_open_redis_cache = "top.sys.redis.is.open.cache";
+    private final static String sys_dao_is_open_redis_cache = "saas.sys.redis.is.open.cache";
 	private final static boolean sys_dao_is_open_redis_cache_default = true;
 
-    private final static String sys_file_upload_path = "top.sys.file.upload.path";
+    private final static String sys_file_upload_path = "saas.sys.file.upload.path";
     private final static String sys_file_upload_path_default = "D://upload";
 
 
-    private final static String sys_file_upload_wifi_size = "top.sys.file.upload.wifi.size";
+    private final static String sys_file_upload_wifi_size = "saas.sys.file.upload.wifi.size";
     private final static long sys_file_upload_wifi_size_default = 6L * 1024 * 1024;
 
-    private final static String sys_file_upload_g2g3_size = "top.sys.file.upload.g2g3.size";
+    private final static String sys_file_upload_g2g3_size = "saas.sys.file.upload.g2g3.size";
     private final static long sys_file_upload_g2g3_size_default = 6L * 1024 * 1024;
 
-    private final static String sys_file_upload_byte_size = "top.sys.file.upload.byte.size";
+    private final static String sys_file_upload_byte_size = "saas.sys.file.upload.byte.size";
     private final static long sys_file_upload_byte_size_default = 6L * 1024 * 1024;
 
 

@@ -1,6 +1,5 @@
 package com.suven.framework.core.redis.factory;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,10 +28,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 
 @Configuration
-@EnableConfigurationProperties({RedisProperties.class, RedisConfigurationSetting.class})
+@EnableConfigurationProperties({RedisProperties.class})
 @ConditionalOnBean({RedisProperties.class, RedisConfigurationSetting.class})
-@ConditionalOnProperty( name = {"spring.redis.enabled"}, matchIfMissing = true)
-@AutoConfigureBefore({RedisAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
+@ConditionalOnProperty( name = {"spring.data.redis.enabled"}, matchIfMissing = true)
+@AutoConfigureBefore({RedisAutoConfiguration.class})
 @ConditionalOnClass({RedisTemplate.class, RedisConnectionFactory.class})
 public class RedisFactoryAutoConfiguration {
 

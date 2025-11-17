@@ -46,16 +46,16 @@ public class FileFastDFSController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 
-	@Autowired
+	@Autowired(required = false)
 	protected FastFileStorageClient fastFileStorageClient;
 
-	@Autowired
+	@Autowired(required = false)
 	private AppendFileStorageClient appendFileStorageClient;
 
 	@Autowired(required = false)
 	protected RedisClientServer redisClusterServer;
 
-	@Autowired
+	@Autowired(required = false)
 	private FileConfigSetting fileConfigSetting;
 
 

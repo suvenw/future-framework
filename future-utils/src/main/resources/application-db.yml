@@ -25,13 +25,13 @@ spring:
       #过虑
       filters: stat
       stat-view-servlet:
-        enabled: true
+        enabled: false
         login-username: admin
         login-password: 123456
         reset-enable: false
         url-pattern: /druid/*
       web-stat-filter:
-        enabled: true
+        enabled: false
         exclusions: '"*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*,/server/druid/*'
         profile-enable: false
         session-stat-enable: false

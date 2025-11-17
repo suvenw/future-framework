@@ -18,5 +18,5 @@ package com.suven.framework.http.api;
  **/
 public interface DocConstants {
 
-    public static final String TOP_SERVER_API_ENABLED               = "top.server.api.enabled";
+    public static final String TOP_SERVER_API_ENABLED               = "saas.server.api.enabled";
 }

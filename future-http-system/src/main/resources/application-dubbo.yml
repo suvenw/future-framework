@@ -1,0 +1,29 @@
+
+dubbo:
+  scan:
+    basePackages: com.suven.framework.dubbo
+  application:
+    name: ${spring.application.name}
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://192.168.2.201:8848
+  config-center:
+    address: nacos://192.168.2.201:8848
+  metadata-report:
+    address: nacos://192.168.2.201:8848
+  tracing:
+    enabled: false # default is false
+    sampling:
+      probability: 0.5 # sampling rate, default is 0.1
+    propagation:
+      type: W3C # W3C/B3 default is W3C
+#    tracing-exporter:
+#      zipkin-config:
+#        endpoint: http://localhost:9411/api/v2/spans
+#        connect-timeout: 1s # connect timeout, default is 1s
+#        read-timeout: 10s # read timeout, default is 10s
+#      group: your-group-name
+#spring.cloud.service-registry.auto-registration.enabled

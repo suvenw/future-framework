@@ -16,26 +16,23 @@
 package com.suven.framework.core.db.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidFilterConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidStatViewServletConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidWebStatFilterConfiguration;
-import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
 import com.suven.framework.core.db.DataSourceTypeEnum;
-import com.suven.framework.util.json.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -59,9 +56,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** EnableConfigurationProperties 使用指定配合文件生效**/
 @Configuration
 @ConditionalOnClass(DruidDataSource.class)
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
-        DruidDataSourceAutoConfigure.class, JdbcTemplateAutoConfiguration.class})
-@AutoConfigureBefore({DataSourceAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
+@ConditionalOnProperty(name = DatasourceConfiguration.SPRING_DATA_SOURCE_ENABLED, havingValue = "true", matchIfMissing = true)
+@AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties({DruidStatProperties.class, DataSourceProperties.class, DruidDataSourceConfigWrapper.class})
 @Import({DruidSpringAopConfiguration.class,
         DruidStatViewServletConfiguration.class,
@@ -126,7 +122,7 @@ public class DruidDataSourceAutoConfig  implements  InitializingBean {
             }
             String moduleName = group.getName();
             dataSource.initDataSourceGroup(moduleName,group);
-            logger.info("Init DataSourceGroupProperties  ==:" + JSONUtils.toJSONString(group));
+            logger.info("Init DataSourceGroupProperties  ==:" + JSON.toJSONString(group));
             DataSourceConnectionInfo info =   group.getMaster();
 
             DruidDataSource masterDatasource =  this.druidDataSourceInit(info);

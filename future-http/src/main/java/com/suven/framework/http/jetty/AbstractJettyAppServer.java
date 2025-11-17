@@ -12,7 +12,6 @@ import com.suven.framework.core.spring.SpringBootAutoConfigSetting;
 import org.springframework.boot.web.server.WebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import com.suven.framework.core.jetty.ServiceLogoIcon;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +42,7 @@ import java.net.InetAddress;
 
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class,
-        DruidDataSourceAutoConfigure.class,KafkaAutoConfiguration.class})
+        KafkaAutoConfiguration.class})
 @ComponentScan(basePackages={GlobalConfigConstants.COMPONENT_SCAN_BASE_PACKAGES})
 public  abstract  class AbstractJettyAppServer extends JettyWebServerFactory implements WebServerFactoryCustomizer  {
 

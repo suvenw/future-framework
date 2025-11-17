@@ -1,13 +1,6 @@
 package com.suven.framework.core.db.druid;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -40,15 +33,9 @@ import java.lang.annotation.Annotation;
  * setEnvironment()-->postProcessBeanDefinitionRegistry() --> postProcessBeanFactory()
  */
 @Configuration
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
-        DruidDataSourceAutoConfigure.class, JdbcTemplateAutoConfiguration.class})
 @ConditionalOnProperty(name = DatasourceConfiguration.SPRING_DATA_SOURCE_ENABLED,  matchIfMissing = true)
 @ConfigurationProperties(value = DatasourceConfiguration.SPRING_DATA_SOURCE)
-@AutoConfigureBefore({DruidDataSourceAutoConfig.class})
 public class DataSourceUserGroupProperties implements IDataSourceGroupProperties {
-
-    private final Logger logger = LoggerFactory.getLogger(DataSourceUserGroupProperties.class);
-
 
     private DruidDatasourceGroup user ;
 
@@ -60,7 +47,7 @@ public class DataSourceUserGroupProperties implements IDataSourceGroupProperties
 
     @Override
     public boolean getDefaultTargetDataSource() {
-        return user.isTarget();
+        return user != null && user.isTarget();
     }
 
     @Override

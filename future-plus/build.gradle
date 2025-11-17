@@ -78,7 +78,6 @@ dependencies{
         implementation "org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_boot_version}"
-        implementation "org.springframework.boot:spring-boot-starter-log4j2:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-logging:${versions.spring_boot_version}"
         implementation "org.springframework.data:spring-data-redis:${versions.spring_data_version}"
         implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_data_version}"
