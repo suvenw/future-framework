@@ -20,74 +20,74 @@ public interface GlobalConfigConstants {
 
 	/**  ================ 2. http server start param   ================ **/
 
-	public static final String SYSTEM_PARAM_SETTINGS_NAME          = "top.jetty.server.properties";
-	public static final String SYSTEM_PARAM_ENABLED                = "top.jetty.server.enabled";
-	public static final String SYSTEM_PARAM_SETTINGS               = "top.jetty.server";
+	public static final String SYSTEM_PARAM_SETTINGS_NAME          = "saas.jetty.server.properties";
+	public static final String SYSTEM_PARAM_ENABLED                = "saas.jetty.server.enabled";
+	public static final String SYSTEM_PARAM_SETTINGS               = "saas.jetty.server";
 
-	public static final String JETTY_SERVER_SETTINGS_NAME          = "top.jetty.server.properties";
-	public static final String JETTY_SERVER_ENABLED                = "top.jetty.server.enabled";
-	public static final String JETTY_SERVER_SETTINGS               = "top.jetty.server";
-	public static final String JETTY_SERVER_FILTER_DOS_ENABLED     = "top.jetty.server.dos.enabled";
-
-
-	public static final String JETTY_SERVER_PORT_SETTINGS          = "top.server.port";
+	public static final String JETTY_SERVER_SETTINGS_NAME          = "saas.jetty.server.properties";
+	public static final String JETTY_SERVER_ENABLED                = "saas.jetty.server.enabled";
+	public static final String JETTY_SERVER_SETTINGS               = "saas.jetty.server";
+	public static final String JETTY_SERVER_FILTER_DOS_ENABLED     = "saas.jetty.server.dos.enabled";
 
 
-	public static final String TOP_SERVER_CAT_ENABLED              = "top.server.cat.enabled";
-	public static final String TOP_SERVER_CAT_NAME                 = "top.server.cat.properties";
-	public static final String TOP_SERVER_CAT_SETTINGS             = "top.server.cat";
-
-	public static final String TOP_SERVER_FILE_OSS_ENABLED          = "top.server.file.oss.enabled";
-	public static final String TOP_SERVER_FILE_OSS_NAME             = "top.server.file.properties";
-	public static final String TOP_SERVER_FILE_OSS_CONFIG           = "top.server.file";
+	public static final String JETTY_SERVER_PORT_SETTINGS          = "saas.server.port";
 
 
-	public static final String TOP_SERVER_HTTP_FILE_ENABLED         = "top.server.http.file.enabled";
-	public static final String TOP_SERVER_HTTP_FILE_NAME            = "top.server.http.file.properties";
+	public static final String TOP_SERVER_CAT_ENABLED              = "saas.server.cat.enabled";
+	public static final String TOP_SERVER_CAT_NAME                 = "saas.server.cat.properties";
+	public static final String TOP_SERVER_CAT_SETTINGS             = "saas.server.cat";
 
-	public static final String TOP_SERVER_HTTP_SYS_ENABLED          = "top.server.http.sys.enabled";
-	public static final String TOP_SERVER_HTTP_SYS_NAME             = "top.server.http.sys.properties";
-
-
-	public static final String TOP_SERVER_ES_ENABLED                = "top.server.es.enabled";
-	public static final String TOP_SERVER_ES_NAME                   = "top.server.es.properties";
-	public static final String TOP_SERVER_ES                        = "top.server.es";
-
-	public static final String TOP_SERVER_MYBATIS_ENABLED           = "top.server.mybatis.enabled";
-	public static final String TOP_SERVER_MYBATIS_NAME              = "top.server.mybatis.properties";
-	public static final String TOP_SERVER_MYBATIS                   = "top.server.mybatis";
-
-	public static final String TOP_SERVER_API_ENABLED               = "top.server.api.enabled";
-	public static final String TOP_SERVER_API                       = "top.server.api";
-
-	public static final String TOP_THIRD_ALIYUN_CONFIG_ENABLED       = "top.server.sms.enabled";
-	public static final String TOP_THIRD_ALIYUN_CONFIG_NAME          = "top.server.sms.properties";
-	public static final String TOP_THIRD_ALIYUN_CONFIG               = "top.server.sms";
-
-	public static final String TOP_SHIRO_OAUTH_CONFIG_ENABLED       = "top.server.shiro.enabled";
-	public static final String TOP_SHIRO_OAUTH_CONFIG_NAME          = "top.server.shiro.properties";
-	public static final String TOP_SHIRO_OAUTH_CONFIG               = "top.server.shiro";
+	public static final String TOP_SERVER_FILE_OSS_ENABLED          = "saas.server.file.oss.enabled";
+	public static final String TOP_SERVER_FILE_OSS_NAME             = "saas.server.file.properties";
+	public static final String TOP_SERVER_FILE_OSS_CONFIG           = "saas.server.file";
 
 
+	public static final String TOP_SERVER_HTTP_FILE_ENABLED         = "saas.server.http.file.enabled";
+	public static final String TOP_SERVER_HTTP_FILE_NAME            = "saas.server.http.file.properties";
 
-	public static final String TOP_SPIDER_CONFIG_ENABLED              = "top.server.spider.enabled";
-	public static final String TOP_SPIDER_CONFIG_NAME                 = "top.server.spider.properties";
-	public static final String TOP_SPIDER_CONFIG                      = "top.server.spider";
+	public static final String TOP_SERVER_HTTP_SYS_ENABLED          = "saas.server.http.sys.enabled";
+	public static final String TOP_SERVER_HTTP_SYS_NAME             = "saas.server.http.sys.properties";
 
-	public static final String TOP_DUBBO_SENTINEL_ENABLED             = "top.server.dubbo.sentinel.enabled";
-	public static final String TOP_DUBBO_SENTINEL                     = "top.server.dubbo.sentinel";
 
-	public static final String TOP_DUBBO_ASYNC_ENABLED                = "top.server.dubbo.async.enabled";
-	public static final String TOP_DUBBO_ASYNC                        = "top.server.dubbo.async";
+	public static final String TOP_SERVER_ES_ENABLED                = "saas.server.es.enabled";
+	public static final String TOP_SERVER_ES_NAME                   = "saas.server.es.properties";
+	public static final String TOP_SERVER_ES                        = "saas.server.es";
 
-	public static final String TOP_SERVER_INFLUXDB_ENABLED                = "top.server.influxdb.enabled";
-	public static final String TOP_SERVER_INFLUXDB                        = "top.server.influxdb";
+	public static final String TOP_SERVER_MYBATIS_ENABLED           = "saas.server.mybatis.enabled";
+	public static final String TOP_SERVER_MYBATIS_NAME              = "saas.server.mybatis.properties";
+	public static final String TOP_SERVER_MYBATIS                   = "saas.server.mybatis";
+
+	public static final String TOP_SERVER_API_ENABLED               = "saas.server.api.enabled";
+	public static final String TOP_SERVER_API                       = "saas.server.api";
+
+	public static final String TOP_THIRD_ALIYUN_CONFIG_ENABLED       = "saas.server.sms.enabled";
+	public static final String TOP_THIRD_ALIYUN_CONFIG_NAME          = "saas.server.sms.properties";
+	public static final String TOP_THIRD_ALIYUN_CONFIG               = "saas.server.sms";
+
+	public static final String TOP_SHIRO_OAUTH_CONFIG_ENABLED       = "saas.server.shiro.enabled";
+	public static final String TOP_SHIRO_OAUTH_CONFIG_NAME          = "saas.server.shiro.properties";
+	public static final String TOP_SHIRO_OAUTH_CONFIG               = "saas.server.shiro";
+
+
+
+	public static final String TOP_SPIDER_CONFIG_ENABLED              = "saas.server.spider.enabled";
+	public static final String TOP_SPIDER_CONFIG_NAME                 = "saas.server.spider.properties";
+	public static final String TOP_SPIDER_CONFIG                      = "saas.server.spider";
+
+	public static final String TOP_DUBBO_SENTINEL_ENABLED             = "saas.server.dubbo.sentinel.enabled";
+	public static final String TOP_DUBBO_SENTINEL                     = "saas.server.dubbo.sentinel";
+
+	public static final String TOP_DUBBO_ASYNC_ENABLED                = "saas.server.dubbo.async.enabled";
+	public static final String TOP_DUBBO_ASYNC                        = "saas.server.dubbo.async";
+
+	public static final String TOP_SERVER_INFLUXDB_ENABLED                = "saas.server.influxdb.enabled";
+	public static final String TOP_SERVER_INFLUXDB                        = "saas.server.influxdb";
 
 
 	/**  ================ 2. http serve end param   ================ **/
 
 	/**  ================ 3. redis start param   ================ **/
-	public static final String REDIS_AUTO_CONFIG = "spring.redis.cluster";
+	public static final String REDIS_AUTO_CONFIG = "spring.data.redis.cluster";
 	public static final String REDIS_AUTO_CONFIG_ENABLED = REDIS_AUTO_CONFIG + ".enabled";
 
 	public static final String REDIS_AUTO_CONFIG_ONE_ENABLED = REDIS_AUTO_CONFIG + ".group.enabled";
@@ -95,7 +95,7 @@ public interface GlobalConfigConstants {
 	public static final String REDIS_CONFIG_CLUSTER_SERVERS = REDIS_AUTO_CONFIG + ".servers";
 	public static final String REDIS_CONFIG_CLUSTER_PASSWORD = REDIS_AUTO_CONFIG + ".password";
 
-	public static final String SPRING_REDIS_AUTO_CONFIG = "spring.redis" ;
+	public static final String SPRING_REDIS_AUTO_CONFIG = "spring.data.redis" ;
 	public static final String SPRING_REDIS_AUTO_CONFIG_ENABLED = SPRING_REDIS_AUTO_CONFIG + ".enabled";
 
 
@@ -104,8 +104,8 @@ public interface GlobalConfigConstants {
 
 
 	/**  ================ 4. MQ start param   ================ **/
-	public static final String SERVICE_MQ_CONFIG_NAME = "top.server.mq.properties";
-	public static final String SERVICE_MQ_CONFIG_PREFIX = "top.mq";
+	public static final String SERVICE_MQ_CONFIG_NAME = "saas.server.mq.properties";
+	public static final String SERVICE_MQ_CONFIG_PREFIX = "saas.mq";
 	public static final String KAFKA_CONFIG_PREFIX = SERVICE_MQ_CONFIG_PREFIX + ".kafka";
 	public static final String KAFKA_CONFIG_ENABLED = SERVICE_MQ_CONFIG_PREFIX + ".kafka.config.enabled";
 	public static final String KAFKA_PRODUCER_ENABLED = SERVICE_MQ_CONFIG_PREFIX + ".kafka.producer.enabled";
@@ -146,8 +146,8 @@ public interface GlobalConfigConstants {
 
 
 	/**  ================ 6. OAuth start param   ================ **/
-	public static final String OAUTH_CONFIG_ENABLED = "top.server.oauth.config.enabled";
-	public static final String OAUTH_CONFIG_PREFIX = "top.server.oauth";
+	public static final String OAUTH_CONFIG_ENABLED = "saas.server.oauth.config.enabled";
+	public static final String OAUTH_CONFIG_PREFIX = "saas.server.oauth";
 
 
 
@@ -160,7 +160,7 @@ public interface GlobalConfigConstants {
 	/**  ================ 7. LOGBACK end param   ================ **/
 
 	/**  ================ 8. USER start param   ================ **/
-	public static final String USER_CONFIG_ENABLED = "top.server.user.config.enabled";
-	public static final String USER_CONFIG_PREFIX = "top.server.user";
+	public static final String USER_CONFIG_ENABLED = "saas.server.user.config.enabled";
+	public static final String USER_CONFIG_PREFIX = "saas.server.user";
 	/**  ================ 8. USER end param   ================ **/
 }

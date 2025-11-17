@@ -24,7 +24,7 @@ ext.versions = [
         spring_version              : '6.2.7',
         spring_security_version     : '6.2.7',
         spring_boot_version         : '3.5.1',
-        spring_data_version         : '3.1.6',
+        spring_data_version         : '3.5.1',
         spring_cloud_version        : '2023.0.3',
         spring_cloud_gateway_version : '3.1.6',
         spring_cloud_dds_version    : '2022.0.0',
@@ -46,7 +46,7 @@ ext.versions = [
         sa_token_version            : '1.37.0',
         aws_sdk_version             : '2.20.140',
         mybatis_plus_boot_starter  : '3.5.5',
-        spring_boot_starter_version: '3.1.5',
+        spring_boot_starter_version: '3.5.1',
         spring_boot_admin_version   : '2.1.1',
         spring_kafka_version        : '3.3.8',
         lettuce_version             : '6.3.0.RELEASE',
@@ -94,7 +94,7 @@ ext.versions = [
         poi_version                 : '3.17',
         jxls_version                : '1.0.5',
         zxing_version               : '3.3.0',
-        druid_version               : '1.2.18',
+        druid_version               : '1.2.20',
         ip2region_version           : '2.7.0',
         cglib_version               : '3.3.0',
         lombok_version              : '1.18.30',
@@ -266,7 +266,8 @@ ext.libraries = [
     "protostuff-runtime"                           : 'io.protostuff:protostuff-runtime:1.6.0',
     "jakarta.servlet-api"                          : 'jakarta.servlet:jakarta.servlet-api:6.0.0',
     "validation-api"                               : "javax.validation:validation-api:2.0.1.Final",
-    "curator-framework"                            : 'org.apache.curator:curator-framework:5.7.0'
+    "curator-framework"                            : 'org.apache.curator:curator-framework:5.7.0',
+    "freemarker-jakarta"                           : 'org.freemarker:freemarker:2.3.34'
 
 
 ]

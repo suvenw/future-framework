@@ -3,6 +3,7 @@ package com.suven.framework.core.mybatis;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
@@ -63,6 +64,7 @@ import org.springframework.context.annotation.Configuration;
  这些步骤完成后，您的项目将配置和引入了MyBatis-Plus框架和TenantLineInnerInterceptor。您可以使用@Autowired注解注入相应的Mapper接口，并在查询中使用QueryWrapper来构建条件，从而实现多租户的数据隔离功能。
  */
 @Configuration
+@ConditionalOnProperty(prefix = "saas.server.mybatis", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class MyBatisPlusConfig {
 
     @Bean
@@ -76,5 +78,10 @@ public class MyBatisPlusConfig {
         interceptor.addInnerInterceptor(new MyBatisTenantLineInnerInterceptor());
         
         return interceptor;
+    }
+
+    @Bean
+    public IgnoreTenantLineHandler tenantLineHandler(){
+        return new MybatisIgnoreTenantLineHandler();
     }
 }

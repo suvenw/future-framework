@@ -15,8 +15,8 @@ public interface RedisConstants {
     public static boolean isOpenRedis_R = true;
     public static boolean isOpenRedis_W = true;
 
-    public  final String SPRING_REDIS_ENABLED = "spring.redis.enabled";
-    public  final String SPRING_REDIS_CONFIG = "spring.redis";
+    public  final String SPRING_REDIS_ENABLED = "spring.data.redis.enabled";
+    public  final String SPRING_REDIS_CONFIG = "spring.data.redis";
     public static final String REDIS_LOCK_PREFIX = "redis_lock:";
 
 

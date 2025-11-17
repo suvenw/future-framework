@@ -5,7 +5,6 @@ import com.suven.framework.core.jetty.settings.JettyServerSettings;
 import com.suven.framework.core.spring.SpringBootAutoConfigSetting;
 import com.suven.framework.http.inters.IProjectModule;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,7 @@ import java.net.UnknownHostException;
 
 @EnableTransactionManagement
 @SpringBootApplication(exclude = {
-        DataSourceAutoConfiguration.class,DruidDataSourceAutoConfigure.class,
+        DataSourceAutoConfiguration.class,
         HibernateJpaAutoConfiguration.class
 //        ,DelegatingWebMvcConfiguration.class
        })
@@ -49,6 +48,7 @@ public  abstract  class AbstractRpcServerApplication extends JettyWebServerFacto
 
     private static  final Logger logger = LoggerFactory.getLogger(AbstractRpcServerApplication.class);
 
+    @SuppressWarnings("unused")
     private ApplicationContext applicationContext;
     private static String host = null;
 

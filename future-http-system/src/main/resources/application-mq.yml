@@ -1,0 +1,99 @@
+management:
+  health:
+    elasticsearch:
+      enabled: false
+spring:
+#  elasticsearch:
+#      username: ''
+#      password: ''
+#      uris[0]: http://10.10.10.76:9200
+  # rocketmq 生产者和消费者参数配置
+#  rocketmq:
+#    consumer:
+#      enabled: false
+#    nameServer: 10.100.0.222:9876
+#    producer:
+#      compress-msg-body-over-howmuch: 4096
+#      enabled: false
+#      group: TEST_AUTH
+#      max-message-size: 4194304
+#      retry-another-broker-when-not-store-ok: false
+#      retry-times-when-send-async-failed: 0
+#      retry-times-when-send-failed: 3
+#      send-msg-timeout: 300000
+#      consumeThreadMax: 64
+#      consumeThreadMin: 20
+#      delayTimeLevel: 2
+#      maxMessageSize: 131072
+#      nameSrvAdds: 10.100.0.222:9876
+#      retryTimesWhenSendFailed: 2
+#      sendMsgTimeout: 3000
+#      config:
+#        enabled: false
+#      client:
+#        logFileMaxIndex: 10
+#        logLevel: INFO
+#        logRoot: /data/server/rocket-mq-log
+
+saas:
+  mq:
+    # kafka 生产者和消费者参数配置
+    kafka:
+      config:
+        # kafka 生产者和消费者开关配置
+        enabled: false
+      consumer:
+        autoCommitIntervalms: 100
+        autoOffsetReset: earliest
+        bootstrapServers: 10.100.0.222:9092
+        concurrency: 2
+        enableAutoCommit: true
+        enabled: true
+        groupId: top
+        keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+        pollTimeout: 100
+        sessionTimeoutMs: 30000
+        valueDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      producer:
+        acks: 0
+        batchSize: 6384
+        bootstrapServers: 10.100.0.222:9092
+        bufferMemory: 33554432
+        enabled: true
+        keySerializer: org.apache.kafka.common.serialization.StringSerializer
+        lingerMs: 1
+        maxBlockMs: 1000
+        retries: 0
+        valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+
+#       es 服务配置
+  server:
+    es:
+      #开关配置
+      enabled: true
+      connect-timeout-millis: 10001
+      connection-request-timeout-millis: 5001
+      host: 192.168.25.200
+      index: test_short_videoinfo
+      max-connect-per-route: 101
+      max-connect-total: 501
+      nodes: 47.107.116.210:9200,47.107.116.210:9200
+      port: 9200
+      schema: http
+      scheme: http
+      socket-timeout-millis: 300001
+
+
+#-----------------------------influxdb--------------------------------#
+    influxdb:
+      enabled: true
+      url: https://influxdb.sixeco.com/
+      username:
+      password:
+      token: ltcTyWIt5Ltegv6CesVdFv_gocvi1PPhfjDKWWzW3TSWrrRc1xN7hqhAnwkldbuj6vdTaQAPjrF6SgfcQ9abGw==
+      org: admin
+      bucket: my-bucket
+
+#-------------------------------influxdb--------------------------------------#

@@ -1,46 +1,47 @@
-# 1. redis单节点或sentinel模式的开关 : spring.redis.enabled= true,默认值为 false,
+# 1. redis单节点或sentinel模式的开关 : spring.data.redis.enabled= true,默认值为 false,
 # 2. redis聚群模块的开关 top.redis.cluster.enabled=true ,默认值为 true,
 # 3. redis聚群且是多组的开关 top.redis.cluster.group.enabled=true ,默认值为 false,
 #    redis聚群多组模式情况下:  servers.one:   servers.two: servers.three:  按英文数字依次迭增
 # 4.特别注意: 以上3种模式选择路由配置: model 为 cluster,sentinel,group 默认为 cluster;
-#  例子:top.redis.cluster.client.model=cluster spring.redis.enabled
+#  例子:top.redis.cluster.client.model=cluster spring.data.redis.enabled
 
 spring:
-  redis:
-    enabled: true
-    database: 0
-    host: 192.168.3.100
-    jedis:
-      pool:
-        max-active: 20
-        max-idle: 10
-        max-wait: -1
-        min-idle: 0
-    password: 123456
-    port: 6379
-    timeout: 1000
+  data:
+    redis:
+      enabled: true
+      database: 0
+      host: 192.168.3.100
+      jedis:
+        pool:
+          max-active: 20
+          max-idle: 10
+          max-wait: -1
+          min-idle: 0
+      password: 123456
+      port: 6379
+      timeout: 1000
 
-# redis cluster 或group 聚群模式参数配置
-#聚群的开关 top.redis.cluster.group.enabled=true ,默认值为true,
-    cluster:
-      enabled : true
-      timeout: 10000
-      client:
-        daoOpen: true
-        read: true
-        write: true
-        # model 为 cluster,sentinel,group 默认为 cluster;
-        model: cluster
-      pool:
-        maxIdle: 100
-        maxRedirections: 2
-        maxTotal: 1000
-        maxWaitMillis: 1000
-        minIdle: 10
-        testOnBorrow: true
-        testOnReturn: true
+  # redis cluster 或group 聚群模式参数配置
+  #聚群的开关 top.redis.cluster.group.enabled=true ,默认值为true,
+      cluster:
+        enabled : true
         timeout: 10000
-      servers: 192.168.3.100:7001; 192.168.3.100:7002; 192.168.3.100:7003; 192.168.3.100:7004; 192.168.3.100:7005; 192.168.3.100:7006
-#      servers: 127.0.0.1:7001; 127.0.0.1:7002; 127.0.0.1:7003; 127.0.0.1:7004; 127.0.0.1:7005; 127.0.0:7006
-     #servers.one: 127.0.0:7001; 127.0.0:7002; 127.0.0:7003; 127.0.0:7004; 127.0.0:7005; 127.0.0:7006
+        client:
+          daoOpen: true
+          read: true
+          write: true
+          # model 为 cluster,sentinel,group 默认为 cluster;
+          model: cluster
+        pool:
+          maxIdle: 100
+          maxRedirections: 2
+          maxTotal: 1000
+          maxWaitMillis: 1000
+          minIdle: 10
+          testOnBorrow: true
+          testOnReturn: true
+          timeout: 10000
+        servers: 192.168.3.100:7001; 192.168.3.100:7002; 192.168.3.100:7003; 192.168.3.100:7004; 192.168.3.100:7005; 192.168.3.100:7006
+  #      servers: 127.0.0.1:7001; 127.0.0.1:7002; 127.0.0.1:7003; 127.0.0.1:7004; 127.0.0.1:7005; 127.0.0:7006
+       #servers.one: 127.0.0:7001; 127.0.0:7002; 127.0.0:7003; 127.0.0:7004; 127.0.0:7005; 127.0.0:7006
 

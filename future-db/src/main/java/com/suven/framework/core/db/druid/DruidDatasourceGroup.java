@@ -13,7 +13,7 @@ public  class DruidDatasourceGroup  implements Serializable {
 
         private DataSourceConnectionInfo master = new DataSourceConnectionInfo();
         private List<DataSourceConnectionInfo> slave = new ArrayList<>();
-        private List<String> slaveModuleDatasourceNameList = new ArrayList<>();
+        private final List<String> slaveModuleDatasourceNameList = new ArrayList<>();
 
 
         public DataSourceConnectionInfo getMaster() {

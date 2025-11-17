@@ -57,7 +57,6 @@ dependencies{
         implementation "org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-actuator:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_boot_version}"
-        implementation "org.springframework.boot:spring-boot-starter-log4j2:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-logging:${versions.spring_boot_version}"
         // ===================== 微服务服务 使用  spring  boot 服务启动依赖包 =====================
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
