@@ -49,7 +49,7 @@ ext.versions = [
         spring_boot_starter_version: '3.5.1',
         spring_boot_admin_version   : '2.1.1',
         spring_kafka_version        : '3.3.8',
-        lettuce_version             : '6.3.0.RELEASE',
+        lettuce_version             : '6.4.0.RELEASE',
         hutool_version              : '5.8.24',
         jpinyin_version             : '1.1.8',
         junit_jupiter_version       : '5.10.1',
