@@ -200,7 +200,6 @@ ext.libraries = [
 
     // Apache Commons
     "commons-beanutils-core"                        : "commons-beanutils:commons-beanutils-core:1.8.3",
-    "commons-codec"                                 : "commons-codec:commons-codec:1.16.0",
     "commons-collections"                           : "commons-collections:commons-collections:3.2.2",
     "commons-text"                                  : "org.apache.commons:commons-text:1.9",
     "commons-fileupload"                            : "commons-fileupload:commons-fileupload:1.5",
@@ -262,7 +261,6 @@ ext.libraries = [
     "easyexcel"                                    : "com.alibaba:easyexcel:${versions.easyexcel_version}",
     "aspectjweaver"                                : 'org.aspectj:aspectjweaver:1.9.3',
     "protobuf-java-format"                         : 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4',
-    "protostuff-core"                              : 'io.protostuff:protostuff-core:1.6.0',
     "protostuff-runtime"                           : 'io.protostuff:protostuff-runtime:1.6.0',
     "jakarta.servlet-api"                          : 'jakarta.servlet:jakarta.servlet-api:6.0.0',
     "validation-api"                               : "javax.validation:validation-api:2.0.1.Final",
