@@ -22,6 +22,10 @@ dependencies{
     implementation "org.springframework.boot:spring-boot-starter-logging:${versions.spring_boot_version}"
     implementation "org.springframework.data:spring-data-redis:${versions.spring_data_version}"
     implementation "org.springframework.boot:spring-boot-starter-jdbc:${versions.spring_data_version}"
+    // Lettuce Redis 客户端依赖（必须添加，用于集群模式）
+    implementation libraries."lettuce-core"
+    // Lettuce 连接池依赖（如果使用连接池模式）
+    implementation libraries."commons-pool2"
 
     implementation "org.springframework:spring-core:${versions.spring_version}"
     implementation "org.springframework:spring-context:${versions.spring_version}"

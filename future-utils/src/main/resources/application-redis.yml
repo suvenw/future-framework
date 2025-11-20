@@ -11,37 +11,43 @@ spring:
       enabled: true
       database: 0
       host: 192.168.3.100
+      password: dev123456
+      port: 6379
+      timeout: 1000
       jedis:
         pool:
           max-active: 20
           max-idle: 10
           max-wait: -1
           min-idle: 0
-      password: 123456
-      port: 6379
-      timeout: 1000
-
-  # redis cluster 或group 聚群模式参数配置
-  #聚群的开关 top.redis.cluster.group.enabled=true ,默认值为true,
-      cluster:
-        enabled : true
-        timeout: 10000
-        client:
-          daoOpen: true
-          read: true
-          write: true
-          # model 为 cluster,sentinel,group 默认为 cluster;
-          model: cluster
+      client:
+        daoOpen: true
+        read: true
+        write: true
+        # model 为 1.standalone,2.sentinel,3.masterSlave,4.cluster,5.clusterGroup 默认为 standalone;
+        model: standalone
+          # redis cluster 或group 聚群模式参数配置
+          #聚群的开关 top.redis.cluster.group.enabled=true ,默认值为true,
+        # Lettuce 连接池配置（可选）
+      lettuce:
         pool:
-          maxIdle: 100
-          maxRedirections: 2
-          maxTotal: 1000
-          maxWaitMillis: 1000
-          minIdle: 10
-          testOnBorrow: true
-          testOnReturn: true
-          timeout: 10000
-        servers: 192.168.3.100:7001; 192.168.3.100:7002; 192.168.3.100:7003; 192.168.3.100:7004; 192.168.3.100:7005; 192.168.3.100:7006
-  #      servers: 127.0.0.1:7001; 127.0.0.1:7002; 127.0.0.1:7003; 127.0.0.1:7004; 127.0.0.1:7005; 127.0.0:7006
-       #servers.one: 127.0.0:7001; 127.0.0:7002; 127.0.0:7003; 127.0.0:7004; 127.0.0:7005; 127.0.0:7006
+          max-active: 100
+          max-idle: 10
+          min-idle: 0
+          max-wait: -1ms
+
+      # Redis 集群配置
+      cluster:
+        enabled: true
+        max-redirects: 3
+        nodes:
+          - 192.168.3.100:7001
+          - 192.168.3.100:7002
+          - 192.168.3.100:7003
+          - 192.168.3.100:7004
+          - 192.168.3.100:7005
+          - 192.168.3.100:7006
+
+        #      servers: 127.0.0.1:7001; 127.0.0.1:7002; 127.0.0.1:7003; 127.0.0.1:7004; 127.0.0.1:7005; 127.0.0:7006
+        #servers.one: 127.0.0:7001; 127.0.0:7002; 127.0.0:7003; 127.0.0:7004; 127.0.0:7005; 127.0.0:7006
 
