@@ -24,7 +24,7 @@ package com.suven.framework.core.influxdb.dsl.functions;
 import com.influxdb.utils.Arguments;
 import com.suven.framework.core.influxdb.dsl.Flux;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collection;
 
 /**

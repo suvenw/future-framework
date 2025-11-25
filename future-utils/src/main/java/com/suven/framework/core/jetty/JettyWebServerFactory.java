@@ -1,6 +1,5 @@
 package com.suven.framework.core.jetty;
 
-import com.codahale.metrics.jetty9.InstrumentedQueuedThreadPool;
 import com.suven.framework.core.jetty.settings.HttpMetricHelper;
 import com.suven.framework.core.jetty.settings.JettyServerSettings;
 import com.suven.framework.http.inters.JettyServicePort;

@@ -28,8 +28,8 @@ import com.suven.framework.core.influxdb.dsl.VariableAssignment;
 import com.suven.framework.core.influxdb.dsl.functions.properties.TimeInterval;
 import com.suven.framework.core.influxdb.utils.ImportUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Map;

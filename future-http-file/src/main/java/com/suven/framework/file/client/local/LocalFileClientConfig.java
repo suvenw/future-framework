@@ -3,7 +3,7 @@ package com.suven.framework.file.client.local;
 import com.suven.framework.file.client.AbstractFileClientConfig;
 import com.suven.framework.file.client.FileClientConfig;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * 本地文件客户端的配置类

@@ -23,7 +23,7 @@ package com.suven.framework.core.influxdb.dsl.functions.restriction;
 
 import java.util.StringJoiner;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * @author Jakub Bednar (bednar@github) (28/06/2018 13:03)

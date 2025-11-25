@@ -23,7 +23,7 @@ package com.suven.framework.core.influxdb.dsl.functions.properties;
 
 import com.influxdb.utils.Arguments;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 

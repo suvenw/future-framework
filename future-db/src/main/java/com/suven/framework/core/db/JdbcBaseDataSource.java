@@ -18,7 +18,7 @@ package com.suven.framework.core.db;//package com.suven.framework.core.db;
 //import org.springframework.jdbc.support.GeneratedKeyHolder;
 //import org.springframework.jdbc.support.KeyHolder;
 //
-//import javax.annotation.Resource;
+//import jakarta.annotation.Resource;
 //import javax.sql.DataSource;
 //import java.sql.*;
 //import java.util.*;

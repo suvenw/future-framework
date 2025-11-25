@@ -27,8 +27,8 @@ import com.suven.framework.core.influxdb.dsl.functions.properties.FunctionsParam
 import com.suven.framework.core.influxdb.dsl.functions.restriction.Restrictions;
 import com.suven.framework.core.influxdb.utils.ImportUtils;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;

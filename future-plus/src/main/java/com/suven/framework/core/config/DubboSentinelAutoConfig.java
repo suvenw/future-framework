@@ -21,7 +21,7 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
-//import javax.annotation.PostConstruct;
+//import jakarta.annotation.PostConstruct;
 //import java.lang.reflect.Method;
 //import java.util.ArrayList;
 //import java.util.List;

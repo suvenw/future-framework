@@ -33,6 +33,7 @@ dependencies {
     implementation libraries."hutool-all"
     implementation libraries."zxing-core"
     implementation libraries."zxing-javase"
+    implementation libraries."validation-api"
 
     implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
     implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
