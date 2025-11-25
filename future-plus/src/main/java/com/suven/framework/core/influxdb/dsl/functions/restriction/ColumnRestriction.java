@@ -23,7 +23,7 @@ package com.suven.framework.core.influxdb.dsl.functions.restriction;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 import com.suven.framework.core.influxdb.dsl.functions.properties.FunctionsParameters;
 import com.influxdb.utils.Arguments;

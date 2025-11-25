@@ -3,8 +3,8 @@ package com.suven.framework.file.client.sftp;
 import com.suven.framework.file.client.AbstractFileClientConfig;
 import com.suven.framework.file.client.FileClientConfig;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Sftp 文件客户端的配置类

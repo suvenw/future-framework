@@ -26,7 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Collections;
 
 /**

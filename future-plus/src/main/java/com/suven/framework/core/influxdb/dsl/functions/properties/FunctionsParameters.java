@@ -25,8 +25,8 @@ import com.influxdb.utils.Arguments;
 import com.suven.framework.core.influxdb.dsl.Flux;
 import com.suven.framework.core.influxdb.dsl.VariableAssignment;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.time.Instant;

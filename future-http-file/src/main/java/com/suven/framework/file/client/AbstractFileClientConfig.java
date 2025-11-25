@@ -2,7 +2,7 @@ package com.suven.framework.file.client;
 
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 public abstract class AbstractFileClientConfig implements FileClientConfig{
 
 

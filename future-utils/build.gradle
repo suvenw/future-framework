@@ -26,6 +26,7 @@ dependencies{
     implementation libraries."lettuce-core"
     // Lettuce 连接池依赖（如果使用连接池模式）
     implementation libraries."commons-pool2"
+    implementation libraries."validation-api"
 
     implementation "org.springframework:spring-core:${versions.spring_version}"
     implementation "org.springframework:spring-context:${versions.spring_version}"
@@ -40,10 +41,10 @@ dependencies{
 
     implementation "io.dropwizard.metrics:metrics-core:${versions.metrics_version}"
     implementation "io.dropwizard.metrics:metrics-graphite:${versions.metrics_version}"
-    implementation "io.dropwizard.metrics:metrics-jetty9:${versions.metrics_version}"
-    implementation "io.dropwizard.metrics:metrics-servlet:${versions.metrics_version}"
-    implementation "io.dropwizard.metrics:metrics-servlets:${versions.metrics_version}"
-    implementation "io.dropwizard.metrics:metrics-httpclient:${versions.metrics_version}"
+    implementation "io.dropwizard.metrics:metrics-jvm:${versions.metrics_version}"
+    implementation "io.dropwizard.metrics:metrics-healthchecks:${versions.metrics_version}"
+    implementation "io.dropwizard.metrics:metrics-jvm:${versions.metrics_version}"
+    implementation "io.dropwizard.metrics:metrics-healthchecks:${versions.metrics_version}"
 
     implementation libraries."fastjson"
     implementation libraries."guava"

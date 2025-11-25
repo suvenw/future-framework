@@ -25,7 +25,7 @@ import com.influxdb.utils.Arguments;
 import com.suven.framework.core.influxdb.dsl.Flux;
 import com.suven.framework.core.influxdb.dsl.VariableAssignment;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

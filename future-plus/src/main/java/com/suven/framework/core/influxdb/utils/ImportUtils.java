@@ -23,7 +23,7 @@ package com.suven.framework.core.influxdb.utils;
 
 import com.suven.framework.core.influxdb.dsl.HasImports;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.util.Set;
 import java.util.stream.Collectors;
 

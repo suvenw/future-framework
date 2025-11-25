@@ -22,7 +22,7 @@
 package com.suven.framework.core.influxdb.dsl;
 
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 
 /**
  * Marker interface for variable assignments.

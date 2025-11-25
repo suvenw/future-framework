@@ -6,8 +6,8 @@ import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.file.client.AbstractFileClientConfig;
 import com.suven.framework.file.client.FileClientConfig;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * S3 文件客户端的配置类
