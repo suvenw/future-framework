@@ -75,7 +75,6 @@ public class UrlHandlerInterceptor extends AbstractHandlerInterceptorAdapter imp
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-			log.info(" url request UrlHandlerInterceptor  preHandle ===================order[{}]", getOrder());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.setHeader("Accept",MediaType.APPLICATION_JSON_VALUE);
 		String url = request.getServletPath();

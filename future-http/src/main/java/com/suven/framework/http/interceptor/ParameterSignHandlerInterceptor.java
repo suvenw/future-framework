@@ -74,7 +74,6 @@ public class ParameterSignHandlerInterceptor extends AbstractHandlerInterceptorA
      **/
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response , Object handler, HandlerValidator validator ) throws Exception {
-        log.info(" url request ParameterSignHandlerInterceptor  preHandle ===================order[{}]", getOrder());
         HttpRequestRemote remote = ParameterMessage.getRequestRemote();
         if(Objects.isNull(remote)){
             log.warn(" ParameterSignHandlerInterceptor RequestRemote is null remote: [{}] ", remote );

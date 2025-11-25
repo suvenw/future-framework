@@ -75,7 +75,7 @@ public class DirectoryHandlerInterceptor extends AbstractHandlerInterceptorAdapt
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-		log.info(" url request UrlHandlerInterceptor  preHandle ===================order[{}]", getOrder());
+		log.info("  request UrlHandlerInterceptor  preHandle ===================order[{}],url:[{}]", getOrder(), request.getRequestURI());
 		return true;
 
 	}

@@ -81,7 +81,6 @@ public class TraceIdHandlerInterceptor extends AbstractHandlerInterceptorAdapter
 	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-		log.info(" url request LogbackTraceIdHandlerInterceptor  preHandle ===================order[{}]", getOrder());
     	try {
             request.setAttribute(HandlerMapping.PRODUCIBLE_MEDIA_TYPES_ATTRIBUTE,Sets.newHashSet(MediaType.APPLICATION_JSON));
 			Map<String, String> map = this.getHeadersInfo(request);

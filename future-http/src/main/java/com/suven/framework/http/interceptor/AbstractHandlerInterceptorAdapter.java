@@ -89,7 +89,7 @@ public abstract class AbstractHandlerInterceptorAdapter extends HttpRequestArgum
 //    public  boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception ;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info(" url request order[{}] handlerValidatorBean:[{}] preHandle ===================",getOrder(),handlerValidatorBeanType());
+        log.info(" url request order[{}] handlerValidatorBean:[{}] preHandle ===>> url:[{}}",getOrder(),handlerValidatorBeanType(),request.getRequestURI());
         /** 其中supportsRunStatus()返回如下: 1.在白名单中,返回true,在不在排除列表中,返回true
          * 因此,当不在白名单中,或者在排除中中,将不运行;
          * **/
