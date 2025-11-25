@@ -71,7 +71,6 @@ public class HeadersHandlerInterceptor extends AbstractHandlerInterceptorAdapter
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-        logger.info(" url request JsonHandlerInterceptorAdapter  preHandle ===================");
         //判断是get还是post
         boolean isPostReq = this.isPostRequestMethod(request);
         boolean isJson = false;

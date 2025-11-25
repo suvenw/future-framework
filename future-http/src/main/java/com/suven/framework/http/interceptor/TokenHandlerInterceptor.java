@@ -73,7 +73,6 @@ public class TokenHandlerInterceptor extends AbstractHandlerInterceptorAdapter i
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler, HandlerValidator validator) throws Exception {
-     log.info(" url request TokenHandlerInterceptor  preHandle ===================");
         if(!this.isPostRequestMethod(request)){
             return true;
         }
