@@ -2,6 +2,7 @@ package com.suven.framework.sys.controller;
 
 
 
+import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jakarta.servlet.http.HttpServletResponse;
@@ -124,7 +125,7 @@ public class SysDictItemWebController {
     public   void   list( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDictItemRequestDto> page =  Pager.of();
         page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
          SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
@@ -133,12 +134,8 @@ public class SysDictItemWebController {
             out.write( new PageResult());
             return ;
         }
-
-        List<SysDictItemShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDictItemShowResponseVo.class);
-        PageResult result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysDictItemShowResponseVo> result = resultList.convertBuild(SysDictItemShowResponseVo.class);
+        out.write(result);
     }
 
 /**
@@ -163,7 +160,7 @@ public class SysDictItemWebController {
     public   void   queryList( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDictItemRequestDto> page =  Pager.of();
         page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
         SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
@@ -372,7 +369,7 @@ public class SysDictItemWebController {
 
             SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build().clone(sysDictItemQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDictItemRequestDto> page =  Pager.of();
         page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
         page.toParamObject(sysDictItemRequestDto );
 

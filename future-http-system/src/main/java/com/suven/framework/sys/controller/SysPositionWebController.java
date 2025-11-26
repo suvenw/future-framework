@@ -134,10 +134,7 @@ public class SysPositionWebController {
             return ;
         }
 
-        List<SysPositionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPositionShowResponseVo.class);
-        PageResult<SysPositionShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        PageResult<SysPositionShowResponseVo> result = resultList.convertBuild(SysPositionShowResponseVo.class);
         out.write( result);
     }
 
@@ -372,7 +369,7 @@ public class SysPositionWebController {
 
             SysPositionRequestDto sysPositionRequestDto = SysPositionRequestDto.build().clone(sysPositionQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysPositionRequestDto> page =  Pager.of();
         page.toPageSize(sysPositionQueryRequestVo.getPageSize()).toPageNo(sysPositionQueryRequestVo.getPageNo());
         page.toParamObject(sysPositionRequestDto );
 

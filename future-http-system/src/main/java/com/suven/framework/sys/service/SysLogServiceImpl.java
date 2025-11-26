@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysUserRoleResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -308,7 +309,7 @@ public class SysLogServiceImpl  implements SysLogService {
     @Override
     public PageResult<SysLogResponseDto> getSysLogByQueryPage(Pager page, SysLogQueryEnum queryEnum){
 
-        PageResult<SysLogResponseDto> PageResult = new PageResult<>();
+        PageResult<SysLogResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +318,8 @@ public class SysLogServiceImpl  implements SysLogService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysLogResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysLogResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +331,7 @@ public class SysLogServiceImpl  implements SysLogService {
      */
     @Override
     public PageResult<SysLogResponseDto> getSysLogByNextPage(Pager page, SysLogQueryEnum queryEnum){
-        PageResult<SysLogResponseDto> PageResult = new PageResult<>();
+        PageResult<SysLogResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysLog> queryWrapper = sysLogDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +340,8 @@ public class SysLogServiceImpl  implements SysLogService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysLogResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysLogResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

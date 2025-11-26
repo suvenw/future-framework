@@ -134,11 +134,8 @@ public class SysDepartRoleUserWebController {
             return ;
         }
 
-        List<SysDepartRoleUserShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartRoleUserShowResponseVo.class);
-        PageResult<SysDepartRoleUserShowResponseVo> result = new PageResult<>();
-        result.of(listVo,pager.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysDepartRoleUserShowResponseVo> result = resultList.convertBuild(SysDepartRoleUserShowResponseVo.class);
+        out.write(result);
     }
 
 /**
@@ -372,7 +369,7 @@ public class SysDepartRoleUserWebController {
 
             SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDepartRoleUserRequestDto> page =  Pager.of();
         page.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRoleUserRequestDto );
 

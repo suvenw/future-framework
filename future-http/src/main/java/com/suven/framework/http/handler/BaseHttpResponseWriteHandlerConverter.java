@@ -86,8 +86,9 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 	 */
 	@Override
 	public void writeList(List<?> responseDataList, boolean isNextPage){
-		IResponseResultPage<?> list = new PageResult()
-				.toList(responseDataList).toIsNextPage(isNextPage);
+		PageResult list = new PageResult<>();
+		list.toList(responseDataList)
+				.toIsNextPage(isNextPage);
 		this.write(list);
 	}
 

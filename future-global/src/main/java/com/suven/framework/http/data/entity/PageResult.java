@@ -201,6 +201,40 @@ public  class PageResult<T> implements IResponseResultPage<T> {
 	}
 
 	/**
+	 * 分页结果对象转换实现, 用于分页查询,将V为DTO对象,转换成V为VO对象的分页结果ResultPageVo
+	 * 
+	 * <p>重要：targetClazz 必须实现 IBeanClone 接口，否则会抛出异常</p>
+	 * 
+	 * @param <V> 源列表元素类型
+	 * @param list 源列表数据
+	 * @param targetClazz 需要转换成结果目录对象，必须实现 IBeanClone 接口
+	 * @param pageSize 每页大小
+	 * @param total 总记录数
+	 * @return ResultPageVo 转换结果
+	 * @throws IllegalArgumentException 如果 targetClazz 未实现 IBeanClone 接口
+	 */
+	public <V> PageResult<T> convertBuild(List<V> list, Class<T> targetClazz, long pageSize, long total) {
+		// 检查 targetClazz 是否实现了 IBeanClone 接口
+		// 使用 isAssignableFrom 检查类是否实现接口（instanceof 只能用于对象实例检查）
+		if (!IBeanClone.class.isAssignableFrom(targetClazz)) {
+			throw new IllegalArgumentException(
+					String.format("目标类型 %s 必须实现 IBeanClone 接口。请确保类实现 IBeanClone 接口或继承 BaseBeanClone 基类。", 
+							targetClazz.getName()));
+		}
+		// 转换为目标类型列表
+		// 由于已经验证了 targetClazz 实现了 IBeanClone，可以进行安全的类型转换
+		@SuppressWarnings({"unchecked", "rawtypes"})
+		Class<? extends IBeanClone> beanCloneClass = (Class<? extends IBeanClone>) targetClazz;
+		@SuppressWarnings("unchecked")
+		List<T> resultList = (List<T>) IterableConvert.convertList(list, beanCloneClass);
+		// 判断是否有下一页
+		boolean nextPage = isNextPage(resultList, pageSize);
+		// 构建分页结果
+		this.toList(resultList).toIsNextPage(nextPage).toTotal(total);
+		return this;
+	}
+
+	/**
 	 * 转换结果, 用于分页查询
 	 * <p>page为null不会判断下一页
 	 * @param isNextPage        分页信息, 是否有下一页,

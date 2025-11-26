@@ -308,7 +308,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
     @Override
     public PageResult<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByQueryPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
 
-        PageResult<SysPermissionDataRuleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPermissionDataRuleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +317,8 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPermissionDataRuleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionDataRuleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list,SysPermissionDataRuleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +330,7 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
      */
     @Override
     public PageResult<SysPermissionDataRuleResponseDto> getSysPermissionDataRuleByNextPage(Pager page, SysPermissionDataRuleQueryEnum queryEnum){
-        PageResult<SysPermissionDataRuleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPermissionDataRuleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPermissionDataRule> queryWrapper = sysPermissionDataRuleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPermissionDataRule> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +339,8 @@ public class SysPermissionDataRuleServiceImpl  implements SysPermissionDataRuleS
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPermissionDataRuleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionDataRuleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list,SysPermissionDataRuleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

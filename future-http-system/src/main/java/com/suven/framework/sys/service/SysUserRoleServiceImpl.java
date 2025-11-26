@@ -3,6 +3,7 @@ package com.suven.framework.sys.service;
 
 import com.suven.framework.sys.dao.SysPermissionDao;
 import com.suven.framework.sys.dao.SysRolePermissionDao;
+import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
 import com.suven.framework.sys.entity.SysPermission;
 import com.suven.framework.sys.entity.SysRolePermission;
 import org.apache.commons.lang3.StringUtils;
@@ -383,7 +384,7 @@ public class SysUserRoleServiceImpl  implements SysUserRoleService {
     @Override
     public PageResult<SysUserRoleResponseDto> getSysUserRoleByQueryPage(Pager page, SysUserRoleQueryEnum queryEnum){
 
-        PageResult<SysUserRoleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysUserRoleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysUserRole> queryWrapper = sysUserRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysUserRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -392,10 +393,8 @@ public class SysUserRoleServiceImpl  implements SysUserRoleService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysUserRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysUserRoleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysUserRoleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -407,7 +406,7 @@ public class SysUserRoleServiceImpl  implements SysUserRoleService {
      */
     @Override
     public PageResult<SysUserRoleResponseDto> getSysUserRoleByNextPage(Pager page, SysUserRoleQueryEnum queryEnum){
-        PageResult<SysUserRoleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysUserRoleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysUserRole> queryWrapper = sysUserRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysUserRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -416,10 +415,8 @@ public class SysUserRoleServiceImpl  implements SysUserRoleService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysUserRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysUserRoleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysUserRoleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

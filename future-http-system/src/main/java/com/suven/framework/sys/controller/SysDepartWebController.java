@@ -139,10 +139,7 @@ public class SysDepartWebController {
             return ;
         }
 
-        List<SysDepartShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDepartShowResponseVo.class);
-        PageResult<SysDepartShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        PageResult<SysDepartShowResponseVo> result = resultList.convertBuild(SysDepartShowResponseVo.class);
         out.write( result);
     }
 
@@ -402,7 +399,7 @@ public class SysDepartWebController {
 
             SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build().clone(sysDepartQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDepartRequestDto> page =  Pager.of();
         page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysDepartRequestDto );
 

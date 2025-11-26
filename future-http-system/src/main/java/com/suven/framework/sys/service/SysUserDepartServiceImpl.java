@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -308,7 +309,7 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
     @Override
     public PageResult<SysUserDepartResponseDto> getSysUserDepartByQueryPage(Pager page, SysUserDepartQueryEnum queryEnum){
 
-        PageResult<SysUserDepartResponseDto> PageResult = new PageResult<>();
+        PageResult<SysUserDepartResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysUserDepart> queryWrapper = sysUserDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysUserDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +318,8 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysUserDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysUserDepartResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysUserDepartResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +331,7 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
      */
     @Override
     public PageResult<SysUserDepartResponseDto> getSysUserDepartByNextPage(Pager page, SysUserDepartQueryEnum queryEnum){
-        PageResult<SysUserDepartResponseDto> PageResult = new PageResult<>();
+        PageResult<SysUserDepartResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysUserDepart> queryWrapper = sysUserDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysUserDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +340,8 @@ public class SysUserDepartServiceImpl  implements SysUserDepartService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysUserDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysUserDepartResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysUserDepartResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

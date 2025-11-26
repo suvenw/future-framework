@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysDepartRolePermissionResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -308,7 +309,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
     @Override
     public PageResult<SysDepartRoleUserResponseDto> getSysDepartRoleUserByQueryPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
 
-        PageResult<SysDepartRoleUserResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDepartRoleUserResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDepartRoleUser> queryWrapper = sysDepartRoleUserDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepartRoleUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +318,8 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDepartRoleUserResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartRoleUserResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysDepartRoleUserResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +331,7 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
      */
     @Override
     public PageResult<SysDepartRoleUserResponseDto> getSysDepartRoleUserByNextPage(Pager page, SysDepartRoleUserQueryEnum queryEnum){
-        PageResult<SysDepartRoleUserResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDepartRoleUserResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDepartRoleUser> queryWrapper = sysDepartRoleUserDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepartRoleUser> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +340,8 @@ public class SysDepartRoleUserServiceImpl  implements SysDepartRoleUserService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDepartRoleUserResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartRoleUserResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysDepartRoleUserResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

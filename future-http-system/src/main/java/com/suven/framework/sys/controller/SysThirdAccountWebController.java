@@ -123,7 +123,7 @@ public class SysThirdAccountWebController {
     public   void   list( OutputSystem out, SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo){
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysThirdAccountRequestDto> page =  Pager.of();
         page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
          SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
@@ -158,7 +158,7 @@ public class SysThirdAccountWebController {
     public   void   queryList( OutputSystem out, SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo){
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysThirdAccountRequestDto> page =  Pager.of();
         page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
@@ -367,7 +367,7 @@ public class SysThirdAccountWebController {
 
             SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build().clone(sysThirdAccountQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysThirdAccountRequestDto> page =  Pager.of();
         page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
         page.toParamObject(sysThirdAccountRequestDto );
 

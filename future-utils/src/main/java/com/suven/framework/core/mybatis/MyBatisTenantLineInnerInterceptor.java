@@ -1,7 +1,7 @@
 package com.suven.framework.core.mybatis;
 
-import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

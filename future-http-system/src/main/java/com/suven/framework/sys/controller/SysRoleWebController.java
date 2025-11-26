@@ -136,11 +136,8 @@ public class SysRoleWebController {
             return ;
         }
 
-        List<SysRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysRoleShowResponseVo.class);
-        PageResult<SysRoleShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysRoleShowResponseVo> result = resultList.convertBuild(SysRoleShowResponseVo.class);
+        out.write(result);
     }
 
 /**
@@ -165,7 +162,7 @@ public class SysRoleWebController {
     public   void   queryList( OutputSystem out, SysRoleQueryRequestVo sysRoleQueryRequestVo){
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build( ).clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysRoleRequestDto> page =  Pager.of();
         page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
         SysRoleQueryEnum queryEnum =  SysRoleQueryEnum.DESC_ID;
@@ -373,7 +370,7 @@ public class SysRoleWebController {
 
             SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build().clone(sysRoleQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysRoleRequestDto> page =  Pager.of();
         page.toPageSize(sysRoleQueryRequestVo.getPageSize()).toPageNo(sysRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysRoleRequestDto );
 

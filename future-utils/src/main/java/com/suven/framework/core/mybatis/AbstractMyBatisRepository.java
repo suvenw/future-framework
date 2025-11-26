@@ -22,7 +22,15 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.enums.SqlMethod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.kotlin.KtQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.repository.AbstractRepository;
+import com.baomidou.mybatisplus.extension.repository.IRepository;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
@@ -31,9 +39,13 @@ import com.suven.framework.common.cat.CatDBSign;
 import com.suven.framework.core.ObjectTrue;
 
 import com.suven.framework.http.api.IBaseApi;
+import com.suven.framework.http.api.IBeanClone;
 import com.suven.framework.util.json.JsonUtils;
+import org.apache.ibatis.binding.MapperMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.*;
@@ -47,28 +59,24 @@ import java.util.stream.Collectors;
  * @since 2018-06-23
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T extends IBaseApi>extends ServiceImpl<M,T> implements IService<T> {
+public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T extends IBaseApi>extends AbstractRepository<M,T> implements IRepository<T> {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected final int BATCH_SIZE  = 1000;
-    @Override
-    public Class<T> getEntityClass() {
-        return currentModelClass();
-    }
 
-    public Class<M> getMapperClass() {
-        return currentMapperClass();
-    }
+    @Autowired
+    protected M baseMapper;
+
 
     public M getSlaveMapper() {
         slaveDataSource();
-        return this.baseMapper;
+        return baseMapper;
     }
     @Override
     public M getBaseMapper() {
         masterDataSource();
-        return this.baseMapper;
+        return baseMapper;
     }
 
     protected  void masterDataSource(){
@@ -97,6 +105,7 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
 
     @CatDBSign
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean save(T entity) {
         this.masterDataSource();
         if(Objects.isNull(entity.getId())){
@@ -111,10 +120,10 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      * @param entityList 实体对象集合
      */
     @CatDBSign
-    @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveBatch(Collection<T> entityList) {
         this.masterDataSource();
-        return super.saveBatch(entityList, DEFAULT_BATCH_SIZE);
+        return saveBatch(entityList, DEFAULT_BATCH_SIZE);
     }
 
 
@@ -128,11 +137,14 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      * @return ignore
      */
     @CatDBSign
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean saveBatch(Collection<T> entityList, int batchSize) {
         this.masterDataSource();
-        return super.saveBatch(entityList,batchSize);
+        String sqlStatement = getSqlStatement(SqlMethod.INSERT_ONE);
+        return executeBatch(entityList, batchSize, (sqlSession, entity) -> sqlSession.insert(sqlStatement, entity));
     }
+
 
     /**
      * 获取mapperStatementId
@@ -142,7 +154,7 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      * @since 3.4.0
      */
     protected String getSqlStatement(SqlMethod sqlMethod) {
-        return SqlHelper.getSqlStatement(this.currentMapperClass(), sqlMethod);
+        return SqlHelper.getSqlStatement(this.getMapperClass(), sqlMethod);
     }
 
     /**
@@ -153,6 +165,7 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      */
     @CatDBSign
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveOrUpdate(T entity) {
         this.masterDataSource();
         if (null != entity) {
@@ -166,25 +179,54 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      *
      * @param entityList 实体对象集合
      */
+
     @CatDBSign
-    @Override
-    public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
-        this.masterDataSource();
-        return super.saveOrUpdateBatch(entityList,batchSize);
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveOrUpdateBatch(Collection<T> entityList) {
+        return saveOrUpdateBatch(entityList, DEFAULT_BATCH_SIZE);
     }
+
     /**
      * 批量修改插入
      *
      * @param entityList 实体对象集合
      */
     @CatDBSign
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean saveOrUpdateBatch(Collection<T> entityList, int batchSize) {
+        this.masterDataSource();
+        TableInfo tableInfo = TableInfoHelper.getTableInfo(this.getEntityClass());
+        Assert.notNull(tableInfo, "error: can not execute. because can not find cache of TableInfo for entity!");
+        String keyProperty = tableInfo.getKeyProperty();
+        Assert.notEmpty(keyProperty, "error: can not execute. because can not find column for id from entity!");
+        return SqlHelper.saveOrUpdateBatch(getSqlSessionFactory(), this.getMapperClass(), this.log, entityList, batchSize, (sqlSession, entity) -> {
+            Object idVal = tableInfo.getPropertyValue(entity, keyProperty);
+            return StringUtils.checkValNull(idVal)
+                    || CollectionUtils.isEmpty(sqlSession.selectList(getSqlStatement(SqlMethod.SELECT_BY_ID), entity));
+        }, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.update(getSqlStatement(SqlMethod.UPDATE_BY_ID), param);
+        });
+    }
+
+    /**
+     * 批量修改插入
+     *
+     * @param entityList 实体对象集合
+     */
+    @CatDBSign
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean updateBatchById(Collection<T> entityList, int batchSize) {
         this.masterDataSource();
-        if (Objects.isNull(entityList)){
-            return false;
-        }
-       return super.updateBatchById(entityList,batchSize);
+        String sqlStatement = getSqlStatement(SqlMethod.UPDATE_BY_ID);
+        return executeBatch(entityList, batchSize, (sqlSession, entity) -> {
+            MapperMethod.ParamMap<T> param = new MapperMethod.ParamMap<>();
+            param.put(Constants.ENTITY, entity);
+            sqlSession.update(sqlStatement, param);
+        });
     }
 
     /**
@@ -247,15 +289,6 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
        return super.removeById(id);
     }
 
-    @CatDBSign
-    @Override
-    public boolean removeByIds(Collection<?> list) {
-        if (Objects.isNull(list)) {
-            return false;
-        }
-        this.masterDataSource();
-        return super.removeByIds(list);
-    }
 
     @CatDBSign
     @Override
@@ -265,31 +298,9 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
 
     }
 
-    @Override
-    public boolean removeBatchByIds(Collection<?> list, int batchSize) {
-        this.masterDataSource();
-        return super.removeBatchByIds(list, batchSize);
-    }
 
-    @CatDBSign
-    @Override
-    public boolean removeBatchByIds(Collection<?> list, int batchSize, boolean useFill) {
-        this.masterDataSource();
-        return super.removeBatchByIds(list,batchSize,useFill);
-    }
 
-    /**
-     * 批量修改插入
-     *
-     * @param entityList 实体对象集合
-     */
 
-    @CatDBSign
-    @Override
-    public boolean saveOrUpdateBatch(Collection<T> entityList) {
-        this.masterDataSource();
-        return super.saveOrUpdateBatch(entityList);
-    }
 
     /**
      * 根据实体(ID)删除
@@ -325,20 +336,6 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
         return super.remove(queryWrapper);
     }
 
-    /**
-     * 批量删除
-     *
-     * @param list    主键ID或实体列表
-     * @param useFill 是否填充(为true的情况,会将入参转换实体进行delete删除)
-     * @return 删除结果
-     * @since 3.5.0
-     */
-    @Override
-    @CatDBSign
-    public boolean removeByIds(Collection<?> list, boolean useFill) {
-        this.masterDataSource();
-        return super.removeByIds(list, useFill);
-    }
 
     /**
      * 批量删除(jdbc批量提交)
@@ -349,10 +346,15 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      */
     @Override
     @CatDBSign
-    public boolean removeBatchByIds(Collection<?> list) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeByIds(Collection<?> list) {
+        if (Objects.isNull(list)) {
+            return false;
+        }
         this.masterDataSource();
-        return super.removeBatchByIds(list);
+        return super.removeByIds(list);
     }
+
 
     /**
      * 批量删除(jdbc批量提交)
@@ -364,9 +366,10 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      */
     @Override
     @CatDBSign
-    public boolean removeBatchByIds(Collection<?> list, boolean useFill) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean removeByIds(Collection<?> list, boolean useFill) {
         this.masterDataSource();
-        return super.removeBatchByIds(list, useFill);
+        return super.removeByIds(list, useFill);
     }
 
     /**
@@ -408,11 +411,10 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
      *
      * @param entityList 实体对象集合
      */
-    @Override
     @CatDBSign
     public boolean updateBatchById(Collection<T> entityList) {
         this.masterDataSource();
-        return super.updateBatchById(entityList);
+        return updateBatchById(entityList,DEFAULT_BATCH_SIZE);
     }
 
     /**
@@ -453,12 +455,12 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
 
         List<T> list = new ArrayList<>();
         /** 如果批量id 少于指定值时100条,直接查询**/
-        if(idList.size() < BATCH_SIZE && !idList.isEmpty()){
+        if(idList.size() < DEFAULT_BATCH_SIZE && !idList.isEmpty()){
             list = super.listByIds(idList);
             return list;
         }
         /*** 如果大于100条,则查用分页查询;返回结果值; */
-        List<? extends List<? extends Serializable>> partition = Lists.partition(idList, BATCH_SIZE);
+        List<? extends List<? extends Serializable>> partition = Lists.partition(idList, DEFAULT_BATCH_SIZE);
         if(ObjectTrue.isEmpty(partition) ){
             return list;
         }
@@ -498,8 +500,8 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
         }
         slaveDataSource();
         /** 如果批量id 少于指定值时100条,直接查询**/
-        if(idList.size() < this.DEFAULT_BATCH_SIZE) {
-            list = this.getSlaveMapper().selectBatchIds(idList);
+        if(idList.size() < DEFAULT_BATCH_SIZE) {
+            list = this.getSlaveMapper().selectByIds(idList);
           return list;
         }
         /*** 如果大于1000条,则查用分页查询;返回结果值; */
@@ -508,7 +510,7 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
             return list;
         }
         for(List<Serializable> ids : partition ){
-            Collection<T> dbList =  list =  this.getSlaveMapper().selectBatchIds(ids);
+            Collection<T> dbList =  list =  this.getSlaveMapper().selectByIds(ids);
             if(ObjectTrue.isNotEmpty(dbList)){
                 list.addAll(dbList);
             }
@@ -657,6 +659,24 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
         return super.pageMaps(page);
     }
 
+    /**
+     * 分页查询
+     * 
+     * <p>使用从库数据源进行分页查询</p>
+     * 
+     * @param page 分页对象
+     * @param queryWrapper 查询条件包装器
+     * @return 分页结果
+     */
+    @Override
+    @CatDBSign
+    public <E extends IPage<T>> E page(E page, Wrapper<T> queryWrapper) {
+        this.slaveDataSource();
+        // BaseMapper.selectPage 返回 IPage<T>，需要进行类型转换以匹配泛型 E
+        @SuppressWarnings("unchecked")
+        E result = (E) this.getSlaveMapper().selectPage(page, queryWrapper);
+        return result;
+    }
 
     /**
      * 链式查询 普通

@@ -186,7 +186,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
             return ResultEnum.FAIL.id();
         }
         if( idList.size() == 1) {
-            result = fileUploadActionWaterRepository.removeById(idList.get(0));
+            result = fileUploadActionWaterRepository.removeById(idList.getFirst());
         }else {
             result =  fileUploadActionWaterRepository.removeByIds(idList);
         }
@@ -236,7 +236,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
            if(null == list || list.isEmpty()){
                  return null;
            }
-           FileUploadActionWater fileUploadActionWater = list.get(0);
+           FileUploadActionWater fileUploadActionWater = list.getFirst();
            FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = FileUploadActionWaterResponseDto.build().clone(fileUploadActionWater);
 
             return fileUploadActionWaterResponseDto ;
@@ -303,30 +303,56 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
 
     /**
      * 通过分页获取FileUploadActionWater信息列表,实现查找缓存和数据库的方法,并且查询总页数
-     * @param  queryEnum 查询枚举对象
-     * @param pager Pager 分页查询条件
-     * @param searchCount 是否询总条数, true/false, true为查询总条数,会多执行一次统计count sql
+     * 
+     * <p>重要说明：</p>
+     * <ul>
+     *   <li>此方法通过明确的 Pager 对象控制分页，确保分页参数被正确传递</li>
+     *   <li>getListByPage 方法内部会创建明确的 Page 对象传递给 MyBatis-Plus</li>
+     *   <li>由于分页参数明确存在，分页拦截器不会自动添加默认分页限制</li>
+     *   <li>避免了 MybatisPageInnerInterceptor 在没有分页参数时自动添加 1000 条限制的影响</li>
+     * </ul>
+     * 
+     * @param queryEnum 查询枚举对象
+     * @param pager 分页查询条件对象，必须包含有效的 pageNo 和 pageSize
+     * @param searchCount 是否查询总条数, true为查询总条数(会多执行一次统计count sql), false为不查询
      * @return 返回分页结果对象
-     * @author suven  作者
-     * date 2024-04-19 00:14:12 创建时间
+     * @author suven 作者
+     * @date 2024-04-19 00:14:12 创建时间
      */
     @Override
-    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount){
-
-        Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
+    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(
+            FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount) {
+        
+        // 构建查询条件
+        Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository
+                .builderQueryEnum(queryEnum, pager.getParamObject());
+        
+        // 设置是否查询总数（必须在调用 getListByPage 之前设置）
         pager.setSearchCount(searchCount);
-        List<FileUploadActionWater>  list = fileUploadActionWaterRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
-        }
-        List<FileUploadActionWaterResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadActionWaterResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileUploadActionWaterResponseDto> resultList = new PageResult<>();
-        resultList.convertBuild(resDtoList,isNext,pager.getTotal());
-
-        return resultList;
-
+        
+        // 执行分页查询
+        // 注意：getListByPage 内部会创建 Page<>(pager.getPageNo(), pager.getPageSize())
+        // 这个明确的 Page 对象会被 MyBatis-Plus 识别，分页拦截器不会自动添加默认限制
+        List<FileUploadActionWater> entityList = fileUploadActionWaterRepository
+                .getListByPage(pager, queryWrapper);
+        
+        // 安全处理：确保列表不为 null
+        List<FileUploadActionWater> safeList = (entityList != null) 
+                ? entityList 
+                : new ArrayList<>();
+        
+        // 转换为 DTO 列表
+        List<FileUploadActionWaterResponseDto> dtoList = IterableConvert
+                .convertList(safeList, FileUploadActionWaterResponseDto.class);
+        
+        // 判断是否有下一页
+        boolean hasNext = pager.isNextPage(dtoList);
+        
+        // 构建分页结果
+        PageResult<FileUploadActionWaterResponseDto> result = new PageResult<>();
+        result.convertBuild(dtoList, hasNext, pager.getTotal());
+        
+        return result;
     }
 
      /**
