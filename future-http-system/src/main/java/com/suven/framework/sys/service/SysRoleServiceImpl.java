@@ -314,7 +314,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
     @Override
     public PageResult<SysRoleResponseDto> getSysRoleByQueryPage(Pager page, SysRoleQueryEnum queryEnum){
 
-        PageResult<SysRoleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysRoleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -323,10 +323,8 @@ public class SysRoleServiceImpl  implements SysRoleService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysRoleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysRoleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -338,7 +336,7 @@ public class SysRoleServiceImpl  implements SysRoleService {
      */
     @Override
     public PageResult<SysRoleResponseDto> getSysRoleByNextPage(Pager page, SysRoleQueryEnum queryEnum){
-        PageResult<SysRoleResponseDto> PageResult = new PageResult<>();
+        PageResult<SysRoleResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysRole> queryWrapper = sysRoleDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysRole> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -347,10 +345,8 @@ public class SysRoleServiceImpl  implements SysRoleService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysRoleResponseDto>  resDtoList =  IterableConvert.convertList(list,SysRoleResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysRoleResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

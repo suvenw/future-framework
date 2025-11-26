@@ -75,7 +75,17 @@ public class JdkProxyFactory<T> implements FactoryBean<T>, InitializingBean, Dis
         return proxy;
     }
 
-    private T newProxy(Class<T> interfaceType,InvocationHandler proxyFactoryHandler) {
+    /**
+     * 创建 JDK 动态代理实例
+     * 
+     * @param interfaceType 接口类型
+     * @param proxyFactoryHandler 代理处理器
+     * @return 代理对象实例
+     */
+    @SuppressWarnings("unchecked")
+    private T newProxy(Class<T> interfaceType, InvocationHandler proxyFactoryHandler) {
+        // Proxy.newProxyInstance 返回 Object，需要进行类型转换
+        // 由于 interfaceType 是 Class<T>，转换是类型安全的
         return (T) Proxy.newProxyInstance(interfaceType.getClassLoader(), new Class[]{interfaceType}, proxyFactoryHandler);
     }
 

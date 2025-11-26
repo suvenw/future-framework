@@ -132,11 +132,8 @@ public class SysLogWebController {
             return ;
         }
 
-        List<SysLogShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysLogShowResponseVo.class);
-        PageResult<SysLogShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysLogShowResponseVo> result = resultList.convertBuild(SysLogShowResponseVo.class);
+        out.write(result);
     }
 
 /**

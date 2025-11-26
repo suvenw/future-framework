@@ -123,7 +123,7 @@ public class SysDictWebController {
     public   void   list( OutputSystem out, SysDictQueryRequestVo sysDictQueryRequestVo){
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build( ).clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDictRequestDto> page =  Pager.of();
         page.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
          SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;
@@ -133,10 +133,7 @@ public class SysDictWebController {
             return ;
         }
 
-        List<SysDictShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysDictShowResponseVo.class);
-        PageResult<SysDictShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        PageResult<SysDictShowResponseVo> result = resultList.convertBuild(SysDictShowResponseVo.class);
         out.write( result);
     }
 
@@ -162,7 +159,7 @@ public class SysDictWebController {
     public   void   queryList( OutputSystem out, SysDictQueryRequestVo sysDictQueryRequestVo){
             SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build( ).clone(sysDictQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysDictRequestDto> page =  Pager.of();
         page.toPageSize(sysDictQueryRequestVo.getPageSize()).toPageNo(sysDictQueryRequestVo.getPageNo());
         page.toParamObject(sysDictRequestDto );
         SysDictQueryEnum queryEnum =  SysDictQueryEnum.DESC_ID;

@@ -87,6 +87,8 @@ dependencies{
     implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
     implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
     implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    // MyBatis-Plus 3.5.9 需要 JSQLParser 依赖
+    implementation libraries."mybatis-plus-jsqlparser"
     implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
 

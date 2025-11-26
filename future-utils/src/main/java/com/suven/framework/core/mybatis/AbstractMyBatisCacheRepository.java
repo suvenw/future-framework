@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 
+
 /**
  * Title: MyBatisBaseCacheDao.java
  * @author Joven.wang
@@ -156,7 +157,7 @@ public abstract class AbstractMyBatisCacheRepository<M extends BaseMapper<T>, T 
         List<T> list = new ArrayList<>();
 
         // 如果批量id 少于指定值时100条,直接查询
-        if(idList.size() < BATCH_SIZE && !idList.isEmpty()){
+        if(idList.size() < DEFAULT_BATCH_SIZE && !idList.isEmpty()){
             list =  super.listByIds(idList);
         }else{
             ///*** 如果大于100条,则查用分页查询;返回结果值; */

@@ -135,10 +135,7 @@ public class SysUserRoleWebController {
             return ;
         }
 
-        List<SysUserRoleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysUserRoleShowResponseVo.class);
-        PageResult<SysUserRoleShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        PageResult<SysUserRoleShowResponseVo> result = resultList.convertBuild(SysUserRoleShowResponseVo.class);
         out.write( result);
     }
 
@@ -373,7 +370,7 @@ public class SysUserRoleWebController {
 
             SysUserRoleRequestDto sysUserRoleRequestDto = SysUserRoleRequestDto.build().clone(sysUserRoleQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysUserRoleRequestDto> page =  Pager.of();
         page.toPageSize(sysUserRoleQueryRequestVo.getPageSize()).toPageNo(sysUserRoleQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRoleRequestDto );
 

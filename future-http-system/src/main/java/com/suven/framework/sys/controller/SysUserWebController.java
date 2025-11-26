@@ -135,20 +135,17 @@ public class SysUserWebController {
     public void list(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = new  Pager(sysUserQueryRequestVo.getPageNo(), sysUserQueryRequestVo.getPageSize());
+        Pager<SysUserRequestDto> page = new  Pager<>(sysUserQueryRequestVo.getPageNo(), sysUserQueryRequestVo.getPageSize());
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
         PageResult<SysUserResponseDto> resultList = sysUserService.getSysUserByNextPage(page, queryEnum);
         if (null == resultList || resultList.getList().isEmpty()) {
-            out.write(new PageResult());
+            out.write(new PageResult<>());
             return;
         }
 
-        List<SysUserShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(), SysUserShowResponseVo.class);
-        PageResult<SysUserShowResponseVo> result = new PageResult<>();
-        result.of(listVo, page.getSize(), resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
+        PageResult<SysUserShowResponseVo> result = resultList.convertBuild(SysUserShowResponseVo.class);
         out.write(result);
     }
 
@@ -174,7 +171,7 @@ public class SysUserWebController {
     public void queryList(OutputSystem out, SysUserQueryRequestVo sysUserQueryRequestVo) {
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.of();
+        Pager<SysUserRequestDto> page = Pager.of();
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
         SysUserQueryEnum queryEnum = SysUserQueryEnum.DESC_ID;
@@ -409,7 +406,7 @@ public class SysUserWebController {
 
         SysUserRequestDto sysUserRequestDto = SysUserRequestDto.build().clone(sysUserQueryRequestVo);
 
-        Pager page = Pager.of();
+        Pager<SysUserRequestDto> page = Pager.of();
         page.toPageSize(sysUserQueryRequestVo.getPageSize()).toPageNo(sysUserQueryRequestVo.getPageNo());
         page.toParamObject(sysUserRequestDto);
 

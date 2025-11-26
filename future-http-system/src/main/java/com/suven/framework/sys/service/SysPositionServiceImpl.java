@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysLogResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -308,7 +309,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
     @Override
     public PageResult<SysPositionResponseDto> getSysPositionByQueryPage(Pager page, SysPositionQueryEnum queryEnum){
 
-        PageResult<SysPositionResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPositionResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +318,8 @@ public class SysPositionServiceImpl  implements SysPositionService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPositionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPositionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysPositionResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +331,7 @@ public class SysPositionServiceImpl  implements SysPositionService {
      */
     @Override
     public PageResult<SysPositionResponseDto> getSysPositionByNextPage(Pager page, SysPositionQueryEnum queryEnum){
-        PageResult<SysPositionResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPositionResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPosition> queryWrapper = sysPositionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysPosition> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +340,8 @@ public class SysPositionServiceImpl  implements SysPositionService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPositionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPositionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysPositionResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

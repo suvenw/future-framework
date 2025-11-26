@@ -120,7 +120,7 @@ public class SysRolePermissionDao extends AbstractMyBatisRepository<SysRolePermi
     public void saveData(List<Object> list) {
         List<SysRolePermission> datas = new ArrayList<>();
         list.forEach(e -> datas.add(SysRolePermission.build().clone(e)));
-        this.saveBatch(datas, BATCH_SIZE);
+        this.saveBatch(datas, DEFAULT_BATCH_SIZE);
         }
 
     /**
@@ -131,7 +131,7 @@ public class SysRolePermissionDao extends AbstractMyBatisRepository<SysRolePermi
      * date 2022-02-28 16:10:49
      */
     List<SysRolePermissionResponseVo>   selectBatchIds(Collection<? extends Serializable > idList){
-        List<SysRolePermission>  list =   super.baseMapper.selectBatchIds(idList);
+        List<SysRolePermission>  list =   getSlaveMapper().selectByIds(idList);
         List<SysRolePermissionResponseVo> result =  list.stream().map(obj -> {
             SysRolePermissionResponseVo vo =  SysRolePermissionResponseVo.build();
             vo.clone(obj);

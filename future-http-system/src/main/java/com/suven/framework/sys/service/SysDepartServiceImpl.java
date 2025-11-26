@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysDepartRoleUserResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -309,7 +310,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
     @Override
     public PageResult<SysDepartResponseDto> getSysDepartByQueryPage(Pager page, SysDepartQueryEnum queryEnum){
 
-        PageResult<SysDepartResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDepartResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDepart> queryWrapper = sysDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -318,10 +319,8 @@ public class SysDepartServiceImpl  implements SysDepartService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysDepartResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -333,7 +332,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
      */
     @Override
     public PageResult<SysDepartResponseDto> getSysDepartByNextPage(Pager page, SysDepartQueryEnum queryEnum){
-        PageResult<SysDepartResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDepartResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDepart> queryWrapper = sysDepartDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDepart> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -342,10 +341,8 @@ public class SysDepartServiceImpl  implements SysDepartService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDepartResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDepartResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysDepartResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 
@@ -405,8 +402,7 @@ public class SysDepartServiceImpl  implements SysDepartService {
     @Override
     public List<SysDepartResponseDto> getList() {
         List<SysDepartResponseDto> resDtoList = new ArrayList<>();
-        QueryWrapper<SysDepart> queryWrapper = new QueryWrapper<>();
-        ((QueryWrapper)queryWrapper.eq("status", 1)).orderByAsc("sort");
+        QueryWrapper<SysDepart> queryWrapper = sysDepartDao.queryWrapper().eq("status", 1).orderByAsc("sort");
         List<SysDepart> dbList = this.sysDepartDao.list(queryWrapper);
         if (dbList != null && !dbList.isEmpty()) {
             dbList.forEach((sysDepart) -> {

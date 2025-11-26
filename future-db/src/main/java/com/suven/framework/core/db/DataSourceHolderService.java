@@ -1,6 +1,5 @@
 package com.suven.framework.core.db;
 
-import com.suven.framework.core.db.ext.DSClassAnnoExplain;
 
 public interface DataSourceHolderService<T> {
 

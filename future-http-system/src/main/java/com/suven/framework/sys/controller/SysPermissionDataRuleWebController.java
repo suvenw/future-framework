@@ -123,7 +123,7 @@ public class SysPermissionDataRuleWebController {
     public   void   list( OutputSystem out, SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo){
             SysPermissionDataRuleRequestDto sysPermissionDataRuleRequestDto = SysPermissionDataRuleRequestDto.build( ).clone(sysPermissionDataRuleQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysPermissionDataRuleRequestDto> page =  Pager.of();
         page.toPageSize(sysPermissionDataRuleQueryRequestVo.getPageSize()).toPageNo(sysPermissionDataRuleQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionDataRuleRequestDto );
          SysPermissionDataRuleQueryEnum queryEnum =  SysPermissionDataRuleQueryEnum.DESC_ID;
@@ -133,11 +133,8 @@ public class SysPermissionDataRuleWebController {
             return ;
         }
 
-        List<SysPermissionDataRuleShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionDataRuleShowResponseVo.class);
-        PageResult result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysPermissionDataRuleShowResponseVo> result = resultList.convertBuild(SysPermissionDataRuleShowResponseVo.class);
+        out.write(result);
     }
 
 /**

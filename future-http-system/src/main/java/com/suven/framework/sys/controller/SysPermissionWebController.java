@@ -155,10 +155,8 @@ public class SysPermissionWebController {
             return ;
         }
 
-        List<SysPermissionShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysPermissionShowResponseVo.class);
-        PageResult<SysPermissionShowResponseVo> result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal());
-        out.write( result);
+        PageResult<SysPermissionShowResponseVo> result = resultList.convertBuild(SysPermissionShowResponseVo.class);
+        out.write(result);
     }
 
 
@@ -448,7 +446,7 @@ public class SysPermissionWebController {
 
             SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build().clone(sysPermissionQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysPermissionRequestDto> page =  Pager.of();
         page.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
         page.toParamObject(sysPermissionRequestDto );
 
@@ -514,7 +512,8 @@ public class SysPermissionWebController {
     public void getPermRuleListByPermId(OutputSystem out, SysPermissionDataRuleIdRequestVo sysPermissionDataRule) {
         List<SysPermissionDataRuleResponseDto> permRuleList = sysPermissionDataRuleService
                 .getSysPermissionDataRuleListByQuery(sysPermissionDataRule, SysPermissionDataRuleQueryEnum.PERMISSION_ID);
-        PageResult<SysPermissionDataRuleResponseDto> result = new PageResult().toList(permRuleList);
+        PageResult<SysPermissionDataRuleResponseDto> result = new PageResult<>();
+        result.toList(permRuleList);
         out.write(result);
     }
 

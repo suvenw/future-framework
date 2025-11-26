@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysUserResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -313,7 +314,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
     @Override
     public PageResult<SysPermissionResponseDto> getSysPermissionByQueryPage(Pager page, SysPermissionQueryEnum queryEnum){
 
-        PageResult<SysPermissionResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPermissionResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -322,10 +323,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysPermissionResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -337,7 +336,7 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
      */
     @Override
     public PageResult<SysPermissionResponseDto> getSysPermissionByNextPage(Pager page, SysPermissionQueryEnum queryEnum){
-        PageResult<SysPermissionResponseDto> PageResult = new PageResult<>();
+        PageResult<SysPermissionResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysPermission> queryWrapper = sysPermissionDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
 //        Page<SysPermission> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -347,10 +346,8 @@ public class SysPermissionServiceImpl  implements SysPermissionService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysPermissionResponseDto>  resDtoList =  IterableConvert.convertList(list,SysPermissionResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysPermissionResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

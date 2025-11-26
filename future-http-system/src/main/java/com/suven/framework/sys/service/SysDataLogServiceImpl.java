@@ -308,7 +308,7 @@ public class SysDataLogServiceImpl  implements SysDataLogService {
     @Override
     public PageResult<SysDataLogResponseDto> getSysDataLogByQueryPage(Pager page, SysDataLogQueryEnum queryEnum){
 
-        PageResult<SysDataLogResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDataLogResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDataLog> queryWrapper = sysDataLogDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDataLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +317,8 @@ public class SysDataLogServiceImpl  implements SysDataLogService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDataLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDataLogResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list,SysDataLogResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +330,7 @@ public class SysDataLogServiceImpl  implements SysDataLogService {
      */
     @Override
     public PageResult<SysDataLogResponseDto> getSysDataLogByNextPage(Pager page, SysDataLogQueryEnum queryEnum){
-        PageResult<SysDataLogResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDataLogResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDataLog> queryWrapper = sysDataLogDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDataLog> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +339,9 @@ public class SysDataLogServiceImpl  implements SysDataLogService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDataLogResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDataLogResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list,SysDataLogResponseDto.class,iPage.getPages(),iPage.getTotal());
+
+        return pageResult;
 
     }
 

@@ -308,7 +308,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
     @Override
     public PageResult<SysThirdAccountResponseDto> getSysThirdAccountByQueryPage(Pager page, SysThirdAccountQueryEnum queryEnum){
 
-        PageResult<SysThirdAccountResponseDto> PageResult = new PageResult<>();
+        PageResult<SysThirdAccountResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +317,8 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysThirdAccountResponseDto>  resDtoList =  IterableConvert.convertList(list,SysThirdAccountResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysThirdAccountResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +330,7 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
      */
     @Override
     public PageResult<SysThirdAccountResponseDto> getSysThirdAccountByNextPage(Pager page, SysThirdAccountQueryEnum queryEnum){
-        PageResult<SysThirdAccountResponseDto> PageResult = new PageResult<>();
+        PageResult<SysThirdAccountResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysThirdAccount> queryWrapper = sysThirdAccountDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysThirdAccount> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +339,8 @@ public class SysThirdAccountServiceImpl  implements SysThirdAccountService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysThirdAccountResponseDto>  resDtoList =  IterableConvert.convertList(list,SysThirdAccountResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysThirdAccountResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 

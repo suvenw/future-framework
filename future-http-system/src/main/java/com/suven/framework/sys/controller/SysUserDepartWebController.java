@@ -124,21 +124,18 @@ public class SysUserDepartWebController {
     public   void   list( OutputSystem out, SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo){
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build( ).clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysUserDepartRequestDto> page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
          SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
         PageResult<SysUserDepartResponseDto> resultList = sysUserDepartService.getSysUserDepartByNextPage(page,queryEnum);
         if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult());
+            out.write( new PageResult<>());
             return ;
         }
 
-        List<SysUserDepartShowResponseVo> listVo = IterableConvert.convertList(resultList.getList(),SysUserDepartShowResponseVo.class);
-        PageResult result = new PageResult<>();
-        result.of(listVo,page.getSize(),resultList.getTotal())
-                .toPageIndex(resultList.getPageIndex());
-        out.write( result);
+        PageResult<SysUserDepartShowResponseVo> result = resultList.convertBuild(SysUserDepartShowResponseVo.class);
+        out.write(result);
     }
 
 /**
@@ -163,7 +160,7 @@ public class SysUserDepartWebController {
     public   void   queryList( OutputSystem out, SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo){
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build( ).clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysUserDepartRequestDto> page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
         SysUserDepartQueryEnum queryEnum =  SysUserDepartQueryEnum.DESC_ID;
@@ -372,7 +369,7 @@ public class SysUserDepartWebController {
 
             SysUserDepartRequestDto sysUserDepartRequestDto = SysUserDepartRequestDto.build().clone(sysUserDepartQueryRequestVo);
 
-        Pager page =  Pager.of();
+        Pager<SysUserDepartRequestDto> page =  Pager.of();
         page.toPageSize(sysUserDepartQueryRequestVo.getPageSize()).toPageNo(sysUserDepartQueryRequestVo.getPageNo());
         page.toParamObject(sysUserDepartRequestDto );
 

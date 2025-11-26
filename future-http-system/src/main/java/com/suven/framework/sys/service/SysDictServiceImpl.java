@@ -1,6 +1,7 @@
 package com.suven.framework.sys.service;
 
 
+import com.suven.framework.sys.dto.response.SysDictItemResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -308,7 +309,7 @@ public class SysDictServiceImpl  implements SysDictService {
     @Override
     public PageResult<SysDictResponseDto> getSysDictByQueryPage(Pager page, SysDictQueryEnum queryEnum){
 
-        PageResult<SysDictResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDictResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDict> queryWrapper = sysDictDao.builderQueryEnum(queryEnum,  page.getParamObject());
         //分页对象        PageHelper
         Page<SysDict> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -317,10 +318,8 @@ public class SysDictServiceImpl  implements SysDictService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDictResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDictResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList);
-        return PageResult;
+        pageResult.convertBuild(list, SysDictResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
     }
 
     /**
@@ -332,7 +331,7 @@ public class SysDictServiceImpl  implements SysDictService {
      */
     @Override
     public PageResult<SysDictResponseDto> getSysDictByNextPage(Pager page, SysDictQueryEnum queryEnum){
-        PageResult<SysDictResponseDto> PageResult = new PageResult<>();
+        PageResult<SysDictResponseDto> pageResult = new PageResult<>();
         QueryWrapper<SysDict> queryWrapper = sysDictDao.builderQueryEnum(queryEnum,  page.getParamObject());;
         //分页对象        PageHelper
         Page<SysDict> iPage = new Page<>(page.getPageNo(), page.getPageSize());
@@ -341,10 +340,8 @@ public class SysDictServiceImpl  implements SysDictService {
         if(null == list ){
             list = new ArrayList<>();
         }
-        List<SysDictResponseDto>  resDtoList =  IterableConvert.convertList(list,SysDictResponseDto.class);
-        boolean isNext =  page.isNextPage(resDtoList);
-        PageResult.toIsNextPage(isNext).toList(resDtoList).toTotal((int)iPage.getTotal());
-        return PageResult;
+        pageResult.convertBuild(list, SysDictResponseDto.class,iPage.getPages(),iPage.getTotal());
+        return pageResult;
 
     }
 
