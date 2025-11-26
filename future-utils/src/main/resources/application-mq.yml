@@ -35,7 +35,7 @@ spring:
 #        logLevel: INFO
 #        logRoot: /data/server/rocket-mq-log
 
-top:
+saas:
   mq:
     # kafka 生产者和消费者参数配置
     kafka:

@@ -43,7 +43,7 @@ spring:
 
 
 # mybatis-plus 配置生效启动开关
-top:
+saas:
   server:
     mybatis:
       enabled: true

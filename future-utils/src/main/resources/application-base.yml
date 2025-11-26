@@ -20,8 +20,8 @@ spring:
       max-request-size: 1024MB
 
 
-top:
-# 文档开发 top.server.api.enabled = true
+saas:
+# 文档开发 saas.server.api.enabled = true
   server:
     api:
       enabled: true

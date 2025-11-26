@@ -1,8 +1,8 @@
 package com.suven.framework.core.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -64,24 +64,36 @@ import org.springframework.context.annotation.Configuration;
  这些步骤完成后，您的项目将配置和引入了MyBatis-Plus框架和TenantLineInnerInterceptor。您可以使用@Autowired注解注入相应的Mapper接口，并在查询中使用QueryWrapper来构建条件，从而实现多租户的数据隔离功能。
  */
 @Configuration
-@ConditionalOnProperty(prefix = "saas.server.mybatis", name = "enabled", havingValue = "true", matchIfMissing = false)
+@ConditionalOnProperty(prefix = "saas.server.mybatis", name = "enabled", havingValue = "true", matchIfMissing = true)
 public class MyBatisPlusConfig {
 
+    /**
+     * MyBatis-Plus 拦截器配置
+     * 
+     * <p>包含分页插件，多租户插件通过条件配置类单独管理</p>
+     * 
+     * <p>注意：使用 BeanFactory 来延迟查找租户拦截器，避免在禁用多租户时加载相关类</p>
+     */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    public MybatisPlusInterceptor mybatisPlusInterceptor(BeanFactory beanFactory) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        
         // 添加分页插件
         interceptor.addInnerInterceptor(new MybatisPageInnerInterceptor());
         
-        // 添加租户拦截器
-        interceptor.addInnerInterceptor(new MyBatisTenantLineInnerInterceptor());
-        
+        // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
+        // 使用 BeanFactory 来延迟查找，避免在禁用时加载类
+        try {
+            if (beanFactory.containsBean("tenantLineInnerInterceptor")) {
+                Object tenantInterceptor = beanFactory.getBean("tenantLineInnerInterceptor");
+                // 使用反射或直接转换，确保类型安全
+                if (tenantInterceptor instanceof com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor) {
+                    interceptor.addInnerInterceptor((com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor) tenantInterceptor);
+                }
+            }
+        } catch (Exception e) {
+            // 如果租户拦截器不存在或加载失败，忽略错误，继续使用分页插件
+            // 这确保了在禁用多租户时不会影响其他功能
+        }
         return interceptor;
-    }
-
-    @Bean
-    public IgnoreTenantLineHandler tenantLineHandler(){
-        return new MybatisIgnoreTenantLineHandler();
     }
 }

@@ -1,5 +1,5 @@
 # 短信业务参数配置 top.server.sms.enabled
-top:
+saas:
   server:
     sms:
       enabled: true

@@ -365,7 +365,7 @@ public class SQLDbUtils {
 			private void setFields(ResultSet rs, T clazz, Field[] fds)
 					throws IllegalAccessException, SQLException {
 				for (Field fd : fds) {
-					if (!fd.isAccessible()) {
+					if (!fd.canAccess(rs)) {
 						fd.setAccessible(true);
 					}
 					String key = StringFormat.underscoreName(fd.getName());//转换成数据库表字段

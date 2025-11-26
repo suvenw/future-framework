@@ -9,7 +9,7 @@ fdfs:
     - 47.107.116.210:22122
 
 # 架构业务配置参数
-top:
+saas:
   server:
     file:
       domain: https://im-file.suven.com
