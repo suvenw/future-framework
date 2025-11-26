@@ -47,7 +47,7 @@ spring:
 saas:
   server:
     mybatis:
-      enabled: true
+      enabled: false
 
 # mybatis-plus 配置
 mybatis-plus:

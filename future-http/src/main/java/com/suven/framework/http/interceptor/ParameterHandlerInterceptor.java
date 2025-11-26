@@ -236,13 +236,13 @@ public class ParameterHandlerInterceptor extends AbstractHandlerInterceptorAdapt
      * @param clazz 需要验证的类对象
      * @throws Exception 当参数验证失败时抛出异常
      */
-    public void checkValidatorParameter( Class  clazz ) throws Exception{
+    public void checkValidatorParameter( Class<?>  clazz ) throws Exception{
         // 获取JSON解析映射表
-        Map body =  ParameterMessage.getJsonParseMap();
+        Map<?,?> body =  ParameterMessage.getJsonParseMap();
         // 通过反射获取parseFrom方法
         Method method = clazz.getMethod("parseFrom", Map.class, Class.class);
         // 调用parseFrom方法创建对象实例
-        Object  object =  method.invoke(clazz.newInstance(), body, clazz);
+        Object  object =  method.invoke(clazz.getDeclaredConstructor().newInstance(), body, clazz);
 //        checkValidatoParameter(object);
         // 构建默认验证器工厂
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
@@ -257,7 +257,7 @@ public class ParameterHandlerInterceptor extends AbstractHandlerInterceptorAdapt
             builder.append( lineSeparator + violationInfo.getPropertyPath()+" : "+violationInfo.getMessage() );
         });
         // 如果存在验证错误，则抛出系统运行时异常
-        if (builder.length() > 0){
+        if (!builder.isEmpty()){
             throw new SystemRuntimeException(SYS_PARAM_ERROR.format(builder.toString()));
 
         }

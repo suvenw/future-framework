@@ -152,7 +152,7 @@ public class GlobalExceptionHandler extends GlobalExceptionErrorResponse impleme
 
 	private String converterParamError(BindException e ){
 		List<ObjectError> objectErrorList = e.getAllErrors();
-		List errorList = objectErrorList.stream().map(a->a.getDefaultMessage()).collect(Collectors.toList());
+		List<String> errorList = objectErrorList.stream().map(a->a.getDefaultMessage()).collect(Collectors.toList());
 		String message = String.join("，",errorList);
 		return message;
 	}
