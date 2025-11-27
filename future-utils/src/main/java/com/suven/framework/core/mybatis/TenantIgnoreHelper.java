@@ -10,7 +10,6 @@ import java.util.Set;
 /**
  * 租户忽略工具类
  */
-@Component
 public class TenantIgnoreHelper {
     
     @Autowired(required = false)
