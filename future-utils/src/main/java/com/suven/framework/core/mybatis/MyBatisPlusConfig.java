@@ -1,6 +1,7 @@
 package com.suven.framework.core.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -73,7 +74,7 @@ public class MyBatisPlusConfig {
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor(
-            ObjectProvider<com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor> tenantInterceptorProvider) {
+            ObjectProvider<InnerInterceptor> tenantInterceptorProvider) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
         // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
