@@ -21,9 +21,9 @@ public class RedisProxyMethodTarget implements ProxyMethodTarget {
     private Map<String,Method> operationsMethodMap = new HashMap<>();
     private Map<String,Method> customizeMethodMap = new HashMap<>();
 
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String,String> redisTemplate;
     // 构造方法私有化，防止外部创建实例
-    public RedisProxyMethodTarget(RedisTemplate redisTemplate) {
+    public RedisProxyMethodTarget(RedisTemplate<String,String>  redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
     /**
@@ -36,7 +36,7 @@ public class RedisProxyMethodTarget implements ProxyMethodTarget {
         try  {
             Method extMethod = customizeMethodMap.get(proxyMethod.getName());
             if (Objects.nonNull(extMethod)){
-                result =  new DefaultRedisPlusOperations(this.redisTemplate);
+                result =  new DefaultRedisPlusOperations(redisTemplate);
             }
             Method valueMethod = operationsMethodMap.get(proxyMethod.getName());
             if (Objects.nonNull(valueMethod)){

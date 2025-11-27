@@ -1,8 +1,10 @@
 package com.suven.framework.core.mybatis;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.CollectionUtils;
 
 /**
  * MyBatis-Plus 多租户配置类
@@ -25,28 +27,39 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
+@EnableConfigurationProperties(MyBatisTenantProperties.class)
 @ConditionalOnProperty(prefix = "saas.server.mybatis", name = "enabled", havingValue = "true", matchIfMissing = false)
 public class MyBatisTenantConfig {
 
     /**
-     * 租户拦截器配置
-     * 
-     * <p>将多租户拦截器添加到 MyBatis-Plus 拦截器链中</p>
-     */
-    @Bean
-    public MyBatisTenantLineInnerInterceptor tenantLineInnerInterceptor() {
-        return new MyBatisTenantLineInnerInterceptor();
-    }
-
-    /**
      * 租户处理器 Bean
-     * 
+     *
      * <p>用于处理租户相关的逻辑，如获取租户ID、判断是否忽略租户等</p>
      */
     @Bean
-    public IgnoreTenantLineHandler tenantLineHandler() {
-        return new MybatisIgnoreTenantLineHandler();
+    public IgnoreTenantLineHandler tenantLineHandler(MyBatisTenantProperties tenantProperties) {
+        MybatisIgnoreTenantLineHandler handler = new MybatisIgnoreTenantLineHandler();
+        if (!CollectionUtils.isEmpty(tenantProperties.getScanPackages())) {
+            handler.init(tenantProperties.getScanPackages().toArray(new String[0]));
+        } else {
+            handler.init();
+        }
+        return handler;
     }
 
+    /**
+     * 租户拦截器配置
+     *
+     * <p>将多租户拦截器添加到 MyBatis-Plus 拦截器链中</p>
+     */
+    @Bean
+    public MyBatisTenantLineInnerInterceptor tenantLineInnerInterceptor(
+            IgnoreTenantLineHandler tenantLineHandler, MyBatisTenantProperties tenantProperties) {
+        MyBatisTenantLineInnerInterceptor interceptor = new MyBatisTenantLineInnerInterceptor(tenantLineHandler);
+        if (!CollectionUtils.isEmpty(tenantProperties.getIgnoreStatements())) {
+            interceptor.addIgnoreStatements(tenantProperties.getIgnoreStatements());
+        }
+        return interceptor;
+    }
 }
 

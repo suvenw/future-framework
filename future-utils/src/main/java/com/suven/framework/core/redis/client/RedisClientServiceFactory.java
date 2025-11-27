@@ -14,8 +14,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 @ConditionalOnClass(RedisTemplate.class)
 public class RedisClientServiceFactory extends JdkProxyFactory<SpringRedisClient> implements InitializingBean, DisposableBean {
 
-   private RedisTemplate redisTemplate;
-    public RedisClientServiceFactory(RedisTemplate redisTemplate) {
+   private RedisTemplate<String,String> redisTemplate;
+    public RedisClientServiceFactory(RedisTemplate<String,String> redisTemplate) {
         super(SpringRedisClient.class, new RedisProxyMethodTarget(redisTemplate));
         this.redisTemplate = redisTemplate;
     }

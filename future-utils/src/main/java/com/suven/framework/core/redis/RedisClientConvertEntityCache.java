@@ -77,8 +77,8 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	/**
 	 * Title:
 	 * Description: redis中value为int值加1
-	 * @param
-	 * @return
+	 * @param key
+	 * @return long
 	 * @author liulu
 	 * date 2018/5/31 11:17
 	 */
@@ -105,8 +105,8 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	/**
 	 * Title:
 	 * Description: redis中value为int值加1,有效时间
-	 * @param
-	 * @return
+	 * @param  key
+	 * @return long
 	 * @author liulu
 	 * date 2018/5/31 11:17
 	 */
@@ -412,8 +412,8 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	/**
 	 * 通过索引字段查找缓存对象信息;
 	 *
-	 * @param claxx
-	 * @return
+	 * @param claxx 类对像
+	 * @return 类对像
 	 */
 	@Override
 	public T findCacheById(Class<T> claxx, String entityId) {
@@ -494,8 +494,8 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	/**
 	 * 类名:小写: 批量查找KV的对象的批量获取缓存列表集合信息;
 	 *
-	 * @param colle
-	 * @return
+	 * @param colle 集合对象
+	 * @return map 对象
 	 */
 	@Override
 	public <K> Map<K, T> findMapCache(Class<T> clazz, Collection<K> colle) {
@@ -516,12 +516,9 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	/**
 	 * 类名:小写: 批量查找KV的对象的批量获取缓存列表集合信息;
 	 *
-	 * @param clazz
-	 *            反映的类对象
-	 * @param colle
-	 *            要搜索或查找的扩展id的集合;
-	 * @param prefixKey
-	 *            T对象的完整key的前缀; 实例: userKey:123 其中prefixKey== userKey
+	 * @param clazz 反映的类对象
+	 * @param colle 要搜索或查找的扩展id的集合;
+	 * @param prefixKey T对象的完整key的前缀; 实例: userKey:123 其中prefixKey== userKey
 	 *            ,userId==123; 其中":" 是自动实现
 	 * @return
 	 */
@@ -953,7 +950,7 @@ public abstract class RedisClientConvertEntityCache<T extends IBaseApi> implemen
 	 * 通过类对象,
 	 *
 	 * @param entity
-	 * @return
+	 * @return entity
 	 */
 	@Override
 	public T findMapCacheByEntity(IBaseApi entity) {
