@@ -73,12 +73,11 @@ public class MyBatisPlusConfig {
      * <p>注意：使用 BeanFactory 来延迟查找租户拦截器，避免在禁用多租户时加载相关类</p>
      */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor(
-            ObjectProvider<InnerInterceptor> tenantInterceptorProvider) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 
-        // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
-        tenantInterceptorProvider.ifAvailable(interceptor::addInnerInterceptor);
+//        // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
+//        tenantInterceptorProvider.ifAvailable(interceptor::addInnerInterceptor);
 
         // 添加分页插件
         interceptor.addInnerInterceptor(new MybatisPageInnerInterceptor());
