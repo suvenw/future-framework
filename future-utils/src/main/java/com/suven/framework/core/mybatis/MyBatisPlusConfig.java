@@ -62,26 +62,26 @@ import org.springframework.context.annotation.Configuration;
  配置租户字段和租户ID获取方法：根据您的需求，您需要配置租户字段和租户ID获取方法。您可以创建一个实现ITenantLineHandler接口的自定义租户处理器，并在步骤3的MyBatisPlusConfig配置类中添加该处理器。
  这些步骤完成后，您的项目将配置和引入了MyBatis-Plus框架和TenantLineInnerInterceptor。您可以使用@Autowired注解注入相应的Mapper接口，并在查询中使用QueryWrapper来构建条件，从而实现多租户的数据隔离功能。
  */
-@Configuration
-public class MyBatisPlusConfig {
-
-    /**
-     * MyBatis-Plus 拦截器配置
-     * 
-     * <p>包含分页插件，多租户插件通过条件配置类单独管理</p>
-     * 
-     * <p>注意：使用 BeanFactory 来延迟查找租户拦截器，避免在禁用多租户时加载相关类</p>
-     */
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-
-//        // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
-//        tenantInterceptorProvider.ifAvailable(interceptor::addInnerInterceptor);
-
-        // 添加分页插件
-        interceptor.addInnerInterceptor(new MybatisPageInnerInterceptor());
-
-        return interceptor;
-    }
-}
+//@Configuration
+//public class MyBatisPlusConfig {
+//
+//    /**
+//     * MyBatis-Plus 拦截器配置
+//     *
+//     * <p>包含分页插件，多租户插件通过条件配置类单独管理</p>
+//     *
+//     * <p>注意：使用 BeanFactory 来延迟查找租户拦截器，避免在禁用多租户时加载相关类</p>
+//     */
+//    @Bean
+//    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+//        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+//
+////        // 如果启用了多租户功能，将租户拦截器添加到最前面（多租户应该最先执行）
+////        tenantInterceptorProvider.ifAvailable(interceptor::addInnerInterceptor);
+//
+//        // 添加分页插件
+//        interceptor.addInnerInterceptor(new MybatisPageInnerInterceptor());
+//
+//        return interceptor;
+//    }
+//}
