@@ -156,12 +156,12 @@ public class DefaultRedisPlusOperations implements RedisPlusOperations {
                     }
                     list.add(key);
             });
-            if(list.size() > 0){
+            if(!list.isEmpty()){
                 this.getRedis().opsForHash().delete(mapPrefixKey,list.toArray());
             }
             return retutnMap;
         } catch (Exception e) {
-            log.warn(" Redis Cluster Server by getMapCacheAndDelExpire Modifier key:[{}] , Exception: [{}] ",mapPrefixKey, e);
+            log.warn(" Redis Cluster Server by getMapCacheAndDelExpire Modifier key:[{}] , Exception: [{}] ",mapPrefixKey, e.getMessage());
             return null;
         }
     }
@@ -177,7 +177,7 @@ public class DefaultRedisPlusOperations implements RedisPlusOperations {
         if (null == prefix ) {
             return;
         }
-        Map<String, String> map = new HashMap();
+        Map<String, String> map = new HashMap<>();
         kvMap.entrySet().stream().forEach(kv -> {
             String  key = RedisShortKeyUtil.formatKey(prefix,TypeSerializer.parseString(kv.getKey()));
             String value = TypeSerializer.parseString(kv.getValue());
