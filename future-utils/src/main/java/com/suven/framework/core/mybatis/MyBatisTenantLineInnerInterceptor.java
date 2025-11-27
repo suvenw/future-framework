@@ -59,7 +59,7 @@ public class MyBatisTenantLineInnerInterceptor extends TenantLineInnerIntercepto
     }
 
     @Override
-    public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
+    public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql)  {
         // 如果statementid存在，则忽略方法
         if (!ignoreStatementNames.isEmpty() && ignoreStatementNames.contains(ms.getId())) {
             return;
