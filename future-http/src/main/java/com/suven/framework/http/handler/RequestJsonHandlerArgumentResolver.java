@@ -47,6 +47,10 @@ public class RequestJsonHandlerArgumentResolver extends AbstractHandlerArgumentR
         HttpRequestTypeEnum httpRequestTypeEnum = HttpRequestTypeEnum.TYPE_JSON;
         Class<?> requestHeaderClass = parameter.getParameterType();
         Object  result = this.parserDate(request,response, requestHeaderClass,httpRequestTypeEnum);
+
+        //加强属性,增加用户 id 和 token
+        this.onResolveBeanProperty(request,result);
+
         return result;
 
     }

@@ -12,7 +12,7 @@ public  class HttpRequestByIdVo extends HttpFromRequestVo implements HttpFromReq
 
     @Override
     public Long getId() {
-        return id;
+        return id == null ? 0 : id;
     }
 
     @Override
