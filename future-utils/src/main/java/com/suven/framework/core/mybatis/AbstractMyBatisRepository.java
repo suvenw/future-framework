@@ -80,12 +80,12 @@ public abstract class AbstractMyBatisRepository<M extends BaseMapper<T>, T exten
     }
 
     protected  void masterDataSource(){
-        Class<T> entityClass =  getEntityClass();
+//        Class<T> entityClass =  getEntityClass();
 //        DataSourceHolderService.masterDataSource(entityClass);
     }
 
     protected   void slaveDataSource(){
-        Class<T> entityClass =  getEntityClass();
+//        Class<T> entityClass =  getEntityClass();
 //        DataSourceHolderService.slaveDataSource(entityClass);
     }
 

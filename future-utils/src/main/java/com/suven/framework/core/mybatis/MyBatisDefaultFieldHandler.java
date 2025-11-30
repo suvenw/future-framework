@@ -19,6 +19,7 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
 
     private static final String CREATE_TIME = "createDate";
     private static final String UPDATE_TIME = "updateDate";
+    private static final String MODIFY_DATE = "modifyDate";
     /**
      * 插入时的填充策略
      * @param metaObject 代理对象
@@ -30,7 +31,9 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
         if (metaObject.hasSetter(CREATE_TIME)) {
             this.setFieldValByName(CREATE_TIME, now, metaObject);
         }  if (metaObject.hasSetter(UPDATE_TIME)) {
-            this.setFieldValByName(UPDATE_TIME, now, metaObject);
+            this.setFieldValByName(UPDATE_TIME, now, metaObject); }
+        if (metaObject.hasSetter(MODIFY_DATE)) {
+            this.setFieldValByName(MODIFY_DATE, now, metaObject);
         }
     }
 
@@ -43,7 +46,7 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
     }
 
     public List<String> modifierFieldValByTime(){
-        return Arrays.asList("updateDate");
+        return Arrays.asList(MODIFY_DATE,UPDATE_TIME);
     }
 
     public List<String> modifierFieldValByName(){
@@ -57,6 +60,8 @@ public class MyBatisDefaultFieldHandler implements MetaObjectHandler {
         // 更新时间为空，则以当前时间为更新时间
         if (metaObject.hasSetter(UPDATE_TIME)) {
             this.setFieldValByName(UPDATE_TIME, LocalDateTime.now(), metaObject);
+        }if (metaObject.hasSetter(MODIFY_DATE)) {
+            this.setFieldValByName(MODIFY_DATE, LocalDateTime.now(), metaObject);
         }
     }
 

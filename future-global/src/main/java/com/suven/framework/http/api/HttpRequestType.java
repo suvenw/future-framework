@@ -18,4 +18,8 @@ public interface HttpRequestType {
      * 返回值为 HttpRequestTypeEnum code
      * */
     int parseType();
+
+   default  boolean checkValidator(){
+       return false;
+   }
 }

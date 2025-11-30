@@ -3,6 +3,7 @@ package com.suven.framework.http.handler;
 
 import com.suven.framework.http.api.HttpFromRequest;
 import com.suven.framework.http.api.HttpRequestTypeEnum;
+import com.suven.framework.http.resolver.HttpRequestArgumentUserHeader;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -47,6 +51,9 @@ public class RequestFormHandlerArgumentResolver extends AbstractHandlerArgumentR
         HttpRequestTypeEnum httpRequestTypeEnum = HttpRequestTypeEnum.TYPE_FORM;
         Class<?> requestHeaderClass = parameter.getParameterType();
         Object  result = this.parserDate(request,response, requestHeaderClass,httpRequestTypeEnum);
+        //加强属性,增加用户 id 和 token
+        this.onResolveBeanProperty(request,result);
+
         return result;
 
     }
@@ -55,4 +62,6 @@ public class RequestFormHandlerArgumentResolver extends AbstractHandlerArgumentR
     public Object parserDate(HttpServletRequest webRequest, HttpServletResponse response, Class<?> clazz, HttpRequestTypeEnum httpRequestTypeEnum) {
         return this.parseFromData(webRequest,response,clazz,httpRequestTypeEnum);
     }
+
+
 }
