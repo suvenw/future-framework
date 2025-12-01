@@ -84,11 +84,18 @@ public class VersionHandlerValidator extends ValidatorCache<Map<String, VersionH
         return null;
     }
 
+    /**
+     * 拷贝map数据
+     * @param object 源数据
+     * @return 拷贝数据
+     */
+    @SuppressWarnings("unchecked")
     private Map<String, VersionHandlerVo> copyMap(Object object){
         if(Objects.isNull(object) ||  !(object instanceof Map)){
             return Collections.emptyMap();
         }
-        Map<String,Object> map = (Map)object;
+
+        Map<String,Object> map = (Map<String,Object>)object;
         Iterator<Map.Entry<String, Object>> it = map.entrySet().iterator();
         Map<String, VersionHandlerVo> versionVoMap = new HashMap<>();
         while(it.hasNext()) {
@@ -99,6 +106,11 @@ public class VersionHandlerValidator extends ValidatorCache<Map<String, VersionH
         return versionVoMap;
     }
 
+    /**
+     * 缓存数据源
+     * @param validatorValueMap 缓存数据源
+     * @return 缓存结果 boolean
+     */
     @Override
     protected boolean cacheValidatorValue(Map<String, VersionHandlerVo> validatorValueMap){
         int currentVersion =   ParameterMessage.getRequestMessage().getVersion();
@@ -114,7 +126,7 @@ public class VersionHandlerValidator extends ValidatorCache<Map<String, VersionH
     /**
      * 获取最新版本信息
      * platform_channel_forceUpdate
-     * @return
+     * @return 版本信息
      */
 
     public VersionHandlerVo getNewVersionVo(){

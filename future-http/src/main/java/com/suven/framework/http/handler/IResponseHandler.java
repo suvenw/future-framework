@@ -1,6 +1,7 @@
 package com.suven.framework.http.handler;
 
 
+
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
@@ -23,5 +24,7 @@ public interface IResponseHandler  extends IResponseResultVoHandler{
 
      /** 创建该对象的实现,并设置HttpServletResponse付值**/
      IResponseHandler initResponse(HttpServletResponse httpResponse);
+
+
 
 }

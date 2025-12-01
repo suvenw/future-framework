@@ -2,6 +2,11 @@ package com.suven.framework.http.data.vo;
 
 import com.suven.framework.http.api.ApiDesc;
 
+/**
+ * 分页请求VO基类，支持Builder模式链式调用
+ * 子类继承时无需添加泛型参数，也无需重写父类方法，可以直接使用链式调用
+ * 链式调用会自动返回子类类型，支持继续调用子类的方法
+ */
 public class HttpRequestByPageVo extends HttpFromRequestVo {
 
 
@@ -16,34 +21,64 @@ public class HttpRequestByPageVo extends HttpFromRequestVo {
     @ApiDesc(value= "对应的数据列表的排序属性 ")
     private int sort;
 
+    /**
+     * 创建实例的静态方法，支持Builder模式
+     * 子类可以重写此方法返回子类类型
+     * @return 当前类型的实例
+     */
+    public static HttpRequestByPageVo build() {
+        return new HttpRequestByPageVo();
+    }
 
 
+    /**
+     * 设置页码并返回当前对象，支持链式调用
+     * 子类继承时，无需重写此方法，链式调用会自动返回子类类型
+     * @param pageNo 页码
+     * @return 当前对象（子类类型）
+     */
+    @SuppressWarnings("unchecked")
     public <T extends HttpRequestByPageVo> T toPageNo(int pageNo) {
         this.pageNo = pageNo;
-        return (T) this;
+        return self();
     }
 
-
-
+    /**
+     * 设置每页大小并返回当前对象，支持链式调用
+     * 子类继承时，无需重写此方法，链式调用会自动返回子类类型
+     * @param pageSize 每页大小
+     * @return 当前对象（子类类型）
+     */
+    @SuppressWarnings("unchecked")
     public <T extends HttpRequestByPageVo> T toPageSize(int pageSize) {
         this.pageSize = pageSize;
-        return (T)this;
+        return self();
     }
 
-
-
+    /**
+     * 设置状态并返回当前对象，支持链式调用
+     * 子类继承时，无需重写此方法，链式调用会自动返回子类类型
+     * @param status 状态
+     * @return 当前对象（子类类型）
+     */
     @SuppressWarnings("unchecked")
-    public <T extends HttpRequestByPageVo> T  toStatus(int status) {
+    public <T extends HttpRequestByPageVo> T toStatus(int status) {
         this.status = status;
-        return (T)this;
+        return self();
     }
 
-
+    /**
+     * 设置排序并返回当前对象，支持链式调用
+     * 子类继承时，无需重写此方法，链式调用会自动返回子类类型
+     * @param sort 排序
+     * @return 当前对象（子类类型）
+     */
     @SuppressWarnings("unchecked")
-    public <T extends HttpRequestByPageVo> T  toSort(int sort) {
+    public <T extends HttpRequestByPageVo> T toSort(int sort) {
         this.sort = sort;
-        return (T)this;
+        return self();
     }
+
     public int getPageNo() {
         return pageNo;
     }

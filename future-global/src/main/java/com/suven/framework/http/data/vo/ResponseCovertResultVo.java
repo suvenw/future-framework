@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Title: ResponseResultVo.java
+ * Title: ResponseResultVo.java http 请求返回 结果对象转换器,转返回对象统一格式
  * @author Joven.wang
  * date   2019-10-18 12:35:25
  * @version V1.0

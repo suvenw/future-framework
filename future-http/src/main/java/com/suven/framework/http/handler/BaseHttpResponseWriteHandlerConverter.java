@@ -85,11 +85,13 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 	 * @param isNextPage
 	 */
 	@Override
-	public void writeList(List<?> responseDataList, boolean isNextPage){
-		PageResult list = new PageResult<>();
-		list.toList(responseDataList)
-				.toIsNextPage(isNextPage);
-		this.write(list);
+	@SuppressWarnings("unchecked")
+	public void writeList(List responseDataList, boolean isNextPage){
+		@SuppressWarnings("unchecked")
+		PageResult pageResult = new PageResult<>();
+		pageResult.setList(responseDataList);
+		pageResult.toIsNextPage(isNextPage);
+		this.write(pageResult);
 	}
 
 	/**
@@ -97,8 +99,10 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 	 * @param responseDataList
 	 * @param isNextPage
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void writeList(List responseDataList, boolean isNextPage, long pageIndex, int total){
+		@SuppressWarnings("unchecked")
 		PageResult list = new PageResult<>();
 		list.toList(responseDataList)
 				.toIsNextPage(isNextPage)
@@ -152,8 +156,8 @@ public abstract class BaseHttpResponseWriteHandlerConverter extends BaseHttpResp
 
 	/**
 	 * 将被下载文件流,通过文件名下载
-	 * @param fileName
-	 * @param data
+	 * @param fileName 文件名
+	 * @param data	文件 数据
 	 */
 	@Override
 	public void writeStream(String fileName , byte[] data){
