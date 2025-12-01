@@ -2,6 +2,7 @@ package com.suven.framework.http.data.vo;
 
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.HttpFromRequest;
+import com.suven.framework.http.api.HttpRequestType;
 import com.suven.framework.http.api.IBaseApi;
 
 public  class HttpRequestByIdVo extends HttpFromRequestVo implements HttpFromRequest,IBaseApi{
@@ -18,5 +19,17 @@ public  class HttpRequestByIdVo extends HttpFromRequestVo implements HttpFromReq
     @Override
     public void setId(Long id) {
             this.id = id;
+    }
+
+    /**
+     * 设置id并返回当前对象，支持链式调用
+     * 子类继承时，无需重写此方法，链式调用会自动返回子类类型
+     * @param id id 主键
+     * @return 当前对象（子类类型）
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends HttpRequestType> T toId(Long id) {
+        this.id = id;
+        return this.self();
     }
 }

@@ -52,14 +52,14 @@ public class ResponseJsonHandlerArgumentResolver extends AbstractHandlerArgument
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR).format(errorMessage);
         }
         try {
-            IResponseHandler responseVo = (IResponseHandler) responseClass.newInstance();
+            IResponseHandler responseVo = (IResponseHandler) responseClass.getDeclaredConstructor().newInstance();
             responseVo.initResponse(response);
             /** 用于异常处理,返回统一规范对象 **/
             ParameterMessage.setResponseResult(responseVo.getResultVo());
 
             return responseVo;
         }catch (Exception e){
-            logger.info("JsonResponseHandlerArgumentResolver parserDate method Exception " ,e);
+            log.info("JsonResponseHandlerArgumentResolver parserDate method Exception " ,e);
             if(e instanceof SystemRuntimeException){
                 throw  (SystemRuntimeException)e;
             }else {

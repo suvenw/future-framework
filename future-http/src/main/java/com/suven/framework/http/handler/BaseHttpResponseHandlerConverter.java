@@ -86,11 +86,12 @@ public abstract class BaseHttpResponseHandlerConverter {
 
     /**
      * 设置CDN缓存实现
-     * @param response
-     * @return
+     * @param response http响应对象
+     * @return boolean true 表示设置成功,false 表示设置失败;
      */
+	@SuppressWarnings("unchecked")
     protected boolean setCdnCache(HttpServletResponse response) {
-		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setHeader("Access-Control-Allow-Origin","*");
 		int cdnTime =0 ;//Cdn.get(ParamMessage.getRequestRemote().getUrl());
 		if (cdnTime == 0) {
@@ -112,8 +113,9 @@ public abstract class BaseHttpResponseHandlerConverter {
 	 * @param response
 	 * @return String 返回参与加密的字符串值;
 	 */
+	@SuppressWarnings("unchecked")
 	protected String  initAesHeader(HttpServletResponse response) {
-		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		String key =  RandomUtils.verifyCode(16,-1);
 		String value = RandomUtils.verifyCode(16,0);
 		String sign = CryptUtil.aesPassEncrypt( value,key);
@@ -127,8 +129,8 @@ public abstract class BaseHttpResponseHandlerConverter {
 	 * 设置将返回data数据结果使用AES加密,再返回去;
 	 * Access-Control-sign:sign sign 为由随机数据加密的结果值;
 	 * Access-Control-sign:key  key为随机16位大小写+数字的值;
-	 * @Setter@Getter 为原始返回用户的结果数据,将参与aes加密后,返回给用户 data 值,
-	 * @aesEncryptKey 由initAesHeader方法实现的value值,
+	 * Setter@Getter 为原始返回用户的结果数据,将参与aes加密后,返回给用户 data 值,
+	 * aesEncryptKey 由initAesHeader方法实现的value值,
 	 * @return String 返回参与加密的字符串值;
 	 */
 	protected String  converterAesDate(Object data, String aesEncryptKey) {
@@ -142,7 +144,7 @@ public abstract class BaseHttpResponseHandlerConverter {
 
 	/**
 	 * 将用户返回ResponseResultVo对象中data属性对象进行加密入里,错误协议时不参与加密
-	 * @param responseResultVo
+	 * @param responseResultVo 响应结果对象
 	 */
 	protected void aesDateResultVo(IResponseResult responseResultVo,Object data){
 		if(null == responseResultVo ){
@@ -159,7 +161,10 @@ public abstract class BaseHttpResponseHandlerConverter {
 		}
 	}
 
-
+	/**
+	 * 将用户返回ResponseResultVo对象进行缓存,错误协议时不参与缓存
+	 * @param responseResultVo 响应结果对象
+	 */
 	protected void cacheDataResultVo(Object responseResultVo){
 		/*** ----------将返回结果进行缓存到redis中---------- ***/
 		if(null != responseResultVo){
