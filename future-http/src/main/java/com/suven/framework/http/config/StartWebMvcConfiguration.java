@@ -192,8 +192,7 @@ public class StartWebMvcConfiguration implements WebMvcConfigurer {
 
     }
     private List<HandlerMethodArgumentResolver> addArgumentResolversScan() {
-        Reflections reflections   = new Reflections(GlobalConfigConstants.COMPONENT_SCAN_BASE_PACKAGES);
-        Set<Class<? extends IHandlerMethodArgumentResolver>> classList = reflections.getSubTypesOf(IHandlerMethodArgumentResolver.class);
+        Set<Class<? extends IHandlerMethodArgumentResolver>> classList = ReflectionsScan.reflections.getSubTypesOf(IHandlerMethodArgumentResolver.class);
         List<HandlerMethodArgumentResolver> list = new ArrayList<>();
         if(null == classList || classList.isEmpty()){
             return list;
