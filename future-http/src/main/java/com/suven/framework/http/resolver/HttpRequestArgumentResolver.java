@@ -45,7 +45,7 @@ public class HttpRequestArgumentResolver implements IHttpRequestArgumentResolver
     /**
      *  获取 http  获取全部请求头参数,并做好兼容处理,全量将"_""-"替换成"",并且全部转小写,方便面兼容对象反射付值
      * @param request HttpServletRequest
-     * @param isCompatible  true/false 是否需要兼容,并做好兼容处理,true: 全量将"_""-"替换成""
+     * @param isCompatible  true/false 是否需要兼容,并做好兼容处理,true: 全量将"_""-"替换成"",不区分大小写
      * @return Map<String, String>
      */
     @Override

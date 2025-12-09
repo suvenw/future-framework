@@ -51,7 +51,7 @@ public class HttpRequestArgumentParser extends HttpRequestArgumentResolver imple
         }
         try {
             T t = null;
-            Map<String, String> headersMap = this.getRequestHeadersBody(request);
+            Map<String, String> headersMap = this.getRequestHeadersBody(request,true);
             if (Objects.isNull(headersMap)) {
                 return t;
             }

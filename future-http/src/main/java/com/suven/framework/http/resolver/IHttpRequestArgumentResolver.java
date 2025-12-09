@@ -26,7 +26,7 @@ public interface IHttpRequestArgumentResolver {
      * @return  Map<String, String>
      */
     default Map<String, String> getRequestHeadersBody(HttpServletRequest request) {
-        return getRequestHeadersBody( request, false);
+        return getRequestHeadersBody( request, true);
     }
     /**
      * 获取 http  获取全部请求头参数,并做好兼容处理,全量将"_""-"替换成"",并且全部转小写,方便面兼容对象反射付值

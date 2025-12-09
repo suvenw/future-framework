@@ -5,6 +5,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.suven.framework.common.enums.SysResultCodeEnum;
+import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -77,9 +78,10 @@ public class JsonParse {
 					if (isCompatible){
 						fieldName = fieldName.toLowerCase();
 					}
-					String value = headers.get(fieldName);
+					String headersValue = headers.get(fieldName);
 					field.setAccessible(true);
-					field.set(header, value);
+					Object value = convertFieldNameToValue(field, headersValue);
+					setValue(field, header, value);
 				} catch (Exception e) {
 					logger.info("header class[{}] object obtains the value through the attribute name[{}]",headerClass, field.getName());
 				}
@@ -137,24 +139,41 @@ public class JsonParse {
 			}
 
 			field.setAccessible(true);
-			Object value = null;
-			if (isSimpleType(fieldType)) {//基本类型
-				value = signPrimitive(fieldType, values);
-			}else if (isIterable(fieldType)) {//聚合类型
-				String[] args = values.split(CONSTANTS_KEY);
-				if(null == args || args.length == 1 ){
-					args = values.split(CONSTANTS_SPLITE);
-				}
-				value = signIterable(field, args);
-			}else if(isByte(fieldType)){
-				value = Base64.getDecoder().decode(values);
-			} else{
-				logger.warn("{} {}此类型不能自动转换 ",fieldName,fieldType);
-				throw new SystemRuntimeException(SysResultCodeEnum.SYS_INVALID_REQUEST);
-			}
+			Object value = convertFieldNameToValue(field, values);
 			setValue(field, instance, value);
 		}
 		return instance;
+	}
+
+	/**
+	 *  根据 field 字段的类型,将字符串类型的值转换成对应的类型值,并付给业务对象
+	 * @param field 业务对象的字段 field
+	 * @param values 业务对象的字段对应的值;
+	 * @return 根据 field 类型转换成类型的值;
+	 */
+	private static Object convertFieldNameToValue(Field field,  String values)  {
+		Object value;
+		if (field == null){
+			return null;
+		}
+		String fieldName = field.getName();
+		Class<?> fieldType= field.getType();
+		if (isSimpleType(fieldType)) {//基本类型
+			value = signPrimitive(fieldType, values);
+		}else if (isIterable(fieldType)) {//聚合类型
+			String[] args = values.split(CONSTANTS_KEY);
+			if(null == args || args.length == 1 ){
+				args = values.split(CONSTANTS_SPLITE);
+			}
+			value = signIterable(field, args);
+		}else if(isByte(fieldType)){
+			value = Base64.getDecoder().decode(values);
+		} else{
+			logger.warn("{} {}此类型不能自动转换 ", fieldName, fieldType);
+			throw new SystemRuntimeException(SysResultCodeEnum.SYS_INVALID_REQUEST);
+		}
+		return value;
+
 	}
 
 	/**
