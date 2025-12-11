@@ -7,6 +7,9 @@ import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.SkipWrap;
 import com.suven.framework.http.data.vo.ResponseCovertResultVo;
 import com.suven.framework.http.inters.IResultCodeEnum;
+import com.suven.framework.util.json.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,6 +37,7 @@ import java.util.List;
 @Order(1)
 public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
+    private Logger log = LoggerFactory.getLogger(CustomResponseBodyAdvice.class);
     List<Class<?>> interFaceList = Arrays.asList(IResponseResult.class,IBaseApi.class,IResultCodeEnum.class);
     final TypeToken<IBaseApi> type = new TypeToken<IBaseApi>(getClass()) {};
     @Override
@@ -72,7 +76,7 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         boolean   isSkipWrap = this.isSkipWrap(returnType);
         //跳过的包装类型的情况
         boolean isSkip =  isSkipReturnType || isErrorEnum || isSkipWrap;
-        return  (isRestController && isSkipAnno && !isSkip);
+        return  isRestController && !( isSkipAnno || isSkip);
 
     }
 
@@ -109,14 +113,11 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         // 检查方法上的注解
         Class<?> clazz = returnType.getContainingClass();
         ApiResult methodAnnotation = returnType.getMethodAnnotation(ApiResult.class);
-        if (methodAnnotation != null && !methodAnnotation.skip()) {
+        ApiResult classAnnotation = clazz.getAnnotation(ApiResult.class);
+        if ((methodAnnotation != null && methodAnnotation.skip()) || ( classAnnotation != null && classAnnotation.skip())) {
             return true;
         }
         // 检查类上的注解
-        ApiResult classAnnotation = clazz.getAnnotation(ApiResult.class);
-        if (classAnnotation != null &&  !classAnnotation.skip()) {
-            return true;
-        }
         return false;
     }
 
@@ -202,6 +203,8 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                     ServerHttpRequest request, ServerHttpResponse response) {
 
         if (body instanceof ResponseEntity || body instanceof IResponseResult) {
+            log.info("ServerHttpRequest url:[{}],body class:[{}]",request.getURI(),body.getClass());
+            log.info("ServerHttpRequest resultBody ======>>>:\n{}",JsonUtils.toJson(body));
             return body;
         }
         // 特殊类型跳过（下载/流式等）
@@ -212,6 +215,8 @@ public class CustomResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         Object result =  ResponseCovertResultVo.convertData(body,false);
+        log.info("ServerHttpRequest url:[{}],body class:[{}]",request.getURI(),body.getClass());
+        log.info("ServerHttpRequest resultBody ======>>>:\n{}",JsonUtils.toJson(body));
         return result;
     }
 }
