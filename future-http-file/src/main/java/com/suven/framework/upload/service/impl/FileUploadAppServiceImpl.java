@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.service.impl;
+package com.suven.framework.upload.service.impl;
 
 
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import java.util.List;
 import java.io.InputStream;
 
 
-import com.suven.framework.fileinter.entity.FileUploadApp;
-import com.suven.framework.fileinter.repository.FileUploadAppRepository;
-import com.suven.framework.fileinter.service.FileUploadAppService;
-import com.suven.framework.fileinter.dto.request.FileUploadAppRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadAppResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
+import com.suven.framework.upload.entity.FileUploadApp;
+import com.suven.framework.upload.repository.FileUploadAppRepository;
+import com.suven.framework.upload.service.FileUploadAppService;
+import com.suven.framework.upload.dto.request.FileUploadAppRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadAppResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadAppQueryEnum;
 
 
 

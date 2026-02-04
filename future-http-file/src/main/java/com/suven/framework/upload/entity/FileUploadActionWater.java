@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.entity;
+package com.suven.framework.upload.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.suven.framework.http.api.ApiDesc;

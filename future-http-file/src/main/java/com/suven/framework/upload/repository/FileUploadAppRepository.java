@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.repository;
+package com.suven.framework.upload.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,9 +9,9 @@ import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
-import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
-import com.suven.framework.fileinter.entity.FileUploadApp;
-import com.suven.framework.fileinter.mapper.FileUploadAppMapper;
+import com.suven.framework.upload.dto.enums.FileUploadAppQueryEnum;
+import com.suven.framework.upload.entity.FileUploadApp;
+import com.suven.framework.upload.mapper.FileUploadAppMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.exception.SystemRuntimeException;

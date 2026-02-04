@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -15,13 +15,13 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
-import com.suven.framework.fileinter.facade.FileUploadAppFacade;
-import com.suven.framework.fileinter.service.FileUploadAppService;
-import com.suven.framework.fileinter.dto.request.FileUploadAppRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadAppResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
-import com.suven.framework.fileinter.vo.request.FileUploadAppRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadAppResponseVo;
+import com.suven.framework.upload.facade.FileUploadAppFacade;
+import com.suven.framework.upload.service.FileUploadAppService;
+import com.suven.framework.upload.dto.request.FileUploadAppRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadAppResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadAppQueryEnum;
+import com.suven.framework.upload.vo.request.FileUploadAppRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadAppResponseVo;
 
 /**
  * @author 作者 : suven
@@ -57,8 +57,8 @@ public class FileUploadAppController {
     private FileUploadAppService  fileUploadAppService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileUploadApp_pageList = "/fileinter/fileuploadapp/pageList";
-        public static final String fileinter_fileUploadApp_info = "/fileinter/fileuploadapp/info";
+        public static final String upload_fileUploadApp_pageList = "/upload/fileuploadapp/pageList";
+        public static final String upload_fileUploadApp_info = "/upload/fileuploadapp/info";
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileUploadAppController {
             request = FileUploadAppRequestVo.class,
             response = FileUploadAppResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadAppRequestVo fileUploadAppRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppRequestVo);
         Pager<FileUploadAppRequestDto> pager = Pager.of(fileUploadAppRequestVo.getPageNo(),fileUploadAppRequestVo.getPageSize());
@@ -116,7 +116,7 @@ public class FileUploadAppController {
             request = HttpRequestByIdVo.class,
             response = FileUploadAppResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadAppResponseDto fileUploadAppResponseDto = fileUploadAppService.getFileUploadAppById(idRequestVo.getId());

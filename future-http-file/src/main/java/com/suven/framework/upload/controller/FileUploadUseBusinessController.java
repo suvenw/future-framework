@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -15,13 +15,13 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
-import com.suven.framework.fileinter.facade.FileUploadUseBusinessFacade;
-import com.suven.framework.fileinter.service.FileUploadUseBusinessService;
-import com.suven.framework.fileinter.dto.request.FileUploadUseBusinessRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadUseBusinessResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
-import com.suven.framework.fileinter.vo.request.FileUploadUseBusinessRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadUseBusinessResponseVo;
+import com.suven.framework.upload.facade.FileUploadUseBusinessFacade;
+import com.suven.framework.upload.service.FileUploadUseBusinessService;
+import com.suven.framework.upload.dto.request.FileUploadUseBusinessRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadUseBusinessResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadUseBusinessQueryEnum;
+import com.suven.framework.upload.vo.request.FileUploadUseBusinessRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadUseBusinessResponseVo;
 
 /**
  * @author 作者 : suven
@@ -57,8 +57,8 @@ public class FileUploadUseBusinessController {
     private FileUploadUseBusinessService  fileUploadUseBusinessService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileUploadUseBusiness_pageList = "/fileinter/fileuploadusebusiness/pageList";
-        public static final String fileinter_fileUploadUseBusiness_info = "/fileinter/fileuploadusebusiness/info";
+        public static final String upload_fileUploadUseBusiness_pageList = "/upload/fileuploadusebusiness/pageList";
+        public static final String upload_fileUploadUseBusiness_info = "/upload/fileuploadusebusiness/info";
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileUploadUseBusinessController {
             request = FileUploadUseBusinessRequestVo.class,
             response = FileUploadUseBusinessResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadUseBusinessRequestVo fileUploadUseBusinessRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessRequestVo);
         Pager<FileUploadUseBusinessRequestDto> pager = Pager.of(fileUploadUseBusinessRequestVo.getPageNo(),fileUploadUseBusinessRequestVo.getPageSize());
@@ -116,7 +116,7 @@ public class FileUploadUseBusinessController {
             request = HttpRequestByIdVo.class,
             response = FileUploadUseBusinessResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadUseBusinessResponseDto fileUploadUseBusinessResponseDto = fileUploadUseBusinessService.getFileUploadUseBusinessById(idRequestVo.getId());

@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.service.impl;
+package com.suven.framework.upload.service.impl;
 
 
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import java.util.List;
 import java.io.InputStream;
 
 
-import com.suven.framework.fileinter.entity.FileAppStorageConfig;
-import com.suven.framework.fileinter.repository.FileAppStorageConfigRepository;
-import com.suven.framework.fileinter.service.FileAppStorageConfigService;
-import com.suven.framework.fileinter.dto.request.FileAppStorageConfigRequestDto;
-import com.suven.framework.fileinter.dto.response.FileAppStorageConfigResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
+import com.suven.framework.upload.entity.FileAppStorageConfig;
+import com.suven.framework.upload.repository.FileAppStorageConfigRepository;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
+import com.suven.framework.upload.dto.response.FileAppStorageConfigResponseDto;
+import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
 
 
 

@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.service.impl;
+package com.suven.framework.upload.service.impl;
 
 
 import com.suven.framework.core.ObjectTrue;
@@ -12,12 +12,12 @@ import java.util.List;
 import java.io.InputStream;
 
 
-import com.suven.framework.fileinter.entity.FileDataDetailed;
-import com.suven.framework.fileinter.repository.FileDataDetailedRepository;
-import com.suven.framework.fileinter.service.FileDataDetailedService;
-import com.suven.framework.fileinter.dto.request.FileDataDetailedRequestDto;
-import com.suven.framework.fileinter.dto.response.FileDataDetailedResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
+import com.suven.framework.upload.entity.FileDataDetailed;
+import com.suven.framework.upload.repository.FileDataDetailedRepository;
+import com.suven.framework.upload.service.FileDataDetailedService;
+import com.suven.framework.upload.dto.request.FileDataDetailedRequestDto;
+import com.suven.framework.upload.dto.response.FileDataDetailedResponseDto;
+import com.suven.framework.upload.dto.enums.FileDataDetailedQueryEnum;
 
 
 

@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -32,15 +32,15 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
 
-import com.suven.framework.fileinter.service.FileAppStorageConfigService;
-import com.suven.framework.fileinter.vo.request.FileAppStorageConfigQueryRequestVo;
-import com.suven.framework.fileinter.vo.request.FileAppStorageConfigAddRequestVo;
-import com.suven.framework.fileinter.vo.response.FileAppStorageConfigShowResponseVo;
-import com.suven.framework.fileinter.vo.response.FileAppStorageConfigResponseVo;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigAddRequestVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigShowResponseVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
 
-import com.suven.framework.fileinter.dto.request.FileAppStorageConfigRequestDto;
-import com.suven.framework.fileinter.dto.response.FileAppStorageConfigResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
+import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
+import com.suven.framework.upload.dto.response.FileAppStorageConfigResponseDto;
+import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
 
 
 /**
@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileAppStorageConfig")
+ * RequestMapping("/upload/fileAppStorageConfig")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -76,20 +76,20 @@ public class FileAppStorageConfigWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileAppStorageConfig_index      =   "/fileinter/fileappstorageconfig/index";
-        public static final String fileinter_fileAppStorageConfig_list       =   "/fileinter/fileappstorageconfig/list";
-        public static final String fileinter_fileAppStorageConfig_queryList  =   "/fileinter/fileappstorageconfig/querylist";
-        public static final String fileinter_fileAppStorageConfig_add        =   "/fileinter/fileappstorageconfig/add";
-        public static final String fileinter_fileAppStorageConfig_modify     =   "/fileinter/fileappstorageconfig/modify";
-        public static final String fileinter_fileAppStorageConfig_detail     =   "/fileinter/fileappstorageconfig/detail";
-        public static final String fileinter_fileAppStorageConfig_edit       =   "/fileinter/fileappstorageconfig/edit";
-        public static final String fileinter_fileAppStorageConfig_newInfo    =   "/fileinter/fileappstorageconfig/newInfo";
-        public static final String fileinter_fileAppStorageConfig_del        =   "/fileinter/fileappstorageconfig/delete";
-        public static final String fileinter_fileAppStorageConfig_sort       =   "/fileinter/fileappstorageconfig/sort";
-        public static final String fileinter_fileAppStorageConfig_turnOn     =   "/fileinter/fileappstorageconfig/turnOn";
-        public static final String fileinter_fileAppStorageConfig_turnOff    =   "/fileinter/fileappstorageconfig/turnOff";
-        public static final String fileinter_fileAppStorageConfig_export     =   "/fileinter/fileappstorageconfig/export";
-        public static final String fileinter_fileAppStorageConfig_import     =   "/fileinter/fileappstorageconfig/import";
+        public static final String upload_fileAppStorageConfig_index      =   "/upload/fileappstorageconfig/index";
+        public static final String upload_fileAppStorageConfig_list       =   "/upload/fileappstorageconfig/list";
+        public static final String upload_fileAppStorageConfig_queryList  =   "/upload/fileappstorageconfig/querylist";
+        public static final String upload_fileAppStorageConfig_add        =   "/upload/fileappstorageconfig/add";
+        public static final String upload_fileAppStorageConfig_modify     =   "/upload/fileappstorageconfig/modify";
+        public static final String upload_fileAppStorageConfig_detail     =   "/upload/fileappstorageconfig/detail";
+        public static final String upload_fileAppStorageConfig_edit       =   "/upload/fileappstorageconfig/edit";
+        public static final String upload_fileAppStorageConfig_newInfo    =   "/upload/fileappstorageconfig/newInfo";
+        public static final String upload_fileAppStorageConfig_del        =   "/upload/fileappstorageconfig/delete";
+        public static final String upload_fileAppStorageConfig_sort       =   "/upload/fileappstorageconfig/sort";
+        public static final String upload_fileAppStorageConfig_turnOn     =   "/upload/fileappstorageconfig/turnOn";
+        public static final String upload_fileAppStorageConfig_turnOff    =   "/upload/fileappstorageconfig/turnOff";
+        public static final String upload_fileAppStorageConfig_export     =   "/upload/fileappstorageconfig/export";
+        public static final String upload_fileAppStorageConfig_import     =   "/upload/fileappstorageconfig/import";
     }
 
 
@@ -108,10 +108,10 @@ public class FileAppStorageConfigWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileAppStorageConfig_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:index")
+    @RequestMapping(value =  UrlCommand.upload_fileAppStorageConfig_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:index")
     public String index(){
-        return "fileinter/fileAppStorageConfig_index";
+        return "upload/fileAppStorageConfig_index";
     }
 
 
@@ -133,8 +133,8 @@ public class FileAppStorageConfigWebController {
             request = FileAppStorageConfigQueryRequestVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:list")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:list")
     public   void   list( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
 
@@ -169,8 +169,8 @@ public class FileAppStorageConfigWebController {
             request = FileAppStorageConfigQueryRequestVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:query")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:query")
     public   void   queryList( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
 
@@ -205,8 +205,8 @@ public class FileAppStorageConfigWebController {
             request = FileAppStorageConfigAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:add")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileappstorageconfig:add")
     public  void  add(OutputResponse out, FileAppStorageConfigAddRequestVo fileAppStorageConfigAddRequestVo){
 
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto =  FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigAddRequestVo);
@@ -236,8 +236,8 @@ public class FileAppStorageConfigWebController {
             request = FileAppStorageConfigAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:modify")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileappstorageconfig:modify")
     public  void  modify(OutputResponse out,FileAppStorageConfigAddRequestVo fileAppStorageConfigAddRequestVo){
 
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto =  FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigAddRequestVo);
@@ -268,8 +268,8 @@ public class FileAppStorageConfigWebController {
             request = HttpRequestByIdVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:list")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = fileAppStorageConfigService.getFileAppStorageConfigById(idRequestVo.getId());
@@ -296,8 +296,8 @@ public class FileAppStorageConfigWebController {
             request = HttpRequestByIdVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:modify")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = fileAppStorageConfigService.getFileAppStorageConfigById(idRequestVo.getId());
@@ -321,10 +321,10 @@ public class FileAppStorageConfigWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:add")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileAppStorageConfig_edit";
+        return "upload/fileAppStorageConfig_edit";
     }
 
     /**
@@ -344,8 +344,8 @@ public class FileAppStorageConfigWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:del")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileappstorageconfig:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -374,8 +374,8 @@ public class FileAppStorageConfigWebController {
             request = FileAppStorageConfigQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:export")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileappstorageconfig:export")
     public void export(HttpServletResponse response, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
 
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigQueryRequestVo);
@@ -403,8 +403,8 @@ public class FileAppStorageConfigWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileappstorageconfig:import")
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileappstorageconfig:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

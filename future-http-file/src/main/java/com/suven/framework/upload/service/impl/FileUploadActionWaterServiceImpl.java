@@ -1,15 +1,15 @@
-package com.suven.framework.fileinter.service.impl;
+package com.suven.framework.upload.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
-import com.suven.framework.fileinter.dto.request.FileUploadActionWaterRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadActionWaterResponseDto;
-import com.suven.framework.fileinter.entity.FileUploadActionWater;
-import com.suven.framework.fileinter.repository.FileUploadActionWaterRepository;
-import com.suven.framework.fileinter.service.FileUploadActionWaterService;
+import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
+import com.suven.framework.upload.entity.FileUploadActionWater;
+import com.suven.framework.upload.repository.FileUploadActionWaterRepository;
+import com.suven.framework.upload.service.FileUploadActionWaterService;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;

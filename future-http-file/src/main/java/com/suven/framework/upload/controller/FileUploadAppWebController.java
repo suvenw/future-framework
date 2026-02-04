@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -32,15 +32,15 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
 
-import com.suven.framework.fileinter.service.FileUploadAppService;
-import com.suven.framework.fileinter.vo.request.FileUploadAppQueryRequestVo;
-import com.suven.framework.fileinter.vo.request.FileUploadAppAddRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadAppShowResponseVo;
-import com.suven.framework.fileinter.vo.response.FileUploadAppResponseVo;
+import com.suven.framework.upload.service.FileUploadAppService;
+import com.suven.framework.upload.vo.request.FileUploadAppQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileUploadAppAddRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadAppShowResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadAppResponseVo;
 
-import com.suven.framework.fileinter.dto.request.FileUploadAppRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadAppResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadAppRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadAppResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadAppQueryEnum;
 
 
 /**
@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadAppQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileUploadApp")
+ * RequestMapping("/upload/fileUploadApp")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -76,20 +76,20 @@ public class FileUploadAppWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileUploadApp_index      =   "/fileinter/fileuploadapp/index";
-        public static final String fileinter_fileUploadApp_list       =   "/fileinter/fileuploadapp/list";
-        public static final String fileinter_fileUploadApp_queryList  =   "/fileinter/fileuploadapp/querylist";
-        public static final String fileinter_fileUploadApp_add        =   "/fileinter/fileuploadapp/add";
-        public static final String fileinter_fileUploadApp_modify     =   "/fileinter/fileuploadapp/modify";
-        public static final String fileinter_fileUploadApp_detail     =   "/fileinter/fileuploadapp/detail";
-        public static final String fileinter_fileUploadApp_edit       =   "/fileinter/fileuploadapp/edit";
-        public static final String fileinter_fileUploadApp_newInfo    =   "/fileinter/fileuploadapp/newInfo";
-        public static final String fileinter_fileUploadApp_del        =   "/fileinter/fileuploadapp/delete";
-        public static final String fileinter_fileUploadApp_sort       =   "/fileinter/fileuploadapp/sort";
-        public static final String fileinter_fileUploadApp_turnOn     =   "/fileinter/fileuploadapp/turnOn";
-        public static final String fileinter_fileUploadApp_turnOff    =   "/fileinter/fileuploadapp/turnOff";
-        public static final String fileinter_fileUploadApp_export     =   "/fileinter/fileuploadapp/export";
-        public static final String fileinter_fileUploadApp_import     =   "/fileinter/fileuploadapp/import";
+        public static final String upload_fileUploadApp_index      =   "/upload/fileuploadapp/index";
+        public static final String upload_fileUploadApp_list       =   "/upload/fileuploadapp/list";
+        public static final String upload_fileUploadApp_queryList  =   "/upload/fileuploadapp/querylist";
+        public static final String upload_fileUploadApp_add        =   "/upload/fileuploadapp/add";
+        public static final String upload_fileUploadApp_modify     =   "/upload/fileuploadapp/modify";
+        public static final String upload_fileUploadApp_detail     =   "/upload/fileuploadapp/detail";
+        public static final String upload_fileUploadApp_edit       =   "/upload/fileuploadapp/edit";
+        public static final String upload_fileUploadApp_newInfo    =   "/upload/fileuploadapp/newInfo";
+        public static final String upload_fileUploadApp_del        =   "/upload/fileuploadapp/delete";
+        public static final String upload_fileUploadApp_sort       =   "/upload/fileuploadapp/sort";
+        public static final String upload_fileUploadApp_turnOn     =   "/upload/fileuploadapp/turnOn";
+        public static final String upload_fileUploadApp_turnOff    =   "/upload/fileuploadapp/turnOff";
+        public static final String upload_fileUploadApp_export     =   "/upload/fileuploadapp/export";
+        public static final String upload_fileUploadApp_import     =   "/upload/fileuploadapp/import";
     }
 
 
@@ -108,10 +108,10 @@ public class FileUploadAppWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileUploadApp_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:index")
+    @RequestMapping(value =  UrlCommand.upload_fileUploadApp_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:index")
     public String index(){
-        return "fileinter/fileUploadApp_index";
+        return "upload/fileUploadApp_index";
     }
 
 
@@ -133,8 +133,8 @@ public class FileUploadAppWebController {
             request = FileUploadAppQueryRequestVo.class,
             response = FileUploadAppShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:list")
     public   void   list( OutputResponse out, FileUploadAppQueryRequestVo fileUploadAppQueryRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build( ).clone(fileUploadAppQueryRequestVo);
 
@@ -168,8 +168,8 @@ public class FileUploadAppWebController {
             request = FileUploadAppQueryRequestVo.class,
             response = FileUploadAppShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:query")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:query")
     public   void   queryList( OutputResponse out, FileUploadAppQueryRequestVo fileUploadAppQueryRequestVo){
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build( ).clone(fileUploadAppQueryRequestVo);
 
@@ -204,8 +204,8 @@ public class FileUploadAppWebController {
             request = FileUploadAppAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadapp:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadapp:add")
     public  void  add(OutputResponse out, FileUploadAppAddRequestVo fileUploadAppAddRequestVo){
 
             FileUploadAppRequestDto fileUploadAppRequestDto =  FileUploadAppRequestDto.build().clone(fileUploadAppAddRequestVo);
@@ -235,8 +235,8 @@ public class FileUploadAppWebController {
             request = FileUploadAppAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadapp:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadapp:modify")
     public  void  modify(OutputResponse out,FileUploadAppAddRequestVo fileUploadAppAddRequestVo){
 
             FileUploadAppRequestDto fileUploadAppRequestDto =  FileUploadAppRequestDto.build().clone(fileUploadAppAddRequestVo);
@@ -267,8 +267,8 @@ public class FileUploadAppWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadAppShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadAppResponseDto fileUploadAppResponseDto = fileUploadAppService.getFileUploadAppById(idRequestVo.getId());
@@ -295,8 +295,8 @@ public class FileUploadAppWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadAppShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadAppResponseDto fileUploadAppResponseDto = fileUploadAppService.getFileUploadAppById(idRequestVo.getId());
@@ -320,10 +320,10 @@ public class FileUploadAppWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileUploadApp_edit";
+        return "upload/fileUploadApp_edit";
     }
 
     /**
@@ -343,8 +343,8 @@ public class FileUploadAppWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadapp:del")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadapp:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -373,8 +373,8 @@ public class FileUploadAppWebController {
             request = FileUploadAppQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadapp:export")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadapp:export")
     public void export(HttpServletResponse response, FileUploadAppQueryRequestVo fileUploadAppQueryRequestVo){
 
             FileUploadAppRequestDto fileUploadAppRequestDto = FileUploadAppRequestDto.build().clone(fileUploadAppQueryRequestVo);
@@ -402,8 +402,8 @@ public class FileUploadAppWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadApp_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadapp:import")
+    @RequestMapping(value = UrlCommand.upload_fileUploadApp_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadapp:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

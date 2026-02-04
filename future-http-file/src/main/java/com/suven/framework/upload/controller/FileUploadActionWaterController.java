@@ -1,14 +1,14 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
-import com.suven.framework.fileinter.dto.request.FileUploadActionWaterRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadActionWaterResponseDto;
-import com.suven.framework.fileinter.facade.FileUploadActionWaterFacade;
-import com.suven.framework.fileinter.service.FileUploadActionWaterService;
-import com.suven.framework.fileinter.vo.request.FileUploadActionWaterRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadActionWaterResponseVo;
+import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
+import com.suven.framework.upload.facade.FileUploadActionWaterFacade;
+import com.suven.framework.upload.service.FileUploadActionWaterService;
+import com.suven.framework.upload.vo.request.FileUploadActionWaterRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadActionWaterResponseVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
@@ -54,8 +54,8 @@ public class FileUploadActionWaterController {
     private FileUploadActionWaterService  fileUploadActionWaterService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileUploadActionWater_pageList = "/fileinter/fileuploadactionwater/pageList";
-        public static final String fileinter_fileUploadActionWater_info = "/fileinter/fileuploadactionwater/info";
+        public static final String upload_fileUploadActionWater_pageList = "/upload/fileuploadactionwater/pageList";
+        public static final String upload_fileUploadActionWater_info = "/upload/fileuploadactionwater/info";
     }
 
     /**
@@ -75,7 +75,7 @@ public class FileUploadActionWaterController {
             request = FileUploadActionWaterRequestVo.class,
             response = FileUploadActionWaterResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadActionWaterRequestVo fileUploadActionWaterRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterRequestVo);
         Pager pager = Pager.of();
@@ -114,7 +114,7 @@ public class FileUploadActionWaterController {
             request = HttpRequestByIdVo.class,
             response = FileUploadActionWaterResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = fileUploadActionWaterService.getFileUploadActionWaterById(idRequestVo.getId());

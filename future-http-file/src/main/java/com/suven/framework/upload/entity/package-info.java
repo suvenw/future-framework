@@ -1,5 +1,5 @@
 /**
- * fileinter 模块，主要提供两块能力：
+ * upload 模块，主要提供两块能力：
  * 1. 提供文件，支撑上传的通用与核心业务。
  * 2. 研发工具，提升研发效率与质量。 例如说：代码生成器、接口文档等等
  *
@@ -32,7 +32,7 @@
  *  4.将上成文件上传到存储中心
  *  5.提供安全验证下载文件逻辑
  */
-package com.suven.framework.fileinter.entity;
+package com.suven.framework.upload.entity;
 
 
 

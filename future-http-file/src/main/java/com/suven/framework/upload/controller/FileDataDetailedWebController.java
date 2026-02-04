@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -32,15 +32,15 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
 
-import com.suven.framework.fileinter.service.FileDataDetailedService;
-import com.suven.framework.fileinter.vo.request.FileDataDetailedQueryRequestVo;
-import com.suven.framework.fileinter.vo.request.FileDataDetailedAddRequestVo;
-import com.suven.framework.fileinter.vo.response.FileDataDetailedShowResponseVo;
-import com.suven.framework.fileinter.vo.response.FileDataDetailedResponseVo;
+import com.suven.framework.upload.service.FileDataDetailedService;
+import com.suven.framework.upload.vo.request.FileDataDetailedQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileDataDetailedAddRequestVo;
+import com.suven.framework.upload.vo.response.FileDataDetailedShowResponseVo;
+import com.suven.framework.upload.vo.response.FileDataDetailedResponseVo;
 
-import com.suven.framework.fileinter.dto.request.FileDataDetailedRequestDto;
-import com.suven.framework.fileinter.dto.response.FileDataDetailedResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
+import com.suven.framework.upload.dto.request.FileDataDetailedRequestDto;
+import com.suven.framework.upload.dto.response.FileDataDetailedResponseDto;
+import com.suven.framework.upload.dto.enums.FileDataDetailedQueryEnum;
 
 
 /**
@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileDataDetailed")
+ * RequestMapping("/upload/fileDataDetailed")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -76,20 +76,20 @@ public class FileDataDetailedWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileDataDetailed_index      =   "/fileinter/filedatadetailed/index";
-        public static final String fileinter_fileDataDetailed_list       =   "/fileinter/filedatadetailed/list";
-        public static final String fileinter_fileDataDetailed_queryList  =   "/fileinter/filedatadetailed/querylist";
-        public static final String fileinter_fileDataDetailed_add        =   "/fileinter/filedatadetailed/add";
-        public static final String fileinter_fileDataDetailed_modify     =   "/fileinter/filedatadetailed/modify";
-        public static final String fileinter_fileDataDetailed_detail     =   "/fileinter/filedatadetailed/detail";
-        public static final String fileinter_fileDataDetailed_edit       =   "/fileinter/filedatadetailed/edit";
-        public static final String fileinter_fileDataDetailed_newInfo    =   "/fileinter/filedatadetailed/newInfo";
-        public static final String fileinter_fileDataDetailed_del        =   "/fileinter/filedatadetailed/delete";
-        public static final String fileinter_fileDataDetailed_sort       =   "/fileinter/filedatadetailed/sort";
-        public static final String fileinter_fileDataDetailed_turnOn     =   "/fileinter/filedatadetailed/turnOn";
-        public static final String fileinter_fileDataDetailed_turnOff    =   "/fileinter/filedatadetailed/turnOff";
-        public static final String fileinter_fileDataDetailed_export     =   "/fileinter/filedatadetailed/export";
-        public static final String fileinter_fileDataDetailed_import     =   "/fileinter/filedatadetailed/import";
+        public static final String upload_fileDataDetailed_index      =   "/upload/filedatadetailed/index";
+        public static final String upload_fileDataDetailed_list       =   "/upload/filedatadetailed/list";
+        public static final String upload_fileDataDetailed_queryList  =   "/upload/filedatadetailed/querylist";
+        public static final String upload_fileDataDetailed_add        =   "/upload/filedatadetailed/add";
+        public static final String upload_fileDataDetailed_modify     =   "/upload/filedatadetailed/modify";
+        public static final String upload_fileDataDetailed_detail     =   "/upload/filedatadetailed/detail";
+        public static final String upload_fileDataDetailed_edit       =   "/upload/filedatadetailed/edit";
+        public static final String upload_fileDataDetailed_newInfo    =   "/upload/filedatadetailed/newInfo";
+        public static final String upload_fileDataDetailed_del        =   "/upload/filedatadetailed/delete";
+        public static final String upload_fileDataDetailed_sort       =   "/upload/filedatadetailed/sort";
+        public static final String upload_fileDataDetailed_turnOn     =   "/upload/filedatadetailed/turnOn";
+        public static final String upload_fileDataDetailed_turnOff    =   "/upload/filedatadetailed/turnOff";
+        public static final String upload_fileDataDetailed_export     =   "/upload/filedatadetailed/export";
+        public static final String upload_fileDataDetailed_import     =   "/upload/filedatadetailed/import";
     }
 
 
@@ -108,10 +108,10 @@ public class FileDataDetailedWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileDataDetailed_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:index")
+    @RequestMapping(value =  UrlCommand.upload_fileDataDetailed_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:index")
     public String index(){
-        return "fileinter/fileDataDetailed_index";
+        return "upload/fileDataDetailed_index";
     }
 
 
@@ -133,8 +133,8 @@ public class FileDataDetailedWebController {
             request = FileDataDetailedQueryRequestVo.class,
             response = FileDataDetailedShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:list")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:list")
     public   void   list( OutputResponse out, FileDataDetailedQueryRequestVo fileDataDetailedQueryRequestVo){
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build( ).clone(fileDataDetailedQueryRequestVo);
 
@@ -168,8 +168,8 @@ public class FileDataDetailedWebController {
             request = FileDataDetailedQueryRequestVo.class,
             response = FileDataDetailedShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:query")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:query")
     public   void   queryList( OutputResponse out, FileDataDetailedQueryRequestVo fileDataDetailedQueryRequestVo){
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build( ).clone(fileDataDetailedQueryRequestVo);
 
@@ -204,8 +204,8 @@ public class FileDataDetailedWebController {
             request = FileDataDetailedAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:filedatadetailed:add")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:filedatadetailed:add")
     public  void  add(OutputResponse out, FileDataDetailedAddRequestVo fileDataDetailedAddRequestVo){
 
             FileDataDetailedRequestDto fileDataDetailedRequestDto =  FileDataDetailedRequestDto.build().clone(fileDataDetailedAddRequestVo);
@@ -235,8 +235,8 @@ public class FileDataDetailedWebController {
             request = FileDataDetailedAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:filedatadetailed:modify")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:filedatadetailed:modify")
     public  void  modify(OutputResponse out,FileDataDetailedAddRequestVo fileDataDetailedAddRequestVo){
 
             FileDataDetailedRequestDto fileDataDetailedRequestDto =  FileDataDetailedRequestDto.build().clone(fileDataDetailedAddRequestVo);
@@ -267,8 +267,8 @@ public class FileDataDetailedWebController {
             request = HttpRequestByIdVo.class,
             response = FileDataDetailedShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:list")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileDataDetailedResponseDto fileDataDetailedResponseDto = fileDataDetailedService.getFileDataDetailedById(idRequestVo.getId());
@@ -295,8 +295,8 @@ public class FileDataDetailedWebController {
             request = HttpRequestByIdVo.class,
             response = FileDataDetailedShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:modify")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileDataDetailedResponseDto fileDataDetailedResponseDto = fileDataDetailedService.getFileDataDetailedById(idRequestVo.getId());
@@ -320,10 +320,10 @@ public class FileDataDetailedWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:add")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileDataDetailed_edit";
+        return "upload/fileDataDetailed_edit";
     }
 
     /**
@@ -343,8 +343,8 @@ public class FileDataDetailedWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:filedatadetailed:del")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:filedatadetailed:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -373,8 +373,8 @@ public class FileDataDetailedWebController {
             request = FileDataDetailedQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:filedatadetailed:export")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:filedatadetailed:export")
     public void export(HttpServletResponse response, FileDataDetailedQueryRequestVo fileDataDetailedQueryRequestVo){
 
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build().clone(fileDataDetailedQueryRequestVo);
@@ -402,8 +402,8 @@ public class FileDataDetailedWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:filedatadetailed:import")
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:filedatadetailed:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

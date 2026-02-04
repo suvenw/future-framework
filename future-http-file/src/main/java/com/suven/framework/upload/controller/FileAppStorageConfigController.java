@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -15,13 +15,13 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
-import com.suven.framework.fileinter.facade.FileAppStorageConfigFacade;
-import com.suven.framework.fileinter.service.FileAppStorageConfigService;
-import com.suven.framework.fileinter.dto.request.FileAppStorageConfigRequestDto;
-import com.suven.framework.fileinter.dto.response.FileAppStorageConfigResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileAppStorageConfigQueryEnum;
-import com.suven.framework.fileinter.vo.request.FileAppStorageConfigRequestVo;
-import com.suven.framework.fileinter.vo.response.FileAppStorageConfigResponseVo;
+import com.suven.framework.upload.facade.FileAppStorageConfigFacade;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
+import com.suven.framework.upload.dto.response.FileAppStorageConfigResponseDto;
+import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigRequestVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
 
 /**
  * @author 作者 : suven
@@ -57,8 +57,8 @@ public class FileAppStorageConfigController {
     private FileAppStorageConfigService  fileAppStorageConfigService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileAppStorageConfig_pageList = "/fileinter/fileappstorageconfig/pageList";
-        public static final String fileinter_fileAppStorageConfig_info = "/fileinter/fileappstorageconfig/info";
+        public static final String upload_fileAppStorageConfig_pageList = "/upload/fileappstorageconfig/pageList";
+        public static final String upload_fileAppStorageConfig_info = "/upload/fileappstorageconfig/info";
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileAppStorageConfigController {
             request = FileAppStorageConfigRequestVo.class,
             response = FileAppStorageConfigResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileAppStorageConfigRequestVo fileAppStorageConfigRequestVo){
             FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigRequestVo);
         Pager<FileAppStorageConfigRequestDto> pager = Pager.of();
@@ -117,7 +117,7 @@ public class FileAppStorageConfigController {
             request = HttpRequestByIdVo.class,
             response = FileAppStorageConfigResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileAppStorageConfig_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = fileAppStorageConfigService.getFileAppStorageConfigById(idRequestVo.getId());

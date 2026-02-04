@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.dto.request;
+package com.suven.framework.upload.dto.request;
 
 
 import com.suven.framework.http.api.ApiDesc;

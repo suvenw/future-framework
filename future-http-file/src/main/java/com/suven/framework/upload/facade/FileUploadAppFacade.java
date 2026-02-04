@@ -1,8 +1,8 @@
-package com.suven.framework.fileinter.facade;
+package com.suven.framework.upload.facade;
 
-import com.suven.framework.fileinter.service.FileAppStorageConfigService;
-import com.suven.framework.fileinter.service.FileUploadAppService;
-import com.suven.framework.fileinter.service.FileUploadUseBusinessService;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.service.FileUploadAppService;
+import com.suven.framework.upload.service.FileUploadUseBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

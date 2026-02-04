@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.entity;
+package com.suven.framework.upload.entity;
 
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.data.entity.BaseTenantEntity;

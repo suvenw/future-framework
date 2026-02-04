@@ -1,13 +1,13 @@
-package com.suven.framework.fileinter.service;
+package com.suven.framework.upload.service;
 
 import java.util.Collection;
 import java.util.List;
 import java.io.InputStream;
 
 
-import com.suven.framework.fileinter.dto.request.FileUploadActionWaterRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadActionWaterResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 
