@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.dto.enums;
+package com.suven.framework.upload.dto.enums;
 
 
 /**

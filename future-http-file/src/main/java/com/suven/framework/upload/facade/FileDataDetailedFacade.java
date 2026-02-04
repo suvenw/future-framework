@@ -1,13 +1,13 @@
-package com.suven.framework.fileinter.facade;
+package com.suven.framework.upload.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.suven.framework.fileinter.service.FileDataDetailedService;
-import com.suven.framework.fileinter.dto.request.FileDataDetailedRequestDto;
-import com.suven.framework.fileinter.dto.response.FileDataDetailedResponseDto;
-import com.suven.framework.fileinter.vo.request.FileDataDetailedRequestVo;
-import com.suven.framework.fileinter.vo.response.FileDataDetailedResponseVo;
+import com.suven.framework.upload.service.FileDataDetailedService;
+import com.suven.framework.upload.dto.request.FileDataDetailedRequestDto;
+import com.suven.framework.upload.dto.response.FileDataDetailedResponseDto;
+import com.suven.framework.upload.vo.request.FileDataDetailedRequestVo;
+import com.suven.framework.upload.vo.response.FileDataDetailedResponseVo;
 
 
 

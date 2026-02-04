@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -15,13 +15,13 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
-import com.suven.framework.fileinter.facade.FileDataDetailedFacade;
-import com.suven.framework.fileinter.service.FileDataDetailedService;
-import com.suven.framework.fileinter.dto.request.FileDataDetailedRequestDto;
-import com.suven.framework.fileinter.dto.response.FileDataDetailedResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileDataDetailedQueryEnum;
-import com.suven.framework.fileinter.vo.request.FileDataDetailedRequestVo;
-import com.suven.framework.fileinter.vo.response.FileDataDetailedResponseVo;
+import com.suven.framework.upload.facade.FileDataDetailedFacade;
+import com.suven.framework.upload.service.FileDataDetailedService;
+import com.suven.framework.upload.dto.request.FileDataDetailedRequestDto;
+import com.suven.framework.upload.dto.response.FileDataDetailedResponseDto;
+import com.suven.framework.upload.dto.enums.FileDataDetailedQueryEnum;
+import com.suven.framework.upload.vo.request.FileDataDetailedRequestVo;
+import com.suven.framework.upload.vo.response.FileDataDetailedResponseVo;
 
 /**
  * @author 作者 : suven
@@ -57,8 +57,8 @@ public class FileDataDetailedController {
     private FileDataDetailedService  fileDataDetailedService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileDataDetailed_pageList = "/fileinter/filedatadetailed/pageList";
-        public static final String fileinter_fileDataDetailed_info = "/fileinter/filedatadetailed/info";
+        public static final String upload_fileDataDetailed_pageList = "/upload/filedatadetailed/pageList";
+        public static final String upload_fileDataDetailed_info = "/upload/filedatadetailed/info";
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileDataDetailedController {
             request = FileDataDetailedRequestVo.class,
             response = FileDataDetailedResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileDataDetailedRequestVo fileDataDetailedRequestVo){
             FileDataDetailedRequestDto fileDataDetailedRequestDto = FileDataDetailedRequestDto.build().clone(fileDataDetailedRequestVo);
         Pager<FileDataDetailedRequestDto> pager = Pager.of();
@@ -117,7 +117,7 @@ public class FileDataDetailedController {
             request = HttpRequestByIdVo.class,
             response = FileDataDetailedResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileDataDetailed_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileDataDetailed_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileDataDetailedResponseDto fileDataDetailedResponseDto = fileDataDetailedService.getFileDataDetailedById(idRequestVo.getId());

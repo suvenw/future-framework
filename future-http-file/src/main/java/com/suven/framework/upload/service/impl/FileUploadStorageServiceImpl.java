@@ -1,15 +1,15 @@
-package com.suven.framework.fileinter.service.impl;
+package com.suven.framework.upload.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
-import com.suven.framework.fileinter.dto.request.FileUploadStorageRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadStorageResponseDto;
-import com.suven.framework.fileinter.entity.FileUploadStorage;
-import com.suven.framework.fileinter.repository.FileUploadStorageRepository;
-import com.suven.framework.fileinter.service.FileUploadStorageService;
+import com.suven.framework.upload.dto.enums.FileUploadStorageQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadStorageRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
+import com.suven.framework.upload.entity.FileUploadStorage;
+import com.suven.framework.upload.repository.FileUploadStorageRepository;
+import com.suven.framework.upload.service.FileUploadStorageService;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.util.excel.ExcelUtils;

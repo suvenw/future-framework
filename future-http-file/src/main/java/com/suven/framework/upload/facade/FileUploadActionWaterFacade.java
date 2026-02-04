@@ -1,6 +1,6 @@
-package com.suven.framework.fileinter.facade;
+package com.suven.framework.upload.facade;
 
-import com.suven.framework.fileinter.service.FileUploadActionWaterService;
+import com.suven.framework.upload.service.FileUploadActionWaterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

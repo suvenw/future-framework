@@ -1,17 +1,17 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.fileinter.dto.enums.FileUploadActionWaterQueryEnum;
-import com.suven.framework.fileinter.dto.request.FileUploadActionWaterRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadActionWaterResponseDto;
-import com.suven.framework.fileinter.service.FileUploadActionWaterService;
-import com.suven.framework.fileinter.vo.request.FileUploadActionWaterAddRequestVo;
-import com.suven.framework.fileinter.vo.request.FileUploadActionWaterQueryRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadActionWaterResponseVo;
-import com.suven.framework.fileinter.vo.response.FileUploadActionWaterShowResponseVo;
+import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
+import com.suven.framework.upload.service.FileUploadActionWaterService;
+import com.suven.framework.upload.vo.request.FileUploadActionWaterAddRequestVo;
+import com.suven.framework.upload.vo.request.FileUploadActionWaterQueryRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadActionWaterResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadActionWaterShowResponseVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.Pager;
@@ -52,7 +52,7 @@ import java.util.List;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileUploadActionWater")
+ * RequestMapping("/upload/fileUploadActionWater")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -70,20 +70,20 @@ public class FileUploadActionWaterWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileUploadActionWater_index      =   "/fileinter/fileuploadactionwater/index";
-        public static final String fileinter_fileUploadActionWater_list       =   "/fileinter/fileuploadactionwater/list";
-        public static final String fileinter_fileUploadActionWater_queryList  =   "/fileinter/fileuploadactionwater/querylist";
-        public static final String fileinter_fileUploadActionWater_add        =   "/fileinter/fileuploadactionwater/add";
-        public static final String fileinter_fileUploadActionWater_modify     =   "/fileinter/fileuploadactionwater/modify";
-        public static final String fileinter_fileUploadActionWater_detail     =   "/fileinter/fileuploadactionwater/detail";
-        public static final String fileinter_fileUploadActionWater_edit       =   "/fileinter/fileuploadactionwater/edit";
-        public static final String fileinter_fileUploadActionWater_newInfo    =   "/fileinter/fileuploadactionwater/newInfo";
-        public static final String fileinter_fileUploadActionWater_del        =   "/fileinter/fileuploadactionwater/delete";
-        public static final String fileinter_fileUploadActionWater_sort       =   "/fileinter/fileuploadactionwater/sort";
-        public static final String fileinter_fileUploadActionWater_turnOn     =   "/fileinter/fileuploadactionwater/turnOn";
-        public static final String fileinter_fileUploadActionWater_turnOff    =   "/fileinter/fileuploadactionwater/turnOff";
-        public static final String fileinter_fileUploadActionWater_export     =   "/fileinter/fileuploadactionwater/export";
-        public static final String fileinter_fileUploadActionWater_import     =   "/fileinter/fileuploadactionwater/import";
+        public static final String upload_fileUploadActionWater_index      =   "/upload/fileuploadactionwater/index";
+        public static final String upload_fileUploadActionWater_list       =   "/upload/fileuploadactionwater/list";
+        public static final String upload_fileUploadActionWater_queryList  =   "/upload/fileuploadactionwater/querylist";
+        public static final String upload_fileUploadActionWater_add        =   "/upload/fileuploadactionwater/add";
+        public static final String upload_fileUploadActionWater_modify     =   "/upload/fileuploadactionwater/modify";
+        public static final String upload_fileUploadActionWater_detail     =   "/upload/fileuploadactionwater/detail";
+        public static final String upload_fileUploadActionWater_edit       =   "/upload/fileuploadactionwater/edit";
+        public static final String upload_fileUploadActionWater_newInfo    =   "/upload/fileuploadactionwater/newInfo";
+        public static final String upload_fileUploadActionWater_del        =   "/upload/fileuploadactionwater/delete";
+        public static final String upload_fileUploadActionWater_sort       =   "/upload/fileuploadactionwater/sort";
+        public static final String upload_fileUploadActionWater_turnOn     =   "/upload/fileuploadactionwater/turnOn";
+        public static final String upload_fileUploadActionWater_turnOff    =   "/upload/fileuploadactionwater/turnOff";
+        public static final String upload_fileUploadActionWater_export     =   "/upload/fileuploadactionwater/export";
+        public static final String upload_fileUploadActionWater_import     =   "/upload/fileuploadactionwater/import";
     }
 
 
@@ -102,10 +102,10 @@ public class FileUploadActionWaterWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileUploadActionWater_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:index")
+    @RequestMapping(value =  UrlCommand.upload_fileUploadActionWater_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:index")
     public String index(){
-        return "fileinter/fileUploadActionWater_index";
+        return "upload/fileUploadActionWater_index";
     }
 
 
@@ -127,8 +127,8 @@ public class FileUploadActionWaterWebController {
             request = FileUploadActionWaterQueryRequestVo.class,
             response = FileUploadActionWaterShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:list")
     public   void   list( OutputResponse out, FileUploadActionWaterQueryRequestVo fileUploadActionWaterQueryRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build( ).clone(fileUploadActionWaterQueryRequestVo);
 
@@ -163,8 +163,8 @@ public class FileUploadActionWaterWebController {
             request = FileUploadActionWaterQueryRequestVo.class,
             response = FileUploadActionWaterShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:query")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:query")
     public   void   queryList( OutputResponse out, FileUploadActionWaterQueryRequestVo fileUploadActionWaterQueryRequestVo){
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build( ).clone(fileUploadActionWaterQueryRequestVo);
 
@@ -199,8 +199,8 @@ public class FileUploadActionWaterWebController {
             request = FileUploadActionWaterAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadactionwater:add")
     public  void  add(OutputResponse out, FileUploadActionWaterAddRequestVo fileUploadActionWaterAddRequestVo){
 
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto =  FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterAddRequestVo);
@@ -230,8 +230,8 @@ public class FileUploadActionWaterWebController {
             request = FileUploadActionWaterAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadactionwater:modify")
     public  void  modify(OutputResponse out,FileUploadActionWaterAddRequestVo fileUploadActionWaterAddRequestVo){
 
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto =  FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterAddRequestVo);
@@ -262,8 +262,8 @@ public class FileUploadActionWaterWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadActionWaterShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = fileUploadActionWaterService.getFileUploadActionWaterById(idRequestVo.getId());
@@ -290,8 +290,8 @@ public class FileUploadActionWaterWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadActionWaterShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = fileUploadActionWaterService.getFileUploadActionWaterById(idRequestVo.getId());
@@ -315,10 +315,10 @@ public class FileUploadActionWaterWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileUploadActionWater_edit";
+        return "upload/fileUploadActionWater_edit";
     }
 
     /**
@@ -338,8 +338,8 @@ public class FileUploadActionWaterWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:del")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadactionwater:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -368,8 +368,8 @@ public class FileUploadActionWaterWebController {
             request = FileUploadActionWaterQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:export")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadactionwater:export")
     public void export(HttpServletResponse response, FileUploadActionWaterQueryRequestVo fileUploadActionWaterQueryRequestVo){
 
             FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterQueryRequestVo);
@@ -397,8 +397,8 @@ public class FileUploadActionWaterWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadActionWater_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadactionwater:import")
+    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadactionwater:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

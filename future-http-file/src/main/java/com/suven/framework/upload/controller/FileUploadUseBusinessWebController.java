@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -32,15 +32,15 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
 
-import com.suven.framework.fileinter.service.FileUploadUseBusinessService;
-import com.suven.framework.fileinter.vo.request.FileUploadUseBusinessQueryRequestVo;
-import com.suven.framework.fileinter.vo.request.FileUploadUseBusinessAddRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadUseBusinessShowResponseVo;
-import com.suven.framework.fileinter.vo.response.FileUploadUseBusinessResponseVo;
+import com.suven.framework.upload.service.FileUploadUseBusinessService;
+import com.suven.framework.upload.vo.request.FileUploadUseBusinessQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileUploadUseBusinessAddRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadUseBusinessShowResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadUseBusinessResponseVo;
 
-import com.suven.framework.fileinter.dto.request.FileUploadUseBusinessRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadUseBusinessResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadUseBusinessRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadUseBusinessResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadUseBusinessQueryEnum;
 
 
 /**
@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadUseBusinessQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileUploadUseBusiness")
+ * RequestMapping("/upload/fileUploadUseBusiness")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -76,20 +76,20 @@ public class FileUploadUseBusinessWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileUploadUseBusiness_index      =   "/fileinter/fileuploadusebusiness/index";
-        public static final String fileinter_fileUploadUseBusiness_list       =   "/fileinter/fileuploadusebusiness/list";
-        public static final String fileinter_fileUploadUseBusiness_queryList  =   "/fileinter/fileuploadusebusiness/querylist";
-        public static final String fileinter_fileUploadUseBusiness_add        =   "/fileinter/fileuploadusebusiness/add";
-        public static final String fileinter_fileUploadUseBusiness_modify     =   "/fileinter/fileuploadusebusiness/modify";
-        public static final String fileinter_fileUploadUseBusiness_detail     =   "/fileinter/fileuploadusebusiness/detail";
-        public static final String fileinter_fileUploadUseBusiness_edit       =   "/fileinter/fileuploadusebusiness/edit";
-        public static final String fileinter_fileUploadUseBusiness_newInfo    =   "/fileinter/fileuploadusebusiness/newInfo";
-        public static final String fileinter_fileUploadUseBusiness_del        =   "/fileinter/fileuploadusebusiness/delete";
-        public static final String fileinter_fileUploadUseBusiness_sort       =   "/fileinter/fileuploadusebusiness/sort";
-        public static final String fileinter_fileUploadUseBusiness_turnOn     =   "/fileinter/fileuploadusebusiness/turnOn";
-        public static final String fileinter_fileUploadUseBusiness_turnOff    =   "/fileinter/fileuploadusebusiness/turnOff";
-        public static final String fileinter_fileUploadUseBusiness_export     =   "/fileinter/fileuploadusebusiness/export";
-        public static final String fileinter_fileUploadUseBusiness_import     =   "/fileinter/fileuploadusebusiness/import";
+        public static final String upload_fileUploadUseBusiness_index      =   "/upload/fileuploadusebusiness/index";
+        public static final String upload_fileUploadUseBusiness_list       =   "/upload/fileuploadusebusiness/list";
+        public static final String upload_fileUploadUseBusiness_queryList  =   "/upload/fileuploadusebusiness/querylist";
+        public static final String upload_fileUploadUseBusiness_add        =   "/upload/fileuploadusebusiness/add";
+        public static final String upload_fileUploadUseBusiness_modify     =   "/upload/fileuploadusebusiness/modify";
+        public static final String upload_fileUploadUseBusiness_detail     =   "/upload/fileuploadusebusiness/detail";
+        public static final String upload_fileUploadUseBusiness_edit       =   "/upload/fileuploadusebusiness/edit";
+        public static final String upload_fileUploadUseBusiness_newInfo    =   "/upload/fileuploadusebusiness/newInfo";
+        public static final String upload_fileUploadUseBusiness_del        =   "/upload/fileuploadusebusiness/delete";
+        public static final String upload_fileUploadUseBusiness_sort       =   "/upload/fileuploadusebusiness/sort";
+        public static final String upload_fileUploadUseBusiness_turnOn     =   "/upload/fileuploadusebusiness/turnOn";
+        public static final String upload_fileUploadUseBusiness_turnOff    =   "/upload/fileuploadusebusiness/turnOff";
+        public static final String upload_fileUploadUseBusiness_export     =   "/upload/fileuploadusebusiness/export";
+        public static final String upload_fileUploadUseBusiness_import     =   "/upload/fileuploadusebusiness/import";
     }
 
 
@@ -108,10 +108,10 @@ public class FileUploadUseBusinessWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileUploadUseBusiness_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:index")
+    @RequestMapping(value =  UrlCommand.upload_fileUploadUseBusiness_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:index")
     public String index(){
-        return "fileinter/fileUploadUseBusiness_index";
+        return "upload/fileUploadUseBusiness_index";
     }
 
 
@@ -133,8 +133,8 @@ public class FileUploadUseBusinessWebController {
             request = FileUploadUseBusinessQueryRequestVo.class,
             response = FileUploadUseBusinessShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:list")
     public   void   list( OutputResponse out, FileUploadUseBusinessQueryRequestVo fileUploadUseBusinessQueryRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build( ).clone(fileUploadUseBusinessQueryRequestVo);
 
@@ -168,8 +168,8 @@ public class FileUploadUseBusinessWebController {
             request = FileUploadUseBusinessQueryRequestVo.class,
             response = FileUploadUseBusinessShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:query")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:query")
     public   void   queryList( OutputResponse out, FileUploadUseBusinessQueryRequestVo fileUploadUseBusinessQueryRequestVo){
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build( ).clone(fileUploadUseBusinessQueryRequestVo);
 
@@ -204,8 +204,8 @@ public class FileUploadUseBusinessWebController {
             request = FileUploadUseBusinessAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadusebusiness:add")
     public  void  add(OutputResponse out, FileUploadUseBusinessAddRequestVo fileUploadUseBusinessAddRequestVo){
 
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto =  FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessAddRequestVo);
@@ -235,8 +235,8 @@ public class FileUploadUseBusinessWebController {
             request = FileUploadUseBusinessAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadusebusiness:modify")
     public  void  modify(OutputResponse out,FileUploadUseBusinessAddRequestVo fileUploadUseBusinessAddRequestVo){
 
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto =  FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessAddRequestVo);
@@ -267,8 +267,8 @@ public class FileUploadUseBusinessWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadUseBusinessShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadUseBusinessResponseDto fileUploadUseBusinessResponseDto = fileUploadUseBusinessService.getFileUploadUseBusinessById(idRequestVo.getId());
@@ -295,8 +295,8 @@ public class FileUploadUseBusinessWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadUseBusinessShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadUseBusinessResponseDto fileUploadUseBusinessResponseDto = fileUploadUseBusinessService.getFileUploadUseBusinessById(idRequestVo.getId());
@@ -320,10 +320,10 @@ public class FileUploadUseBusinessWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileUploadUseBusiness_edit";
+        return "upload/fileUploadUseBusiness_edit";
     }
 
     /**
@@ -343,8 +343,8 @@ public class FileUploadUseBusinessWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:del")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadusebusiness:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -373,8 +373,8 @@ public class FileUploadUseBusinessWebController {
             request = FileUploadUseBusinessQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:export")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadusebusiness:export")
     public void export(HttpServletResponse response, FileUploadUseBusinessQueryRequestVo fileUploadUseBusinessQueryRequestVo){
 
             FileUploadUseBusinessRequestDto fileUploadUseBusinessRequestDto = FileUploadUseBusinessRequestDto.build().clone(fileUploadUseBusinessQueryRequestVo);
@@ -402,8 +402,8 @@ public class FileUploadUseBusinessWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadUseBusiness_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadusebusiness:import")
+    @RequestMapping(value = UrlCommand.upload_fileUploadUseBusiness_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadusebusiness:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

@@ -1,7 +1,7 @@
-package com.suven.framework.fileinter.mapper;
+package com.suven.framework.upload.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.suven.framework.fileinter.entity.FileUploadApp;
+import com.suven.framework.upload.entity.FileUploadApp;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;

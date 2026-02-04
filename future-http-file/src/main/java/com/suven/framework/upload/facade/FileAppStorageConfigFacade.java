@@ -1,13 +1,13 @@
-package com.suven.framework.fileinter.facade;
+package com.suven.framework.upload.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.suven.framework.fileinter.service.FileAppStorageConfigService;
-import com.suven.framework.fileinter.dto.request.FileAppStorageConfigRequestDto;
-import com.suven.framework.fileinter.dto.response.FileAppStorageConfigResponseDto;
-import com.suven.framework.fileinter.vo.request.FileAppStorageConfigRequestVo;
-import com.suven.framework.fileinter.vo.response.FileAppStorageConfigResponseVo;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
+import com.suven.framework.upload.dto.response.FileAppStorageConfigResponseDto;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigRequestVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
 
 
 

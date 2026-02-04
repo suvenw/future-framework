@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -32,15 +32,15 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 
 
-import com.suven.framework.fileinter.service.FileUploadStorageService;
-import com.suven.framework.fileinter.vo.request.FileUploadStorageQueryRequestVo;
-import com.suven.framework.fileinter.vo.request.FileUploadStorageAddRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadStorageShowResponseVo;
-import com.suven.framework.fileinter.vo.response.FileUploadStorageResponseVo;
+import com.suven.framework.upload.service.FileUploadStorageService;
+import com.suven.framework.upload.vo.request.FileUploadStorageQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileUploadStorageAddRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadStorageShowResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadStorageResponseVo;
 
-import com.suven.framework.fileinter.dto.request.FileUploadStorageRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadStorageResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadStorageRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadStorageQueryEnum;
 
 
 /**
@@ -58,7 +58,7 @@ import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
  * ----------------------------------------------------------------------------
  *
  * ----------------------------------------------------------------------------
- * RequestMapping("/fileinter/fileUploadStorage")
+ * RequestMapping("/upload/fileUploadStorage")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
@@ -76,20 +76,20 @@ public class FileUploadStorageWebController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public static interface UrlCommand{
-        public static final String fileinter_fileUploadStorage_index      =   "/fileinter/fileuploadstorage/index";
-        public static final String fileinter_fileUploadStorage_list       =   "/fileinter/fileuploadstorage/list";
-        public static final String fileinter_fileUploadStorage_queryList  =   "/fileinter/fileuploadstorage/querylist";
-        public static final String fileinter_fileUploadStorage_add        =   "/fileinter/fileuploadstorage/add";
-        public static final String fileinter_fileUploadStorage_modify     =   "/fileinter/fileuploadstorage/modify";
-        public static final String fileinter_fileUploadStorage_detail     =   "/fileinter/fileuploadstorage/detail";
-        public static final String fileinter_fileUploadStorage_edit       =   "/fileinter/fileuploadstorage/edit";
-        public static final String fileinter_fileUploadStorage_newInfo    =   "/fileinter/fileuploadstorage/newInfo";
-        public static final String fileinter_fileUploadStorage_del        =   "/fileinter/fileuploadstorage/delete";
-        public static final String fileinter_fileUploadStorage_sort       =   "/fileinter/fileuploadstorage/sort";
-        public static final String fileinter_fileUploadStorage_turnOn     =   "/fileinter/fileuploadstorage/turnOn";
-        public static final String fileinter_fileUploadStorage_turnOff    =   "/fileinter/fileuploadstorage/turnOff";
-        public static final String fileinter_fileUploadStorage_export     =   "/fileinter/fileuploadstorage/export";
-        public static final String fileinter_fileUploadStorage_import     =   "/fileinter/fileuploadstorage/import";
+        public static final String upload_fileUploadStorage_index      =   "/upload/fileuploadstorage/index";
+        public static final String upload_fileUploadStorage_list       =   "/upload/fileuploadstorage/list";
+        public static final String upload_fileUploadStorage_queryList  =   "/upload/fileuploadstorage/querylist";
+        public static final String upload_fileUploadStorage_add        =   "/upload/fileuploadstorage/add";
+        public static final String upload_fileUploadStorage_modify     =   "/upload/fileuploadstorage/modify";
+        public static final String upload_fileUploadStorage_detail     =   "/upload/fileuploadstorage/detail";
+        public static final String upload_fileUploadStorage_edit       =   "/upload/fileuploadstorage/edit";
+        public static final String upload_fileUploadStorage_newInfo    =   "/upload/fileuploadstorage/newInfo";
+        public static final String upload_fileUploadStorage_del        =   "/upload/fileuploadstorage/delete";
+        public static final String upload_fileUploadStorage_sort       =   "/upload/fileuploadstorage/sort";
+        public static final String upload_fileUploadStorage_turnOn     =   "/upload/fileuploadstorage/turnOn";
+        public static final String upload_fileUploadStorage_turnOff    =   "/upload/fileuploadstorage/turnOff";
+        public static final String upload_fileUploadStorage_export     =   "/upload/fileuploadstorage/export";
+        public static final String upload_fileUploadStorage_import     =   "/upload/fileuploadstorage/import";
     }
 
 
@@ -108,10 +108,10 @@ public class FileUploadStorageWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.fileinter_fileUploadStorage_index,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:index")
+    @RequestMapping(value =  UrlCommand.upload_fileUploadStorage_index,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:index")
     public String index(){
-        return "fileinter/fileUploadStorage_index";
+        return "upload/fileUploadStorage_index";
     }
 
 
@@ -133,8 +133,8 @@ public class FileUploadStorageWebController {
             request = FileUploadStorageQueryRequestVo.class,
             response = FileUploadStorageShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_list,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_list,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:list")
     public   void   list( OutputResponse out, FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo){
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build( ).clone(fileUploadStorageQueryRequestVo);
 
@@ -169,8 +169,8 @@ public class FileUploadStorageWebController {
             request = FileUploadStorageQueryRequestVo.class,
             response = FileUploadStorageShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:query")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_queryList,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:query")
     public   void   queryList( OutputResponse out, FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo){
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build( ).clone(fileUploadStorageQueryRequestVo);
 
@@ -205,8 +205,8 @@ public class FileUploadStorageWebController {
             request = FileUploadStorageAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_add,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadstorage:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_add,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadstorage:add")
     public  void  add(OutputResponse out, FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo){
 
             FileUploadStorageRequestDto fileUploadStorageRequestDto =  FileUploadStorageRequestDto.build().clone(fileUploadStorageAddRequestVo);
@@ -236,8 +236,8 @@ public class FileUploadStorageWebController {
             request = FileUploadStorageAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadstorage:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_modify , method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadstorage:modify")
     public  void  modify(OutputResponse out,FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo){
 
             FileUploadStorageRequestDto fileUploadStorageRequestDto =  FileUploadStorageRequestDto.build().clone(fileUploadStorageAddRequestVo);
@@ -268,8 +268,8 @@ public class FileUploadStorageWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadStorageShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:list")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_detail,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:list")
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadStorageResponseDto fileUploadStorageResponseDto = fileUploadStorageService.getFileUploadStorageById(idRequestVo.getId());
@@ -296,8 +296,8 @@ public class FileUploadStorageWebController {
             request = HttpRequestByIdVo.class,
             response = FileUploadStorageShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:modify")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_edit , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:modify")
     public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadStorageResponseDto fileUploadStorageResponseDto = fileUploadStorageService.getFileUploadStorageById(idRequestVo.getId());
@@ -321,10 +321,10 @@ public class FileUploadStorageWebController {
      *
      *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:add")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_newInfo , method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:add")
     public String newInfo(ModelMap modelMap){
-        return "fileinter/fileUploadStorage_edit";
+        return "upload/fileUploadStorage_edit";
     }
 
     /**
@@ -344,8 +344,8 @@ public class FileUploadStorageWebController {
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_del,method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadstorage:del")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_del,method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadstorage:del")
     public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
@@ -374,8 +374,8 @@ public class FileUploadStorageWebController {
             request = FileUploadStorageQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_export,method = RequestMethod.GET)
-    //@RequiresPermissions("fileinter:fileuploadstorage:export")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_export,method = RequestMethod.GET)
+    //@RequiresPermissions("upload:fileuploadstorage:export")
     public void export(HttpServletResponse response, FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo){
 
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build().clone(fileUploadStorageQueryRequestVo);
@@ -403,8 +403,8 @@ public class FileUploadStorageWebController {
     * @param out
     * @param files
     */
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_import, method = RequestMethod.POST)
-    //@RequiresPermissions("fileinter:fileuploadstorage:import")
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_import, method = RequestMethod.POST)
+    //@RequiresPermissions("upload:fileuploadstorage:import")
     public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
         //写入文件
         try {

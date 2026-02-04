@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.vo.response;
+package com.suven.framework.upload.vo.response;
 
 
 import java.io.Serializable;

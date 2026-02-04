@@ -1,4 +1,4 @@
-package com.suven.framework.fileinter.controller;
+package com.suven.framework.upload.controller;
 
 
 
@@ -15,13 +15,13 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.core.ObjectTrue;
 
-import com.suven.framework.fileinter.facade.FileUploadStorageFacade;
-import com.suven.framework.fileinter.service.FileUploadStorageService;
-import com.suven.framework.fileinter.dto.request.FileUploadStorageRequestDto;
-import com.suven.framework.fileinter.dto.response.FileUploadStorageResponseDto;
-import com.suven.framework.fileinter.dto.enums.FileUploadStorageQueryEnum;
-import com.suven.framework.fileinter.vo.request.FileUploadStorageRequestVo;
-import com.suven.framework.fileinter.vo.response.FileUploadStorageResponseVo;
+import com.suven.framework.upload.facade.FileUploadStorageFacade;
+import com.suven.framework.upload.service.FileUploadStorageService;
+import com.suven.framework.upload.dto.request.FileUploadStorageRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
+import com.suven.framework.upload.dto.enums.FileUploadStorageQueryEnum;
+import com.suven.framework.upload.vo.request.FileUploadStorageRequestVo;
+import com.suven.framework.upload.vo.response.FileUploadStorageResponseVo;
 
 /**
  * @author 作者 : suven
@@ -57,8 +57,8 @@ public class FileUploadStorageController {
     private FileUploadStorageService  fileUploadStorageService;
 
     public interface UrlCommand{
-        public static final String fileinter_fileUploadStorage_pageList = "/fileinter/fileuploadstorage/pageList";
-        public static final String fileinter_fileUploadStorage_info = "/fileinter/fileuploadstorage/info";
+        public static final String upload_fileUploadStorage_pageList = "/upload/fileuploadstorage/pageList";
+        public static final String upload_fileUploadStorage_info = "/upload/fileuploadstorage/info";
     }
 
     /**
@@ -78,7 +78,7 @@ public class FileUploadStorageController {
             request = FileUploadStorageRequestVo.class,
             response = FileUploadStorageResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_pageList, method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_pageList, method = RequestMethod.GET)
     public void list( OutputResponse out, FileUploadStorageRequestVo fileUploadStorageRequestVo){
             FileUploadStorageRequestDto fileUploadStorageRequestDto = FileUploadStorageRequestDto.build().clone(fileUploadStorageRequestVo);
         Pager<FileUploadStorageRequestDto> pager =  Pager.of( fileUploadStorageRequestVo.getPageNo(),fileUploadStorageRequestVo.getPageSize());
@@ -116,7 +116,7 @@ public class FileUploadStorageController {
             request = HttpRequestByIdVo.class,
             response = FileUploadStorageResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.fileinter_fileUploadStorage_info ,method = RequestMethod.GET)
+    @RequestMapping(value = UrlCommand.upload_fileUploadStorage_info ,method = RequestMethod.GET)
     public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
 
             FileUploadStorageResponseDto fileUploadStorageResponseDto = fileUploadStorageService.getFileUploadStorageById(idRequestVo.getId());
