@@ -1,5 +1,6 @@
 package com.suven.framework.http.proxy;
 
+import com.alibaba.fastjson.JSON;
 import com.suven.framework.http.exception.HttpClientRuntimeException;
 
 import java.util.List;
@@ -114,5 +115,12 @@ public class HttpClientResponse {
 
 	public void setError(String error) {
 		this.error = error;
+	}
+
+	public <T>T parseBody(Class<T> clazz ){
+		if (Objects.isNull( body) || "".equals(body)){
+			return null;
+		}
+		return JSON.parseObject(body, clazz);
 	}
 }
