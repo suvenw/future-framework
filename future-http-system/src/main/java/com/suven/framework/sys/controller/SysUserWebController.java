@@ -327,9 +327,9 @@ public class SysUserWebController {
             userRoleService.editRole(sysUserAddRequestVo.getId(), sysUserAddRequestVo.getRoleIds());
         } else {
             userRoleService.deleteAll(sysUserAddRequestVo.getId());
-        }
+            }
 
-        boolean result = sysUserService.updateSysUser(sysUserRequestDto);
+            boolean result = sysUserService.updateSysUser(sysUserRequestDto);
         log.info("修改用户表完成, ID: {}, 结果: {}", sysUserAddRequestVo.getId(), result);
         return result;
     }
