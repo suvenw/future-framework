@@ -1,6 +1,5 @@
 package com.suven.framework.sys.controller;
 
-
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.api.ApiDoc;
@@ -35,14 +34,17 @@ import com.suven.framework.sys.vo.response.SysPermissionTreeResponseVo;
 import com.suven.framework.sys.vo.response.SysRoleShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -55,36 +57,41 @@ import java.util.Map;
  *
  * @author 作者 : suven
  * CreateDate 创建时间: 2022-02-28 16:10:30
- * @version 版本: v1.0.0
+ * @version 版本: v2.0.0
  * <pre>
  *
- *  Description: 菜单权限表 的控制服务类
+ *  Description: 菜单权限表接口控制器
+ *
+ *  接口规范：
+ *  1. 所有接口必须使用 @ApiDoc 注解
+ *  2. 请求方式必须明确指定 (GET/POST/PUT/DELETE)
+ *  3. 接口URL必须在 UrlCommand 中统一定义
+ *  4. 返回结果必须使用统一的响应格式
+ *  5. 必须使用 @Validated 开启参数校验
+ *  6. 必须使用 @Slf4j 记录日志
  *
  * </pre>
  * <pre>
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * ----------------------------------------------------------------------------
- *
+ *    v2.0.0         suven    2026-02-05   重构:统一接口规范
  * ----------------------------------------------------------------------------
  * RequestMapping("/sys/sysPermission")
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
-
-
-@Controller
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
+        groupDesc = DocumentConst.Sys.SYS_DOC_DES,
         module = "菜单权限表模块"
 )
+@Controller
+@Slf4j
+@Validated
 public class SysPermissionWebController {
 
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
 
     @Autowired
     private SysPermissionService sysPermissionService;
@@ -98,442 +105,387 @@ public class SysPermissionWebController {
     @Autowired
     private SysRolePermissionService sysRolePermissionService;
 
-    @Autowired
-    private SysRolePermissionFacade sysRolePermissionFacade;
-
-
-
-
+    /**
+     * URL 命令常量接口
+     * 规范：全大写，下划线分隔，描述性名称
+     */
+    public interface UrlCommand {
+        String SYS_PERMISSION_INDEX = "/sys/sysPermission/index";
+        String SYS_PERMISSION_PAGE_LIST = "/sys/sysPermission/pageList";
+        String SYS_PERMISSION_LIST = "/sys/sysPermission/list";
+        String SYS_PERMISSION_QUERY_LIST = "/sys/sysPermission/queryList";
+        String SYS_PERMISSION_INFO = "/sys/sysPermission/info";
+        String SYS_PERMISSION_CREATE = "/sys/sysPermission/create";
+        String SYS_PERMISSION_UPDATE = "/sys/sysPermission/update";
+        String SYS_PERMISSION_DELETE = "/sys/sysPermission/delete";
+        String SYS_PERMISSION_EDIT = "/sys/sysPermission/edit";
+        String SYS_PERMISSION_NEW_INFO = "/sys/sysPermission/newInfo";
+        String SYS_PERMISSION_EXPORT = "/sys/sysPermission/export";
+        String SYS_PERMISSION_IMPORT = "/sys/sysPermission/import";
+    }
 
     /**
-     * Title: 跳转到菜单权限表主界面
+     * 跳转到菜单权限表主界面
+     *
      * @return 字符串url
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
-    @RequestMapping(value =  UrlCommand.sys_sysPermission_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:list")
-    public String index(){
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_INDEX)
+    public String index() {
+        log.info("跳转菜单权限表主界面");
         return "sys/sysPermission_index";
     }
 
-
     /**
-     * Title: 获取菜单权限表分页信息
-     * Description:sysPermissionQueryRequestVo @{Link SysPermissionQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysPermissionShowResponseVo>
-     * @throw
+     * 分页获取菜单权限表信息
+     *
+     * @param sysPermissionQueryRequestVo 查询请求参数
+     * @return PageResult<SysPermissionShowResponseVo> 分页响应结果
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
      */
     @ApiDoc(
-            value = "获取菜单权限表分页信息",
+            value = "分页获取菜单权限表信息",
+            description = "根据查询条件分页获取菜单权限表列表",
             request = SysPermissionQueryRequestVo.class,
             response = SysPermissionShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:list")
-    public   void   list(OutputSystem out, SysPermissionQueryRequestVo sysPermissionQueryRequestVo){
-            SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build( ).clone(sysPermissionQueryRequestVo);
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_PAGE_LIST)
+    public PageResult<SysPermissionShowResponseVo> pageList(
+            @Valid SysPermissionQueryRequestVo sysPermissionQueryRequestVo) {
 
-        Pager<SysPermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysPermissionRequestDto );
-         SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;
-        PageResult<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult<>());
-            return ;
+        log.info("分页查询菜单权限表, 参数: {}", sysPermissionQueryRequestVo);
+
+        SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build()
+                .clone(sysPermissionQueryRequestVo);
+
+        Pager<SysPermissionRequestDto> pager = new Pager<>(
+                sysPermissionQueryRequestVo.getPageNo(),
+                sysPermissionQueryRequestVo.getPageSize()
+        );
+        pager.toPageSize(sysPermissionQueryRequestVo.getPageSize())
+                .toPageNo(sysPermissionQueryRequestVo.getPageNo())
+                .toParamObject(sysPermissionRequestDto);
+
+        SysPermissionQueryEnum queryEnum = SysPermissionQueryEnum.DESC_ID;
+        PageResult<SysPermissionResponseDto> resultList = sysPermissionService
+                .getSysPermissionByNextPage(pager, queryEnum);
+
+        if (resultList == null || resultList.getList().isEmpty()) {
+            log.info("分页查询菜单权限表完成, 无数据");
+            return new PageResult<>();
         }
 
-        PageResult<SysPermissionShowResponseVo> result = resultList.convertBuild(SysPermissionShowResponseVo.class);
-        out.write(result);
+        PageResult<SysPermissionShowResponseVo> result = resultList
+                .convertBuild(SysPermissionShowResponseVo.class);
+        log.info("分页查询菜单权限表完成, 总数: {}", result.getTotal());
+        return result;
     }
 
-
-
-
-
     /**
-     * Title: 新增菜单权限表信息
-     * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
-     * @return long类型id
+     * 根据条件查询菜单权限表信息
+     *
+     * @param sysPermissionQueryRequestVo 查询请求参数
+     * @return List<SysPermissionShowResponseVo> 响应结果列表
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
-            value = "获取菜单权限表分页信息",
+            value = "根据条件查询菜单权限表信息",
+            description = "根据查询条件获取菜单权限表列表",
             request = SysPermissionQueryRequestVo.class,
             response = SysPermissionShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:list")
-    public   void   queryList( OutputSystem out){
-        Map<String, Object> map = this.sysPermissionFacade.queryPermissionTreeList();
-        out.write(map, new String[0]);
-    }
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_QUERY_LIST)
+    public List<SysPermissionShowResponseVo> queryList(
+            @Valid SysPermissionQueryRequestVo sysPermissionQueryRequestVo) {
 
+        log.info("根据条件查询菜单权限表, 参数: {}", sysPermissionQueryRequestVo);
 
-    @ApiDoc(
-            value = "获取角色权限列表",
-            request = SysRoleQueryRequestVo.class,
-            response = SysRoleShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_role_query_queryRolePermission,method = RequestMethod.GET)
-    //@RequiresPermissions({"sys:sysPermission:queryRolePermission"})
-    public void queryRolePermission(OutputSystem out, SysRolePermissionSaveRequestVo requestVo) {
-        List<Long> list = this.sysRolePermissionFacade.queryRolePermission(requestVo);
-        out.write(list, new String[0]);
-    }
+        SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build()
+                .clone(sysPermissionQueryRequestVo);
 
-    @ApiDoc(
-            value = "获取菜单列表",
-            request = SysPermissionRequestVo.class,
-            response = SysPermissionTreeResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_role_query_getSystemMenuList,method = RequestMethod.GET)
-    //@RequiresPermissions({"sys:permission:list"})
-    public void getSystemMenuList(OutputResponse out, SysPermissionRequestVo sysPermissionRequestVo) {
-        List<SysPermissionTreeResponseVo> resultList = this.sysPermissionFacade.getSysPermissionByList(sysPermissionRequestVo);
-        out.write(resultList, new String[0]);
-    }
+        Pager<SysPermissionRequestDto> pager = Pager.of();
+        pager.toPageSize(sysPermissionQueryRequestVo.getPageSize())
+                .toPageNo(sysPermissionQueryRequestVo.getPageNo())
+                .toParamObject(sysPermissionRequestDto);
 
+        SysPermissionQueryEnum queryEnum = SysPermissionQueryEnum.DESC_ID;
+        List<SysPermissionResponseDto> resultList = sysPermissionService
+                .getSysPermissionListByQuery(pager, queryEnum);
 
-    @ApiDoc(
-            value = "获取子菜单列表",
-            request = SysPermissionRequestVo.class,
-            response = SysPermissionTreeResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_role_query_getSystemSubmenu,method = RequestMethod.GET)
-    //@RequiresPermissions({"sys:permission:list"})
-    public void getSystemSubmenu(OutputResponse out, SysPermissionRequestVo requestVo) {
-        List<SysPermissionTreeResponseVo> vos = this.sysPermissionFacade.getSystemSubmenu(requestVo);
-        out.write(vos, new String[0]);
-    }
+        if (resultList == null || resultList.isEmpty()) {
+            log.info("根据条件查询菜单权限表完成, 无数据");
+            return new java.util.ArrayList<>();
+        }
 
-
-
-
-    @ApiDoc(
-            value = "获取树形角色列表",
-            request = SysRoleQueryRequestVo.class,
-            response = SysRoleShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_role_query_tree_list,method = RequestMethod.GET)
-    //@RequiresPermissions({"sys:permission:list"})
-    public void queryTreeList(OutputSystem out) {
-//        SysPermissionTreeRequestVo vo = this.sysPermissionFacade.queryTreeList();
-//        out.write(vo);
-        Map<String, Object> map = this.sysPermissionFacade.queryTreeList();
-        out.write(map, new String[0]);
-    }
-
-
-    @ApiDoc(
-            value = "保存角色权限信息",
-            request = SysRolePermissionSaveRequestVo.class,
-            response = Long.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_saveRolePermission,method = RequestMethod.POST)
-    //@RequiresPermissions({"sys:sysPermission:saveRolePermission"})
-    public void saveRolePermission(OutputSystem out, SysRolePermissionSaveRequestVo requestVo) {
-        IResultCodeEnum sysMsgEnum = this.sysRolePermissionFacade.saveRolePermission(requestVo);
-        out.write(true);
+        List<SysPermissionShowResponseVo> listVo = IterableConvert.convertList(
+                resultList, SysPermissionShowResponseVo.class);
+        log.info("根据条件查询菜单权限表完成, 数量: {}", listVo.size());
+        return listVo;
     }
 
     /**
-     * Title: 新增菜单权限表信息
-     * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
-     * @param sysPermissionAddRequestVo 对象
-     * @return long类型id
+     * 新增菜单权限表信息
+     *
+     * @param sysPermissionAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
             value = "新增菜单权限表信息",
+            description = "新增菜单权限表记录",
             request = SysPermissionAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:permission:add")
-    public  void  add(OutputSystem out, SysPermissionAddRequestVo sysPermissionAddRequestVo){
+    @PostMapping(value = UrlCommand.SYS_PERMISSION_CREATE)
+    public Long create(@Valid SysPermissionAddRequestVo sysPermissionAddRequestVo) {
 
-            SysPermissionRequestDto sysPermissionRequestDto =  SysPermissionRequestDto.build().clone(sysPermissionAddRequestVo);
+        log.info("新增菜单权限表, 参数: {}", sysPermissionAddRequestVo);
 
-            //sysPermissionRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysPermissionResponseDto sysPermissionresponseDto =  sysPermissionService.saveSysPermission(sysPermissionRequestDto);
-        if(sysPermissionresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build()
+                .clone(sysPermissionAddRequestVo);
+        SysPermissionResponseDto sysPermissionResponseDto = sysPermissionService
+                .saveSysPermission(sysPermissionRequestDto);
+
+        if (sysPermissionResponseDto == null) {
+            log.warn("新增菜单权限表失败");
+            throw new RuntimeException("新增失败");
         }
-        out.write( sysPermissionresponseDto.getId());
+
+        log.info("新增菜单权限表成功, ID: {}", sysPermissionResponseDto.getId());
+        return sysPermissionResponseDto.getId();
     }
+
     /**
-     * Title: 修改菜单权限表信息
-     * Description:sysPermissionAddRequestVo @{Link SysPermissionAddRequestVo}
-     * @param  sysPermissionAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 修改菜单权限表信息
+     *
+     * @param sysPermissionAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
             value = "修改菜单权限表信息",
+            description = "根据ID修改菜单权限表记录",
             request = SysPermissionAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:permission:modify")
-    public  void  modify(OutputSystem out,SysPermissionAddRequestVo sysPermissionAddRequestVo){
+    @PostMapping(value = UrlCommand.SYS_PERMISSION_UPDATE)
+    public boolean update(@Valid SysPermissionAddRequestVo sysPermissionAddRequestVo) {
 
-            SysPermissionRequestDto sysPermissionRequestDto =  SysPermissionRequestDto.build().clone(sysPermissionAddRequestVo);
+        log.info("修改菜单权限表, 参数: {}", sysPermissionAddRequestVo);
 
-        if(sysPermissionRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        if (sysPermissionAddRequestVo.getId() == null || sysPermissionAddRequestVo.getId() <= 0) {
+            log.warn("修改菜单权限表参数错误, ID: {}", sysPermissionAddRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
         }
-        boolean result =  sysPermissionService.updateSysPermission(sysPermissionRequestDto);
-        out.write(result);
+
+        SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build()
+                .clone(sysPermissionAddRequestVo);
+        boolean result = sysPermissionService.updateSysPermission(sysPermissionRequestDto);
+        log.info("修改菜单权限表完成, ID: {}, 结果: {}", sysPermissionAddRequestVo.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看菜单权限表信息
-     * Description:sysPermissionRequestVo @{Link SysPermissionRequestVo}
-     * @param
-     * @return  SysPermissionResponseVo  对象
+     * 查看菜单权限表详情
+     *
+     * @param idRequestVo ID请求参数
+     * @return SysPermissionShowResponseVo 详情响应结果
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
      */
-
     @ApiDoc(
-            value = "查看菜单权限表信息",
+            value = "查看菜单权限表详情",
+            description = "根据ID获取菜单权限表详细信息",
             request = HttpRequestByIdVo.class,
             response = SysPermissionShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_INFO)
+    public SysPermissionShowResponseVo info(@Valid HttpRequestByIdVo idRequestVo) {
 
-            SysPermissionResponseDto sysPermissionResponseDto = sysPermissionService.getSysPermissionById(idRequestVo.getId());
-            SysPermissionShowResponseVo vo =  SysPermissionShowResponseVo.build().clone(sysPermissionResponseDto);
-        out.write(vo);
+        log.info("查询菜单权限表详情, ID: {}", idRequestVo.getId());
+
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询菜单权限表详情参数错误, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        SysPermissionResponseDto sysPermissionResponseDto = sysPermissionService
+                .getSysPermissionById(idRequestVo.getId());
+
+        if (sysPermissionResponseDto == null) {
+            log.warn("菜单权限表不存在, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        SysPermissionShowResponseVo vo = SysPermissionShowResponseVo.build()
+                .clone(sysPermissionResponseDto);
+        log.info("查询菜单权限表详情成功, ID: {}", idRequestVo.getId());
+        return vo;
     }
 
-
-
     /**
-     * Title: 跳转菜单权限表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysPermissionShowResponseVo 对象
+     * 跳转菜单权限表编辑页面
+     *
+     * @param idRequestVo ID请求参数
+     * @return SysPermissionShowResponseVo 编辑页面数据
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
-            value = "查看菜单权限表信息",
+            value = "跳转编辑页面",
+            description = "获取菜单权限表编辑页面数据",
             request = HttpRequestByIdVo.class,
             response = SysPermissionShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:list")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_EDIT)
+    public SysPermissionShowResponseVo edit(@Valid HttpRequestByIdVo idRequestVo) {
 
-            SysPermissionResponseDto sysPermissionResponseDto = sysPermissionService.getSysPermissionById(idRequestVo.getId());
-            SysPermissionShowResponseVo vo =  SysPermissionShowResponseVo.build().clone(sysPermissionResponseDto);
-        out.write(vo);
+        log.info("跳转编辑页面, ID: {}", idRequestVo.getId());
 
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("跳转编辑页面参数错误, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        SysPermissionResponseDto sysPermissionResponseDto = sysPermissionService
+                .getSysPermissionById(idRequestVo.getId());
+
+        if (sysPermissionResponseDto == null) {
+            log.warn("菜单权限表不存在, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        SysPermissionShowResponseVo vo = SysPermissionShowResponseVo.build()
+                .clone(sysPermissionResponseDto);
+        log.info("跳转编辑页面成功, ID: {}", idRequestVo.getId());
+        return vo;
     }
 
-
-
-
     /**
-     * Title: 跳转菜单权限表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
+     * 跳转菜单权限表新增编辑界面
+     *
+     * @return 页面路径
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
-    @RequestMapping(value = UrlCommand.sys_sysPermission_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:add")
-    public String newInfo(ModelMap modelMap){
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_NEW_INFO)
+    public String newInfo(ModelMap modelMap) {
+        log.info("跳转新增编辑页面");
         return "sys/sysPermission_edit";
     }
 
     /**
-     * Title: 删除菜单权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
+     * 删除菜单权限表信息
+     *
+     * @param idRequestVo ID请求参数
+     * @return int 删除数量
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
             value = "删除菜单权限表信息",
+            description = "根据ID列表删除菜单权限表记录",
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:permission:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @PostMapping(value = UrlCommand.SYS_PERMISSION_DELETE)
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除菜单权限表, ID列表: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除菜单权限表参数错误, ID列表为空");
+            throw new RuntimeException("ID列表参数错误");
         }
+
         int result = sysPermissionService.delSysPermissionByIds(idRequestVo.getIdList());
-        out.write(result);
+        log.info("删除菜单权限表完成, 删除数量: {}", result);
+        return result;
     }
 
-
-
     /**
-     * Title: 导出菜单权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
+     * 导出菜单权限表信息
+     *
+     * @param response 响应流
+     * @param sysPermissionQueryRequestVo 查询参数
      * @author suven
      * date 2022-02-28 16:10:30
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
      */
     @ApiDoc(
             value = "导出菜单权限表信息",
+            description = "导出菜单权限表数据到Excel文件",
             request = SysPermissionQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysPermission_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:permission:export")
-    public void export(HttpServletResponse response, SysPermissionQueryRequestVo sysPermissionQueryRequestVo){
+    @GetMapping(value = UrlCommand.SYS_PERMISSION_EXPORT)
+    public void export(HttpServletResponse response,
+                       @Valid SysPermissionQueryRequestVo sysPermissionQueryRequestVo) {
 
-            SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build().clone(sysPermissionQueryRequestVo);
+        log.info("导出菜单权限表, 参数: {}", sysPermissionQueryRequestVo);
 
-        Pager<SysPermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysPermissionQueryRequestVo.getPageSize()).toPageNo(sysPermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysPermissionRequestDto );
+        SysPermissionRequestDto sysPermissionRequestDto = SysPermissionRequestDto.build()
+                .clone(sysPermissionQueryRequestVo);
 
-        SysPermissionQueryEnum queryEnum =  SysPermissionQueryEnum.DESC_ID;
-        PageResult<SysPermissionResponseDto> resultList = sysPermissionService.getSysPermissionByNextPage(page,queryEnum);
+        Pager<SysPermissionRequestDto> pager = Pager.of();
+        pager.toPageSize(sysPermissionQueryRequestVo.getPageSize())
+                .toPageNo(sysPermissionQueryRequestVo.getPageNo())
+                .toParamObject(sysPermissionRequestDto);
+
+        SysPermissionQueryEnum queryEnum = SysPermissionQueryEnum.DESC_ID;
+        PageResult<SysPermissionResponseDto> resultList = sysPermissionService
+                .getSysPermissionByNextPage(pager, queryEnum);
         List<SysPermissionResponseDto> data = resultList.getList();
 
-        //写入文件
         try {
             OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysPermissionResponseVo.class,data,"导出菜单权限表信息");
+            ExcelUtils.writeExcel(outputStream, SysPermissionResponseVo.class, data, "导出菜单权限表信息");
+            log.info("导出菜单权限表完成, 数据量: {}", data.size());
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            log.error("导出菜单权限表失败", e);
         }
     }
 
-
     /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysPermission_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:permission:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysPermissionService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
-
-    
-
-    /**
-     * 查询用户拥有的菜单权限和按钮权限（根据TOKEN）
+     * 通过Excel导入数据
      *
-     * @return
-     */
-    @RequestMapping(value = UrlCommand.sys_sysPermission_get, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:sysPermission:getByToken")
-    public void getUserPermissionByToken(OutputSystem out, TokenRequestVo tokenRequestVo) {
-        Object object = sysPermissionFacade.getUserPermissionByToken(tokenRequestVo);
-        out.write(object);
-    }
-
-
-
-
-
-    /**
-     * 根据菜单id来获取其对应的权限数据
-     *
-     * @param sysPermissionDataRule
-     * @return
-     */
-    @RequestMapping(value = UrlCommand.sys_permission_get_perm_rule_list_byId, method = RequestMethod.GET)
-    //@RequiresPermissions("sys:sysPermission:getListById")
-    public void getPermRuleListByPermId(OutputSystem out, SysPermissionDataRuleIdRequestVo sysPermissionDataRule) {
-        List<SysPermissionDataRuleResponseDto> permRuleList = sysPermissionDataRuleService
-                .getSysPermissionDataRuleListByQuery(sysPermissionDataRule, SysPermissionDataRuleQueryEnum.PERMISSION_ID);
-        PageResult<SysPermissionDataRuleResponseDto> result = new PageResult<>();
-        result.toList(permRuleList);
-        out.write(result);
-    }
-
-    /**
-     * 根据菜单id来获取其对应的权限数据
-     *
-     * @param tokenRequestVo
-     * @return
+     * @param file 上传文件
+     * @return boolean 导入结果
+     * @author suven
+     * date 2022-02-28 16:10:30
      */
     @ApiDoc(
-            value = "根据菜单id来获取其对应的权限数据",
-            request = TokenRequestVo.class,
-            response = SysPermissionResponseDto.class
+            value = "导入菜单权限表数据",
+            description = "通过Excel文件导入菜单权限表数据",
+            request = MultipartFile.class,
+            response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.sys_user_queryUserRolePermission, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:sysPermission:getByToken")
-    public void getPermRuleListByUserId(OutputSystem out, TokenRequestVo tokenRequestVo) {
-        List<SysPermissionResponseDto> resultList = sysPermissionService.queryByUser(tokenRequestVo.getUserId());
-        List<SysPermissionShowResponseVo> listVo = IterableConvert.convertList(resultList,SysPermissionShowResponseVo.class);
-        out.write(listVo);
-    }
+    @PostMapping(value = UrlCommand.SYS_PERMISSION_IMPORT)
+    public boolean importExcel(@RequestParam("file") MultipartFile file) {
 
+        log.info("导入菜单权限表, 文件名: {}", file.getOriginalFilename());
+
+        try {
+            boolean result = sysPermissionService.saveData(file.getInputStream());
+            log.info("导入菜单权限表完成, 结果: {}", result);
+            return result;
+        } catch (Exception e) {
+            log.error("导入菜单权限表失败", e);
+            throw new RuntimeException("导入失败");
+        }
+    }
 }
