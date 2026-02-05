@@ -154,7 +154,7 @@ public class SysRoleWebController {
         return result;
     }
 
-    /**
+/**
      * 根据条件查询角色表信息
      *
      * @param sysRoleQueryRequestVo 查询请求参数
@@ -284,7 +284,7 @@ public class SysRoleWebController {
             throw new RuntimeException("ID参数错误");
         }
 
-        SysRoleResponseDto sysRoleResponseDto = sysRoleService.getSysRoleById(idRequestVo.getId());
+            SysRoleResponseDto sysRoleResponseDto = sysRoleService.getSysRoleById(idRequestVo.getId());
 
         if (sysRoleResponseDto == null) {
             log.warn("角色表不存在, ID: {}", idRequestVo.getId());
@@ -320,7 +320,7 @@ public class SysRoleWebController {
             throw new RuntimeException("ID参数错误");
         }
 
-        SysRoleResponseDto sysRoleResponseDto = sysRoleService.getSysRoleById(idRequestVo.getId());
+            SysRoleResponseDto sysRoleResponseDto = sysRoleService.getSysRoleById(idRequestVo.getId());
 
         if (sysRoleResponseDto == null) {
             log.warn("角色表不存在, ID: {}", idRequestVo.getId());
@@ -394,7 +394,7 @@ public class SysRoleWebController {
 
         log.info("导出角色表, 参数: {}", sysRoleQueryRequestVo);
 
-        SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build().clone(sysRoleQueryRequestVo);
+            SysRoleRequestDto sysRoleRequestDto = SysRoleRequestDto.build().clone(sysRoleQueryRequestVo);
 
         Pager<SysRoleRequestDto> pager = Pager.of();
         pager.toPageSize(sysRoleQueryRequestVo.getPageSize())
