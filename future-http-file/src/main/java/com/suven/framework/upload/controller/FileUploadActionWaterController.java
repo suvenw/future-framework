@@ -1,7 +1,11 @@
 package com.suven.framework.upload.controller;
 
-
 import com.suven.framework.core.ObjectTrue;
+import com.suven.framework.http.api.ApiDoc;
+import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
 import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
 import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
@@ -9,119 +13,111 @@ import com.suven.framework.upload.facade.FileUploadActionWaterFacade;
 import com.suven.framework.upload.service.FileUploadActionWaterService;
 import com.suven.framework.upload.vo.request.FileUploadActionWaterRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadActionWaterResponseVo;
-import com.suven.framework.http.api.ApiDoc;
-import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @author 作者 : suven
- * @version 版本: v1.0.0
- *  date 创建时间: 2024-04-19 00:14:12
- * <pre>
- *
- *  Description:  http业务接口交互数据请求参数实现类
- *
- * </pre>
- * <pre>
- * 修改记录
- *    修改后版本:     修改人：  修改日期:     修改内容:
- * ----------------------------------------------------------------------------
- *
- * ----------------------------------------------------------------------------
- * </pre>
- *  Copyright: (c) 2021 gc by https://www.suven.top
- **/
-
+ * 文件上传行为流水 APP 接口控制器
+ */
 @ApiDoc(
         group = DocumentConst.Api.API_DOC_GROUP,
-        groupDesc= DocumentConst.Api.API_DOC_DES,
-        module = "模块", isApp = true
+        groupDesc = DocumentConst.Api.API_DOC_DES,
+        module = "文件上传行为流水APP接口",
+        isApp = true
 )
 @Controller
+@Slf4j
+@Validated
 public class FileUploadActionWaterController {
 
     @Autowired
-    private FileUploadActionWaterFacade  fileUploadActionWaterFacade;
+    private FileUploadActionWaterFacade fileUploadActionWaterFacade;
 
     @Autowired
-    private FileUploadActionWaterService  fileUploadActionWaterService;
+    private FileUploadActionWaterService fileUploadActionWaterService;
 
-    public interface UrlCommand{
-        public static final String upload_fileUploadActionWater_pageList = "/upload/fileuploadactionwater/pageList";
-        public static final String upload_fileUploadActionWater_info = "/upload/fileuploadactionwater/info";
+    /**
+     * URL 命令常量接口
+     */
+    public interface UrlCommand {
+        String UPLOAD_FILE_UPLOAD_ACTION_WATER_PAGE_LIST = "/upload/fileuploadactionwater/pageList";
+        String UPLOAD_FILE_UPLOAD_ACTION_WATER_INFO = "/upload/fileuploadactionwater/info";
     }
 
     /**
-    * Title: 分页获取信息
-    * Description:fileUploadActionWaterQueryRequestVo @{Link FileUploadActionWaterQueryRequestVo}
-    * @param
-    * @return
-    * @author suven
-    * date 2024-04-19 00:14:12
-    *  --------------------------------------------------------
-    *  modifyer    modifyTime                 comment
-    *
-    *  --------------------------------------------------------
-    */
+     * 分页获取文件上传行为流水信息（APP）
+     */
     @ApiDoc(
-            value = "分页获取信息",
+            value = "分页获取文件上传行为流水信息(APP)",
+            description = "根据查询条件分页获取文件上传行为流水列表(APP)",
             request = FileUploadActionWaterRequestVo.class,
             response = FileUploadActionWaterResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_pageList, method = RequestMethod.GET)
-    public void list( OutputResponse out, FileUploadActionWaterRequestVo fileUploadActionWaterRequestVo){
-            FileUploadActionWaterRequestDto fileUploadActionWaterRequestDto = FileUploadActionWaterRequestDto.build().clone(fileUploadActionWaterRequestVo);
-        Pager pager = Pager.of();
-        pager.toPageSize(fileUploadActionWaterRequestVo.getPageSize()).toPageNo(fileUploadActionWaterRequestVo.getPageNo());
-        pager.toParamObject(fileUploadActionWaterRequestDto );
-        PageResult<FileUploadActionWaterResponseDto> resultList = fileUploadActionWaterService.getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum.DESC_ID,pager);
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_PAGE_LIST)
+    public PageResult<FileUploadActionWaterResponseVo> pageList(
+            @Valid FileUploadActionWaterRequestVo requestVo) {
 
-        if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.writeSuccess();
-            return;
+        log.info("APP 分页查询文件上传行为流水, 参数: {}", requestVo);
+
+        FileUploadActionWaterRequestDto dto = FileUploadActionWaterRequestDto.build()
+                .clone(requestVo);
+
+        Pager<FileUploadActionWaterRequestDto> pager = new Pager<>(
+                requestVo.getPageNo(),
+                requestVo.getPageSize()
+        );
+        pager.toParamObject(dto);
+
+        FileUploadActionWaterQueryEnum queryEnum = FileUploadActionWaterQueryEnum.DESC_ID;
+        PageResult<FileUploadActionWaterResponseDto> resultList =
+                fileUploadActionWaterService.getFileUploadActionWaterByNextPage(queryEnum, pager);
+
+        if (ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())) {
+            log.info("APP 分页查询文件上传行为流水完成, 无数据");
+            return new PageResult<>();
         }
-        PageResult<FileUploadActionWaterRequestVo> list =  resultList.convertBuild(FileUploadActionWaterRequestVo.class);
-        out.write(list);
 
-        out.write(list);
+        PageResult<FileUploadActionWaterResponseVo> result =
+                resultList.convertBuild(FileUploadActionWaterResponseVo.class);
+        log.info("APP 分页查询文件上传行为流水完成, 总数: {}", result.getTotal());
+        return result;
     }
 
-
-
-
-
     /**
-    * Title: 查看信息
-    * Description:HttpRequestByIdVo @{Link HttpRequestByIdVo}
-    * @param
-    * @return
-    * @author suven
-    * date 2024-04-19 00:14:12
-    *  --------------------------------------------------------
-    *  modifyer    modifyTime                 comment
-    *
-    *  --------------------------------------------------------
-    */
+     * 查看文件上传行为流水详情（APP）
+     */
     @ApiDoc(
-            value = "查看信息",
+            value = "查看文件上传行为流水详情(APP)",
+            description = "根据ID获取文件上传行为流水详情(APP)",
             request = HttpRequestByIdVo.class,
             response = FileUploadActionWaterResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileUploadActionWater_info ,method = RequestMethod.GET)
-    public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_INFO)
+    public FileUploadActionWaterResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
-            FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = fileUploadActionWaterService.getFileUploadActionWaterById(idRequestVo.getId());
-            FileUploadActionWaterResponseVo vo =  FileUploadActionWaterResponseVo.build().clone(fileUploadActionWaterResponseDto);
-        out.write(vo);
+        log.info("APP 查询文件上传行为流水详情, ID: {}", idVo.getId());
+
+        if (idVo.getId() == null || idVo.getId() <= 0) {
+            log.warn("APP 查询文件上传行为流水详情参数错误, ID: {}", idVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        FileUploadActionWaterResponseDto dto =
+                fileUploadActionWaterService.getFileUploadActionWaterById(idVo.getId());
+
+        if (dto == null) {
+            log.warn("APP 文件上传行为流水不存在, ID: {}", idVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        FileUploadActionWaterResponseVo vo = FileUploadActionWaterResponseVo.build()
+                .clone(dto);
+        log.info("APP 查询文件上传行为流水详情成功, ID: {}", idVo.getId());
+        return vo;
     }
-
-
-
 }
+
