@@ -1,420 +1,427 @@
 package com.suven.framework.upload.controller;
 
-
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import com.suven.framework.http.handler.OutputResponse;
-import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.api.ApiDoc;
-import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
-
-
-import com.suven.framework.upload.service.FileAppStorageConfigService;
-import com.suven.framework.upload.vo.request.FileAppStorageConfigQueryRequestVo;
-import com.suven.framework.upload.vo.request.FileAppStorageConfigAddRequestVo;
-import com.suven.framework.upload.vo.response.FileAppStorageConfigShowResponseVo;
-import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
-
+import com.suven.framework.http.api.ApiDoc;
+import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
 import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
 import com.suven.framework.upload.dto.response.FileAppStorageConfigResponseDto;
-import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
+import com.suven.framework.upload.service.FileAppStorageConfigService;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigAddRequestVo;
+import com.suven.framework.upload.vo.request.FileAppStorageConfigQueryRequestVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
+import com.suven.framework.upload.vo.response.FileAppStorageConfigShowResponseVo;
+import com.suven.framework.util.excel.ExcelUtils;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author 作者 : suven
- * @version 版本: v1.0.0
- *  date 创建时间: 2024-04-19 00:21:54
- * <pre>
+ * 文件应用存储配置接口控制器
  *
- *  Description:  http业务接口交互数据请求参数实现类
+ * 接口规范：
+ * 1. 所有接口必须使用 @ApiDoc 注解
+ * 2. 请求方式必须明确指定 (GET/POST/PUT/DELETE)
+ * 3. 接口URL必须在 UrlCommand 中统一定义
+ * 4. 返回结果必须使用统一的响应格式
+ * 5. 必须使用 @Validated 开启参数校验
+ * 6. 必须使用 @Slf4j 记录日志
  *
- * </pre>
- * <pre>
- * 修改记录
- *    修改后版本:     修改人：  修改日期:     修改内容:
- * ----------------------------------------------------------------------------
- *
- * ----------------------------------------------------------------------------
  * RequestMapping("/upload/fileAppStorageConfig")
- * </pre>
- * Copyright: (c) 2021 gc by https://www.suven.top
- **/
-
-
-@Controller
+ */
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "模块"
+        groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+        module = "文件应用存储配置模块"
 )
+@Controller
+@Slf4j
+@Validated
 public class FileAppStorageConfigWebController {
 
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public static interface UrlCommand{
-        public static final String upload_fileAppStorageConfig_index      =   "/upload/fileappstorageconfig/index";
-        public static final String upload_fileAppStorageConfig_list       =   "/upload/fileappstorageconfig/list";
-        public static final String upload_fileAppStorageConfig_queryList  =   "/upload/fileappstorageconfig/querylist";
-        public static final String upload_fileAppStorageConfig_add        =   "/upload/fileappstorageconfig/add";
-        public static final String upload_fileAppStorageConfig_modify     =   "/upload/fileappstorageconfig/modify";
-        public static final String upload_fileAppStorageConfig_detail     =   "/upload/fileappstorageconfig/detail";
-        public static final String upload_fileAppStorageConfig_edit       =   "/upload/fileappstorageconfig/edit";
-        public static final String upload_fileAppStorageConfig_newInfo    =   "/upload/fileappstorageconfig/newInfo";
-        public static final String upload_fileAppStorageConfig_del        =   "/upload/fileappstorageconfig/delete";
-        public static final String upload_fileAppStorageConfig_sort       =   "/upload/fileappstorageconfig/sort";
-        public static final String upload_fileAppStorageConfig_turnOn     =   "/upload/fileappstorageconfig/turnOn";
-        public static final String upload_fileAppStorageConfig_turnOff    =   "/upload/fileappstorageconfig/turnOff";
-        public static final String upload_fileAppStorageConfig_export     =   "/upload/fileappstorageconfig/export";
-        public static final String upload_fileAppStorageConfig_import     =   "/upload/fileappstorageconfig/import";
-    }
-
-
-
-
     @Autowired
-    private FileAppStorageConfigService  fileAppStorageConfigService;
+    private FileAppStorageConfigService fileAppStorageConfigService;
 
     /**
-     * Title: 跳转到主界面
-     * @return 字符串url
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * URL 命令常量接口
+     * 规范：全大写，下划线分隔，描述性名称
      */
-    @RequestMapping(value =  UrlCommand.upload_fileAppStorageConfig_index,method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:index")
-    public String index(){
+    public interface UrlCommand {
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_INDEX = "/upload/fileappstorageconfig/index";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_PAGE_LIST = "/upload/fileappstorageconfig/pageList";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_LIST = "/upload/fileappstorageconfig/list";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_QUERY_LIST = "/upload/fileappstorageconfig/querylist";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_INFO = "/upload/fileappstorageconfig/detail";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_CREATE = "/upload/fileappstorageconfig/add";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_UPDATE = "/upload/fileappstorageconfig/modify";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_DELETE = "/upload/fileappstorageconfig/delete";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_EDIT = "/upload/fileappstorageconfig/edit";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_NEW_INFO = "/upload/fileappstorageconfig/newInfo";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_SORT = "/upload/fileappstorageconfig/sort";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_TURN_ON = "/upload/fileappstorageconfig/turnOn";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_TURN_OFF = "/upload/fileappstorageconfig/turnOff";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_EXPORT = "/upload/fileappstorageconfig/export";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_IMPORT = "/upload/fileappstorageconfig/import";
+    }
+
+    /**
+     * 跳转到主界面
+     *
+     * @return 页面路径
+     */
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_INDEX)
+    public String index() {
+        log.info("跳转文件应用存储配置主界面");
         return "upload/fileAppStorageConfig_index";
     }
 
-
     /**
-     * Title: 获取分页信息
-     * Description:fileAppStorageConfigQueryRequestVo @{Link FileAppStorageConfigQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<FileAppStorageConfigShowResponseVo>
-     * @throw
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 分页获取文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param queryVo 查询请求参数
+     * @return PageResult<FileAppStorageConfigShowResponseVo> 分页响应结果
+     *
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
      */
     @ApiDoc(
-            value = "获取分页信息",
+            value = "分页获取文件应用存储配置信息",
+            description = "根据查询条件分页获取文件应用存储配置列表",
             request = FileAppStorageConfigQueryRequestVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_list,method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:list")
-    public   void   list( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
-            FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_PAGE_LIST)
+    public PageResult<FileAppStorageConfigShowResponseVo> pageList(
+            @Valid FileAppStorageConfigQueryRequestVo queryVo) {
 
-        Pager<FileAppStorageConfigRequestDto> pager =  Pager.of();
-        pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
-        pager.toParamObject(fileAppStorageConfigRequestDto );
-         FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
-        PageResult<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
-        if(ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())){
-            out.write( new PageResult<>());
-            return ;
+        log.info("分页查询文件应用存储配置, 参数: {}", queryVo);
+
+        FileAppStorageConfigRequestDto dto = FileAppStorageConfigRequestDto.build()
+                .clone(queryVo);
+
+        Pager<FileAppStorageConfigRequestDto> pager = new Pager<>(
+                queryVo.getPageNo(),
+                queryVo.getPageSize()
+        );
+        pager.toPageSize(queryVo.getPageSize())
+                .toPageNo(queryVo.getPageNo())
+                .toParamObject(dto);
+
+        FileAppStorageConfigQueryEnum queryEnum = FileAppStorageConfigQueryEnum.DESC_ID;
+        PageResult<FileAppStorageConfigResponseDto> resultList =
+                fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum, pager);
+
+        if (ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())) {
+            log.info("分页查询文件应用存储配置完成, 无数据");
+            return new PageResult<>();
         }
 
-        PageResult<FileAppStorageConfigShowResponseVo> result = resultList.convertBuild(FileAppStorageConfigShowResponseVo.class);
-        out.write( result);
+        PageResult<FileAppStorageConfigShowResponseVo> result =
+                resultList.convertBuild(FileAppStorageConfigShowResponseVo.class);
+        log.info("分页查询文件应用存储配置完成, 总数: {}", result.getTotal());
+        return result;
     }
 
-/**
-     * Title: 根据条件查谒分页信息
-     * Description:fileAppStorageConfigQueryRequestVo @{Link FileAppStorageConfigQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<FileAppStorageConfigShowResponseVo>
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+    /**
+     * 根据条件查询文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param queryVo 查询请求参数
+     * @return List<FileAppStorageConfigShowResponseVo> 响应结果列表
      */
     @ApiDoc(
-            value = "获取分页信息",
+            value = "根据条件查询文件应用存储配置信息",
+            description = "根据查询条件获取文件应用存储配置列表",
             request = FileAppStorageConfigQueryRequestVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:query")
-    public   void   queryList( OutputResponse out, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
-            FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build( ).clone(fileAppStorageConfigQueryRequestVo);
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_QUERY_LIST)
+    public List<FileAppStorageConfigShowResponseVo> queryList(
+            @Valid FileAppStorageConfigQueryRequestVo queryVo) {
 
-        FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
-        List<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigListByQuery(queryEnum,fileAppStorageConfigRequestDto);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
+        log.info("根据条件查询文件应用存储配置, 参数: {}", queryVo);
+
+        FileAppStorageConfigRequestDto dto = FileAppStorageConfigRequestDto.build()
+                .clone(queryVo);
+
+        FileAppStorageConfigQueryEnum queryEnum = FileAppStorageConfigQueryEnum.DESC_ID;
+        List<FileAppStorageConfigResponseDto> resultList =
+                fileAppStorageConfigService.getFileAppStorageConfigListByQuery(queryEnum, dto);
+
+        if (resultList == null || resultList.isEmpty()) {
+            log.info("根据条件查询文件应用存储配置完成, 无数据");
+            return new ArrayList<>();
         }
 
-        List<FileAppStorageConfigShowResponseVo> listVo = IterableConvert.convertList(resultList,FileAppStorageConfigShowResponseVo.class);
-
-        out.write( listVo);
+        List<FileAppStorageConfigShowResponseVo> listVo =
+                IterableConvert.convertList(resultList, FileAppStorageConfigShowResponseVo.class);
+        log.info("根据条件查询文件应用存储配置完成, 数量: {}", listVo.size());
+        return listVo;
     }
 
-
-
     /**
-     * Title: 新增信息
-     * Description:fileAppStorageConfigAddRequestVo @{Link FileAppStorageConfigAddRequestVo}
-     * @param fileAppStorageConfigAddRequestVo 对象
-     * @return long类型id
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 新增文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param addVo 新增请求参数
+     * @return Long 新增记录的ID
      */
     @ApiDoc(
-            value = "新增信息",
+            value = "新增文件应用存储配置信息",
+            description = "新增文件应用存储配置记录",
             request = FileAppStorageConfigAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_add,method = RequestMethod.POST)
-    //@RequiresPermissions("upload:fileappstorageconfig:add")
-    public  void  add(OutputResponse out, FileAppStorageConfigAddRequestVo fileAppStorageConfigAddRequestVo){
+    @PostMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_CREATE)
+    public Long create(@Valid FileAppStorageConfigAddRequestVo addVo) {
 
-            FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto =  FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigAddRequestVo);
+        log.info("新增文件应用存储配置, 参数: {}", addVo);
 
-            //fileAppStorageConfigRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            FileAppStorageConfigResponseDto fileAppStorageConfigresponseDto =  fileAppStorageConfigService.saveFileAppStorageConfig(fileAppStorageConfigRequestDto);
-        if(fileAppStorageConfigresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        FileAppStorageConfigRequestDto dto = FileAppStorageConfigRequestDto.build()
+                .clone(addVo);
+
+        FileAppStorageConfigResponseDto responseDto =
+                fileAppStorageConfigService.saveFileAppStorageConfig(dto);
+
+        if (responseDto == null) {
+            log.warn("新增文件应用存储配置失败");
+            throw new RuntimeException("新增失败");
         }
-        out.write( fileAppStorageConfigresponseDto.getId());
+
+        log.info("新增文件应用存储配置成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
+
     /**
-     * Title: 修改信息
-     * Description:fileAppStorageConfigAddRequestVo @{Link FileAppStorageConfigAddRequestVo}
-     * @param  fileAppStorageConfigAddRequestVo 对象
-     * @return  boolean 类型1或0;
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 修改文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param addVo 修改请求参数
+     * @return boolean 修改是否成功
      */
     @ApiDoc(
-            value = "修改信息",
+            value = "修改文件应用存储配置信息",
+            description = "根据ID修改文件应用存储配置记录",
             request = FileAppStorageConfigAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("upload:fileappstorageconfig:modify")
-    public  void  modify(OutputResponse out,FileAppStorageConfigAddRequestVo fileAppStorageConfigAddRequestVo){
+    @PostMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_UPDATE)
+    public boolean update(@Valid FileAppStorageConfigAddRequestVo addVo) {
 
-            FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto =  FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigAddRequestVo);
+        log.info("修改文件应用存储配置, 参数: {}", addVo);
 
-        if(fileAppStorageConfigRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        if (addVo.getId() == null || addVo.getId() <= 0) {
+            log.warn("修改文件应用存储配置参数错误, ID: {}", addVo.getId());
+            throw new RuntimeException("ID参数错误");
         }
-        boolean result =  fileAppStorageConfigService.updateFileAppStorageConfig(fileAppStorageConfigRequestDto);
-        out.write(result);
+
+        FileAppStorageConfigRequestDto dto = FileAppStorageConfigRequestDto.build()
+                .clone(addVo);
+
+        boolean result = fileAppStorageConfigService.updateFileAppStorageConfig(dto);
+        log.info("修改文件应用存储配置完成, ID: {}, 结果: {}", addVo.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看信息
-     * Description:fileAppStorageConfigRequestVo @{Link FileAppStorageConfigRequestVo}
-     * @param
-     * @return  FileAppStorageConfigResponseVo  对象
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 查看文件应用存储配置详情
      *
-     *  --------------------------------------------------------
+     * @param idVo ID请求参数
+     * @return FileAppStorageConfigShowResponseVo 详情响应结果
+     *
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
      */
-
     @ApiDoc(
-            value = "查看信息",
+            value = "查看文件应用存储配置详情",
+            description = "根据ID获取文件应用存储配置详细信息",
             request = HttpRequestByIdVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:list")
-    public void detail(OutputResponse out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_INFO)
+    public FileAppStorageConfigShowResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
-            FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = fileAppStorageConfigService.getFileAppStorageConfigById(idRequestVo.getId());
-            FileAppStorageConfigShowResponseVo vo =  FileAppStorageConfigShowResponseVo.build().clone(fileAppStorageConfigResponseDto);
-        out.write(vo);
+        log.info("查询文件应用存储配置详情, ID: {}", idVo.getId());
+
+        if (idVo.getId() == null || idVo.getId() <= 0) {
+            log.warn("查询文件应用存储配置详情参数错误, ID: {}", idVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        FileAppStorageConfigResponseDto dto =
+                fileAppStorageConfigService.getFileAppStorageConfigById(idVo.getId());
+
+        if (dto == null) {
+            log.warn("文件应用存储配置不存在, ID: {}", idVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        FileAppStorageConfigShowResponseVo vo = FileAppStorageConfigShowResponseVo.build()
+                .clone(dto);
+        log.info("查询文件应用存储配置详情成功, ID: {}", idVo.getId());
+        return vo;
     }
 
-
-
     /**
-     * Title: 跳转编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return FileAppStorageConfigShowResponseVo 对象
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 跳转编辑页面（加载详情用于编辑）
      *
-     *  --------------------------------------------------------
+     * @param idVo ID请求参数
+     * @return FileAppStorageConfigShowResponseVo 编辑页面数据
      */
     @ApiDoc(
-            value = "查看信息",
+            value = "跳转编辑页面",
+            description = "获取文件应用存储配置编辑页面数据",
             request = HttpRequestByIdVo.class,
             response = FileAppStorageConfigShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:modify")
-    public void edit(OutputResponse out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_EDIT)
+    public FileAppStorageConfigShowResponseVo edit(@Valid HttpRequestByIdVo idVo) {
 
-            FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = fileAppStorageConfigService.getFileAppStorageConfigById(idRequestVo.getId());
-            FileAppStorageConfigShowResponseVo vo =  FileAppStorageConfigShowResponseVo.build().clone(fileAppStorageConfigResponseDto);
-        out.write(vo);
+        log.info("跳转文件应用存储配置编辑页面, ID: {}", idVo.getId());
 
+        if (idVo.getId() == null || idVo.getId() <= 0) {
+            log.warn("跳转编辑页面参数错误, ID: {}", idVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        FileAppStorageConfigResponseDto dto =
+                fileAppStorageConfigService.getFileAppStorageConfigById(idVo.getId());
+
+        if (dto == null) {
+            log.warn("文件应用存储配置不存在, ID: {}", idVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        FileAppStorageConfigShowResponseVo vo = FileAppStorageConfigShowResponseVo.build()
+                .clone(dto);
+        log.info("跳转文件应用存储配置编辑页面成功, ID: {}", idVo.getId());
+        return vo;
     }
 
-
-
-
     /**
-     * Title: 跳转新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
+     * 跳转新增编辑界面
      *
-     *  --------------------------------------------------------
+     * @return 页面路径
      */
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:add")
-    public String newInfo(ModelMap modelMap){
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_NEW_INFO)
+    public String newInfo(ModelMap modelMap) {
+        log.info("跳转文件应用存储配置新增编辑页面");
         return "upload/fileAppStorageConfig_edit";
     }
 
     /**
-     * Title: 删除信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 删除文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param idVo ID列表请求参数
+     * @return int 删除数量
      */
     @ApiDoc(
-            value = "删除信息",
+            value = "删除文件应用存储配置信息",
+            description = "根据ID列表删除文件应用存储配置记录",
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_del,method = RequestMethod.POST)
-    //@RequiresPermissions("upload:fileappstorageconfig:del")
-    public  void  del(OutputResponse out, HttpRequestByIdListVo idRequestVo){
-        if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+    @PostMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_DELETE)
+    public int delete(@Valid HttpRequestByIdListVo idVo) {
+
+        log.info("删除文件应用存储配置, ID列表: {}", idVo.getIdList());
+
+        if (idVo.getIdList() == null || idVo.getIdList().isEmpty()) {
+            log.warn("删除文件应用存储配置参数错误, ID列表为空");
+            throw new RuntimeException("ID列表参数错误");
         }
-        int result = fileAppStorageConfigService.delFileAppStorageConfigByIds(idRequestVo.getIdList());
-        out.write(result);
+
+        int result = fileAppStorageConfigService.delFileAppStorageConfigByIds(idVo.getIdList());
+        log.info("删除文件应用存储配置完成, 删除数量: {}", result);
+        return result;
     }
 
-
-
     /**
-     * Title: 导出信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven  作者
-     * date 2024-04-19 00:21:54 创建时间
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * 导出文件应用存储配置信息
      *
-     *  --------------------------------------------------------
+     * @param response 响应流
+     * @param queryVo 查询参数
      */
     @ApiDoc(
-            value = "导出信息",
+            value = "导出文件应用存储配置信息",
+            description = "导出文件应用存储配置数据到Excel文件",
             request = FileAppStorageConfigQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_export,method = RequestMethod.GET)
-    //@RequiresPermissions("upload:fileappstorageconfig:export")
-    public void export(HttpServletResponse response, FileAppStorageConfigQueryRequestVo fileAppStorageConfigQueryRequestVo){
+    @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_EXPORT)
+    public void export(HttpServletResponse response,
+                       @Valid FileAppStorageConfigQueryRequestVo queryVo) {
 
-            FileAppStorageConfigRequestDto fileAppStorageConfigRequestDto = FileAppStorageConfigRequestDto.build().clone(fileAppStorageConfigQueryRequestVo);
+        log.info("导出文件应用存储配置, 参数: {}", queryVo);
+
+        FileAppStorageConfigRequestDto dto = FileAppStorageConfigRequestDto.build()
+                .clone(queryVo);
 
         Pager<FileAppStorageConfigRequestDto> pager = Pager.of();
-        pager.toPageSize(fileAppStorageConfigQueryRequestVo.getPageSize()).toPageNo(fileAppStorageConfigQueryRequestVo.getPageNo());
-        pager.toParamObject(fileAppStorageConfigRequestDto );
+        pager.toPageSize(queryVo.getPageSize())
+                .toPageNo(queryVo.getPageNo())
+                .toParamObject(dto);
 
-        FileAppStorageConfigQueryEnum queryEnum =  FileAppStorageConfigQueryEnum.DESC_ID;
-        PageResult<FileAppStorageConfigResponseDto> resultList = fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum,pager);
+        FileAppStorageConfigQueryEnum queryEnum = FileAppStorageConfigQueryEnum.DESC_ID;
+        PageResult<FileAppStorageConfigResponseDto> resultList =
+                fileAppStorageConfigService.getFileAppStorageConfigByNextPage(queryEnum, pager);
         List<FileAppStorageConfigResponseDto> data = resultList.getList();
 
-        //写入文件
         try {
             OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, FileAppStorageConfigResponseVo.class,data,"导出信息");
+            ExcelUtils.writeExcel(outputStream, FileAppStorageConfigResponseVo.class,
+                    data, "导出文件应用存储配置信息");
+            log.info("导出文件应用存储配置完成, 数据量: {}", data.size());
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            log.error("导出文件应用存储配置失败", e);
         }
     }
-
 
     /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.upload_fileAppStorageConfig_import, method = RequestMethod.POST)
-    //@RequiresPermissions("upload:fileappstorageconfig:import")
-    public void importExcel(OutputResponse out, @PathVariable("files") MultipartFile files) {
-        //写入文件
+     * 通过Excel导入文件应用存储配置信息
+     *
+     * @param file 上传文件
+     * @return boolean 导入结果
+     */
+    @ApiDoc(
+            value = "导入文件应用存储配置信息",
+            description = "通过Excel文件导入文件应用存储配置信息",
+            request = MultipartFile.class,
+            response = boolean.class
+    )
+    @PostMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_IMPORT)
+    public boolean importExcel(@RequestParam("file") MultipartFile file) {
+
+        log.info("导入文件应用存储配置, 文件名: {}", file.getOriginalFilename());
+
         try {
-            InputStream initialStream = files.getInputStream();
+            InputStream initialStream = file.getInputStream();
             boolean result = fileAppStorageConfigService.saveData(initialStream);
-            out.write(result);
+            log.info("导入文件应用存储配置完成, 结果: {}", result);
+            return result;
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error("导入文件应用存储配置失败", e);
+            throw new RuntimeException("导入失败");
         }
     }
-
-
 }
+
