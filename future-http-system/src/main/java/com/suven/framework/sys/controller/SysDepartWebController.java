@@ -1,439 +1,380 @@
 package com.suven.framework.sys.controller;
 
-
-
-import com.suven.framework.http.handler.OutputResponse;
-import com.suven.framework.sys.facade.SysDepartFacade;
-import com.suven.framework.sys.vo.response.SysDepartTreeModelResponseVo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
-
-
 import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
-import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
-
-import com.suven.framework.sys.service.SysDepartService;
-import com.suven.framework.sys.vo.request.SysDepartQueryRequestVo;
-import com.suven.framework.sys.vo.request.SysDepartAddRequestVo;
-import com.suven.framework.sys.vo.response.SysDepartShowResponseVo;
-import com.suven.framework.sys.vo.response.SysDepartResponseVo;
-
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.sys.dto.request.SysDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartResponseDto;
-import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
+import com.suven.framework.sys.facade.SysDepartFacade;
+import com.suven.framework.sys.service.SysDepartService;
+import com.suven.framework.sys.vo.request.SysDepartAddRequestVo;
+import com.suven.framework.sys.vo.request.SysDepartQueryRequestVo;
+import com.suven.framework.sys.vo.response.SysDepartResponseVo;
+import com.suven.framework.sys.vo.response.SysDepartShowResponseVo;
+import com.suven.framework.sys.vo.response.SysDepartTreeModelResponseVo;
+import com.suven.framework.util.excel.ExcelUtils;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * ClassName: SysDepartWebController.java
+ * 组织机构表 Web 控制器
  *
- * @author 作者 : suven
- * CreateDate 创建时间: 2022-02-28 16:13:31
- * @version 版本: v1.0.0
- * <pre>
- *
- *  Description: 组织机构表 的控制服务类
- *
- * </pre>
- * <pre>
- * 修改记录
- *    修改后版本:     修改人：  修改日期:     修改内容:
- * ----------------------------------------------------------------------------
- *
- * ----------------------------------------------------------------------------
  * RequestMapping("/sys/sysDepart")
- * </pre>
- * Copyright: (c) 2021 gc by https://www.suven.top
- **/
-
-
-@Controller
+ */
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
+        groupDesc = DocumentConst.Sys.SYS_DOC_DES,
         module = "组织机构表模块"
 )
+@Controller
+@Slf4j
+@Validated
 public class SysDepartWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
 
     @Autowired
     private SysDepartFacade sysDepartFacade;
 
-
     @Autowired
-    private SysDepartService  sysDepartService;
+    private SysDepartService sysDepartService;
 
     /**
-     * Title: 跳转到组织机构表主界面
-     * @return 字符串url
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 跳转到组织机构表主界面
      */
-    @RequestMapping(value =  UrlCommand.sys_sysDepart_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:list")
-    public String index(){
+    @GetMapping(value = UrlCommand.sys_sysDepart_index)
+    public String index() {
+        log.info("跳转组织机构表主界面");
         return "sys/sysDepart_index";
     }
 
+    /**
+     * 获取组织机构表分页信息
+     */
+    @ApiDoc(
+            value = "获取组织机构表分页信息",
+            description = "根据查询条件分页获取组织机构表列表",
+            request = SysDepartQueryRequestVo.class,
+            response = SysDepartShowResponseVo.class
+    )
+    @GetMapping(value = UrlCommand.sys_sysDepart_list)
+    public PageResult<SysDepartShowResponseVo> pageList(
+            @Valid SysDepartQueryRequestVo sysDepartQueryRequestVo) {
+
+        log.info("分页查询组织机构表, 参数: {}", sysDepartQueryRequestVo);
+
+        SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build()
+                .clone(sysDepartQueryRequestVo);
+
+        Pager<SysDepartRequestDto> pager = Pager.of();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize())
+                .toPageNo(sysDepartQueryRequestVo.getPageNo())
+                .toParamObject(sysDepartRequestDto);
+
+        SysDepartQueryEnum queryEnum = SysDepartQueryEnum.DESC_ID;
+        PageResult<SysDepartResponseDto> resultList =
+                sysDepartService.getSysDepartByNextPage(pager, queryEnum);
+
+        if (ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())) {
+            log.info("分页查询组织机构表完成, 无数据");
+            return new PageResult<>();
+        }
+
+        PageResult<SysDepartShowResponseVo> result =
+                resultList.convertBuild(SysDepartShowResponseVo.class);
+        log.info("分页查询组织机构表完成, 总数: {}", result.getTotal());
+        return result;
+    }
 
     /**
-     * Title: 获取组织机构表分页信息
-     * Description:sysDepartQueryRequestVo @{Link SysDepartQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysDepartShowResponseVo>
-     * @throw
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 根据条件查询组织机构表信息
      */
     @ApiDoc(
-            value = "获取组织机构表分页信息",
+            value = "根据条件查询组织机构表信息",
+            description = "根据查询条件获取组织机构表列表",
             request = SysDepartQueryRequestVo.class,
             response = SysDepartShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:list")
-    public   void   list( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
-            SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysDepart_queryList)
+    public List<SysDepartShowResponseVo> queryList(
+            @Valid SysDepartQueryRequestVo sysDepartQueryRequestVo) {
 
-        Pager<SysDepartRequestDto> page =  Pager.of();
-        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRequestDto );
-         SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;
-        PageResult<SysDepartResponseDto> resultList = sysDepartService.getSysDepartByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult<>());
-            return ;
+        log.info("根据条件查询组织机构表, 参数: {}", sysDepartQueryRequestVo);
+
+        SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build()
+                .clone(sysDepartQueryRequestVo);
+
+        Pager<SysDepartRequestDto> pager = Pager.of();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize())
+                .toPageNo(sysDepartQueryRequestVo.getPageNo())
+                .toParamObject(sysDepartRequestDto);
+
+        SysDepartQueryEnum queryEnum = SysDepartQueryEnum.DEPART_NAME;
+        List<SysDepartResponseDto> resultList =
+                sysDepartService.getSysDepartListByQuery(pager, queryEnum);
+
+        if (resultList == null || resultList.isEmpty()) {
+            log.info("根据条件查询组织机构表完成, 无数据");
+            return new ArrayList<>();
         }
 
-        PageResult<SysDepartShowResponseVo> result = resultList.convertBuild(SysDepartShowResponseVo.class);
-        out.write( result);
+        List<SysDepartShowResponseVo> listVo =
+                IterableConvert.convertList(resultList, SysDepartShowResponseVo.class);
+        log.info("根据条件查询组织机构表完成, 数量: {}", listVo.size());
+        return listVo;
     }
 
-/**
-     * Title: 根据条件查谒组织机构表分页信息
-     * Description:sysDepartQueryRequestVo @{Link SysDepartQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysDepartShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+    /**
+     * 获取组织机构树形结构
      */
     @ApiDoc(
-            value = "获取组织机构表分页信息",
-            request = SysDepartQueryRequestVo.class,
-            response = SysDepartShowResponseVo.class
+            value = "获取组织机构树形结构",
+            description = "获取组织机构树形结构列表",
+            request = Object.class,
+            response = SysDepartTreeModelResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:query")
-    public   void   queryList( OutputSystem out, SysDepartQueryRequestVo sysDepartQueryRequestVo){
-            SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build( ).clone(sysDepartQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysDepart_queryTreeList)
+    public List<SysDepartTreeModelResponseVo> queryTreeList() {
 
-        Pager<SysDepartRequestDto> page =  Pager.of();
-        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRequestDto );
-        SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DEPART_NAME;
-        List<SysDepartResponseDto> resultList = sysDepartService.getSysDepartListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
-        }
-
-        List<SysDepartShowResponseVo> listVo = IterableConvert.convertList(resultList,SysDepartShowResponseVo.class);
-
-        out.write( listVo);
-    }
-
-
-    @ApiDoc(
-            value = "获取组织机构表信息",
-            request = String.class,
-            response = SysDepartShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_queryTreeList,method = RequestMethod.GET)
-//    //@RequiresPermissions({"sys:sysDepart:queryTreeList"})
-    public void queryTreeList(OutputResponse out) {
+        log.info("查询组织机构树形结构");
         List<SysDepartTreeModelResponseVo> list = sysDepartFacade.queryTreeList();
-        out.write(list, new String[0]);
+        log.info("查询组织机构树形结构完成, 数量: {}", list.size());
+        return list;
     }
 
-//    @ApiDoc(
-//            value = "获取我的组织机构信息",
-//            request = String.class,
-//            response = SysDepartShowResponseVo.class
-//    )
-//    @RequestMapping(value = UrlCommand.sys_sysDepart_myDeptTreeList,method = RequestMethod.GET)
-//    //@RequiresPermissions({"sys:sysDepart:queryTreeList"})
-//    public void myDeptTreeList(OutputResponse out) {
-//        List<SysDepartTreeModelResponseVo> list = sysDepartFacade.myDeptTreeList();
-//        out.write(list, new String[0]);
-//    }
-
-
-
     /**
-     * Title: 新增组织机构表信息
-     * Description:sysDepartAddRequestVo @{Link SysDepartAddRequestVo}
-     * @param sysDepartAddRequestVo 对象
-     * @return long类型id
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 新增组织机构表信息
      */
     @ApiDoc(
             value = "新增组织机构表信息",
+            description = "新增组织机构表记录",
             request = SysDepartAddRequestVo.class,
             response = Long.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:depart:add")
-    public  void  add(OutputSystem out, SysDepartAddRequestVo sysDepartAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDepart_add)
+    public Long create(@Valid SysDepartAddRequestVo sysDepartAddRequestVo) {
 
-            SysDepartRequestDto sysDepartRequestDto =  SysDepartRequestDto.build().clone(sysDepartAddRequestVo);
+        log.info("新增组织机构表, 参数: {}", sysDepartAddRequestVo);
 
-            //sysDepartRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysDepartResponseDto sysDepartresponseDto =  sysDepartService.saveSysDepart(sysDepartRequestDto);
-        if(sysDepartresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build()
+                .clone(sysDepartAddRequestVo);
+
+        SysDepartResponseDto sysDepartResponseDto =
+                sysDepartService.saveSysDepart(sysDepartRequestDto);
+
+        if (sysDepartResponseDto == null) {
+            log.warn("新增组织机构表失败");
+            throw new RuntimeException("新增失败");
         }
-        out.write( sysDepartresponseDto.getId());
+
+        log.info("新增组织机构表成功, ID: {}", sysDepartResponseDto.getId());
+        return sysDepartResponseDto.getId();
     }
+
     /**
-     * Title: 修改组织机构表信息
-     * Description:sysDepartAddRequestVo @{Link SysDepartAddRequestVo}
-     * @param  sysDepartAddRequestVo 对象
-     * @return  boolean 类型1或0;
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 修改组织机构表信息
      */
     @ApiDoc(
             value = "修改组织机构表信息",
+            description = "根据ID修改组织机构表记录",
             request = SysDepartAddRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:depart:modify")
-    public  void  modify(OutputSystem out,SysDepartAddRequestVo sysDepartAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDepart_modify)
+    public boolean update(@Valid SysDepartAddRequestVo sysDepartAddRequestVo) {
 
-            SysDepartRequestDto sysDepartRequestDto =  SysDepartRequestDto.build().clone(sysDepartAddRequestVo);
+        log.info("修改组织机构表, 参数: {}", sysDepartAddRequestVo);
 
-        if(sysDepartRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        if (sysDepartAddRequestVo.getId() == null || sysDepartAddRequestVo.getId() <= 0) {
+            log.warn("修改组织机构表参数错误, ID: {}", sysDepartAddRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
         }
-        boolean result =  sysDepartService.updateSysDepart(sysDepartRequestDto);
-        out.write(result);
+
+        SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build()
+                .clone(sysDepartAddRequestVo);
+
+        boolean result = sysDepartService.updateSysDepart(sysDepartRequestDto);
+        log.info("修改组织机构表完成, ID: {}, 结果: {}", sysDepartAddRequestVo.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看组织机构表信息
-     * Description:sysDepartRequestVo @{Link SysDepartRequestVo}
-     * @param
-     * @return  SysDepartResponseVo  对象
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看组织机构表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDepartShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysDepartResponseDto sysDepartResponseDto = sysDepartService.getSysDepartById(idRequestVo.getId());
-            SysDepartShowResponseVo vo =  SysDepartShowResponseVo.build().clone(sysDepartResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转组织机构表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysDepartShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 查看组织机构表详情
      */
     @ApiDoc(
             value = "查看组织机构表信息",
+            description = "根据ID获取组织机构表详细信息",
             request = HttpRequestByIdVo.class,
             response = SysDepartShowResponseVo.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.sys_sysDepart_detail)
+    public SysDepartShowResponseVo info(@Valid HttpRequestByIdVo idRequestVo) {
 
-            SysDepartResponseDto sysDepartResponseDto = sysDepartService.getSysDepartById(idRequestVo.getId());
-            SysDepartShowResponseVo vo =  SysDepartShowResponseVo.build().clone(sysDepartResponseDto);
-        out.write(vo);
+        log.info("查询组织机构表详情, ID: {}", idRequestVo.getId());
 
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询组织机构表详情参数错误, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        SysDepartResponseDto sysDepartResponseDto =
+                sysDepartService.getSysDepartById(idRequestVo.getId());
+
+        if (sysDepartResponseDto == null) {
+            log.warn("组织机构表不存在, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        SysDepartShowResponseVo vo = SysDepartShowResponseVo.build()
+                .clone(sysDepartResponseDto);
+        log.info("查询组织机构表详情成功, ID: {}", idRequestVo.getId());
+        return vo;
     }
 
+    /**
+     * 跳转组织机构表编辑页面（加载详情数据）
+     */
+    @ApiDoc(
+            value = "跳转组织机构表编辑页面",
+            description = "获取组织机构表编辑页面数据",
+            request = HttpRequestByIdVo.class,
+            response = SysDepartShowResponseVo.class
+    )
+    @GetMapping(value = UrlCommand.sys_sysDepart_edit)
+    public SysDepartShowResponseVo edit(@Valid HttpRequestByIdVo idRequestVo) {
 
+        log.info("跳转组织机构表编辑页面, ID: {}", idRequestVo.getId());
 
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("跳转编辑页面参数错误, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("ID参数错误");
+        }
+
+        SysDepartResponseDto sysDepartResponseDto =
+                sysDepartService.getSysDepartById(idRequestVo.getId());
+
+        if (sysDepartResponseDto == null) {
+            log.warn("组织机构表不存在, ID: {}", idRequestVo.getId());
+            throw new RuntimeException("数据不存在");
+        }
+
+        SysDepartShowResponseVo vo = SysDepartShowResponseVo.build()
+                .clone(sysDepartResponseDto);
+        log.info("跳转组织机构表编辑页面成功, ID: {}", idRequestVo.getId());
+        return vo;
+    }
 
     /**
-     * Title: 跳转组织机构表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 跳转组织机构表新增编辑界面
      */
-    @RequestMapping(value = UrlCommand.sys_sysDepart_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:add")
-    public String newInfo(ModelMap modelMap){
+    @GetMapping(value = UrlCommand.sys_sysDepart_newInfo)
+    public String newInfo(ModelMap modelMap) {
+        log.info("跳转组织机构表新增编辑页面");
         return "sys/sysDepart_edit";
     }
 
     /**
-     * Title: 删除组织机构表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 删除组织机构表信息
      */
     @ApiDoc(
             value = "删除组织机构表信息",
+            description = "根据ID列表删除组织机构表记录",
             request = HttpRequestByIdListVo.class,
             response = Integer.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:depart:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDepart_del)
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除组织机构表, ID列表: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除组织机构表参数错误, ID列表为空");
+            throw new RuntimeException("ID列表参数错误");
         }
+
         int result = sysDepartService.delSysDepartByIds(idRequestVo.getIdList());
-        out.write(result);
+        log.info("删除组织机构表完成, 删除数量: {}", result);
+        return result;
     }
 
-
-
     /**
-     * Title: 导出组织机构表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:13:31
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 导出组织机构表信息
      */
     @ApiDoc(
             value = "导出组织机构表信息",
+            description = "导出组织机构表数据到Excel文件",
             request = SysDepartQueryRequestVo.class,
             response = boolean.class
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepart_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:depart:export")
-    public void export(HttpServletResponse response, SysDepartQueryRequestVo sysDepartQueryRequestVo){
+    @GetMapping(value = UrlCommand.sys_sysDepart_export)
+    public void export(HttpServletResponse response,
+                       @Valid SysDepartQueryRequestVo sysDepartQueryRequestVo) {
 
-            SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build().clone(sysDepartQueryRequestVo);
+        log.info("导出组织机构表, 参数: {}", sysDepartQueryRequestVo);
 
-        Pager<SysDepartRequestDto> page =  Pager.of();
-        page.toPageSize(sysDepartQueryRequestVo.getPageSize()).toPageNo(sysDepartQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRequestDto );
+        SysDepartRequestDto sysDepartRequestDto = SysDepartRequestDto.build()
+                .clone(sysDepartQueryRequestVo);
 
-        SysDepartQueryEnum queryEnum =  SysDepartQueryEnum.DESC_ID;
-        PageResult<SysDepartResponseDto> resultList = sysDepartService.getSysDepartByNextPage(page,queryEnum);
+        Pager<SysDepartRequestDto> pager = Pager.of();
+        pager.toPageSize(sysDepartQueryRequestVo.getPageSize())
+                .toPageNo(sysDepartQueryRequestVo.getPageNo())
+                .toParamObject(sysDepartRequestDto);
+
+        SysDepartQueryEnum queryEnum = SysDepartQueryEnum.DESC_ID;
+        PageResult<SysDepartResponseDto> resultList =
+                sysDepartService.getSysDepartByNextPage(pager, queryEnum);
         List<SysDepartResponseDto> data = resultList.getList();
 
-        //写入文件
         try {
             OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDepartResponseVo.class,data,"导出组织机构表信息");
+            ExcelUtils.writeExcel(outputStream, SysDepartResponseVo.class,
+                    data, "导出组织机构表信息");
+            log.info("导出组织机构表完成, 数据量: {}", data.size());
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            log.error("导出组织机构表失败", e);
         }
     }
-
 
     /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysDepart_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:depart:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
+     * 通过 Excel 导入组织机构表数据
+     */
+    @ApiDoc(
+            value = "导入组织机构表数据",
+            description = "通过Excel文件导入组织机构表数据",
+            request = MultipartFile.class,
+            response = boolean.class
+    )
+    @PostMapping(value = UrlCommand.sys_sysDepart_import)
+    public boolean importExcel(@RequestParam("file") MultipartFile file) {
+
+        log.info("导入组织机构表, 文件名: {}", file.getOriginalFilename());
+
         try {
-            InputStream initialStream = files.getInputStream();
+            InputStream initialStream = file.getInputStream();
             boolean result = sysDepartService.saveData(initialStream);
-            out.write(result);
+            log.info("导入组织机构表完成, 结果: {}", result);
+            return result;
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            log.error("导入组织机构表失败", e);
+            throw new RuntimeException("导入失败");
         }
     }
-
-
 }
