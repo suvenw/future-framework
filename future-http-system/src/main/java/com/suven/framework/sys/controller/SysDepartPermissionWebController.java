@@ -31,7 +31,6 @@ import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.http.api.RequestMethodEnum;
-import jakarta.validation.Valid;
 
 
 import com.suven.framework.sys.service.SysDepartPermissionService;
@@ -111,7 +110,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartPermission_list)
-    public PageResult<SysDepartPermissionShowResponseVo> pageList(@Valid SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo) {
+    public PageResult<SysDepartPermissionShowResponseVo> pageList(@Validated SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo) {
 
         log.info("分页查询部门权限表, 参数: {}", sysDepartPermissionQueryRequestVo);
 
@@ -155,7 +154,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDepartPermission_add)
-    public Long create(@Valid SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
+    public Long create(@Validated SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
 
         log.info("新增部门权限表信息, 参数: {}", sysDepartPermissionAddRequestVo);
 
@@ -192,7 +191,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PutMapping(value = UrlCommand.sys_sysDepartPermission_modify)
-    public boolean update(@Valid SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
+    public boolean update(@Validated SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
 
         log.info("修改部门权限表信息, 参数: {}", sysDepartPermissionAddRequestVo);
 
@@ -230,7 +229,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartPermission_detail)
-    public SysDepartPermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDepartPermissionShowResponseVo detail(@Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询部门权限表详情, ID: {}", idRequestVo.getId());
 
@@ -278,7 +277,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysDepartPermission_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete(@Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除部门权限表信息, IDs: {}", idRequestVo.getIdList());
 
