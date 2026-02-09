@@ -16,4 +16,8 @@ public class SaaSFileFacade {
 
     @Autowired
     private SaaSFileService saaSFileService;
+
+    public SaaSFileService getSaaSFileService() {
+        return saaSFileService;
+    }
 }
