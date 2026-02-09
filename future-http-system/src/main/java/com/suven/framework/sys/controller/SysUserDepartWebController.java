@@ -140,7 +140,7 @@ public class SysUserDepartWebController {
         // 参数校验
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询用户部门关系表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysUserDepartResponseDto responseDto = sysUserDepartService
@@ -148,7 +148,7 @@ public class SysUserDepartWebController {
 
         if (responseDto == null) {
             log.warn("用户部门关系表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询用户部门关系表详情成功, ID: {}", idRequestVo.getId());
@@ -181,7 +181,7 @@ public class SysUserDepartWebController {
 
         if (responseDto == null) {
             log.error("新增用户部门关系表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增用户部门关系表成功, ID: {}", responseDto.getId());
@@ -210,7 +210,7 @@ public class SysUserDepartWebController {
 
         if (sysUserDepartRequestVo.getId() == null || sysUserDepartRequestVo.getId() <= 0) {
             log.warn("修改用户部门关系表参数错误, ID: {}", sysUserDepartRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysUserDepartRequestDto requestDto = SysUserDepartRequestDto.build()
@@ -243,7 +243,7 @@ public class SysUserDepartWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除用户部门关系表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysUserDepartService.delSysUserDepartByIds(idRequestVo.getIdList());

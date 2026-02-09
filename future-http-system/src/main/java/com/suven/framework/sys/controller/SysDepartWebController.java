@@ -9,7 +9,6 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.sys.dto.request.SysDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartResponseDto;
@@ -126,7 +125,7 @@ public class SysDepartWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询组织机构表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDepartResponseDto responseDto =
@@ -134,7 +133,7 @@ public class SysDepartWebController {
 
         if (responseDto == null) {
             log.warn("组织机构表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询组织机构表详情成功, ID: {}", idRequestVo.getId());
@@ -169,7 +168,7 @@ public class SysDepartWebController {
 
         if (responseDto == null) {
             log.warn("新增组织机构表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增组织机构表成功, ID: {}", responseDto.getId());
@@ -198,7 +197,7 @@ public class SysDepartWebController {
 
         if (sysDepartAddRequestVo.getId() == null || sysDepartAddRequestVo.getId() <= 0) {
             log.warn("修改组织机构表参数错误, ID: {}", sysDepartAddRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDepartRequestDto requestDto = SysDepartRequestDto.build()
@@ -231,7 +230,7 @@ public class SysDepartWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除组织机构表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDepartService.delSysDepartByIds(idRequestVo.getIdList());

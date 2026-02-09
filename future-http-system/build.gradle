@@ -19,6 +19,11 @@ dependencies {
     implementation project(':future-doc')
     implementation project(':future-db')
 
+    // Lombok
+    implementation libraries."lombok"
+    annotationProcessor libraries."lombok"
+    compileOnly libraries."lombok"
+
     implementation libraries."fastjson"
     implementation libraries."guava"
     implementation libraries."reflections"

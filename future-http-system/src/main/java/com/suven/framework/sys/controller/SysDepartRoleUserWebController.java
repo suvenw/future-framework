@@ -128,14 +128,14 @@ public class SysDepartRoleUserWebController {
         // 参数校验
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询部门角色用户表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDepartRoleUserResponseDto responseDto = sysDepartRoleUserService.getSysDepartRoleUserById(idRequestVo.getId());
 
         if (responseDto == null) {
             log.warn("部门角色用户表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询部门角色用户表详情成功, ID: {}", idRequestVo.getId());
@@ -168,7 +168,7 @@ public class SysDepartRoleUserWebController {
 
         if (responseDto == null) {
             log.error("新增部门角色用户表信息失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增部门角色用户表信息成功, ID: {}", responseDto.getId());
@@ -199,7 +199,7 @@ public class SysDepartRoleUserWebController {
 
         if (requestDto.getId() == null || requestDto.getId() <= 0) {
             log.warn("修改部门角色用户表信息参数错误, ID: {}", requestDto.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         boolean result = sysDepartRoleUserService.updateSysDepartRoleUser(requestDto);
@@ -230,7 +230,7 @@ public class SysDepartRoleUserWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除部门角色用户表信息参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDepartRoleUserService.delSysDepartRoleUserByIds(idRequestVo.getIdList());

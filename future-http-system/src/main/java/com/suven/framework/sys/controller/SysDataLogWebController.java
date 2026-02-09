@@ -9,7 +9,6 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
@@ -101,7 +100,7 @@ public class SysDataLogWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询系统数据日志详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDataLogResponseDto responseDto =
@@ -109,7 +108,7 @@ public class SysDataLogWebController {
 
         if (responseDto == null) {
             log.warn("系统数据日志不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询系统数据日志详情成功, ID: {}", idRequestVo.getId());
@@ -144,7 +143,7 @@ public class SysDataLogWebController {
 
         if (responseDto == null) {
             log.warn("新增系统数据日志失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增系统数据日志成功, ID: {}", responseDto.getId());
@@ -173,7 +172,7 @@ public class SysDataLogWebController {
 
         if (sysDataLogAddRequestVo.getId() == null || sysDataLogAddRequestVo.getId() <= 0) {
             log.warn("修改系统数据日志参数错误, ID: {}", sysDataLogAddRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDataLogRequestDto requestDto = SysDataLogRequestDto.build()
@@ -206,7 +205,7 @@ public class SysDataLogWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除系统数据日志参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDataLogService.delSysDataLogByIds(idRequestVo.getIdList());

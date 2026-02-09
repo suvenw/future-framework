@@ -2,6 +2,7 @@ package com.suven.framework.sys.controller;
 
 
 import com.suven.framework.common.enums.SystemMsgCodeEnum;
+import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.api.RequestMethodEnum;
@@ -133,14 +134,14 @@ public class SysUserRoleWebController {
         // 参数校验
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询用户角色关系表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysUserRoleResponseDto responseDto = sysUserRoleService.getSysUserRoleById(idRequestVo.getId());
 
         if (responseDto == null) {
             log.warn("用户角色关系表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询用户角色关系表详情成功, ID: {}", idRequestVo.getId());
@@ -205,7 +206,7 @@ public class SysUserRoleWebController {
 
         if (requestDto.getId() == null || requestDto.getId() <= 0) {
             log.warn("修改用户角色关系表参数错误, ID: {}", requestDto.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         boolean result = sysUserRoleService.updateSysUserRole(requestDto);
@@ -236,7 +237,7 @@ public class SysUserRoleWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除用户角色关系表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysUserRoleService.delSysUserRoleByIds(idRequestVo.getIdList());

@@ -117,7 +117,7 @@ public class SysRolePermissionWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询角色权限表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysRolePermissionResponseDto responseDto =
@@ -125,7 +125,7 @@ public class SysRolePermissionWebController {
 
         if (responseDto == null) {
             log.warn("角色权限表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询角色权限表详情成功, ID: {}", idRequestVo.getId());
@@ -160,7 +160,7 @@ public class SysRolePermissionWebController {
 
         if (responseDto == null) {
             log.warn("新增角色权限表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增角色权限表成功, ID: {}", responseDto.getId());
@@ -192,7 +192,7 @@ public class SysRolePermissionWebController {
 
         if (requestDto.getId() == null || requestDto.getId() <= 0) {
             log.warn("修改角色权限表参数错误, ID: {}", requestDto.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         boolean result = sysRolePermissionService.updateSysRolePermission(requestDto);
@@ -222,7 +222,7 @@ public class SysRolePermissionWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除角色权限表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysRolePermissionService.delSysRolePermissionByIds(idRequestVo.getIdList());
