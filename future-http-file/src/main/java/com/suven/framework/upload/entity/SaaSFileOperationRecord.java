@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * SaaS平台业务上传操作记录表
@@ -157,7 +157,7 @@ public class SaaSFileOperationRecord extends BaseTenantEntity {
     
     /** 最后回调时间 */
     @ApiDesc(value = "最后回调时间", required = 0)
-    private Date lastCallbackTime;
+    private LocalDateTime lastCallbackTime;
     
     /** 回调响应结果 */
     @ApiDesc(value = "回调响应结果", required = 0)

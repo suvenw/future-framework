@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * SaaS平台文件解释记录表
@@ -73,7 +73,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
     
     /** 最后解释时间 */
     @ApiDesc(value = "最后解释时间", required = 0)
-    private Date lastInterpretTime;
+    private LocalDateTime lastInterpretTime;
     
     /** 错误信息 */
     @ApiDesc(value = "错误信息", required = 0)
@@ -121,7 +121,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
     
     /** 最后回调时间 */
     @ApiDesc(value = "最后回调时间", required = 0)
-    private Date lastCallbackTime;
+    private LocalDateTime lastCallbackTime;
     
     /** 回调请求内容 */
     @ApiDesc(value = "回调请求内容", required = 0)
@@ -147,7 +147,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
     
     /** 业务处理时间 */
     @ApiDesc(value = "业务处理时间", required = 0)
-    private Date businessProcessTime;
+    private LocalDateTime businessProcessTime;
 
     // ==================== 扩展信息 ====================
     

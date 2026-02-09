@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * SaaS平台文件上传下载响应DTO
@@ -64,7 +64,7 @@ public class SaaSFileResponseDto extends BaseTenantEntity implements Serializabl
 
     /** 临时URL过期时间 */
     @ApiDesc(value = "临时URL过期时间", required = 0)
-    private Date tempUrlExpirationTime;
+    private LocalDateTime tempUrlExpirationTime;
 
     /** 临时URL剩余访问次数 */
     @ApiDesc(value = "临时URL剩余访问次数", required = 0)
@@ -92,7 +92,7 @@ public class SaaSFileResponseDto extends BaseTenantEntity implements Serializabl
 
     /** 创建时间 */
     @ApiDesc(value = "创建时间", required = 1)
-    private Date createDate;
+    private LocalDateTime createDate;
 
     public static SaaSFileResponseDto build() {
         return new SaaSFileResponseDto();

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * SaaS文件解释记录响应DTO
@@ -89,7 +89,7 @@ public class SaaSFileInterpretResponseDto implements Serializable {
 
     /** 最后回调时间 */
     @ApiDesc(value = "最后回调时间", required = 0)
-    private Date lastCallbackTime;
+    private LocalDateTime lastCallbackTime;
 
     /** 业务处理状态 */
     @ApiDesc(value = "业务处理状态", required = 0)
@@ -105,15 +105,15 @@ public class SaaSFileInterpretResponseDto implements Serializable {
 
     /** 业务处理时间 */
     @ApiDesc(value = "业务处理时间", required = 0)
-    private Date businessProcessTime;
+    private LocalDateTime businessProcessTime;
 
     /** 创建时间 */
     @ApiDesc(value = "创建时间", required = 1)
-    private Date createDate;
-
+    private LocalDateTime createDate;
+    
     /** 修改时间 */
     @ApiDesc(value = "修改时间", required = 0)
-    private Date modifyDate;
+    private LocalDateTime modifyDate;
 
     public static SaaSFileInterpretResponseDto build() {
         return new SaaSFileInterpretResponseDto();
