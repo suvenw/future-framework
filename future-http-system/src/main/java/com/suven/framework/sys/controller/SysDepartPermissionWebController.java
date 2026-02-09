@@ -13,10 +13,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
 
 
 import com.suven.framework.core.IterableConvert;
@@ -29,6 +29,9 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 
 
 import com.suven.framework.sys.service.SysDepartPermissionService;
@@ -65,16 +68,16 @@ import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
  **/
 
 
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "部门权限表模块"
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "部门权限表模块",
+    isApp = true
 )
 public class SysDepartPermissionWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
 
@@ -84,323 +87,216 @@ public class SysDepartPermissionWebController {
     @Autowired
     private SysDepartPermissionService  sysDepartPermissionService;
 
-    /**
-     * Title: 跳转到部门权限表主界面
-     * @return 字符串url
-     * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value =  UrlCommand.sys_sysDepartPermission_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:list")
-    public String index(){
-        return "sys/sysDepartPermission_index";
-    }
 
 
     /**
-     * Title: 获取部门权限表分页信息
-     * Description:sysDepartPermissionQueryRequestVo @{Link SysDepartPermissionQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysDepartPermissionShowResponseVo>
-     * @throw
+     * 分页获取部门权限表信息
+     * 根据查询条件分页获取部门权限表列表
+     * @param sysDepartPermissionQueryRequestVo 查询请求参数
+     * @return PageResult<SysDepartPermissionShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
+     * 4. 必须进行参数校验
      */
     @ApiDoc(
-            value = "获取部门权限表分页信息",
+        value = "分页获取部门权限表信息",
+        description = "根据条件分页查询部门权限表数据",
             request = SysDepartPermissionQueryRequestVo.class,
-            response = SysDepartPermissionShowResponseVo.class
+        response = SysDepartPermissionShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:list")
-    public   void   list( OutputSystem out, SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo){
-            SysDepartPermissionRequestDto sysDepartPermissionRequestDto = SysDepartPermissionRequestDto.build( ).clone(sysDepartPermissionQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysDepartPermission_list)
+    public PageResult<SysDepartPermissionShowResponseVo> pageList(@Valid SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo) {
 
-        Pager<SysDepartPermissionRequestDto> page =  Pager.of(sysDepartPermissionRequestDto,sysDepartPermissionQueryRequestVo.getPageNo(),sysDepartPermissionQueryRequestVo.getPageSize());
+        log.info("分页查询部门权限表, 参数: {}", sysDepartPermissionQueryRequestVo);
 
-         SysDepartPermissionQueryEnum queryEnum =  SysDepartPermissionQueryEnum.DESC_ID;
-        PageResult<SysDepartPermissionResponseDto> resultList = sysDepartPermissionService.getSysDepartPermissionByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult());
-            return ;
-        }
-        PageResult<SysDepartPermissionShowResponseVo> result = resultList.convertBuild(SysDepartPermissionShowResponseVo.class);
-        out.write( result);
+        // 参数校验
+
+        Pager<SysDepartPermissionRequestDto> pager = new Pager<>(
+            sysDepartPermissionQueryRequestVo.getPageNo(),
+            sysDepartPermissionQueryRequestVo.getPageSize()
+        );
+        SysDepartPermissionRequestDto requestDto = SysDepartPermissionRequestDto.build().clone(sysDepartPermissionQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysDepartPermissionResponseDto> pageResult = sysDepartPermissionService
+            .getSysDepartPermissionByNextPage(pager, SysDepartPermissionQueryEnum.DESC_ID);
+
+        log.info("分页查询部门权限表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysDepartPermissionShowResponseVo.class);
     }
 
-/**
-     * Title: 根据条件查谒部门权限表分页信息
-     * Description:sysDepartPermissionQueryRequestVo @{Link SysDepartPermissionQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysDepartPermissionShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取部门权限表分页信息",
-            request = SysDepartPermissionQueryRequestVo.class,
-            response = SysDepartPermissionShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:query")
-    public   void   queryList( OutputSystem out, SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo){
-            SysDepartPermissionRequestDto sysDepartPermissionRequestDto = SysDepartPermissionRequestDto.build( ).clone(sysDepartPermissionQueryRequestVo);
-
-        Pager<SysDepartPermissionRequestDto> page =  Pager.of(sysDepartPermissionRequestDto,sysDepartPermissionQueryRequestVo.getPageNo(),sysDepartPermissionQueryRequestVo.getPageSize());
-
-        SysDepartPermissionQueryEnum queryEnum =  SysDepartPermissionQueryEnum.DESC_ID;
-        List<SysDepartPermissionResponseDto> resultList = sysDepartPermissionService.getSysDepartPermissionListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
-        }
-
-        List<SysDepartPermissionShowResponseVo> listVo = IterableConvert.convertList(resultList,SysDepartPermissionShowResponseVo.class);
-
-        out.write( listVo);
-    }
 
 
 
     /**
-     * Title: 新增部门权限表信息
-     * Description:sysDepartPermissionAddRequestVo @{Link SysDepartPermissionAddRequestVo}
-     * @param sysDepartPermissionAddRequestVo 对象
-     * @return long类型id
+     * 新增部门权限表信息
+     * 创建新的部门权限表记录
+     * @param sysDepartPermissionAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 必须进行参数校验
+     * 2. 必须记录操作日志
+     * 3. 必须处理保存失败情况
      */
     @ApiDoc(
             value = "新增部门权限表信息",
+        description = "创建新的部门权限表记录",
             request = SysDepartPermissionAddRequestVo.class,
-            response = Long.class
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departpermission:add")
-    public  void  add(OutputSystem out, SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDepartPermission_add)
+    public Long create(@Valid SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
 
-            SysDepartPermissionRequestDto sysDepartPermissionRequestDto =  SysDepartPermissionRequestDto.build().clone(sysDepartPermissionAddRequestVo);
+        log.info("新增部门权限表信息, 参数: {}", sysDepartPermissionAddRequestVo);
 
-            //sysDepartPermissionRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysDepartPermissionResponseDto sysDepartPermissionresponseDto =  sysDepartPermissionService.saveSysDepartPermission(sysDepartPermissionRequestDto);
-        if(sysDepartPermissionresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysDepartPermissionRequestDto requestDto = SysDepartPermissionRequestDto.build().clone(sysDepartPermissionAddRequestVo);
+
+        SysDepartPermissionResponseDto responseDto = sysDepartPermissionService.saveSysDepartPermission(requestDto);
+
+        if (responseDto == null) {
+            log.error("新增部门权限表信息失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        out.write( sysDepartPermissionresponseDto.getId());
+
+        log.info("新增部门权限表信息成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
     /**
-     * Title: 修改部门权限表信息
-     * Description:sysDepartPermissionAddRequestVo @{Link SysDepartPermissionAddRequestVo}
-     * @param  sysDepartPermissionAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 修改部门权限表信息
+     * 根据ID更新部门权限表信息
+     * @param sysDepartPermissionAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须进行参数校验
+     * 3. 必须记录操作日志
      */
     @ApiDoc(
             value = "修改部门权限表信息",
+        description = "根据ID更新部门权限表信息",
             request = SysDepartPermissionAddRequestVo.class,
-            response = boolean.class
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departpermission:modify")
-    public  void  modify(OutputSystem out,SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo){
+    @PutMapping(value = UrlCommand.sys_sysDepartPermission_modify)
+    public boolean update(@Valid SysDepartPermissionAddRequestVo sysDepartPermissionAddRequestVo) {
 
-            SysDepartPermissionRequestDto sysDepartPermissionRequestDto =  SysDepartPermissionRequestDto.build().clone(sysDepartPermissionAddRequestVo);
+        log.info("修改部门权限表信息, 参数: {}", sysDepartPermissionAddRequestVo);
 
-        if(sysDepartPermissionRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysDepartPermissionRequestDto requestDto = SysDepartPermissionRequestDto.build().clone(sysDepartPermissionAddRequestVo);
+
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改部门权限表信息参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        boolean result =  sysDepartPermissionService.updateSysDepartPermission(sysDepartPermissionRequestDto);
-        out.write(result);
+
+        boolean result = sysDepartPermissionService.updateSysDepartPermission(requestDto);
+
+        log.info("修改部门权限表信息完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看部门权限表信息
-     * Description:sysDepartPermissionRequestVo @{Link SysDepartPermissionRequestVo}
-     * @param
-     * @return  SysDepartPermissionResponseVo  对象
+     * 查看部门权限表详情
+     * 根据ID获取部门权限表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysDepartPermissionShowResponseVo 详情响应结果
      * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看部门权限表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDepartPermissionShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysDepartPermissionResponseDto sysDepartPermissionResponseDto = sysDepartPermissionService.getSysDepartPermissionById(idRequestVo.getId());
-            SysDepartPermissionShowResponseVo vo =  SysDepartPermissionShowResponseVo.build().clone(sysDepartPermissionResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转部门权限表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysDepartPermissionShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
      */
     @ApiDoc(
             value = "查看部门权限表信息",
+        description = "根据ID获取部门权限表详细信息",
             request = HttpRequestByIdVo.class,
-            response = SysDepartPermissionShowResponseVo.class
+        response = SysDepartPermissionShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @GetMapping(value = UrlCommand.sys_sysDepartPermission_detail)
+    public SysDepartPermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
-            SysDepartPermissionResponseDto sysDepartPermissionResponseDto = sysDepartPermissionService.getSysDepartPermissionById(idRequestVo.getId());
-            SysDepartPermissionShowResponseVo vo =  SysDepartPermissionShowResponseVo.build().clone(sysDepartPermissionResponseDto);
-        out.write(vo);
+        log.info("查询部门权限表详情, ID: {}", idRequestVo.getId());
 
+        // 参数校验
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询部门权限表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        SysDepartPermissionResponseDto responseDto = sysDepartPermissionService.getSysDepartPermissionById(idRequestVo.getId());
+
+        if (responseDto == null) {
+            log.warn("部门权限表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        log.info("查询部门权限表详情成功, ID: {}", idRequestVo.getId());
+        return SysDepartPermissionShowResponseVo.build().clone(responseDto);
     }
 
 
 
 
-    /**
-     * Title: 跳转部门权限表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysDepartPermission_edit";
-    }
+
+
+
 
     /**
-     * Title: 删除部门权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
+     * 删除部门权限表信息
+     * 根据ID列表批量删除部门权限表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID列表必须校验非空
+     * 2. 必须记录操作日志
      */
     @ApiDoc(
             value = "删除部门权限表信息",
+        description = "根据ID列表批量删除部门权限表记录",
             request = HttpRequestByIdListVo.class,
-            response = Integer.class
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departpermission:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @DeleteMapping(value = UrlCommand.sys_sysDepartPermission_del)
+    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除部门权限表信息, IDs: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除部门权限表信息参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysDepartPermissionService.delSysDepartPermissionByIds(idRequestVo.getIdList());
-        out.write(result);
+
+        log.info("删除部门权限表信息完成, 删除数量: {}", result);
+        return result;
     }
 
 
 
-    /**
-     * Title: 导出部门权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:14:27
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出部门权限表信息",
-            request = SysDepartPermissionQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departpermission:export")
-    public void export(HttpServletResponse response, SysDepartPermissionQueryRequestVo sysDepartPermissionQueryRequestVo){
-
-            SysDepartPermissionRequestDto sysDepartPermissionRequestDto = SysDepartPermissionRequestDto.build().clone(sysDepartPermissionQueryRequestVo);
-
-        Pager<SysDepartPermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysDepartPermissionQueryRequestVo.getPageSize()).toPageNo(sysDepartPermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartPermissionRequestDto );
-
-        SysDepartPermissionQueryEnum queryEnum =  SysDepartPermissionQueryEnum.DESC_ID;
-        PageResult<SysDepartPermissionResponseDto> resultList = sysDepartPermissionService.getSysDepartPermissionByNextPage(page,queryEnum);
-        List<SysDepartPermissionResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDepartPermissionResponseVo.class,data,"导出部门权限表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
 
 
-    /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysDepartPermission_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departpermission:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysDepartPermissionService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
 
 
 }
