@@ -1,47 +1,28 @@
 package com.suven.framework.sys.controller;
 
 
-
-import com.suven.framework.sys.dto.request.SysPermissionRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
-import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
-
-import com.suven.framework.sys.service.SysRolePermissionService;
-import com.suven.framework.sys.vo.request.SysRolePermissionQueryRequestVo;
-import com.suven.framework.sys.vo.request.SysRolePermissionAddRequestVo;
-import com.suven.framework.sys.vo.response.SysRolePermissionShowResponseVo;
-import com.suven.framework.sys.vo.response.SysRolePermissionResponseVo;
-
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.sys.dto.request.SysRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
-import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
-
+import com.suven.framework.sys.service.SysRolePermissionService;
+import com.suven.framework.sys.vo.request.SysRolePermissionAddRequestVo;
+import com.suven.framework.sys.vo.request.SysRolePermissionQueryRequestVo;
+import com.suven.framework.sys.vo.response.SysRolePermissionShowResponseVo;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * ClassName: SysRolePermissionWebController.java
@@ -65,346 +46,190 @@ import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
 
-
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
-        group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "角色权限表模块"
+    group = DocumentConst.Sys.SYS_DOC_GROUP,
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "角色权限表模块",
+    isApp = true
 )
 public class SysRolePermissionWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
-
 
     @Autowired
     private SysRolePermissionService  sysRolePermissionService;
 
     /**
-     * Title: 跳转到角色权限表主界面
-     * @return 字符串url
+     * 分页获取角色权限表信息
+     * 根据查询条件分页获取角色权限表列表
+     * @param sysRolePermissionQueryRequestVo 查询请求参数
+     * @return PageResult<SysRolePermissionShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value =  UrlCommand.sys_sysRolePermission_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:list")
-    public String index(){
-        return "sys/sysRolePermission_index";
-    }
-
-
-    /**
-     * Title: 获取角色权限表分页信息
-     * Description:sysRolePermissionQueryRequestVo @{Link SysRolePermissionQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysRolePermissionShowResponseVo>
-     * @throw
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "获取角色权限表分页信息",
-            request = SysRolePermissionQueryRequestVo.class,
-            response = SysRolePermissionShowResponseVo.class
+        value = "分页获取角色权限表信息",
+        description = "根据条件分页查询角色权限表数据",
+        request = SysRolePermissionQueryRequestVo.class,
+        response = SysRolePermissionShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:list")
-    public   void   list( OutputSystem out, SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo){
-            SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build( ).clone(sysRolePermissionQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysRolePermission_list)
+    public PageResult<SysRolePermissionShowResponseVo> pageList(
+            @Valid SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo) {
 
-        Pager<SysRolePermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysRolePermissionRequestDto );
-         SysRolePermissionQueryEnum queryEnum =  SysRolePermissionQueryEnum.DESC_ID;
-        PageResult<SysRolePermissionResponseDto> resultList = sysRolePermissionService.getSysRolePermissionByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult());
-            return ;
+        log.info("分页查询角色权限表, 参数: {}", sysRolePermissionQueryRequestVo);
+
+        Pager<SysRolePermissionRequestDto> pager = new Pager<>(
+                sysRolePermissionQueryRequestVo.getPageNo(),
+                sysRolePermissionQueryRequestVo.getPageSize()
+        );
+        SysRolePermissionRequestDto requestDto = SysRolePermissionRequestDto.build()
+                .clone(sysRolePermissionQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysRolePermissionResponseDto> pageResult =
+                sysRolePermissionService.getSysRolePermissionByNextPage(
+                        pager, SysRolePermissionQueryEnum.DESC_ID);
+
+        log.info("分页查询角色权限表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysRolePermissionShowResponseVo.class);
+    }
+
+    /**
+     * 查看角色权限表详情
+     * 根据ID获取角色权限表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysRolePermissionShowResponseVo 详情响应结果
+     * @author suven
+     * @date 2025-08-18
+     */
+    @ApiDoc(
+        value = "查看角色权限表信息",
+        description = "根据ID获取角色权限表详细信息",
+        request = HttpRequestByIdVo.class,
+        response = SysRolePermissionShowResponseVo.class,
+        method = RequestMethodEnum.GET
+    )
+    @GetMapping(value = UrlCommand.sys_sysRolePermission_detail)
+    public SysRolePermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+
+        log.info("查询角色权限表详情, ID: {}", idRequestVo.getId());
+
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询角色权限表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        PageResult<SysRolePermissionShowResponseVo> result = resultList.convertBuild(SysRolePermissionShowResponseVo.class);
-        out.write(result);
-    }
+        SysRolePermissionResponseDto responseDto =
+                sysRolePermissionService.getSysRolePermissionById(idRequestVo.getId());
 
-/**
-     * Title: 根据条件查谒角色权限表分页信息
-     * Description:sysRolePermissionQueryRequestVo @{Link SysRolePermissionQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysRolePermissionShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取角色权限表分页信息",
-            request = SysRolePermissionQueryRequestVo.class,
-            response = SysRolePermissionShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:list")
-    public   void   queryList( OutputSystem out, SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo){
-            SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build( ).clone(sysRolePermissionQueryRequestVo);
-
-        Pager<SysRolePermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysRolePermissionRequestDto );
-        SysRolePermissionQueryEnum queryEnum =  SysRolePermissionQueryEnum.DESC_ID;
-        List<SysRolePermissionResponseDto> resultList = sysRolePermissionService.getSysRolePermissionListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
+        if (responseDto == null) {
+            log.warn("角色权限表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysRolePermissionShowResponseVo> listVo = IterableConvert.convertList(resultList,SysRolePermissionShowResponseVo.class);
-
-        out.write( listVo);
+        log.info("查询角色权限表详情成功, ID: {}", idRequestVo.getId());
+        return SysRolePermissionShowResponseVo.build().clone(responseDto);
     }
 
-
-
     /**
-     * Title: 新增角色权限表信息
-     * Description:sysRolePermissionAddRequestVo @{Link SysRolePermissionAddRequestVo}
-     * @param sysRolePermissionAddRequestVo 对象
-     * @return long类型id
+     * 新增角色权限表信息
+     * 创建新的角色权限表记录
+     * @param sysRolePermissionAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "新增角色权限表信息",
-            request = SysRolePermissionAddRequestVo.class,
-            response = Long.class
+        value = "新增角色权限表信息",
+        description = "创建新的角色权限表记录",
+        request = SysRolePermissionAddRequestVo.class,
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:rolepermission:add")
-    public  void  add(OutputSystem out, SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysRolePermission_add)
+    public Long create(@Valid SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
 
-            SysRolePermissionRequestDto sysRolePermissionRequestDto =  SysRolePermissionRequestDto.build().clone(sysRolePermissionAddRequestVo);
+        log.info("新增角色权限表信息, 参数: {}", sysRolePermissionAddRequestVo);
 
-            //sysRolePermissionRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysRolePermissionResponseDto sysRolePermissionresponseDto =  sysRolePermissionService.saveSysRolePermission(sysRolePermissionRequestDto);
-        if(sysRolePermissionresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysRolePermissionRequestDto requestDto = SysRolePermissionRequestDto.build()
+                .clone(sysRolePermissionAddRequestVo);
+
+        SysRolePermissionResponseDto responseDto =
+                sysRolePermissionService.saveSysRolePermission(requestDto);
+
+        if (responseDto == null) {
+            log.warn("新增角色权限表失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        out.write( sysRolePermissionresponseDto.getId());
+
+        log.info("新增角色权限表成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
+
     /**
-     * Title: 修改角色权限表信息
-     * Description:sysRolePermissionAddRequestVo @{Link SysRolePermissionAddRequestVo}
-     * @param  sysRolePermissionAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 修改角色权限表信息
+     * 根据ID更新角色权限表信息
+     * @param sysRolePermissionAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "修改角色权限表信息",
-            request = SysRolePermissionAddRequestVo.class,
-            response = boolean.class
+        value = "修改角色权限表信息",
+        description = "根据ID更新角色权限表记录",
+        request = SysRolePermissionAddRequestVo.class,
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:rolepermission:modify")
-    public  void  modify(OutputSystem out,SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysRolePermission_modify)
+    public boolean update(@Valid SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
 
-            SysRolePermissionRequestDto sysRolePermissionRequestDto =  SysRolePermissionRequestDto.build().clone(sysRolePermissionAddRequestVo);
+        log.info("修改角色权限表信息, 参数: {}", sysRolePermissionAddRequestVo);
 
-        if(sysRolePermissionRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysRolePermissionRequestDto requestDto = SysRolePermissionRequestDto.build()
+                .clone(sysRolePermissionAddRequestVo);
+
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改角色权限表参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        boolean result =  sysRolePermissionService.updateSysRolePermission(sysRolePermissionRequestDto);
-        out.write(result);
+
+        boolean result = sysRolePermissionService.updateSysRolePermission(requestDto);
+        log.info("修改角色权限表完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看角色权限表信息
-     * Description:sysRolePermissionRequestVo @{Link SysRolePermissionRequestVo}
-     * @param
-     * @return  SysRolePermissionResponseVo  对象
+     * 删除角色权限表信息
+     * 根据ID列表批量删除角色权限表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看角色权限表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysRolePermissionShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysRolePermissionResponseDto sysRolePermissionResponseDto = sysRolePermissionService.getSysRolePermissionById(idRequestVo.getId());
-            SysRolePermissionShowResponseVo vo =  SysRolePermissionShowResponseVo.build().clone(sysRolePermissionResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转角色权限表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysRolePermissionShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "查看角色权限表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysRolePermissionShowResponseVo.class
+        value = "删除角色权限表信息",
+        description = "根据ID列表批量删除角色权限表记录",
+        request = HttpRequestByIdListVo.class,
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysRolePermission_del)
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
 
-            SysRolePermissionResponseDto sysRolePermissionResponseDto = sysRolePermissionService.getSysRolePermissionById(idRequestVo.getId());
-            SysRolePermissionShowResponseVo vo =  SysRolePermissionShowResponseVo.build().clone(sysRolePermissionResponseDto);
-        out.write(vo);
+        log.info("删除角色权限表, ID列表: {}", idRequestVo.getIdList());
 
-    }
-
-
-
-
-    /**
-     * Title: 跳转角色权限表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysRolePermission_edit";
-    }
-
-    /**
-     * Title: 删除角色权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "删除角色权限表信息",
-            request = HttpRequestByIdListVo.class,
-            response = Integer.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:rolepermission:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除角色权限表参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysRolePermissionService.delSysRolePermissionByIds(idRequestVo.getIdList());
-        out.write(result);
+        log.info("删除角色权限表完成, 删除数量: {}", result);
+        return result;
     }
-
-
-
-    /**
-     * Title: 导出角色权限表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:10:49
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出角色权限表信息",
-            request = SysRolePermissionQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:rolepermission:export")
-    public void export(HttpServletResponse response, SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo){
-
-            SysRolePermissionRequestDto sysRolePermissionRequestDto = SysRolePermissionRequestDto.build().clone(sysRolePermissionQueryRequestVo);
-
-        Pager<SysRolePermissionRequestDto> page =  Pager.of();
-        page.toPageSize(sysRolePermissionQueryRequestVo.getPageSize()).toPageNo(sysRolePermissionQueryRequestVo.getPageNo());
-        page.toParamObject(sysRolePermissionRequestDto );
-
-        SysRolePermissionQueryEnum queryEnum =  SysRolePermissionQueryEnum.DESC_ID;
-        PageResult<SysRolePermissionResponseDto> resultList = sysRolePermissionService.getSysRolePermissionByNextPage(page,queryEnum);
-        List<SysRolePermissionResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysRolePermissionResponseVo.class,data,"导出角色权限表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
-
-
-    /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysRolePermission_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:rolepermission:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysRolePermissionService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
 
 }

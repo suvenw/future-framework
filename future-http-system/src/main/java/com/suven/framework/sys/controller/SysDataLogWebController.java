@@ -1,38 +1,28 @@
 package com.suven.framework.sys.controller;
 
-import com.suven.framework.core.IterableConvert;
-import com.suven.framework.core.ObjectTrue;
+
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
 import com.suven.framework.sys.service.SysDataLogService;
 import com.suven.framework.sys.vo.request.SysDataLogAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDataLogQueryRequestVo;
-import com.suven.framework.sys.vo.response.SysDataLogResponseVo;
 import com.suven.framework.sys.vo.response.SysDataLogShowResponseVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 系统数据日志 Web 控制器
@@ -42,9 +32,10 @@ import java.util.List;
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
         groupDesc = DocumentConst.Sys.SYS_DOC_DES,
-        module = "系统数据日志模块"
+        module = "系统数据日志模块",
+        isApp = true
 )
-@Controller
+@RestController
 @Slf4j
 @Validated
 public class SysDataLogWebController {
@@ -53,22 +44,19 @@ public class SysDataLogWebController {
     private SysDataLogService sysDataLogService;
 
     /**
-     * 跳转到系统数据日志主界面
-     */
-    @GetMapping(value = UrlCommand.sys_sysDataLog_index)
-    public String index() {
-        log.info("跳转系统数据日志主界面");
-        return "sys/sysDataLog_index";
-    }
-
-    /**
-     * 获取系统数据日志分页信息
+     * 分页获取系统数据日志信息
+     * 根据查询条件分页获取系统数据日志列表
+     * @param sysDataLogQueryRequestVo 查询请求参数
+     * @return PageResult<SysDataLogShowResponseVo> 分页响应结果
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "获取系统数据日志分页信息",
-            description = "根据查询条件分页获取系统数据日志列表",
+            value = "分页获取系统数据日志信息",
+            description = "根据条件分页查询系统数据日志数据",
             request = SysDataLogQueryRequestVo.class,
-            response = SysDataLogShowResponseVo.class
+            response = SysDataLogShowResponseVo.class,
+            method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDataLog_list)
     public PageResult<SysDataLogShowResponseVo> pageList(
@@ -76,104 +64,107 @@ public class SysDataLogWebController {
 
         log.info("分页查询系统数据日志, 参数: {}", sysDataLogQueryRequestVo);
 
-        SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build()
+        Pager<SysDataLogRequestDto> pager = new Pager<>(
+                sysDataLogQueryRequestVo.getPageNo(),
+                sysDataLogQueryRequestVo.getPageSize()
+        );
+        SysDataLogRequestDto requestDto = SysDataLogRequestDto.build()
                 .clone(sysDataLogQueryRequestVo);
+        pager.toParamObject(requestDto);
 
-        Pager<SysDataLogRequestDto> pager = Pager.of();
-        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize())
-                .toPageNo(sysDataLogQueryRequestVo.getPageNo())
-                .toParamObject(sysDataLogRequestDto);
+        PageResult<SysDataLogResponseDto> pageResult =
+                sysDataLogService.getSysDataLogByNextPage(pager, SysDataLogQueryEnum.DESC_ID);
 
-        SysDataLogQueryEnum queryEnum = SysDataLogQueryEnum.DESC_ID;
-        PageResult<SysDataLogResponseDto> resultList =
-                sysDataLogService.getSysDataLogByNextPage(pager, queryEnum);
-
-        if (ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())) {
-            log.info("分页查询系统数据日志完成, 无数据");
-            return new PageResult<>();
-        }
-
-        PageResult<SysDataLogShowResponseVo> result =
-                resultList.convertBuild(SysDataLogShowResponseVo.class);
-        log.info("分页查询系统数据日志完成, 总数: {}", result.getTotal());
-        return result;
+        log.info("分页查询系统数据日志完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysDataLogShowResponseVo.class);
     }
 
     /**
-     * 根据条件查询系统数据日志信息
+     * 查看系统数据日志详情
+     * 根据ID获取系统数据日志详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysDataLogShowResponseVo 详情响应结果
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "根据条件查询系统数据日志信息",
-            description = "根据查询条件获取系统数据日志列表",
-            request = SysDataLogQueryRequestVo.class,
-            response = SysDataLogShowResponseVo.class
+            value = "查看系统数据日志信息",
+            description = "根据ID获取系统数据日志详细信息",
+            request = HttpRequestByIdVo.class,
+            response = SysDataLogShowResponseVo.class,
+            method = RequestMethodEnum.GET
     )
-    @GetMapping(value = UrlCommand.sys_sysDataLog_queryList)
-    public List<SysDataLogShowResponseVo> queryList(
-            @Valid SysDataLogQueryRequestVo sysDataLogQueryRequestVo) {
+    @GetMapping(value = UrlCommand.sys_sysDataLog_detail)
+    public SysDataLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
-        log.info("根据条件查询系统数据日志, 参数: {}", sysDataLogQueryRequestVo);
+        log.info("查询系统数据日志详情, ID: {}", idRequestVo.getId());
 
-        SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build()
-                .clone(sysDataLogQueryRequestVo);
-
-        Pager<SysDataLogRequestDto> pager = Pager.of();
-        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize())
-                .toPageNo(sysDataLogQueryRequestVo.getPageNo())
-                .toParamObject(sysDataLogRequestDto);
-
-        SysDataLogQueryEnum queryEnum = SysDataLogQueryEnum.DESC_ID;
-        List<SysDataLogResponseDto> resultList =
-                sysDataLogService.getSysDataLogListByQuery(pager, queryEnum);
-
-        if (resultList == null || resultList.isEmpty()) {
-            log.info("根据条件查询系统数据日志完成, 无数据");
-            return new ArrayList<>();
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询系统数据日志详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysDataLogShowResponseVo> listVo =
-                IterableConvert.convertList(resultList, SysDataLogShowResponseVo.class);
-        log.info("根据条件查询系统数据日志完成, 数量: {}", listVo.size());
-        return listVo;
+        SysDataLogResponseDto responseDto =
+                sysDataLogService.getSysDataLogById(idRequestVo.getId());
+
+        if (responseDto == null) {
+            log.warn("系统数据日志不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        log.info("查询系统数据日志详情成功, ID: {}", idRequestVo.getId());
+        return SysDataLogShowResponseVo.build().clone(responseDto);
     }
 
     /**
      * 新增系统数据日志信息
+     * 创建新的系统数据日志记录
+     * @param sysDataLogAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "新增系统数据日志信息",
-            description = "新增系统数据日志记录",
+            description = "创建新的系统数据日志记录",
             request = SysDataLogAddRequestVo.class,
-            response = Long.class
+            response = Long.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_add)
     public Long create(@Valid SysDataLogAddRequestVo sysDataLogAddRequestVo) {
 
         log.info("新增系统数据日志, 参数: {}", sysDataLogAddRequestVo);
 
-        SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build()
+        SysDataLogRequestDto requestDto = SysDataLogRequestDto.build()
                 .clone(sysDataLogAddRequestVo);
 
-        SysDataLogResponseDto sysDataLogResponseDto =
-                sysDataLogService.saveSysDataLog(sysDataLogRequestDto);
+        SysDataLogResponseDto responseDto =
+                sysDataLogService.saveSysDataLog(requestDto);
 
-        if (sysDataLogResponseDto == null) {
+        if (responseDto == null) {
             log.warn("新增系统数据日志失败");
-            throw new RuntimeException("新增失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
 
-        log.info("新增系统数据日志成功, ID: {}", sysDataLogResponseDto.getId());
-        return sysDataLogResponseDto.getId();
+        log.info("新增系统数据日志成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
 
     /**
      * 修改系统数据日志信息
+     * 根据ID更新系统数据日志信息
+     * @param sysDataLogAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "修改系统数据日志信息",
-            description = "根据ID修改系统数据日志记录",
+            description = "根据ID更新系统数据日志记录",
             request = SysDataLogAddRequestVo.class,
-            response = boolean.class
+            response = boolean.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_modify)
     public boolean update(@Valid SysDataLogAddRequestVo sysDataLogAddRequestVo) {
@@ -182,100 +173,31 @@ public class SysDataLogWebController {
 
         if (sysDataLogAddRequestVo.getId() == null || sysDataLogAddRequestVo.getId() <= 0) {
             log.warn("修改系统数据日志参数错误, ID: {}", sysDataLogAddRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build()
+        SysDataLogRequestDto requestDto = SysDataLogRequestDto.build()
                 .clone(sysDataLogAddRequestVo);
 
-        boolean result = sysDataLogService.updateSysDataLog(sysDataLogRequestDto);
+        boolean result = sysDataLogService.updateSysDataLog(requestDto);
         log.info("修改系统数据日志完成, ID: {}, 结果: {}", sysDataLogAddRequestVo.getId(), result);
         return result;
     }
 
     /**
-     * 查看系统数据日志详情
-     */
-    @ApiDoc(
-            value = "查看系统数据日志信息",
-            description = "根据ID获取系统数据日志详细信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDataLogShowResponseVo.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDataLog_detail)
-    public SysDataLogShowResponseVo info(@Valid HttpRequestByIdVo idRequestVo) {
-
-        log.info("查询系统数据日志详情, ID: {}", idRequestVo.getId());
-
-        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
-            log.warn("查询系统数据日志详情参数错误, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
-        }
-
-        SysDataLogResponseDto sysDataLogResponseDto =
-                sysDataLogService.getSysDataLogById(idRequestVo.getId());
-
-        if (sysDataLogResponseDto == null) {
-            log.warn("系统数据日志不存在, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("数据不存在");
-        }
-
-        SysDataLogShowResponseVo vo = SysDataLogShowResponseVo.build()
-                .clone(sysDataLogResponseDto);
-        log.info("查询系统数据日志详情成功, ID: {}", idRequestVo.getId());
-        return vo;
-    }
-
-    /**
-     * 跳转系统数据日志编辑页面（加载详情数据）
-     */
-    @ApiDoc(
-            value = "跳转系统数据日志编辑页面",
-            description = "获取系统数据日志编辑页面数据",
-            request = HttpRequestByIdVo.class,
-            response = SysDataLogShowResponseVo.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDataLog_edit)
-    public SysDataLogShowResponseVo edit(@Valid HttpRequestByIdVo idRequestVo) {
-
-        log.info("跳转系统数据日志编辑页面, ID: {}", idRequestVo.getId());
-
-        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
-            log.warn("跳转编辑页面参数错误, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
-        }
-
-        SysDataLogResponseDto sysDataLogResponseDto =
-                sysDataLogService.getSysDataLogById(idRequestVo.getId());
-
-        if (sysDataLogResponseDto == null) {
-            log.warn("系统数据日志不存在, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("数据不存在");
-        }
-
-        SysDataLogShowResponseVo vo = SysDataLogShowResponseVo.build()
-                .clone(sysDataLogResponseDto);
-        log.info("跳转系统数据日志编辑页面成功, ID: {}", idRequestVo.getId());
-        return vo;
-    }
-
-    /**
-     * 跳转系统数据日志新增编辑界面
-     */
-    @GetMapping(value = UrlCommand.sys_sysDataLog_newInfo)
-    public String newInfo(ModelMap modelMap) {
-        log.info("跳转系统数据日志新增编辑页面");
-        return "sys/sysDataLog_edit";
-    }
-
-    /**
      * 删除系统数据日志信息
+     * 根据ID列表批量删除系统数据日志记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "删除系统数据日志信息",
-            description = "根据ID列表删除系统数据日志记录",
+            description = "根据ID列表批量删除系统数据日志记录",
             request = HttpRequestByIdListVo.class,
-            response = Integer.class
+            response = Integer.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_del)
     public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
@@ -284,7 +206,7 @@ public class SysDataLogWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除系统数据日志参数错误, ID列表为空");
-            throw new RuntimeException("ID列表参数错误");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDataLogService.delSysDataLogByIds(idRequestVo.getIdList());
@@ -292,66 +214,4 @@ public class SysDataLogWebController {
         return result;
     }
 
-    /**
-     * 导出系统数据日志信息
-     */
-    @ApiDoc(
-            value = "导出系统数据日志信息",
-            description = "导出系统数据日志数据到Excel文件",
-            request = SysDataLogQueryRequestVo.class,
-            response = boolean.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDataLog_export)
-    public void export(HttpServletResponse response,
-                       @Valid SysDataLogQueryRequestVo sysDataLogQueryRequestVo) {
-
-        log.info("导出系统数据日志, 参数: {}", sysDataLogQueryRequestVo);
-
-        SysDataLogRequestDto sysDataLogRequestDto = SysDataLogRequestDto.build()
-                .clone(sysDataLogQueryRequestVo);
-
-        Pager<SysDataLogRequestDto> pager = Pager.of();
-        pager.toPageSize(sysDataLogQueryRequestVo.getPageSize())
-                .toPageNo(sysDataLogQueryRequestVo.getPageNo())
-                .toParamObject(sysDataLogRequestDto);
-
-        SysDataLogQueryEnum queryEnum = SysDataLogQueryEnum.DESC_ID;
-        PageResult<SysDataLogResponseDto> resultList =
-                sysDataLogService.getSysDataLogByNextPage(pager, queryEnum);
-        List<SysDataLogResponseDto> data = resultList.getList();
-
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDataLogResponseVo.class,
-                    data, "导出系统数据日志信息");
-            log.info("导出系统数据日志完成, 数据量: {}", data.size());
-        } catch (Exception e) {
-            log.error("导出系统数据日志失败", e);
-        }
-    }
-
-    /**
-     * 通过 Excel 导入系统数据日志数据
-     */
-    @ApiDoc(
-            value = "导入系统数据日志数据",
-            description = "通过Excel文件导入系统数据日志数据",
-            request = MultipartFile.class,
-            response = boolean.class
-    )
-    @PostMapping(value = UrlCommand.sys_sysDataLog_import)
-    public boolean importExcel(@RequestParam("file") MultipartFile file) {
-
-        log.info("导入系统数据日志, 文件名: {}", file.getOriginalFilename());
-
-        try {
-            InputStream initialStream = file.getInputStream();
-            boolean result = sysDataLogService.saveData(initialStream);
-            log.info("导入系统数据日志完成, 结果: {}", result);
-            return result;
-        } catch (Exception e) {
-            log.error("导入系统数据日志失败", e);
-            throw new RuntimeException("导入失败");
-        }
-    }
 }

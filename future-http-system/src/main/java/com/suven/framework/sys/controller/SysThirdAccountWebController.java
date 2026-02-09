@@ -1,46 +1,28 @@
 package com.suven.framework.sys.controller;
 
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
-
-
-import com.suven.framework.core.IterableConvert;
-import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
-import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
-
-import com.suven.framework.sys.service.SysThirdAccountService;
-import com.suven.framework.sys.vo.request.SysThirdAccountQueryRequestVo;
-import com.suven.framework.sys.vo.request.SysThirdAccountAddRequestVo;
-import com.suven.framework.sys.vo.response.SysThirdAccountShowResponseVo;
-import com.suven.framework.sys.vo.response.SysThirdAccountResponseVo;
-
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
 import com.suven.framework.sys.dto.request.SysThirdAccountRequestDto;
 import com.suven.framework.sys.dto.response.SysThirdAccountResponseDto;
-import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
-
+import com.suven.framework.sys.service.SysThirdAccountService;
+import com.suven.framework.sys.vo.request.SysThirdAccountAddRequestVo;
+import com.suven.framework.sys.vo.request.SysThirdAccountQueryRequestVo;
+import com.suven.framework.sys.vo.response.SysThirdAccountShowResponseVo;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * ClassName: SysThirdAccountWebController.java
@@ -64,344 +46,190 @@ import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
 
-
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
-        group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "第三方登陆表模块"
+    group = DocumentConst.Sys.SYS_DOC_GROUP,
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "第三方登陆表模块",
+    isApp = true
 )
 public class SysThirdAccountWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
 
     @Autowired
     private SysThirdAccountService  sysThirdAccountService;
 
     /**
-     * Title: 跳转到第三方登陆表主界面
-     * @return 字符串url
+     * 分页获取第三方登陆表信息
+     * 根据查询条件分页获取第三方登陆表列表
+     * @param sysThirdAccountQueryRequestVo 查询请求参数
+     * @return PageResult<SysThirdAccountShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
-    @RequestMapping(value =  UrlCommand.sys_sysThirdAccount_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:list")
-    public String index(){
-        return "sys/sysThirdAccount_index";
-    }
+    @ApiDoc(
+        value = "分页获取第三方登陆表信息",
+        description = "根据条件分页查询第三方登陆表数据",
+        request = SysThirdAccountQueryRequestVo.class,
+        response = SysThirdAccountShowResponseVo.class,
+        method = RequestMethodEnum.GET
+    )
+    @GetMapping(value = UrlCommand.sys_sysThirdAccount_list)
+    public PageResult<SysThirdAccountShowResponseVo> pageList(
+            @Valid SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo) {
 
+        log.info("分页查询第三方登陆表, 参数: {}", sysThirdAccountQueryRequestVo);
+
+        Pager<SysThirdAccountRequestDto> pager = new Pager<>(
+                sysThirdAccountQueryRequestVo.getPageNo(),
+                sysThirdAccountQueryRequestVo.getPageSize()
+        );
+        SysThirdAccountRequestDto requestDto = SysThirdAccountRequestDto.build()
+                .clone(sysThirdAccountQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysThirdAccountResponseDto> pageResult =
+                sysThirdAccountService.getSysThirdAccountByNextPage(
+                        pager, SysThirdAccountQueryEnum.DESC_ID);
+
+        log.info("分页查询第三方登陆表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysThirdAccountShowResponseVo.class);
+    }
 
     /**
-     * Title: 获取第三方登陆表分页信息
-     * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysThirdAccountShowResponseVo>
-     * @throw
+     * 查看第三方登陆表详情
+     * 根据ID获取第三方登陆表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysThirdAccountShowResponseVo 详情响应结果
      * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "获取第三方登陆表分页信息",
-            request = SysThirdAccountQueryRequestVo.class,
-            response = SysThirdAccountShowResponseVo.class
+        value = "查看第三方登陆表信息",
+        description = "根据ID获取第三方登陆表详细信息",
+        request = HttpRequestByIdVo.class,
+        response = SysThirdAccountShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:list")
-    public   void   list( OutputSystem out, SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo){
-            SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysThirdAccount_detail)
+    public SysThirdAccountShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
-        Pager<SysThirdAccountRequestDto> page =  Pager.of();
-        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
-        page.toParamObject(sysThirdAccountRequestDto );
-         SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
-        PageResult<SysThirdAccountResponseDto> resultPage = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
-        if(null == resultPage || resultPage.getList().isEmpty() ){
-            out.write( new PageResult<>());
-            return ;
-        }
-        PageResult<SysThirdAccountShowResponseVo> resultPageVo = resultPage.convertBuild(SysThirdAccountShowResponseVo.class);
-        out.write( resultPageVo);
-    }
+        log.info("查询第三方登陆表详情, ID: {}", idRequestVo.getId());
 
-/**
-     * Title: 根据条件查谒第三方登陆表分页信息
-     * Description:sysThirdAccountQueryRequestVo @{Link SysThirdAccountQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysThirdAccountShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取第三方登陆表分页信息",
-            request = SysThirdAccountQueryRequestVo.class,
-            response = SysThirdAccountShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:query")
-    public   void   queryList( OutputSystem out, SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo){
-            SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build( ).clone(sysThirdAccountQueryRequestVo);
-
-        Pager<SysThirdAccountRequestDto> page =  Pager.of();
-        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
-        page.toParamObject(sysThirdAccountRequestDto );
-        SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
-        List<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询第三方登陆表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysThirdAccountShowResponseVo> listVo = IterableConvert.convertList(resultList,SysThirdAccountShowResponseVo.class);
+        SysThirdAccountResponseDto responseDto =
+                sysThirdAccountService.getSysThirdAccountById(idRequestVo.getId());
 
-        out.write( listVo);
-    }
-
-
-
-    /**
-     * Title: 新增第三方登陆表信息
-     * Description:sysThirdAccountAddRequestVo @{Link SysThirdAccountAddRequestVo}
-     * @param sysThirdAccountAddRequestVo 对象
-     * @return long类型id
-     * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "新增第三方登陆表信息",
-            request = SysThirdAccountAddRequestVo.class,
-            response = Long.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:thirdaccount:add")
-    public  void  add(OutputSystem out, SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo){
-
-            SysThirdAccountRequestDto sysThirdAccountRequestDto =  SysThirdAccountRequestDto.build().clone(sysThirdAccountAddRequestVo);
-
-            //sysThirdAccountRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysThirdAccountResponseDto sysThirdAccountresponseDto =  sysThirdAccountService.saveSysThirdAccount(sysThirdAccountRequestDto);
-        if(sysThirdAccountresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        if (responseDto == null) {
+            log.warn("第三方登陆表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        out.write( sysThirdAccountresponseDto.getId());
+
+        log.info("查询第三方登陆表详情成功, ID: {}", idRequestVo.getId());
+        return SysThirdAccountShowResponseVo.build().clone(responseDto);
     }
+
     /**
-     * Title: 修改第三方登陆表信息
-     * Description:sysThirdAccountAddRequestVo @{Link SysThirdAccountAddRequestVo}
-     * @param  sysThirdAccountAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 新增第三方登陆表信息
+     * 创建新的第三方登陆表记录
+     * @param sysThirdAccountAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "修改第三方登陆表信息",
-            request = SysThirdAccountAddRequestVo.class,
-            response = boolean.class
+        value = "新增第三方登陆表信息",
+        description = "创建新的第三方登陆表记录",
+        request = SysThirdAccountAddRequestVo.class,
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:thirdaccount:modify")
-    public  void  modify(OutputSystem out,SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysThirdAccount_add)
+    public Long create(@Valid SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
 
-            SysThirdAccountRequestDto sysThirdAccountRequestDto =  SysThirdAccountRequestDto.build().clone(sysThirdAccountAddRequestVo);
+        log.info("新增第三方登陆表信息, 参数: {}", sysThirdAccountAddRequestVo);
 
-        if(sysThirdAccountRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysThirdAccountRequestDto requestDto = SysThirdAccountRequestDto.build()
+                .clone(sysThirdAccountAddRequestVo);
+
+        SysThirdAccountResponseDto responseDto =
+                sysThirdAccountService.saveSysThirdAccount(requestDto);
+
+        if (responseDto == null) {
+            log.warn("新增第三方登陆表失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        boolean result =  sysThirdAccountService.updateSysThirdAccount(sysThirdAccountRequestDto);
-        out.write(result);
+
+        log.info("新增第三方登陆表成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
 
     /**
-     * Title: 查看第三方登陆表信息
-     * Description:sysThirdAccountRequestVo @{Link SysThirdAccountRequestVo}
-     * @param
-     * @return  SysThirdAccountResponseVo  对象
+     * 修改第三方登陆表信息
+     * 根据ID更新第三方登陆表信息
+     * @param sysThirdAccountAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看第三方登陆表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysThirdAccountShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysThirdAccountResponseDto sysThirdAccountResponseDto = sysThirdAccountService.getSysThirdAccountById(idRequestVo.getId());
-            SysThirdAccountShowResponseVo vo =  SysThirdAccountShowResponseVo.build().clone(sysThirdAccountResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转第三方登陆表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysThirdAccountShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "查看第三方登陆表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysThirdAccountShowResponseVo.class
+        value = "修改第三方登陆表信息",
+        description = "根据ID更新第三方登陆表记录",
+        request = SysThirdAccountAddRequestVo.class,
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysThirdAccount_modify)
+    public boolean update(@Valid SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
 
-            SysThirdAccountResponseDto sysThirdAccountResponseDto = sysThirdAccountService.getSysThirdAccountById(idRequestVo.getId());
-            SysThirdAccountShowResponseVo vo =  SysThirdAccountShowResponseVo.build().clone(sysThirdAccountResponseDto);
-        out.write(vo);
+        log.info("修改第三方登陆表信息, 参数: {}", sysThirdAccountAddRequestVo);
 
-    }
+        SysThirdAccountRequestDto requestDto = SysThirdAccountRequestDto.build()
+                .clone(sysThirdAccountAddRequestVo);
 
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改第三方登陆表参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
 
-
-
-    /**
-     * Title: 跳转第三方登陆表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysThirdAccount_edit";
+        boolean result = sysThirdAccountService.updateSysThirdAccount(requestDto);
+        log.info("修改第三方登陆表完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 删除第三方登陆表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
+     * 删除第三方登陆表信息
+     * 根据ID列表批量删除第三方登陆表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "删除第三方登陆表信息",
-            request = HttpRequestByIdListVo.class,
-            response = Integer.class
+        value = "删除第三方登陆表信息",
+        description = "根据ID列表批量删除第三方登陆表记录",
+        request = HttpRequestByIdListVo.class,
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:thirdaccount:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysThirdAccount_del)
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除第三方登陆表, ID列表: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除第三方登陆表参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysThirdAccountService.delSysThirdAccountByIds(idRequestVo.getIdList());
-        out.write(result);
+        log.info("删除第三方登陆表完成, 删除数量: {}", result);
+        return result;
     }
-
-
-
-    /**
-     * Title: 导出第三方登陆表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:09:47
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出第三方登陆表信息",
-            request = SysThirdAccountQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:thirdaccount:export")
-    public void export(HttpServletResponse response, SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo){
-
-            SysThirdAccountRequestDto sysThirdAccountRequestDto = SysThirdAccountRequestDto.build().clone(sysThirdAccountQueryRequestVo);
-
-        Pager<SysThirdAccountRequestDto> page =  Pager.of();
-        page.toPageSize(sysThirdAccountQueryRequestVo.getPageSize()).toPageNo(sysThirdAccountQueryRequestVo.getPageNo());
-        page.toParamObject(sysThirdAccountRequestDto );
-
-        SysThirdAccountQueryEnum queryEnum =  SysThirdAccountQueryEnum.DESC_ID;
-        PageResult<SysThirdAccountResponseDto> resultList = sysThirdAccountService.getSysThirdAccountByNextPage(page,queryEnum);
-        List<SysThirdAccountResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysThirdAccountResponseVo.class,data,"导出第三方登陆表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
-
-
-    /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysThirdAccount_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:thirdaccount:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysThirdAccountService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
 
 }
