@@ -1,14 +1,16 @@
 package com.suven.framework.sys.controller;
 
 
+import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
+
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
@@ -16,12 +18,12 @@ import com.suven.framework.sys.service.SysDataLogService;
 import com.suven.framework.sys.vo.request.SysDataLogAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDataLogQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysDataLogShowResponseVo;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 系统数据日志 Web 控制器
@@ -59,7 +61,7 @@ public class SysDataLogWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysDataLog_list)
     public PageResult<SysDataLogShowResponseVo> pageList(
-            @Valid SysDataLogQueryRequestVo sysDataLogQueryRequestVo) {
+            @Validated SysDataLogQueryRequestVo sysDataLogQueryRequestVo) {
 
         log.info("分页查询系统数据日志, 参数: {}", sysDataLogQueryRequestVo);
 
@@ -94,7 +96,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDataLog_detail)
-    public SysDataLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDataLogShowResponseVo detail(@Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询系统数据日志详情, ID: {}", idRequestVo.getId());
 
@@ -131,7 +133,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_add)
-    public Long create(@Valid SysDataLogAddRequestVo sysDataLogAddRequestVo) {
+    public Long create(@Validated SysDataLogAddRequestVo sysDataLogAddRequestVo) {
 
         log.info("新增系统数据日志, 参数: {}", sysDataLogAddRequestVo);
 
@@ -166,7 +168,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_modify)
-    public boolean update(@Valid SysDataLogAddRequestVo sysDataLogAddRequestVo) {
+    public boolean update(@Validated SysDataLogAddRequestVo sysDataLogAddRequestVo) {
 
         log.info("修改系统数据日志, 参数: {}", sysDataLogAddRequestVo);
 
@@ -199,7 +201,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete(@Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除系统数据日志, ID列表: {}", idRequestVo.getIdList());
 

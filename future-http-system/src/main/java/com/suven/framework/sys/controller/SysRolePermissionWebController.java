@@ -1,13 +1,16 @@
 package com.suven.framework.sys.controller;
 
 
+import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
- 
+
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.sys.dto.request.SysRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
@@ -21,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ClassName: SysRolePermissionWebController.java
