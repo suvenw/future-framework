@@ -11,9 +11,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 
 import com.suven.framework.sys.service.SysDepartRoleUserService;
 import com.suven.framework.sys.vo.request.SysDepartRoleUserQueryRequestVo;
@@ -84,7 +82,7 @@ public class SysDepartRoleUserWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartRoleUser_list)
-    public PageResult<SysDepartRoleUserShowResponseVo> pageList(@Valid SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo) {
+    public PageResult<SysDepartRoleUserShowResponseVo> pageList( @Validated  SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo) {
 
         log.info("分页查询部门角色用户表, 参数: {}", sysDepartRoleUserQueryRequestVo);
 
@@ -123,7 +121,7 @@ public class SysDepartRoleUserWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartRoleUser_detail)
-    public SysDepartRoleUserShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDepartRoleUserShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询部门角色用户表详情, ID: {}", idRequestVo.getId());
 
@@ -160,7 +158,7 @@ public class SysDepartRoleUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDepartRoleUser_add)
-    public Long create(@Valid SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
+    public Long create( @Validated  SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
 
         log.info("新增部门角色用户表信息, 参数: {}", sysDepartRoleUserAddRequestVo);
 
@@ -193,7 +191,7 @@ public class SysDepartRoleUserWebController {
         method = RequestMethodEnum.POST
     )
     @PutMapping(value = UrlCommand.sys_sysDepartRoleUser_modify)
-    public boolean update(@Valid SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
+    public boolean update( @Validated  SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
 
         log.info("修改部门角色用户表信息, 参数: {}", sysDepartRoleUserAddRequestVo);
 
@@ -226,7 +224,7 @@ public class SysDepartRoleUserWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysDepartRoleUser_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除部门角色用户表信息, IDs: {}", idRequestVo.getIdList());
 

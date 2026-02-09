@@ -6,6 +6,7 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
+import com.suven.framework.upload.dto.response.SaaSFileFieldResponseDto;
 import com.suven.framework.upload.dto.response.SaaSFileInterpretResponseDto;
 import com.suven.framework.upload.dto.response.SaaSFileOperationResponseDto;
 import com.suven.framework.upload.entity.DataSourceModuleName;

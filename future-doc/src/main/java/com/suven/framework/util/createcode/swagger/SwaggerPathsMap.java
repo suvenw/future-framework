@@ -14,7 +14,7 @@ public class SwaggerPathsMap<T> extends TreeMap<String, T> {
         return new SwaggerPathsMap<>();
     }
 
-    public SwaggerPathsMap<T> put(String key, T value){
+    public SwaggerPathsMap<T> putT(String key, T value){
         super.put(key, value);
         return this;
     }

@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysPermissionDataRuleQueryEnum;
 import com.suven.framework.sys.dto.request.SysPermissionDataRuleRequestDto;
 import com.suven.framework.sys.dto.response.SysPermissionDataRuleResponseDto;
@@ -17,7 +15,7 @@ import com.suven.framework.sys.service.SysPermissionDataRuleService;
 import com.suven.framework.sys.vo.request.SysPermissionDataRuleAddRequestVo;
 import com.suven.framework.sys.vo.request.SysPermissionDataRuleQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysPermissionDataRuleShowResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -77,7 +75,7 @@ public class SysPermissionDataRuleWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysPermissionDataRule_list)
     public PageResult<SysPermissionDataRuleShowResponseVo> pageList(
-            @Valid SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo) {
+            @Validated  SysPermissionDataRuleQueryRequestVo sysPermissionDataRuleQueryRequestVo) {
 
         log.info("分页查询菜单权限规则表, 参数: {}", sysPermissionDataRuleQueryRequestVo);
 
@@ -113,7 +111,7 @@ public class SysPermissionDataRuleWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysPermissionDataRule_detail)
-    public SysPermissionDataRuleShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysPermissionDataRuleShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询菜单权限规则表详情, ID: {}", idRequestVo.getId());
 
@@ -150,7 +148,7 @@ public class SysPermissionDataRuleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermissionDataRule_add)
-    public Long create(@Valid SysPermissionDataRuleAddRequestVo sysPermissionDataRuleAddRequestVo) {
+    public Long create( @Validated  SysPermissionDataRuleAddRequestVo sysPermissionDataRuleAddRequestVo) {
 
         log.info("新增菜单权限规则表信息, 参数: {}", sysPermissionDataRuleAddRequestVo);
 
@@ -185,7 +183,7 @@ public class SysPermissionDataRuleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermissionDataRule_modify)
-    public boolean update(@Valid SysPermissionDataRuleAddRequestVo sysPermissionDataRuleAddRequestVo) {
+    public boolean update( @Validated  SysPermissionDataRuleAddRequestVo sysPermissionDataRuleAddRequestVo) {
 
         log.info("修改菜单权限规则表信息, 参数: {}", sysPermissionDataRuleAddRequestVo);
 
@@ -218,7 +216,7 @@ public class SysPermissionDataRuleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermissionDataRule_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除菜单权限规则表, ID列表: {}", idRequestVo.getIdList());
 

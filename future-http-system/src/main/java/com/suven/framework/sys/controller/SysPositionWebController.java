@@ -3,13 +3,12 @@ package com.suven.framework.sys.controller;
 
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.enums.SysPositionQueryEnum;
 import com.suven.framework.sys.dto.request.SysPositionRequestDto;
 import com.suven.framework.sys.dto.response.SysPositionResponseDto;
@@ -17,12 +16,12 @@ import com.suven.framework.sys.service.SysPositionService;
 import com.suven.framework.sys.vo.request.SysPositionAddRequestVo;
 import com.suven.framework.sys.vo.request.SysPositionQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysPositionShowResponseVo;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ClassName: SysPositionWebController.java
@@ -77,7 +76,7 @@ public class SysPositionWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysPosition_list)
     public PageResult<SysPositionShowResponseVo> pageList(
-            @Valid SysPositionQueryRequestVo sysPositionQueryRequestVo) {
+            @Validated  SysPositionQueryRequestVo sysPositionQueryRequestVo) {
 
         log.info("分页查询岗位表, 参数: {}", sysPositionQueryRequestVo);
 
@@ -112,7 +111,7 @@ public class SysPositionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysPosition_detail)
-    public SysPositionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysPositionShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询岗位表详情, ID: {}", idRequestVo.getId());
 
@@ -149,7 +148,7 @@ public class SysPositionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPosition_add)
-    public Long create(@Valid SysPositionAddRequestVo sysPositionAddRequestVo) {
+    public Long create( @Validated SysPositionAddRequestVo sysPositionAddRequestVo) {
 
         log.info("新增岗位表信息, 参数: {}", sysPositionAddRequestVo);
 
@@ -184,7 +183,7 @@ public class SysPositionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPosition_modify)
-    public boolean update(@Valid SysPositionAddRequestVo sysPositionAddRequestVo) {
+    public boolean update( @Validated SysPositionAddRequestVo sysPositionAddRequestVo) {
 
         log.info("修改岗位表信息, 参数: {}", sysPositionAddRequestVo);
 
@@ -217,7 +216,7 @@ public class SysPositionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPosition_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除岗位表, ID列表: {}", idRequestVo.getIdList());
 

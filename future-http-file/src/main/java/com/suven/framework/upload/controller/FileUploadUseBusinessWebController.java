@@ -18,7 +18,7 @@ import com.suven.framework.upload.vo.response.FileUploadUseBusinessResponseVo;
 import com.suven.framework.upload.vo.response.FileUploadUseBusinessShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,7 +96,7 @@ public class FileUploadUseBusinessWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_PAGE_LIST)
     public PageResult<FileUploadUseBusinessShowResponseVo> pageList(
-            @Valid FileUploadUseBusinessQueryRequestVo queryVo) {
+            @Validated  FileUploadUseBusinessQueryRequestVo queryVo) {
 
         log.info("分页查询文件上传业务配置, 参数: {}", queryVo);
 
@@ -135,7 +135,7 @@ public class FileUploadUseBusinessWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_QUERY_LIST)
     public List<FileUploadUseBusinessShowResponseVo> queryList(
-            @Valid FileUploadUseBusinessQueryRequestVo queryVo) {
+            @Validated  FileUploadUseBusinessQueryRequestVo queryVo) {
 
         log.info("根据条件查询文件上传业务配置, 参数: {}", queryVo);
 
@@ -167,7 +167,7 @@ public class FileUploadUseBusinessWebController {
             response = Long.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_CREATE)
-    public Long create(@Valid FileUploadUseBusinessAddRequestVo addVo) {
+    public Long create( @ValidatedFileUploadUseBusinessAddRequestVo addVo) {
 
         log.info("新增文件上传业务配置, 参数: {}", addVo);
 
@@ -196,7 +196,7 @@ public class FileUploadUseBusinessWebController {
             response = boolean.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_UPDATE)
-    public boolean update(@Valid FileUploadUseBusinessAddRequestVo addVo) {
+    public boolean update( @ValidatedFileUploadUseBusinessAddRequestVo addVo) {
 
         log.info("修改文件上传业务配置, 参数: {}", addVo);
 
@@ -223,7 +223,7 @@ public class FileUploadUseBusinessWebController {
             response = FileUploadUseBusinessShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_INFO)
-    public FileUploadUseBusinessShowResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadUseBusinessShowResponseVo info( @Validated  HttpRequestByIdVo idVo) {
 
         log.info("查询文件上传业务配置详情, ID: {}", idVo.getId());
 
@@ -256,7 +256,7 @@ public class FileUploadUseBusinessWebController {
             response = FileUploadUseBusinessShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_EDIT)
-    public FileUploadUseBusinessShowResponseVo edit(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadUseBusinessShowResponseVo edit( @Validated  HttpRequestByIdVo idVo) {
 
         log.info("跳转编辑页面, ID: {}", idVo.getId());
 
@@ -298,7 +298,7 @@ public class FileUploadUseBusinessWebController {
             response = Integer.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_DELETE)
-    public int delete(@Valid HttpRequestByIdListVo idVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idVo) {
 
         log.info("删除文件上传业务配置, ID列表: {}", idVo.getIdList());
 
@@ -323,7 +323,7 @@ public class FileUploadUseBusinessWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_EXPORT)
     public void export(HttpServletResponse response,
-                       @Valid FileUploadUseBusinessQueryRequestVo queryVo) {
+                       @Validated  FileUploadUseBusinessQueryRequestVo queryVo) {
 
         log.info("导出文件上传业务配置, 参数: {}", queryVo);
 

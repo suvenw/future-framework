@@ -18,7 +18,7 @@ import com.suven.framework.upload.vo.response.FileUploadAppResponseVo;
 import com.suven.framework.upload.vo.response.FileUploadAppShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,7 +96,7 @@ public class FileUploadAppWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_PAGE_LIST)
     public PageResult<FileUploadAppShowResponseVo> pageList(
-            @Valid FileUploadAppQueryRequestVo queryVo) {
+            @Validated  FileUploadAppQueryRequestVo queryVo) {
 
         log.info("分页查询文件上传应用配置, 参数: {}", queryVo);
 
@@ -135,7 +135,7 @@ public class FileUploadAppWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_QUERY_LIST)
     public List<FileUploadAppShowResponseVo> queryList(
-            @Valid FileUploadAppQueryRequestVo queryVo) {
+            @Validated  FileUploadAppQueryRequestVo queryVo) {
 
         log.info("根据条件查询文件上传应用配置, 参数: {}", queryVo);
 
@@ -167,7 +167,7 @@ public class FileUploadAppWebController {
             response = Long.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_CREATE)
-    public Long create(@Valid FileUploadAppAddRequestVo addVo) {
+    public Long create( @Validated FileUploadAppAddRequestVo addVo) {
 
         log.info("新增文件上传应用配置, 参数: {}", addVo);
 
@@ -196,7 +196,7 @@ public class FileUploadAppWebController {
             response = boolean.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_UPDATE)
-    public boolean update(@Valid FileUploadAppAddRequestVo addVo) {
+    public boolean update( @Validated FileUploadAppAddRequestVo addVo) {
 
         log.info("修改文件上传应用配置, 参数: {}", addVo);
 
@@ -223,7 +223,7 @@ public class FileUploadAppWebController {
             response = FileUploadAppShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_INFO)
-    public FileUploadAppShowResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadAppShowResponseVo info( @Validated  HttpRequestByIdVo idVo) {
 
         log.info("查询文件上传应用配置详情, ID: {}", idVo.getId());
 
@@ -256,7 +256,7 @@ public class FileUploadAppWebController {
             response = FileUploadAppShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_EDIT)
-    public FileUploadAppShowResponseVo edit(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadAppShowResponseVo edit( @Validated  HttpRequestByIdVo idVo) {
 
         log.info("跳转编辑页面, ID: {}", idVo.getId());
 
@@ -298,7 +298,7 @@ public class FileUploadAppWebController {
             response = Integer.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_DELETE)
-    public int delete(@Valid HttpRequestByIdListVo idVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idVo) {
 
         log.info("删除文件上传应用配置, ID列表: {}", idVo.getIdList());
 
@@ -323,7 +323,7 @@ public class FileUploadAppWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_EXPORT)
     public void export(HttpServletResponse response,
-                       @Valid FileUploadAppQueryRequestVo queryVo) {
+                       @Validated  FileUploadAppQueryRequestVo queryVo) {
 
         log.info("导出文件上传应用配置, 参数: {}", queryVo);
 

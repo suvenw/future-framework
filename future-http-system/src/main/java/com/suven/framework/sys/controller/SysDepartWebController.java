@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.sys.dto.request.SysDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartResponseDto;
@@ -19,7 +17,7 @@ import com.suven.framework.sys.vo.request.SysDepartAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDepartQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysDepartShowResponseVo;
 import com.suven.framework.sys.vo.response.SysDepartTreeModelResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

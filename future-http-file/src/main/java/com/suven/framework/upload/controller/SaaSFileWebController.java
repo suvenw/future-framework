@@ -1,6 +1,7 @@
 package com.suven.framework.upload.controller;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
+import com.suven.framework.common.enums.SystemMsgCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
@@ -24,7 +25,7 @@ import com.suven.framework.upload.vo.response.SaaSFileGenerateResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileUploadResponseVo;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,7 @@ public class SaaSFileWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_PAGE_LIST)
     public PageResult<SaaSFileShowResponseVo> pageList(
-            @Valid SaaSFileQueryRequestVo queryRequestVo) {
+            @Validated  SaaSFileQueryRequestVo queryRequestVo) {
         
         log.info("SaaS文件分页查询, 参数: {}", queryRequestVo);
         
@@ -121,7 +122,7 @@ public class SaaSFileWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_INFO)
-    public SaaSFileShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SaaSFileShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS文件详情查询, ID: {}", idRequestVo.getId());
         
@@ -156,7 +157,7 @@ public class SaaSFileWebController {
     )
     @PostMapping(value = UrlCommand.SAAS_FILE_UPLOAD)
     public SaaSFileUploadResponseVo upload(
-            @Valid SaaSFileUploadRequestVo uploadRequestVo,
+            @Validated  SaaSFileUploadRequestVo uploadRequestVo,
             @RequestParam("file") MultipartFile file) {
         
         log.info("SaaS文件上传开始, 文件名: {}, 大小: {}", 
@@ -164,7 +165,7 @@ public class SaaSFileWebController {
         
         if (file.isEmpty()) {
             log.warn("SaaS文件上传失败, 文件为空");
-            throw ExceptionFactory.sysException(CodeEnum.FILE_IS_EMPTY);
+            throw ExceptionFactory.sysException(SystemMsgCodeEnum.FILE_IS_EMPTY);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
@@ -189,13 +190,13 @@ public class SaaSFileWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_DOWNLOAD)
     public SaaSFileDownloadResponseVo download(
-            @Valid SaaSFileDownloadRequestVo downloadRequestVo) {
+            @Validated  SaaSFileDownloadRequestVo downloadRequestVo) {
         
         log.info("SaaS文件下载开始, 文件ID: {}", downloadRequestVo.getFileUploadStorageId());
         
         if (downloadRequestVo.getFileUploadStorageId() <= 0) {
             log.warn("SaaS文件下载参数错误, ID: {}", downloadRequestVo.getFileUploadStorageId());
-            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
+            throw ExceptionFactory.sysException(SystemMsgCodeEnum.SYS_USER_NEW_PWD_FAIL);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(downloadRequestVo);
@@ -231,7 +232,7 @@ public class SaaSFileWebController {
     )
     @PostMapping(value = UrlCommand.SAAS_FILE_GENERATE)
     public SaaSFileGenerateResponseVo generate(
-            @Valid SaaSFileGenerateRequestVo generateRequestVo) {
+            @Validated  SaaSFileGenerateRequestVo generateRequestVo) {
         
         log.info("SaaS大数据文件生成开始, API地址: {}", generateRequestVo.getThirdPartyApiUrl());
         
@@ -265,7 +266,7 @@ public class SaaSFileWebController {
         method = RequestMethodEnum.DELETE
     )
     @PostMapping(value = UrlCommand.SAAS_FILE_DELETE)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
         
         log.info("SaaS文件删除开始, ID列表: {}", idRequestVo.getIdList());
         

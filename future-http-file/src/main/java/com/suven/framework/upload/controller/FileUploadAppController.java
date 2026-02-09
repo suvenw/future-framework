@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileUploadAppFacade;
 import com.suven.framework.upload.service.FileUploadAppService;
 import com.suven.framework.upload.vo.request.FileUploadAppRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadAppResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
