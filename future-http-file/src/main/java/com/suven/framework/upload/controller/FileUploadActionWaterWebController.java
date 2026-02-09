@@ -18,7 +18,7 @@ import com.suven.framework.upload.vo.response.FileUploadActionWaterResponseVo;
 import com.suven.framework.upload.vo.response.FileUploadActionWaterShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -212,7 +212,7 @@ public class FileUploadActionWaterWebController {
             response = FileUploadActionWaterShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_INFO)
-    public FileUploadActionWaterShowResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadActionWaterShowResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("查询文件上传行为流水详情, ID: {}", idVo.getId());
 
@@ -245,7 +245,7 @@ public class FileUploadActionWaterWebController {
             response = FileUploadActionWaterShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_EDIT)
-    public FileUploadActionWaterShowResponseVo edit( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadActionWaterShowResponseVo edit(@Valid HttpRequestByIdVo idVo) {
 
         log.info("跳转文件上传行为流水编辑页面, ID: {}", idVo.getId());
 
@@ -287,7 +287,7 @@ public class FileUploadActionWaterWebController {
             response = Integer.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_DELETE)
-    public int delete( @Validated HttpRequestByIdListVo idVo) {
+    public int delete(@Valid HttpRequestByIdListVo idVo) {
 
         log.info("删除文件上传行为流水, ID列表: {}", idVo.getIdList());
 

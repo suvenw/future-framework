@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileDataDetailedFacade;
 import com.suven.framework.upload.service.FileDataDetailedService;
 import com.suven.framework.upload.vo.request.FileDataDetailedRequestVo;
 import com.suven.framework.upload.vo.response.FileDataDetailedResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,7 +97,7 @@ public class FileDataDetailedController {
             response = FileDataDetailedResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_DATA_DETAILED_INFO)
-    public FileDataDetailedResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileDataDetailedResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件数据明细详情, ID: {}", idVo.getId());
 

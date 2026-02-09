@@ -18,7 +18,7 @@ import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
 import com.suven.framework.upload.vo.response.FileAppStorageConfigShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -258,7 +258,7 @@ public class FileAppStorageConfigWebController {
             response = FileAppStorageConfigShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_INFO)
-    public FileAppStorageConfigShowResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileAppStorageConfigShowResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("查询文件应用存储配置详情, ID: {}", idVo.getId());
 
@@ -294,7 +294,7 @@ public class FileAppStorageConfigWebController {
             response = FileAppStorageConfigShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_EDIT)
-    public FileAppStorageConfigShowResponseVo edit( @Validated HttpRequestByIdVo idVo) {
+    public FileAppStorageConfigShowResponseVo edit(@Valid HttpRequestByIdVo idVo) {
 
         log.info("跳转文件应用存储配置编辑页面, ID: {}", idVo.getId());
 
@@ -341,7 +341,7 @@ public class FileAppStorageConfigWebController {
             response = Integer.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_DELETE)
-    public int delete( @Validated HttpRequestByIdListVo idVo) {
+    public int delete(@Valid HttpRequestByIdListVo idVo) {
 
         log.info("删除文件应用存储配置, ID列表: {}", idVo.getIdList());
 

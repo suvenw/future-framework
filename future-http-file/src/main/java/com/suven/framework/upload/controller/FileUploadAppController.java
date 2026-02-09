@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileUploadAppFacade;
 import com.suven.framework.upload.service.FileUploadAppService;
 import com.suven.framework.upload.vo.request.FileUploadAppRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadAppResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,7 +97,7 @@ public class FileUploadAppController {
             response = FileUploadAppResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_INFO)
-    public FileUploadAppResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadAppResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传应用配置详情, ID: {}", idVo.getId());
 

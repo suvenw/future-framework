@@ -7,7 +7,9 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
- 
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDataLogQueryEnum;
 import com.suven.framework.sys.dto.request.SysDataLogRequestDto;
 import com.suven.framework.sys.dto.response.SysDataLogResponseDto;
@@ -15,7 +17,7 @@ import com.suven.framework.sys.service.SysDataLogService;
 import com.suven.framework.sys.vo.request.SysDataLogAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDataLogQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysDataLogShowResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -93,7 +95,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDataLog_detail)
-    public SysDataLogShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
+    public SysDataLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
         log.info("查询系统数据日志详情, ID: {}", idRequestVo.getId());
 
@@ -198,7 +200,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_del)
-    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除系统数据日志, ID列表: {}", idRequestVo.getIdList());
 
