@@ -3,13 +3,13 @@ package com.suven.framework.sys.controller;
 
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 import com.suven.framework.sys.dto.request.SysDictRequestDto;
 import com.suven.framework.sys.dto.response.SysDictResponseDto;
@@ -17,12 +17,13 @@ import com.suven.framework.sys.service.SysDictService;
 import com.suven.framework.sys.vo.request.SysDictAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDictQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysDictShowResponseVo;
-import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 后台字典类型表 Web 控制器

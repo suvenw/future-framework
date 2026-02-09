@@ -1,15 +1,15 @@
 package com.suven.framework.sys.controller;
 
 
+import com.suven.framework.common.enums.SystemMsgCodeEnum;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.request.SysUserRoleRequestDto;
 import com.suven.framework.sys.dto.response.SysUserRoleResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserRoleQueryEnum;
@@ -17,12 +17,13 @@ import com.suven.framework.sys.service.SysUserRoleService;
 import com.suven.framework.sys.vo.request.SysUserRoleQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysUserRoleAddRequestVo;
 import com.suven.framework.sys.vo.response.SysUserRoleShowResponseVo;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -51,7 +52,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@Validated
 @ApiDoc(
     group = DocumentConst.Sys.SYS_DOC_GROUP,
     groupDesc = DocumentConst.Sys.SYS_DOC_DES,
@@ -86,7 +86,7 @@ public class SysUserRoleWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysUserRole_list)
     public PageResult<SysUserRoleShowResponseVo> pageList(
-            @Valid SysUserRoleQueryRequestVo sysUserRoleQueryRequestVo) {
+              SysUserRoleQueryRequestVo sysUserRoleQueryRequestVo) {
 
         log.info("分页查询用户角色关系表, 参数: {}", sysUserRoleQueryRequestVo);
 
@@ -126,7 +126,7 @@ public class SysUserRoleWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysUserRole_detail)
-    public SysUserRoleShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysUserRoleShowResponseVo detail(  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询用户角色关系表详情, ID: {}", idRequestVo.getId());
 
@@ -163,7 +163,7 @@ public class SysUserRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserRole_add)
-    public Long create(@Valid SysUserRoleAddRequestVo sysUserRoleAddRequestVo) {
+    public Long create(  SysUserRoleAddRequestVo sysUserRoleAddRequestVo) {
 
         log.info("新增用户角色关系表, 参数: {}", sysUserRoleAddRequestVo);
 
@@ -173,7 +173,7 @@ public class SysUserRoleWebController {
 
         if (responseDto == null) {
             log.error("新增用户角色关系表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SystemMsgCodeEnum.SYS_USER_ROLE_FIND_FAIL);
         }
 
         log.info("新增用户角色关系表成功, ID: {}", responseDto.getId());
@@ -196,7 +196,7 @@ public class SysUserRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserRole_modify)
-    public boolean update(@Valid SysUserRoleAddRequestVo sysUserRoleAddRequestVo) {
+    public boolean update(  SysUserRoleAddRequestVo sysUserRoleAddRequestVo) {
 
         log.info("修改用户角色关系表, 参数: {}", sysUserRoleAddRequestVo);
 
@@ -230,7 +230,7 @@ public class SysUserRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserRole_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete(  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除用户角色关系表, ID列表: {}", idRequestVo.getIdList());
 

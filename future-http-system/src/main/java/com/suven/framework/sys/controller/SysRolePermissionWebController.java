@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysRolePermissionQueryEnum;
 import com.suven.framework.sys.dto.request.SysRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysRolePermissionResponseDto;
@@ -17,7 +15,7 @@ import com.suven.framework.sys.service.SysRolePermissionService;
 import com.suven.framework.sys.vo.request.SysRolePermissionAddRequestVo;
 import com.suven.framework.sys.vo.request.SysRolePermissionQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysRolePermissionShowResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -77,7 +75,7 @@ public class SysRolePermissionWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysRolePermission_list)
     public PageResult<SysRolePermissionShowResponseVo> pageList(
-            @Valid SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo) {
+            @Validated  SysRolePermissionQueryRequestVo sysRolePermissionQueryRequestVo) {
 
         log.info("分页查询角色权限表, 参数: {}", sysRolePermissionQueryRequestVo);
 
@@ -113,7 +111,7 @@ public class SysRolePermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysRolePermission_detail)
-    public SysRolePermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysRolePermissionShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询角色权限表详情, ID: {}", idRequestVo.getId());
 
@@ -150,7 +148,7 @@ public class SysRolePermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRolePermission_add)
-    public Long create(@Valid SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
+    public Long create( @Validated  SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
 
         log.info("新增角色权限表信息, 参数: {}", sysRolePermissionAddRequestVo);
 
@@ -185,7 +183,7 @@ public class SysRolePermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRolePermission_modify)
-    public boolean update(@Valid SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
+    public boolean update( @Validated  SysRolePermissionAddRequestVo sysRolePermissionAddRequestVo) {
 
         log.info("修改角色权限表信息, 参数: {}", sysRolePermissionAddRequestVo);
 
@@ -218,7 +216,7 @@ public class SysRolePermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRolePermission_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除角色权限表, ID列表: {}", idRequestVo.getIdList());
 

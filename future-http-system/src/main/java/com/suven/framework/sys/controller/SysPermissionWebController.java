@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysPermissionQueryEnum;
 import com.suven.framework.sys.dto.request.SysPermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
@@ -18,7 +16,7 @@ import com.suven.framework.sys.service.SysPermissionService;
 import com.suven.framework.sys.vo.request.SysPermissionAddRequestVo;
 import com.suven.framework.sys.vo.request.SysPermissionQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysPermissionShowResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -99,7 +97,7 @@ public class SysPermissionWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysPermission_list)
     public PageResult<SysPermissionShowResponseVo> pageList(
-            @Valid SysPermissionQueryRequestVo sysPermissionQueryRequestVo) {
+            @Validated  SysPermissionQueryRequestVo sysPermissionQueryRequestVo) {
 
         log.info("分页查询菜单权限表, 参数: {}", sysPermissionQueryRequestVo);
 
@@ -139,7 +137,7 @@ public class SysPermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysPermission_detail)
-    public SysPermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysPermissionShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询菜单权限表详情, ID: {}", idRequestVo.getId());
 
@@ -177,7 +175,7 @@ public class SysPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermission_add)
-    public Long create(@Valid SysPermissionAddRequestVo sysPermissionAddRequestVo) {
+    public Long create( @Validated  SysPermissionAddRequestVo sysPermissionAddRequestVo) {
 
         log.info("新增菜单权限表, 参数: {}", sysPermissionAddRequestVo);
 
@@ -210,7 +208,7 @@ public class SysPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermission_modify)
-    public boolean update(@Valid SysPermissionAddRequestVo sysPermissionAddRequestVo) {
+    public boolean update( @Validated  SysPermissionAddRequestVo sysPermissionAddRequestVo) {
 
         log.info("修改菜单权限表, 参数: {}", sysPermissionAddRequestVo);
 
@@ -243,7 +241,7 @@ public class SysPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysPermission_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除菜单权限表, ID列表: {}", idRequestVo.getIdList());
 

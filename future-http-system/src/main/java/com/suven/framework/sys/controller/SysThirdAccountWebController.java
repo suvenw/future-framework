@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysThirdAccountQueryEnum;
 import com.suven.framework.sys.dto.request.SysThirdAccountRequestDto;
 import com.suven.framework.sys.dto.response.SysThirdAccountResponseDto;
@@ -17,7 +15,7 @@ import com.suven.framework.sys.service.SysThirdAccountService;
 import com.suven.framework.sys.vo.request.SysThirdAccountAddRequestVo;
 import com.suven.framework.sys.vo.request.SysThirdAccountQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysThirdAccountShowResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -77,7 +75,7 @@ public class SysThirdAccountWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysThirdAccount_list)
     public PageResult<SysThirdAccountShowResponseVo> pageList(
-            @Valid SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo) {
+            @Validated  SysThirdAccountQueryRequestVo sysThirdAccountQueryRequestVo) {
 
         log.info("分页查询第三方登陆表, 参数: {}", sysThirdAccountQueryRequestVo);
 
@@ -113,7 +111,7 @@ public class SysThirdAccountWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysThirdAccount_detail)
-    public SysThirdAccountShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysThirdAccountShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询第三方登陆表详情, ID: {}", idRequestVo.getId());
 
@@ -150,7 +148,7 @@ public class SysThirdAccountWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysThirdAccount_add)
-    public Long create(@Valid SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
+    public Long create( @Validated  SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
 
         log.info("新增第三方登陆表信息, 参数: {}", sysThirdAccountAddRequestVo);
 
@@ -185,7 +183,7 @@ public class SysThirdAccountWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysThirdAccount_modify)
-    public boolean update(@Valid SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
+    public boolean update( @Validated  SysThirdAccountAddRequestVo sysThirdAccountAddRequestVo) {
 
         log.info("修改第三方登陆表信息, 参数: {}", sysThirdAccountAddRequestVo);
 
@@ -218,7 +216,7 @@ public class SysThirdAccountWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysThirdAccount_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除第三方登陆表, ID列表: {}", idRequestVo.getIdList());
 

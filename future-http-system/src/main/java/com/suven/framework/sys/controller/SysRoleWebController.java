@@ -7,9 +7,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 import com.suven.framework.sys.dto.enums.SysRoleQueryEnum;
 import com.suven.framework.sys.dto.request.SysRoleRequestDto;
 import com.suven.framework.sys.dto.response.SysRoleResponseDto;
@@ -17,7 +15,7 @@ import com.suven.framework.sys.service.SysRoleService;
 import com.suven.framework.sys.vo.request.SysRoleAddRequestVo;
 import com.suven.framework.sys.vo.request.SysRoleQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysRoleShowResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -85,7 +83,7 @@ public class SysRoleWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysRole_list)
     public PageResult<SysRoleShowResponseVo> pageList(
-            @Valid SysRoleQueryRequestVo sysRoleQueryRequestVo) {
+            @Validated  SysRoleQueryRequestVo sysRoleQueryRequestVo) {
 
         log.info("分页查询角色表, 参数: {}", sysRoleQueryRequestVo);
 
@@ -119,7 +117,7 @@ public class SysRoleWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysRole_detail)
-    public SysRoleShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysRoleShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询角色表详情, ID: {}", idRequestVo.getId());
 
@@ -155,7 +153,7 @@ public class SysRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRole_add)
-    public Long create(@Valid SysRoleAddRequestVo sysRoleAddRequestVo) {
+    public Long create( @Validated  SysRoleAddRequestVo sysRoleAddRequestVo) {
 
         log.info("新增角色表, 参数: {}", sysRoleAddRequestVo);
 
@@ -187,7 +185,7 @@ public class SysRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRole_modify)
-    public boolean update(@Valid SysRoleAddRequestVo sysRoleAddRequestVo) {
+    public boolean update( @Validated  SysRoleAddRequestVo sysRoleAddRequestVo) {
 
         log.info("修改角色表, 参数: {}", sysRoleAddRequestVo);
 
@@ -218,7 +216,7 @@ public class SysRoleWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysRole_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除角色表, ID列表: {}", idRequestVo.getIdList());
 

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -55,11 +56,11 @@ public class SaaSFileQueryRequestVo extends HttpRequestByIdPageVo {
 
     /** 创建时间-开始 */
     @ApiDesc(value = "创建时间-开始", required = 0)
-    private Date createDateStart;
+    private LocalDateTime createDateStart;
 
     /** 创建时间-结束 */
     @ApiDesc(value = "创建时间-结束", required = 0)
-    private Date createDateEnd;
+    private LocalDateTime createDateEnd;
 
     public static SaaSFileQueryRequestVo build() {
         return new SaaSFileQueryRequestVo();

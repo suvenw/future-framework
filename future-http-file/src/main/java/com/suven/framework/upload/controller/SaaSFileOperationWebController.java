@@ -4,11 +4,11 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
@@ -20,7 +20,7 @@ import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileOperationQueryVo;
 import com.suven.framework.upload.vo.response.SaaSFileInterpretResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileOperationResponseVo;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ public class SaaSFileOperationWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_OPERATION_PAGE_LIST)
     public PageResult<SaaSFileOperationResponseVo> pageList(
-            @Valid SaaSFileOperationQueryVo queryRequestVo) {
+            @Validated  SaaSFileOperationQueryVo queryRequestVo) {
         
         log.info("SaaS操作记录分页查询, 参数: {}", queryRequestVo);
         
@@ -123,7 +123,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_OPERATION_INFO)
-    public SaaSFileOperationResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SaaSFileOperationResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS操作记录详情查询, ID: {}", idRequestVo.getId());
         
@@ -156,7 +156,7 @@ public class SaaSFileOperationWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PAGE_LIST)
     public PageResult<SaaSFileInterpretResponseVo> interpretPageList(
-            @Valid HttpRequestByIdVo idRequestVo,
+            @Validated  HttpRequestByIdVo idRequestVo,
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "20") int pageSize) {
         
@@ -196,7 +196,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_INFO)
-    public SaaSFileInterpretResponseVo interpretDetail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SaaSFileInterpretResponseVo interpretDetail( @Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS解释记录详情查询, ID: {}", idRequestVo.getId());
         
@@ -230,7 +230,7 @@ public class SaaSFileOperationWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PENDING)
     public PageResult<SaaSFileInterpretResponseVo> queryPendingInterpretRecords(
-            @Valid HttpRequestByIdVo idRequestVo,
+            @Validated  HttpRequestByIdVo idRequestVo,
             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "50") int pageSize) {
@@ -273,7 +273,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_CALLBACK)
-    public boolean callback(@Valid @RequestBody SaaSFileCallbackRequestVo callbackRequest) {
+    public boolean callback( @Validated@RequestBody SaaSFileCallbackRequestVo callbackRequest) {
         
         log.info("SaaS业务回调开始, InterpretId: {}, Status: {}", 
             callbackRequest.getInterpretRecordId(), callbackRequest.getBusinessProcessStatus());
@@ -306,7 +306,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_CALLBACK_RESULT)
-    public boolean writeBackResult(@Valid @RequestBody SaaSFileInterpretRequestDto requestDto) {
+    public boolean writeBackResult( @Validated@RequestBody SaaSFileInterpretRequestDto requestDto) {
         
         log.info("SaaS回写处理结果开始, InterpretId: {}", requestDto.getId());
         
@@ -332,7 +332,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.DELETE
     )
     @PostMapping(value = UrlCommand.SAAS_OPERATION_DELETE)
-    public boolean deleteOperation(@Valid HttpRequestByIdVo idRequestVo) {
+    public boolean deleteOperation( @Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS操作记录删除开始, ID: {}", idRequestVo.getId());
         
@@ -358,7 +358,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.DELETE
     )
     @PostMapping(value = "/saas/operation/batchDelete")
-    public int batchDeleteOperation(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int batchDeleteOperation( @Validated  HttpRequestByIdListVo idRequestVo) {
         
         log.info("SaaS操作记录批量删除开始, ID数量: {}", idRequestVo.getIdList().size());
         
@@ -389,7 +389,7 @@ public class SaaSFileOperationWebController {
         method = RequestMethodEnum.DELETE
     )
     @PostMapping(value = UrlCommand.SAAS_INTERPRET_DELETE)
-    public boolean deleteInterpret(@Valid HttpRequestByIdVo idRequestVo) {
+    public boolean deleteInterpret( @Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS解释记录删除开始, ID: {}", idRequestVo.getId());
         

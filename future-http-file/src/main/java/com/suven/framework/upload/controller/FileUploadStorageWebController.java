@@ -19,7 +19,7 @@ import com.suven.framework.upload.vo.response.FileUploadStorageResponseVo;
 import com.suven.framework.upload.vo.response.FileUploadStorageShowResponseVo;
 import com.suven.framework.util.excel.ExcelUtils;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+ 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -129,7 +129,7 @@ public class FileUploadStorageWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_PAGE_LIST)
     public PageResult<FileUploadStorageShowResponseVo> pageList(
-            @Valid FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
+            @Validated  FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
 
         log.info("分页查询文件上传存储配置, 参数: {}", fileUploadStorageQueryRequestVo);
 
@@ -175,7 +175,7 @@ public class FileUploadStorageWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_QUERY_LIST)
     public List<FileUploadStorageShowResponseVo> queryList(
-            @Valid FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
+            @Validated  FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
 
         log.info("根据条件查询文件上传存储配置, 参数: {}", fileUploadStorageQueryRequestVo);
 
@@ -212,7 +212,7 @@ public class FileUploadStorageWebController {
             response = Long.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_CREATE)
-    public Long create(@Valid FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
+    public Long create( @ValidatedFileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
 
         log.info("新增文件上传存储配置, 参数: {}", fileUploadStorageAddRequestVo);
 
@@ -246,7 +246,7 @@ public class FileUploadStorageWebController {
             response = boolean.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_UPDATE)
-    public boolean update(@Valid FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
+    public boolean update( @ValidatedFileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
 
         log.info("修改文件上传存储配置, 参数: {}", fileUploadStorageAddRequestVo);
 
@@ -283,7 +283,7 @@ public class FileUploadStorageWebController {
             response = FileUploadStorageShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_INFO)
-    public FileUploadStorageShowResponseVo info(@Valid HttpRequestByIdVo idRequestVo) {
+    public FileUploadStorageShowResponseVo info( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询文件上传存储配置详情, ID: {}", idRequestVo.getId());
 
@@ -321,7 +321,7 @@ public class FileUploadStorageWebController {
             response = FileUploadStorageShowResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_EDIT)
-    public FileUploadStorageShowResponseVo edit(@Valid HttpRequestByIdVo idRequestVo) {
+    public FileUploadStorageShowResponseVo edit( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("跳转编辑页面, ID: {}", idRequestVo.getId());
 
@@ -372,7 +372,7 @@ public class FileUploadStorageWebController {
             response = Integer.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_DELETE)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除文件上传存储配置, ID列表: {}", idRequestVo.getIdList());
 
@@ -402,7 +402,7 @@ public class FileUploadStorageWebController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_EXPORT)
     public void export(HttpServletResponse response,
-                       @Valid FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
+                       @Validated  FileUploadStorageQueryRequestVo fileUploadStorageQueryRequestVo) {
 
         log.info("导出文件上传存储配置, 参数: {}", fileUploadStorageQueryRequestVo);
 

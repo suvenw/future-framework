@@ -1,6 +1,8 @@
 package com.suven.framework.sys.controller;
 
 
+import com.suven.framework.http.api.RequestMethodEnum;
+import com.suven.framework.http.exception.ExceptionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +13,6 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
 
 import com.suven.framework.sys.service.SysDictItemService;
 import com.suven.framework.sys.vo.request.SysDictItemQueryRequestVo;
@@ -23,6 +22,11 @@ import com.suven.framework.sys.vo.response.SysDictItemShowResponseVo;
 import com.suven.framework.sys.dto.request.SysDictItemRequestDto;
 import com.suven.framework.sys.dto.response.SysDictItemResponseDto;
 import com.suven.framework.sys.dto.enums.SysDictItemQueryEnum;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -84,7 +88,7 @@ public class SysDictItemWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDictItem_list)
-    public PageResult<SysDictItemShowResponseVo> pageList(@Valid SysDictItemQueryRequestVo sysDictItemQueryRequestVo) {
+    public PageResult<SysDictItemShowResponseVo> pageList(@Validated SysDictItemQueryRequestVo sysDictItemQueryRequestVo) {
 
         log.info("分页查询数据字典明细表, 参数: {}", sysDictItemQueryRequestVo);
 
@@ -123,7 +127,7 @@ public class SysDictItemWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDictItem_detail)
-    public SysDictItemShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDictItemShowResponseVo detail(@Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询数据字典明细表详情, ID: {}", idRequestVo.getId());
 
@@ -160,7 +164,7 @@ public class SysDictItemWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDictItem_add)
-    public Long create(@Valid SysDictItemAddRequestVo sysDictItemAddRequestVo) {
+    public Long create(@Validated SysDictItemAddRequestVo sysDictItemAddRequestVo) {
 
         log.info("新增数据字典明细表信息, 参数: {}", sysDictItemAddRequestVo);
 
@@ -193,7 +197,7 @@ public class SysDictItemWebController {
         method = RequestMethodEnum.POST
     )
     @PutMapping(value = UrlCommand.sys_sysDictItem_modify)
-    public boolean update(@Valid SysDictItemAddRequestVo sysDictItemAddRequestVo) {
+    public boolean update(@Validated SysDictItemAddRequestVo sysDictItemAddRequestVo) {
 
         log.info("修改数据字典明细表信息, 参数: {}", sysDictItemAddRequestVo);
 
@@ -226,7 +230,7 @@ public class SysDictItemWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysDictItem_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete(@Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除数据字典明细表信息, IDs: {}", idRequestVo.getIdList());
 

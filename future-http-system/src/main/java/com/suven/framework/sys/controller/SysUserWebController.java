@@ -3,13 +3,14 @@ package com.suven.framework.sys.controller;
 
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+
+import com.suven.framework.http.exception.ExceptionFactory;
+import com.suven.framework.sys.dto.request.SysUserDepartRequestDto;
 import com.suven.framework.sys.dto.request.SysUserRequestDto;
 import com.suven.framework.sys.dto.response.SysUserResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserQueryEnum;
@@ -29,13 +30,13 @@ import com.suven.framework.sys.vo.request.SysUserDepartIdsRequestVo;
 import com.suven.framework.sys.vo.response.LoginCodeResponseVo;
 import com.suven.framework.sys.vo.response.SysUserShowResponseVo;
 import com.suven.framework.sys.vo.response.SysUserResponseVo;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -122,7 +123,7 @@ public class SysUserWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysUser_pageList)
     public PageResult<SysUserShowResponseVo> pageList(
-            @Valid SysUserQueryRequestVo sysUserQueryRequestVo) {
+            @Validated  SysUserQueryRequestVo sysUserQueryRequestVo) {
 
         log.info("分页查询用户表, 参数: {}", sysUserQueryRequestVo);
 
@@ -161,7 +162,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysUser_info)
-    public SysUserShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysUserShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询用户表详情, ID: {}", idRequestVo.getId());
 
@@ -198,7 +199,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_add)
-    public Long create(@Valid SysUserAddRequestVo sysUserAddRequestVo) {
+    public Long create( @Validated  SysUserAddRequestVo sysUserAddRequestVo) {
 
         log.info("新增用户表, 参数: {}", sysUserAddRequestVo);
 
@@ -230,7 +231,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_modify)
-    public boolean update(@Valid SysUserAddRequestVo sysUserAddRequestVo) {
+    public boolean update( @Validated  SysUserAddRequestVo sysUserAddRequestVo) {
 
         log.info("修改用户表, 参数: {}", sysUserAddRequestVo);
 
@@ -262,7 +263,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除用户表, ID列表: {}", idRequestVo.getIdList());
 
@@ -291,7 +292,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_login)
-    public Object login(@Valid SysUserLoginRequestVo sysUserLoginRequestVo) {
+    public Object login( @Validated  SysUserLoginRequestVo sysUserLoginRequestVo) {
 
         log.info("用户登录, 用户名: {}", sysUserLoginRequestVo.getUsername());
 
@@ -320,7 +321,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_checkToken)
-    public boolean checkToken(@Valid SysUserTokenRequestVo sysUserTokenRequestVo) {
+    public boolean checkToken( @Validated  SysUserTokenRequestVo sysUserTokenRequestVo) {
 
         log.info("检验token, 用户名: {}", sysUserTokenRequestVo.getUsername());
 
@@ -410,7 +411,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_user_updatePassword)
-    public boolean updatePassword(@Valid SysUserUpdatePwdRequestVo userUpdatePwdRequestVo) {
+    public boolean updatePassword( @Validated  SysUserUpdatePwdRequestVo userUpdatePwdRequestVo) {
 
         log.info("修改密码, 用户名: {}", userUpdatePwdRequestVo.getUsername());
 
@@ -434,7 +435,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_addSysUserRole)
-    public Boolean addSysUserRole(@Valid SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
+    public Boolean addSysUserRole( @Validated  SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
 
         log.info("批量绑定用户角色, 角色ID: {}", userRoleIdsRequestVo.getRoleId());
 
@@ -458,7 +459,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_deleteUserRole)
-    public Boolean deleteUserRole(@Valid SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
+    public Boolean deleteUserRole( @Validated  SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
 
         log.info("删除角色用户, 角色ID: {}", userRoleIdsRequestVo.getRoleId());
 
@@ -482,7 +483,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_delDepart)
-    public Boolean deleteUserInDepart(@Valid SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
+    public Boolean deleteUserInDepart( @Validated  SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
 
         log.info("删除用户部门, 用户ID列表: {}", userDepartIdsRequestVo.getUserIdList());
 
@@ -506,7 +507,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_editSysDepart)
-    public Boolean editSysDepartWithUser(@Valid SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
+    public Boolean editSysDepartWithUser( @Validated  SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
 
         log.info("添加部门人员, 部门ID: {}", userDepartIdsRequestVo.getDepId());
 

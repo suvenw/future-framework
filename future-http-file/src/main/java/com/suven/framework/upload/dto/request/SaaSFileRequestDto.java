@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * SaaS平台文件上传下载请求DTO
@@ -224,13 +225,15 @@ public class SaaSFileRequestDto extends BaseTenantEntity implements Serializable
         return this;
     }
 
-    public SaaSFileRequestDto toCreateDateStart(Date createDateStart) {
+    public SaaSFileRequestDto toCreateDateStart(LocalDateTime createDateStart) {
         this.createDateStart = createDateStart;
         return this;
     }
 
-    public SaaSFileRequestDto toCreateDateEnd(Date createDateEnd) {
+    public SaaSFileRequestDto toCreateDateEnd(LocalDateTime createDateEnd) {
         this.createDateEnd = createDateEnd;
         return this;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package com.suven.framework.upload.dto.response;
 
 import com.suven.framework.http.api.ApiDesc;
+import com.suven.framework.http.data.entity.BaseTenantEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileFieldResponseDto implements Serializable {
+public class SaaSFileFieldResponseDto extends BaseTenantEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

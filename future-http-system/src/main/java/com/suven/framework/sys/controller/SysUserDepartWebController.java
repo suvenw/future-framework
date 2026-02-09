@@ -3,13 +3,12 @@ package com.suven.framework.sys.controller;
 
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.request.SysUserDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysUserDepartResponseDto;
 import com.suven.framework.sys.dto.enums.SysUserDepartQueryEnum;
@@ -17,12 +16,14 @@ import com.suven.framework.sys.service.SysUserDepartService;
 import com.suven.framework.sys.vo.request.SysUserDepartQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysUserDepartRequestVo;
 import com.suven.framework.sys.vo.response.SysUserDepartShowResponseVo;
-import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -92,7 +93,7 @@ public class SysUserDepartWebController {
     )
     @GetMapping(value = UrlCommand.sys_sysUserDepart_list)
     public PageResult<SysUserDepartShowResponseVo> pageList(
-            @Valid SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo) {
+            @Validated  SysUserDepartQueryRequestVo sysUserDepartQueryRequestVo) {
 
         log.info("分页查询用户部门关系表, 参数: {}", sysUserDepartQueryRequestVo);
 
@@ -132,7 +133,7 @@ public class SysUserDepartWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysUserDepart_detail)
-    public SysUserDepartShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysUserDepartShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询用户部门关系表详情, ID: {}", idRequestVo.getId());
 
@@ -170,7 +171,7 @@ public class SysUserDepartWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserDepart_add)
-    public Long create(@Valid SysUserDepartRequestVo sysUserDepartRequestVo) {
+    public Long create( @Validated  SysUserDepartRequestVo sysUserDepartRequestVo) {
 
         log.info("新增用户部门关系表, 参数: {}", sysUserDepartRequestVo);
 
@@ -203,7 +204,7 @@ public class SysUserDepartWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserDepart_modify)
-    public boolean update(@Valid SysUserDepartRequestVo sysUserDepartRequestVo) {
+    public boolean update( @Validated  SysUserDepartRequestVo sysUserDepartRequestVo) {
 
         log.info("修改用户部门关系表, 参数: {}", sysUserDepartRequestVo);
 
@@ -236,7 +237,7 @@ public class SysUserDepartWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUserDepart_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除用户部门关系表, ID列表: {}", idRequestVo.getIdList());
 

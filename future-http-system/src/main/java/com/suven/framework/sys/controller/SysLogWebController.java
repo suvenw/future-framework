@@ -11,9 +11,7 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
+ 
 
 import com.suven.framework.sys.service.SysLogService;
 import com.suven.framework.sys.vo.request.SysLogQueryRequestVo;
@@ -84,7 +82,7 @@ public class SysLogWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysLog_list)
-    public PageResult<SysLogShowResponseVo> pageList(@Valid SysLogQueryRequestVo sysLogQueryRequestVo) {
+    public PageResult<SysLogShowResponseVo> pageList( @Validated  SysLogQueryRequestVo sysLogQueryRequestVo) {
 
         log.info("分页查询系统日志表, 参数: {}", sysLogQueryRequestVo);
 
@@ -123,7 +121,7 @@ public class SysLogWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysLog_detail)
-    public SysLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysLogShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询系统日志表详情, ID: {}", idRequestVo.getId());
 
@@ -160,7 +158,7 @@ public class SysLogWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysLog_add)
-    public Long create(@Valid SysLogAddRequestVo sysLogAddRequestVo) {
+    public Long create( @Validated  SysLogAddRequestVo sysLogAddRequestVo) {
 
         log.info("新增系统日志表信息, 参数: {}", sysLogAddRequestVo);
 
@@ -193,7 +191,7 @@ public class SysLogWebController {
         method = RequestMethodEnum.POST
     )
     @PutMapping(value = UrlCommand.sys_sysLog_modify)
-    public boolean update(@Valid SysLogAddRequestVo sysLogAddRequestVo) {
+    public boolean update( @Validated  SysLogAddRequestVo sysLogAddRequestVo) {
 
         log.info("修改系统日志表信息, 参数: {}", sysLogAddRequestVo);
 
@@ -226,7 +224,7 @@ public class SysLogWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysLog_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete( @Validated  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除系统日志表信息, IDs: {}", idRequestVo.getIdList());
 

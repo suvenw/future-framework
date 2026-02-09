@@ -81,7 +81,7 @@ public class SwaggerResultBean {
     public SwaggerPathsMap<SwaggerRequestMethodMap> getPaths() {
         return paths;
     }
-
+    @SuppressWarnings("unchecked")
     public SwaggerResultBean setPaths(SwaggerPathsMap<SwaggerRequestMethodMap> paths) {
         this.paths = paths;
         return this;
@@ -95,10 +95,13 @@ public class SwaggerResultBean {
         this.definitions = definitions;
         return this;
     }
+    @SuppressWarnings("unchecked")
     public SwaggerResultBean setDefinitionsAll(Collection<SwaggerResponseParameterMap> collection) {
         this.definitions = SwaggerResponseParameterMap.build();
-        for (SwaggerResponseParameterMap e : collection)
+        for (SwaggerResponseParameterMap e : collection){
             definitions.putAll(e);
+        }
+
         return this;
     }
 
