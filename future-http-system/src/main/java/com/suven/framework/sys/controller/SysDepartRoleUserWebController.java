@@ -1,41 +1,24 @@
 package com.suven.framework.sys.controller;
 
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
 
-
-import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 
 import com.suven.framework.sys.service.SysDepartRoleUserService;
 import com.suven.framework.sys.vo.request.SysDepartRoleUserQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysDepartRoleUserAddRequestVo;
 import com.suven.framework.sys.vo.response.SysDepartRoleUserShowResponseVo;
-import com.suven.framework.sys.vo.response.SysDepartRoleUserResponseVo;
 
 import com.suven.framework.sys.dto.request.SysDepartRoleUserRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartRoleUserResponseDto;
@@ -65,345 +48,197 @@ import com.suven.framework.sys.dto.enums.SysDepartRoleUserQueryEnum;
  **/
 
 
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "部门角色用户表模块"
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "部门角色用户表模块",
+    isApp = true
 )
 public class SysDepartRoleUserWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
-
 
     @Autowired
     private SysDepartRoleUserService  sysDepartRoleUserService;
 
     /**
-     * Title: 跳转到部门角色用户表主界面
-     * @return 字符串url
+     * 分页获取部门角色用户表信息
+     * 根据查询条件分页获取部门角色用户表列表
+     * @param sysDepartRoleUserQueryRequestVo 查询请求参数
+     * @return PageResult<SysDepartRoleUserShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value =  UrlCommand.sys_sysDepartRoleUser_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:list")
-    public String index(){
-        return "sys/sysDepartRoleUser_index";
-    }
-
-
-    /**
-     * Title: 获取部门角色用户表分页信息
-     * Description:sysDepartRoleUserQueryRequestVo @{Link SysDepartRoleUserQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysDepartRoleUserShowResponseVo>
-     * @throw
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
+     * 4. 必须进行参数校验
      */
     @ApiDoc(
-            value = "获取部门角色用户表分页信息",
+        value = "分页获取部门角色用户表信息",
+        description = "根据条件分页查询部门角色用户表数据",
             request = SysDepartRoleUserQueryRequestVo.class,
-            response = SysDepartRoleUserShowResponseVo.class
+        response = SysDepartRoleUserShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:list")
-    public   void   list( OutputSystem out, SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo){
-            SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build( ).clone(sysDepartRoleUserQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysDepartRoleUser_list)
+    public PageResult<SysDepartRoleUserShowResponseVo> pageList(@Valid SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo) {
 
-        Pager<SysDepartRoleUserRequestDto> pager =  Pager.of();
-        pager.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
-        pager.toParamObject(sysDepartRoleUserRequestDto );
-         SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;
-        PageResult<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserByNextPage(pager,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult());
-            return ;
-        }
+        log.info("分页查询部门角色用户表, 参数: {}", sysDepartRoleUserQueryRequestVo);
 
-        PageResult<SysDepartRoleUserShowResponseVo> result = resultList.convertBuild(SysDepartRoleUserShowResponseVo.class);
-        out.write(result);
+        Pager<SysDepartRoleUserRequestDto> pager = new Pager<>(
+            sysDepartRoleUserQueryRequestVo.getPageNo(),
+            sysDepartRoleUserQueryRequestVo.getPageSize()
+        );
+        SysDepartRoleUserRequestDto requestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysDepartRoleUserResponseDto> pageResult = sysDepartRoleUserService
+            .getSysDepartRoleUserByNextPage(pager, SysDepartRoleUserQueryEnum.DESC_ID);
+
+        log.info("分页查询部门角色用户表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysDepartRoleUserShowResponseVo.class);
     }
-
-/**
-     * Title: 根据条件查谒部门角色用户表分页信息
-     * Description:sysDepartRoleUserQueryRequestVo @{Link SysDepartRoleUserQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysDepartRoleUserShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取部门角色用户表分页信息",
-            request = SysDepartRoleUserQueryRequestVo.class,
-            response = SysDepartRoleUserShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:query")
-    public   void   queryList( OutputSystem out, SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo){
-            SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build( ).clone(sysDepartRoleUserQueryRequestVo);
-
-        Pager<SysDepartRoleUserRequestDto> pager =  Pager.of();
-        pager.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
-        pager.toParamObject(sysDepartRoleUserRequestDto );
-        SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;
-        List<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserListByQuery(pager,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
-        }
-
-        List<SysDepartRoleUserShowResponseVo> listVo = IterableConvert.convertList(resultList,SysDepartRoleUserShowResponseVo.class);
-
-        out.write( listVo);
-    }
-
-
 
     /**
-     * Title: 新增部门角色用户表信息
-     * Description:sysDepartRoleUserAddRequestVo @{Link SysDepartRoleUserAddRequestVo}
-     * @param sysDepartRoleUserAddRequestVo 对象
-     * @return long类型id
+     * 查看部门角色用户表详情
+     * 根据ID获取部门角色用户表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysDepartRoleUserShowResponseVo 详情响应结果
      * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
+     */
+    @ApiDoc(
+        value = "查看部门角色用户表信息",
+        description = "根据ID获取部门角色用户表详细信息",
+        request = HttpRequestByIdVo.class,
+        response = SysDepartRoleUserShowResponseVo.class,
+        method = RequestMethodEnum.GET
+    )
+    @GetMapping(value = UrlCommand.sys_sysDepartRoleUser_detail)
+    public SysDepartRoleUserShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+
+        log.info("查询部门角色用户表详情, ID: {}", idRequestVo.getId());
+
+        // 参数校验
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询部门角色用户表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        SysDepartRoleUserResponseDto responseDto = sysDepartRoleUserService.getSysDepartRoleUserById(idRequestVo.getId());
+
+        if (responseDto == null) {
+            log.warn("部门角色用户表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        log.info("查询部门角色用户表详情成功, ID: {}", idRequestVo.getId());
+        return SysDepartRoleUserShowResponseVo.build().clone(responseDto);
+    }
+
+    /**
+     * 新增部门角色用户表信息
+     * 创建新的部门角色用户表记录
+     * @param sysDepartRoleUserAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "新增部门角色用户表信息",
+        description = "创建新的部门角色用户表记录",
             request = SysDepartRoleUserAddRequestVo.class,
-            response = Long.class
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departroleuser:add")
-    public  void  add(OutputSystem out, SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDepartRoleUser_add)
+    public Long create(@Valid SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
 
-            SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto =  SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserAddRequestVo);
+        log.info("新增部门角色用户表信息, 参数: {}", sysDepartRoleUserAddRequestVo);
 
-            //sysDepartRoleUserRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysDepartRoleUserResponseDto sysDepartRoleUserresponseDto =  sysDepartRoleUserService.saveSysDepartRoleUser(sysDepartRoleUserRequestDto);
-        if(sysDepartRoleUserresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysDepartRoleUserRequestDto requestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserAddRequestVo);
+
+        SysDepartRoleUserResponseDto responseDto = sysDepartRoleUserService.saveSysDepartRoleUser(requestDto);
+
+        if (responseDto == null) {
+            log.error("新增部门角色用户表信息失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        out.write( sysDepartRoleUserresponseDto.getId());
+
+        log.info("新增部门角色用户表信息成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
+
     /**
-     * Title: 修改部门角色用户表信息
-     * Description:sysDepartRoleUserAddRequestVo @{Link SysDepartRoleUserAddRequestVo}
-     * @param  sysDepartRoleUserAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 修改部门角色用户表信息
+     * 根据ID更新部门角色用户表信息
+     * @param sysDepartRoleUserAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "修改部门角色用户表信息",
-            request = SysDepartRoleUserAddRequestVo.class,
-            response = boolean.class
+        value = "修改部门角色用户表信息",
+        description = "根据ID更新部门角色用户表信息",
+        request = SysDepartRoleUserAddRequestVo.class,
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departroleuser:modify")
-    public  void  modify(OutputSystem out,SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo){
+    @PutMapping(value = UrlCommand.sys_sysDepartRoleUser_modify)
+    public boolean update(@Valid SysDepartRoleUserAddRequestVo sysDepartRoleUserAddRequestVo) {
 
-            SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto =  SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserAddRequestVo);
+        log.info("修改部门角色用户表信息, 参数: {}", sysDepartRoleUserAddRequestVo);
 
-        if(sysDepartRoleUserRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysDepartRoleUserRequestDto requestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserAddRequestVo);
+
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改部门角色用户表信息参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        boolean result =  sysDepartRoleUserService.updateSysDepartRoleUser(sysDepartRoleUserRequestDto);
-        out.write(result);
+
+        boolean result = sysDepartRoleUserService.updateSysDepartRoleUser(requestDto);
+
+        log.info("修改部门角色用户表信息完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看部门角色用户表信息
-     * Description:sysDepartRoleUserRequestVo @{Link SysDepartRoleUserRequestVo}
-     * @param
-     * @return  SysDepartRoleUserResponseVo  对象
+     * 删除部门角色用户表信息
+     * 根据ID列表批量删除部门角色用户表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看部门角色用户表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDepartRoleUserShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysDepartRoleUserResponseDto sysDepartRoleUserResponseDto = sysDepartRoleUserService.getSysDepartRoleUserById(idRequestVo.getId());
-            SysDepartRoleUserShowResponseVo vo =  SysDepartRoleUserShowResponseVo.build().clone(sysDepartRoleUserResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转部门角色用户表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysDepartRoleUserShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "查看部门角色用户表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDepartRoleUserShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysDepartRoleUserResponseDto sysDepartRoleUserResponseDto = sysDepartRoleUserService.getSysDepartRoleUserById(idRequestVo.getId());
-            SysDepartRoleUserShowResponseVo vo =  SysDepartRoleUserShowResponseVo.build().clone(sysDepartRoleUserResponseDto);
-        out.write(vo);
-
-    }
-
-
-
-
-    /**
-     * Title: 跳转部门角色用户表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysDepartRoleUser_edit";
-    }
-
-    /**
-     * Title: 删除部门角色用户表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "删除部门角色用户表信息",
+        description = "根据ID列表批量删除部门角色用户表记录",
             request = HttpRequestByIdListVo.class,
-            response = Integer.class
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departroleuser:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @DeleteMapping(value = UrlCommand.sys_sysDepartRoleUser_del)
+    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除部门角色用户表信息, IDs: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除部门角色用户表信息参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysDepartRoleUserService.delSysDepartRoleUserByIds(idRequestVo.getIdList());
-        out.write(result);
+
+        log.info("删除部门角色用户表信息完成, 删除数量: {}", result);
+        return result;
     }
-
-
-
-    /**
-     * Title: 导出部门角色用户表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:14:21
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出部门角色用户表信息",
-            request = SysDepartRoleUserQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:departroleuser:export")
-    public void export(HttpServletResponse response, SysDepartRoleUserQueryRequestVo sysDepartRoleUserQueryRequestVo){
-
-            SysDepartRoleUserRequestDto sysDepartRoleUserRequestDto = SysDepartRoleUserRequestDto.build().clone(sysDepartRoleUserQueryRequestVo);
-
-        Pager<SysDepartRoleUserRequestDto> page =  Pager.of();
-        page.toPageSize(sysDepartRoleUserQueryRequestVo.getPageSize()).toPageNo(sysDepartRoleUserQueryRequestVo.getPageNo());
-        page.toParamObject(sysDepartRoleUserRequestDto );
-
-        SysDepartRoleUserQueryEnum queryEnum =  SysDepartRoleUserQueryEnum.DESC_ID;
-        PageResult<SysDepartRoleUserResponseDto> resultList = sysDepartRoleUserService.getSysDepartRoleUserByNextPage(page,queryEnum);
-        List<SysDepartRoleUserResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDepartRoleUserResponseVo.class,data,"导出部门角色用户表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
-
-
-    /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysDepartRoleUser_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:departroleuser:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysDepartRoleUserService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
 
 }

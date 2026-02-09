@@ -1,41 +1,24 @@
 package com.suven.framework.sys.controller;
 
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
 
-
-import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 
 import com.suven.framework.sys.service.SysLogService;
 import com.suven.framework.sys.vo.request.SysLogQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysLogAddRequestVo;
 import com.suven.framework.sys.vo.response.SysLogShowResponseVo;
-import com.suven.framework.sys.vo.response.SysLogResponseVo;
 
 import com.suven.framework.sys.dto.request.SysLogRequestDto;
 import com.suven.framework.sys.dto.response.SysLogResponseDto;
@@ -65,333 +48,197 @@ import com.suven.framework.sys.dto.enums.SysLogQueryEnum;
  **/
 
 
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
-        group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "系统日志表模块"
+    group = DocumentConst.Sys.SYS_DOC_GROUP,
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "系统日志表模块",
+    isApp = true
 )
 public class SysLogWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
-
 
     @Autowired
     private SysLogService  sysLogService;
 
     /**
-     * Title: 跳转到系统日志表主界面
-     * @return 字符串url
+     * 分页获取系统日志表信息
+     * 根据查询条件分页获取系统日志表列表
+     * @param sysLogQueryRequestVo 查询请求参数
+     * @return PageResult<SysLogShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value =  UrlCommand.sys_sysLog_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:list")
-    public String index(){
-        return "sys/sysLog_index";
-    }
-
-
-    /**
-     * Title: 获取系统日志表分页信息
-     * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
-     *  PageResult 对象 List<SysLogShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
+     * 4. 必须进行参数校验
      */
     @ApiDoc(
-            value = "获取系统日志表分页信息",
-            request = SysLogQueryRequestVo.class,
-            response = SysLogShowResponseVo.class
+        value = "分页获取系统日志表信息",
+        description = "根据条件分页查询系统日志表数据",
+        request = SysLogQueryRequestVo.class,
+        response = SysLogShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysLog_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:list")
-    public   void   list( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
-            SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysLog_list)
+    public PageResult<SysLogShowResponseVo> pageList(@Valid SysLogQueryRequestVo sysLogQueryRequestVo) {
 
-        Pager<SysLogRequestDto> page =  Pager.of();
-        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
-        page.toParamObject(sysLogRequestDto );
-         SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
-        PageResult<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult<>());
-            return ;
+        log.info("分页查询系统日志表, 参数: {}", sysLogQueryRequestVo);
+
+        Pager<SysLogRequestDto> pager = new Pager<>(
+            sysLogQueryRequestVo.getPageNo(),
+            sysLogQueryRequestVo.getPageSize()
+        );
+        SysLogRequestDto requestDto = SysLogRequestDto.build().clone(sysLogQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysLogResponseDto> pageResult = sysLogService
+            .getSysLogByNextPage(pager, SysLogQueryEnum.DESC_ID);
+
+        log.info("分页查询系统日志表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysLogShowResponseVo.class);
+    }
+
+    /**
+     * 查看系统日志表详情
+     * 根据ID获取系统日志表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysLogShowResponseVo 详情响应结果
+     * @author suven
+     * @date 2025-08-18
+     *
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
+     */
+    @ApiDoc(
+        value = "查看系统日志表信息",
+        description = "根据ID获取系统日志表详细信息",
+        request = HttpRequestByIdVo.class,
+        response = SysLogShowResponseVo.class,
+        method = RequestMethodEnum.GET
+    )
+    @GetMapping(value = UrlCommand.sys_sysLog_detail)
+    public SysLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+
+        log.info("查询系统日志表详情, ID: {}", idRequestVo.getId());
+
+        // 参数校验
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询系统日志表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        PageResult<SysLogShowResponseVo> result = resultList.convertBuild(SysLogShowResponseVo.class);
-        out.write(result);
-    }
+        SysLogResponseDto responseDto = sysLogService.getSysLogById(idRequestVo.getId());
 
-/**
-     * Title: 根据条件查谒系统日志表分页信息
-     * Description:sysLogQueryRequestVo @{Link SysLogQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysLogShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取系统日志表分页信息",
-            request = SysLogQueryRequestVo.class,
-            response = SysLogShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysLog_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:query")
-    public   void   queryList( OutputSystem out, SysLogQueryRequestVo sysLogQueryRequestVo){
-            SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build( ).clone(sysLogQueryRequestVo);
-
-        Pager<SysLogRequestDto> page =  Pager.of();
-        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
-        page.toParamObject(sysLogRequestDto );
-        SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
-        List<SysLogResponseDto> resultList = sysLogService.getSysLogListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
+        if (responseDto == null) {
+            log.warn("系统日志表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysLogShowResponseVo> listVo = IterableConvert.convertList(resultList,SysLogShowResponseVo.class);
-
-        out.write( listVo);
+        log.info("查询系统日志表详情成功, ID: {}", idRequestVo.getId());
+        return SysLogShowResponseVo.build().clone(responseDto);
     }
 
-
-
     /**
-     * Title: 新增系统日志表信息
-     * Description:sysLogAddRequestVo @{Link SysLogAddRequestVo}
-     * @param sysLogAddRequestVo 对象
+     * 新增系统日志表信息
+     * 创建新的系统日志表记录
+     * @param sysLogAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "新增系统日志表信息",
-            request = SysLogAddRequestVo.class,
-            response = Long.class
+        value = "新增系统日志表信息",
+        description = "创建新的系统日志表记录",
+        request = SysLogAddRequestVo.class,
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysLog_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:log:add")
-    public  void  add(OutputSystem out, SysLogAddRequestVo sysLogAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysLog_add)
+    public Long create(@Valid SysLogAddRequestVo sysLogAddRequestVo) {
 
-            SysLogRequestDto sysLogRequestDto =  SysLogRequestDto.build().clone(sysLogAddRequestVo);
+        log.info("新增系统日志表信息, 参数: {}", sysLogAddRequestVo);
 
-            //sysLogRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysLogResponseDto sysLogresponseDto =  sysLogService.saveSysLog(sysLogRequestDto);
-        if(sysLogresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        SysLogRequestDto requestDto = SysLogRequestDto.build().clone(sysLogAddRequestVo);
+
+        SysLogResponseDto responseDto = sysLogService.saveSysLog(requestDto);
+
+        if (responseDto == null) {
+            log.error("新增系统日志表信息失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        out.write( sysLogresponseDto.getId());
+
+        log.info("新增系统日志表信息成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
+
     /**
-     * Title: 修改系统日志表信息
-     * Description:sysLogAddRequestVo @{Link SysLogAddRequestVo}
-     * @param  sysLogAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 修改系统日志表信息
+     * 根据ID更新系统日志表信息
+     * @param sysLogAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "修改系统日志表信息",
-            request = SysLogAddRequestVo.class,
-            response = boolean.class
+        value = "修改系统日志表信息",
+        description = "根据ID更新系统日志表信息",
+        request = SysLogAddRequestVo.class,
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysLog_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:log:modify")
-    public  void  modify(OutputSystem out,SysLogAddRequestVo sysLogAddRequestVo){
+    @PutMapping(value = UrlCommand.sys_sysLog_modify)
+    public boolean update(@Valid SysLogAddRequestVo sysLogAddRequestVo) {
 
-            SysLogRequestDto sysLogRequestDto =  SysLogRequestDto.build().clone(sysLogAddRequestVo);
+        log.info("修改系统日志表信息, 参数: {}", sysLogAddRequestVo);
 
-        if(sysLogRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysLogRequestDto requestDto = SysLogRequestDto.build().clone(sysLogAddRequestVo);
+
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改系统日志表信息参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        boolean result =  sysLogService.updateSysLog(sysLogRequestDto);
-        out.write(result);
+
+        boolean result = sysLogService.updateSysLog(requestDto);
+
+        log.info("修改系统日志表信息完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 查看系统日志表信息
-     * Description:sysLogRequestVo @{Link SysLogRequestVo}
+     * 删除系统日志表信息
+     * 根据ID列表批量删除系统日志表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看系统日志表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysLogShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysLog_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysLogResponseDto sysLogResponseDto = sysLogService.getSysLogById(idRequestVo.getId());
-            SysLogShowResponseVo vo =  SysLogShowResponseVo.build().clone(sysLogResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转系统日志表编辑界面
-     * Description:id @{Link Long}
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "查看系统日志表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysLogShowResponseVo.class
+        value = "删除系统日志表信息",
+        description = "根据ID列表批量删除系统日志表记录",
+        request = HttpRequestByIdListVo.class,
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysLog_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @DeleteMapping(value = UrlCommand.sys_sysLog_del)
+    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
 
-            SysLogResponseDto sysLogResponseDto = sysLogService.getSysLogById(idRequestVo.getId());
-            SysLogShowResponseVo vo =  SysLogShowResponseVo.build().clone(sysLogResponseDto);
-        out.write(vo);
+        log.info("删除系统日志表信息, IDs: {}", idRequestVo.getIdList());
 
-    }
-
-
-
-
-    /**
-     * Title: 跳转系统日志表新增编辑界面
-     * Description:id @{Link Long}
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysLog_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysLog_edit";
-    }
-
-    /**
-     * Title: 删除系统日志表信息
-     * Description:id @{Link Long}
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "删除系统日志表信息",
-            request = HttpRequestByIdListVo.class,
-            response = Integer.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysLog_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:log:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除系统日志表信息参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysLogService.delSysLogByIds(idRequestVo.getIdList());
-        out.write(result);
+
+        log.info("删除系统日志表信息完成, 删除数量: {}", result);
+        return result;
     }
-
-
-
-    /**
-     * Title: 导出系统日志表信息
-     * Description:id @{Link Long}
-     * @author suven
-     * date 2022-02-28 16:10:19
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出系统日志表信息",
-            request = SysLogQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysLog_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:log:export")
-    public void export(HttpServletResponse response, SysLogQueryRequestVo sysLogQueryRequestVo){
-
-            SysLogRequestDto sysLogRequestDto = SysLogRequestDto.build().clone(sysLogQueryRequestVo);
-
-        Pager<SysLogRequestDto> page =  Pager.of();
-        page.toPageSize(sysLogQueryRequestVo.getPageSize()).toPageNo(sysLogQueryRequestVo.getPageNo());
-        page.toParamObject(sysLogRequestDto );
-
-        SysLogQueryEnum queryEnum =  SysLogQueryEnum.DESC_ID;
-        PageResult<SysLogResponseDto> resultList = sysLogService.getSysLogByNextPage(page,queryEnum);
-        List<SysLogResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysLogResponseVo.class,data,"导出系统日志表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
-
-
-    /**
-    * 通过excel导入数据
-    * @param out  输出对象
-    * @param files 文件对象
-    */
-    @RequestMapping(value = UrlCommand.sys_sysLog_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:log:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysLogService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
 
 }
