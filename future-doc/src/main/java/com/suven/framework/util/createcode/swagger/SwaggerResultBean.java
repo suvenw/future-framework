@@ -22,7 +22,7 @@ public class SwaggerResultBean {
     private String host;
     private String basePath;
     private List<SwaggerTagBean> tags;
-    private SwaggerPathsMap paths;
+    private SwaggerPathsMap<SwaggerRequestMethodMap> paths;
     private LinkedHashMap definitions;
 
     public String getSwagger() {
@@ -78,11 +78,11 @@ public class SwaggerResultBean {
     }
 
 
-    public SwaggerPathsMap getPaths() {
+    public SwaggerPathsMap<SwaggerRequestMethodMap> getPaths() {
         return paths;
     }
 
-    public SwaggerResultBean setPaths(SwaggerPathsMap paths) {
+    public SwaggerResultBean setPaths(SwaggerPathsMap<SwaggerRequestMethodMap> paths) {
         this.paths = paths;
         return this;
     }

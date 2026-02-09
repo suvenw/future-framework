@@ -4,12 +4,14 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.http.exception.SystemRuntimeException;
+import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
 import com.suven.framework.upload.dto.response.SaaSFileResponseDto;
 import com.suven.framework.upload.facade.SaaSFileFacade;
@@ -21,6 +23,7 @@ import com.suven.framework.upload.vo.response.SaaSFileDownloadResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileGenerateResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileUploadResponseVo;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -124,7 +127,7 @@ public class SaaSFileWebController {
         
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("SaaS文件详情查询参数错误, ID: {}", idRequestVo.getId());
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
+            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
         }
         
         SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
@@ -132,7 +135,7 @@ public class SaaSFileWebController {
         
         if (result == null) {
             log.warn("SaaS文件不存在, ID: {}", idRequestVo.getId());
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL);
+            throw ExceptionFactory.sysException(CodeEnum.DATA_NOT_FOUND);
         }
         
         SaaSFileShowResponseVo vo = SaaSFileShowResponseVo.build()
@@ -161,7 +164,7 @@ public class SaaSFileWebController {
         
         if (file.isEmpty()) {
             log.warn("SaaS文件上传失败, 文件为空");
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_CHECK, "上传文件不能为空");
+            throw ExceptionFactory.sysException(CodeEnum.FILE_IS_EMPTY);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
@@ -192,7 +195,7 @@ public class SaaSFileWebController {
         
         if (downloadRequestVo.getFileUploadStorageId() <= 0) {
             log.warn("SaaS文件下载参数错误, ID: {}", downloadRequestVo.getFileUploadStorageId());
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
+            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(downloadRequestVo);
@@ -234,7 +237,7 @@ public class SaaSFileWebController {
         
         if (StringUtils.isBlank(generateRequestVo.getThirdPartyApiUrl())) {
             log.warn("SaaS大数据文件生成失败, API地址为空");
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "第三方API地址不能为空");
+            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(generateRequestVo);
@@ -268,7 +271,7 @@ public class SaaSFileWebController {
         
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("SaaS文件删除参数错误, ID列表为空");
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
+            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
         }
         
         int result = saaSFileFacade.getSaaSFileService()

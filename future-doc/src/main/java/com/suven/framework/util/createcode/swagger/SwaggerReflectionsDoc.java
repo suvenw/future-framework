@@ -590,16 +590,20 @@ public class SwaggerReflectionsDoc {
 
         }
         SwaggerResultBean bean = new SwaggerResultBean();
-        bean.setSwagger(resultBean.getSwagger()).setInfo(resultBean.getInfo()).setHost(resultBean.getHost()).setBasePath(resultBean.getBasePath());
-        SwaggerPathsMap searchPathsMap =  new SwaggerPathsMap<>();
-        SwaggerPathsMap<SwaggerRequestMethodMap> pathsMap =  resultBean.getPaths();
+        bean.setSwagger(resultBean.getSwagger())
+                .setInfo(resultBean.getInfo())
+                .setHost(resultBean.getHost())
+                .setBasePath(resultBean.getBasePath());
+
+        SwaggerPathsMap<SwaggerRequestMethodMap> searchPathsMap = SwaggerPathsMap.build();
+        SwaggerPathsMap<SwaggerRequestMethodMap> pathsMap = resultBean.getPaths();
         Set<String> tags = new HashSet<>();
-        for (Object obj : pathsMap.keySet()){
-            if (null == obj ){
+
+        for (String path : pathsMap.keySet()){
+            if (path == null){
                 continue;
             }
-            String path  = obj.toString();
-            SwaggerRequestMethodMap requestMethodMap =  pathsMap.getTo(path);
+            SwaggerRequestMethodMap requestMethodMap = pathsMap.getTo(path);
             /** 通过url包括搜索**/
             if(path.toUpperCase().contains(search.toUpperCase()) ){
                 searchPathsMap.put( path, requestMethodMap);
