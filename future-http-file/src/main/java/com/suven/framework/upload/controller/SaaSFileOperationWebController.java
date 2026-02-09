@@ -9,6 +9,7 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.data.vo.HttpRequestByUserIdPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
@@ -18,6 +19,8 @@ import com.suven.framework.upload.facade.SaaSFileFacade;
 import com.suven.framework.upload.service.SaaSFileOperationService;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileOperationQueryVo;
+import com.suven.framework.upload.vo.response.FileUploadAppShowResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadUseBusinessShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileInterpretResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileOperationResponseVo;
  
@@ -102,12 +105,9 @@ public class SaaSFileOperationWebController {
             return new PageResult<>();
         }
         
-        PageResult<SaaSFileOperationResponseVo> voResult = new PageResult<>();
-        voResult.setTotal(result.getTotal());
-        voResult.setList(result.getList().stream()
-            .map(dto -> SaaSFileOperationResponseVo.build().clone(dto))
-            .toList());
-        
+        PageResult<SaaSFileOperationResponseVo> voResult =
+                result.convertBuild(SaaSFileOperationResponseVo.class);
+
         log.info("SaaS操作记录分页查询完成, 总数: {}", result.getTotal());
         return voResult;
     }
@@ -156,9 +156,7 @@ public class SaaSFileOperationWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PAGE_LIST)
     public PageResult<SaaSFileInterpretResponseVo> interpretPageList(
-            @Validated  HttpRequestByIdVo idRequestVo,
-            @RequestParam(defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "20") int pageSize) {
+            @Validated  HttpRequestByUserIdPageVo idRequestVo) {
         
         log.info("SaaS解释记录分页查询, OperationId: {}", idRequestVo.getId());
         
@@ -167,20 +165,17 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager pager = new Pager(pageNo, pageSize);
+        Pager<SaaSFileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
         PageResult<SaaSFileInterpretResponseDto> result = fileOperationService.queryInterpretPage(idRequestVo.getId(), pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
             log.info("SaaS解释记录分页查询完成, 无数据");
             return new PageResult<>();
         }
-        
-        PageResult<SaaSFileInterpretResponseVo> voResult = new PageResult<>();
-        voResult.setTotal(result.getTotal());
-        voResult.setList(result.getList().stream()
-            .map(dto -> SaaSFileInterpretResponseVo.build().clone(dto))
-            .toList());
-        
+        PageResult<SaaSFileInterpretResponseVo> voResult =
+                result.convertBuild(SaaSFileInterpretResponseVo.class);
+
+
         log.info("SaaS解释记录分页查询完成, 总数: {}", result.getTotal());
         return voResult;
     }
@@ -230,10 +225,8 @@ public class SaaSFileOperationWebController {
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PENDING)
     public PageResult<SaaSFileInterpretResponseVo> queryPendingInterpretRecords(
-            @Validated  HttpRequestByIdVo idRequestVo,
-            @RequestParam(required = false) String status,
-            @RequestParam(defaultValue = "1") int pageNo,
-            @RequestParam(defaultValue = "50") int pageSize) {
+            @Validated HttpRequestByUserIdPageVo idRequestVo,
+            @RequestParam(required = false) String status) {
         
         log.info("SaaS待处理解释记录查询, OperationId: {}, Status: {}", idRequestVo.getId(), status);
         
@@ -242,7 +235,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager pager = new Pager(pageNo, pageSize);
+        Pager<SaaSFileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
         PageResult<SaaSFileInterpretResponseDto> result = fileOperationService.queryPendingInterpretRecords(
             idRequestVo.getId(), status, pager);
         
@@ -250,13 +243,10 @@ public class SaaSFileOperationWebController {
             log.info("SaaS待处理解释记录查询完成, 无数据");
             return new PageResult<>();
         }
-        
-        PageResult<SaaSFileInterpretResponseVo> voResult = new PageResult<>();
-        voResult.setTotal(result.getTotal());
-        voResult.setList(result.getList().stream()
-            .map(dto -> SaaSFileInterpretResponseVo.build().clone(dto))
-            .toList());
-        
+
+        PageResult<SaaSFileInterpretResponseVo> voResult =
+                result.convertBuild(SaaSFileInterpretResponseVo.class);
+
         log.info("SaaS待处理解释记录查询完成, 总数: {}", result.getTotal());
         return voResult;
     }

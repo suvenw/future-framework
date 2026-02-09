@@ -96,7 +96,7 @@ public class SysDictWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDict_detail)
-    public SysDictShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDictShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询后台字典类型表详情, ID: {}", idRequestVo.getId());
 
@@ -201,7 +201,7 @@ public class SysDictWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDict_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除后台字典类型表, ID列表: {}", idRequestVo.getIdList());
 

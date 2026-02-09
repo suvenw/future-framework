@@ -118,7 +118,7 @@ public class SysDepartWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepart_detail)
-    public SysDepartShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDepartShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询组织机构表详情, ID: {}", idRequestVo.getId());
 
@@ -223,7 +223,7 @@ public class SysDepartWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDepart_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除组织机构表, ID列表: {}", idRequestVo.getIdList());
 

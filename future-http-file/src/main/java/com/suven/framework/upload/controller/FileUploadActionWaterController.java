@@ -97,7 +97,7 @@ public class FileUploadActionWaterController {
             response = FileUploadActionWaterResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_INFO)
-    public FileUploadActionWaterResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadActionWaterResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传行为流水详情, ID: {}", idVo.getId());
 
