@@ -1,0 +1,181 @@
+package com.suven.framework.upload.dto.response;
+
+import com.suven.framework.http.api.ApiDesc;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+/**
+ * SaaS文件字段映射响应DTO
+ * 
+ * @author suven
+ * @version v1.0.0
+ * date 创建时间: 2026-02-09
+ */
+@Setter@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class SaaSFileFieldResponseDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /** 字段ID */
+    @ApiDesc(value = "字段ID", required = 1)
+    private long id;
+
+    /** 操作记录ID */
+    @ApiDesc(value = "操作记录ID", required = 1)
+    private long operationRecordId;
+
+    /** 解释记录ID */
+    @ApiDesc(value = "解释记录ID", required = 0)
+    private long interpretRecordId;
+
+    /** 字段英文名称 */
+    @ApiDesc(value = "字段英文名称", required = 1)
+    private String fieldEnglishName;
+
+    /** 字段中文名称 */
+    @ApiDesc(value = "字段中文名称", required = 1)
+    private String fieldChineseName;
+
+    /** 排编号 */
+    @ApiDesc(value = "排编号", required = 1)
+    private int sortOrder;
+
+    /** 字段数据类型 */
+    @ApiDesc(value = "字段数据类型", required = 0)
+    private String fieldType;
+
+    /** 是否为主键 */
+    @ApiDesc(value = "是否为主键", required = 0)
+    private int isPrimaryKey;
+
+    /** 是否必填 */
+    @ApiDesc(value = "是否必填", required = 0)
+    private int isRequired;
+
+    /** 默认值 */
+    @ApiDesc(value = "默认值", required = 0)
+    private String defaultValue;
+
+    /** 字段描述 */
+    @ApiDesc(value = "字段描述", required = 0)
+    private String fieldDescription;
+
+    /** 数据总条数 */
+    @ApiDesc(value = "数据总条数", required = 0)
+    private int totalCount;
+
+    /** 非空数据条数 */
+    @ApiDesc(value = "非空数据条数", required = 0)
+    private int notNullCount;
+
+    /** 空值数据条数 */
+    @ApiDesc(value = "空值数据条数", required = 0)
+    private int nullCount;
+
+    /** 重复值数量 */
+    @ApiDesc(value = "重复值数量", required = 0)
+    private int duplicateCount;
+
+    /** 字段示例值 */
+    @ApiDesc(value = "字段示例值", required = 0)
+    private String sampleValue;
+
+    /** 状态 */
+    @ApiDesc(value = "状态", required = 0)
+    private String status;
+
+    public static SaaSFileFieldResponseDto build() {
+        return new SaaSFileFieldResponseDto();
+    }
+
+    public SaaSFileFieldResponseDto toId(long id) {
+        this.id = id;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toOperationRecordId(long operationRecordId) {
+        this.operationRecordId = operationRecordId;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toInterpretRecordId(long interpretRecordId) {
+        this.interpretRecordId = interpretRecordId;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toFieldEnglishName(String fieldEnglishName) {
+        this.fieldEnglishName = fieldEnglishName;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toFieldChineseName(String fieldChineseName) {
+        this.fieldChineseName = fieldChineseName;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toFieldType(String fieldType) {
+        this.fieldType = fieldType;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toIsPrimaryKey(int isPrimaryKey) {
+        this.isPrimaryKey = isPrimaryKey;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toIsRequired(int isRequired) {
+        this.isRequired = isRequired;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toFieldDescription(String fieldDescription) {
+        this.fieldDescription = fieldDescription;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toNotNullCount(int notNullCount) {
+        this.notNullCount = notNullCount;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toNullCount(int nullCount) {
+        this.nullCount = nullCount;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toDuplicateCount(int duplicateCount) {
+        this.duplicateCount = duplicateCount;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toSampleValue(String sampleValue) {
+        this.sampleValue = sampleValue;
+        return this;
+    }
+
+    public SaaSFileFieldResponseDto toStatus(String status) {
+        this.status = status;
+        return this;
+    }
+}
