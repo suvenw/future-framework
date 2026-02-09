@@ -1,42 +1,24 @@
 package com.suven.framework.sys.controller;
 
 
-
-import com.suven.framework.sys.dto.response.SysPermissionResponseDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
 
-
-import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
-
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 
 import com.suven.framework.sys.service.SysDictItemService;
 import com.suven.framework.sys.vo.request.SysDictItemQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysDictItemAddRequestVo;
 import com.suven.framework.sys.vo.response.SysDictItemShowResponseVo;
-import com.suven.framework.sys.vo.response.SysDictItemResponseVo;
 
 import com.suven.framework.sys.dto.request.SysDictItemRequestDto;
 import com.suven.framework.sys.dto.response.SysDictItemResponseDto;
@@ -66,344 +48,197 @@ import com.suven.framework.sys.dto.enums.SysDictItemQueryEnum;
  **/
 
 
-@Controller
+@RestController
+@Slf4j
+@Validated
 @ApiDoc(
-        group = DocumentConst.Sys.SYS_DOC_GROUP,
-        groupDesc= DocumentConst.Sys.SYS_DOC_DES,
-        module = "数据字典明细表模块"
+    group = DocumentConst.Sys.SYS_DOC_GROUP,
+    groupDesc = DocumentConst.Sys.SYS_DOC_DES,
+    module = "数据字典明细表模块",
+    isApp = true
 )
 public class SysDictItemWebController {
-
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
-
-
-
 
     @Autowired
     private SysDictItemService  sysDictItemService;
 
     /**
-     * Title: 跳转到数据字典明细表主界面
-     * @return 字符串url
+     * 分页获取数据字典明细表信息
+     * 根据查询条件分页获取数据字典明细表列表
+     * @param sysDictItemQueryRequestVo 查询请求参数
+     * @return PageResult<SysDictItemShowResponseVo> 分页响应结果
      * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. 分页参数必须使用 Pager 包装
+     * 2. 必须指定排序枚举
+     * 3. 必须记录操作日志
+     * 4. 必须进行参数校验
      */
-    @RequestMapping(value =  UrlCommand.sys_sysDictItem_index,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:list")
-    public String index(){
-        return "sys/sysDictItem_index";
-    }
+    @ApiDoc(
+        value = "分页获取数据字典明细表信息",
+        description = "根据条件分页查询数据字典明细表数据",
+        request = SysDictItemQueryRequestVo.class,
+        response = SysDictItemShowResponseVo.class,
+        method = RequestMethodEnum.GET
+    )
+    @GetMapping(value = UrlCommand.sys_sysDictItem_list)
+    public PageResult<SysDictItemShowResponseVo> pageList(@Valid SysDictItemQueryRequestVo sysDictItemQueryRequestVo) {
 
+        log.info("分页查询数据字典明细表, 参数: {}", sysDictItemQueryRequestVo);
+
+        Pager<SysDictItemRequestDto> pager = new Pager<>(
+            sysDictItemQueryRequestVo.getPageNo(),
+            sysDictItemQueryRequestVo.getPageSize()
+        );
+        SysDictItemRequestDto requestDto = SysDictItemRequestDto.build().clone(sysDictItemQueryRequestVo);
+        pager.toParamObject(requestDto);
+
+        PageResult<SysDictItemResponseDto> pageResult = sysDictItemService
+            .getSysDictItemByNextPage(pager, SysDictItemQueryEnum.DESC_ID);
+
+        log.info("分页查询数据字典明细表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysDictItemShowResponseVo.class);
+    }
 
     /**
-     * Title: 获取数据字典明细表分页信息
-     * Description:sysDictItemQueryRequestVo @{Link SysDictItemQueryRequestVo}
-     * @param
-     * @return  PageResult 对象 List<SysDictItemShowResponseVo>
-     * @throw
+     * 查看数据字典明细表详情
+     * 根据ID获取数据字典明细表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysDictItemShowResponseVo 详情响应结果
      * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
+     * @date 2025-08-18
      *
-     *  --------------------------------------------------------
+     * 接口规则：
+     * 1. ID参数必须校验非空
+     * 2. 必须处理数据不存在情况
+     * 3. 必须记录查询日志
      */
     @ApiDoc(
-            value = "获取数据字典明细表分页信息",
-            request = SysDictItemQueryRequestVo.class,
-            response = SysDictItemShowResponseVo.class
+        value = "查看数据字典明细表信息",
+        description = "根据ID获取数据字典明细表详细信息",
+        request = HttpRequestByIdVo.class,
+        response = SysDictItemShowResponseVo.class,
+        method = RequestMethodEnum.GET
     )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_list,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:list")
-    public   void   list( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
-            SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
+    @GetMapping(value = UrlCommand.sys_sysDictItem_detail)
+    public SysDictItemShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
-        Pager<SysDictItemRequestDto> page =  Pager.of();
-        page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
-        page.toParamObject(sysDictItemRequestDto );
-         SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
-        PageResult<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemByNextPage(page,queryEnum);
-        if(null == resultList || resultList.getList().isEmpty() ){
-            out.write( new PageResult());
-            return ;
-        }
-        PageResult<SysDictItemShowResponseVo> result = resultList.convertBuild(SysDictItemShowResponseVo.class);
-        out.write(result);
-    }
+        log.info("查询数据字典明细表详情, ID: {}", idRequestVo.getId());
 
-/**
-     * Title: 根据条件查谒数据字典明细表分页信息
-     * Description:sysDictItemQueryRequestVo @{Link SysDictItemQueryRequestVo}
-     * @param
-     * @return   PageResult 对象 List<SysDictItemShowResponseVo>
-     * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "获取数据字典明细表分页信息",
-            request = SysDictItemQueryRequestVo.class,
-            response = SysDictItemShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_queryList,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:query")
-    public   void   queryList( OutputSystem out, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
-            SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build( ).clone(sysDictItemQueryRequestVo);
-
-        Pager<SysDictItemRequestDto> page =  Pager.of();
-        page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
-        page.toParamObject(sysDictItemRequestDto );
-        SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
-        List<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemListByQuery(page,queryEnum);
-        if(null == resultList || resultList.isEmpty() ){
-            out.write( new ArrayList<>());
-            return ;
+        // 参数校验
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询数据字典明细表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysDictItemShowResponseVo> listVo = IterableConvert.convertList(resultList,SysDictItemShowResponseVo.class);
+        SysDictItemResponseDto responseDto = sysDictItemService.getSysDictItemById(idRequestVo.getId());
 
-        out.write( listVo);
-    }
-
-
-
-    /**
-     * Title: 新增数据字典明细表信息
-     * Description:sysDictItemAddRequestVo @{Link SysDictItemAddRequestVo}
-     * @param sysDictItemAddRequestVo 对象
-     * @return long类型id
-     * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "新增数据字典明细表信息",
-            request = SysDictItemAddRequestVo.class,
-            response = Long.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_add,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:dictitem:add")
-    public  void  add(OutputSystem out, SysDictItemAddRequestVo sysDictItemAddRequestVo){
-
-            SysDictItemRequestDto sysDictItemRequestDto =  SysDictItemRequestDto.build().clone(sysDictItemAddRequestVo);
-
-            //sysDictItemRequestDto.setStatus(TbStatusEnum.ENABLE.index());
-            SysDictItemResponseDto sysDictItemresponseDto =  sysDictItemService.saveSysDictItem(sysDictItemRequestDto);
-        if(sysDictItemresponseDto == null){
-            out.write(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
-            return;
+        if (responseDto == null) {
+            log.warn("数据字典明细表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
-        out.write( sysDictItemresponseDto.getId());
+
+        log.info("查询数据字典明细表详情成功, ID: {}", idRequestVo.getId());
+        return SysDictItemShowResponseVo.build().clone(responseDto);
     }
+
     /**
-     * Title: 修改数据字典明细表信息
-     * Description:sysDictItemAddRequestVo @{Link SysDictItemAddRequestVo}
-     * @param  sysDictItemAddRequestVo 对象
-     * @return  boolean 类型1或0;
+     * 新增数据字典明细表信息
+     * 创建新的数据字典明细表记录
+     * @param sysDictItemAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
      * @author suven
-     * date 2022-02-28 16:10:15SysDictWebController
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "修改数据字典明细表信息",
-            request = SysDictItemAddRequestVo.class,
-            response = boolean.class
+        value = "新增数据字典明细表信息",
+        description = "创建新的数据字典明细表记录",
+        request = SysDictItemAddRequestVo.class,
+        response = Long.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_modify , method = RequestMethod.POST)
-    //@RequiresPermissions("sys:dictitem:modify")
-    public  void  modify(OutputSystem out,SysDictItemAddRequestVo sysDictItemAddRequestVo){
+    @PostMapping(value = UrlCommand.sys_sysDictItem_add)
+    public Long create(@Valid SysDictItemAddRequestVo sysDictItemAddRequestVo) {
 
-            SysDictItemRequestDto sysDictItemRequestDto =  SysDictItemRequestDto.build().clone(sysDictItemAddRequestVo);
+        log.info("新增数据字典明细表信息, 参数: {}", sysDictItemAddRequestVo);
 
-        if(sysDictItemRequestDto.getId() == 0){
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return;
+        SysDictItemRequestDto requestDto = SysDictItemRequestDto.build().clone(sysDictItemAddRequestVo);
+
+        SysDictItemResponseDto responseDto = sysDictItemService.saveSysDictItem(requestDto);
+
+        if (responseDto == null) {
+            log.error("新增数据字典明细表信息失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
-        boolean result =  sysDictItemService.updateSysDictItem(sysDictItemRequestDto);
-        out.write(result);
+
+        log.info("新增数据字典明细表信息成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
 
     /**
-     * Title: 查看数据字典明细表信息
-     * Description:sysDictItemRequestVo @{Link SysDictItemRequestVo}
-     * @param
-     * @return  SysDictItemResponseVo  对象
+     * 修改数据字典明细表信息
+     * 根据ID更新数据字典明细表信息
+     * @param sysDictItemAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
      * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-
-    @ApiDoc(
-            value = "查看数据字典明细表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDictItemShowResponseVo.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_detail,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:list")
-    public void detail(OutputSystem out, HttpRequestByIdVo idRequestVo){
-
-            SysDictItemResponseDto sysDictItemResponseDto = sysDictItemService.getSysDictItemById(idRequestVo.getId());
-            SysDictItemShowResponseVo vo =  SysDictItemShowResponseVo.build().clone(sysDictItemResponseDto);
-        out.write(vo);
-    }
-
-
-
-    /**
-     * Title: 跳转数据字典明细表编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return SysDictItemShowResponseVo 对象
-     * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "查看数据字典明细表信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDictItemShowResponseVo.class
+        value = "修改数据字典明细表信息",
+        description = "根据ID更新数据字典明细表信息",
+        request = SysDictItemAddRequestVo.class,
+        response = boolean.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_edit , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:modify")
-    public void edit(OutputSystem out, HttpRequestByIdVo idRequestVo){
+    @PutMapping(value = UrlCommand.sys_sysDictItem_modify)
+    public boolean update(@Valid SysDictItemAddRequestVo sysDictItemAddRequestVo) {
 
-            SysDictItemResponseDto sysDictItemResponseDto = sysDictItemService.getSysDictItemById(idRequestVo.getId());
-            SysDictItemShowResponseVo vo =  SysDictItemShowResponseVo.build().clone(sysDictItemResponseDto);
-        out.write(vo);
+        log.info("修改数据字典明细表信息, 参数: {}", sysDictItemAddRequestVo);
 
-    }
+        SysDictItemRequestDto requestDto = SysDictItemRequestDto.build().clone(sysDictItemAddRequestVo);
 
+        if (requestDto.getId() == null || requestDto.getId() <= 0) {
+            log.warn("修改数据字典明细表信息参数错误, ID: {}", requestDto.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
 
+        boolean result = sysDictItemService.updateSysDictItem(requestDto);
 
-
-    /**
-     * Title: 跳转数据字典明细表新增编辑界面
-     * Description:id @{Link Long}
-     * @param
-     * @return  返回新增加的url
-     * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifyer    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_newInfo , method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:add")
-    public String newInfo(ModelMap modelMap){
-        return "sys/sysDictItem_edit";
+        log.info("修改数据字典明细表信息完成, ID: {}, 结果: {}", requestDto.getId(), result);
+        return result;
     }
 
     /**
-     * Title: 删除数据字典明细表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return   boolean 类型1或0;
+     * 删除数据字典明细表信息
+     * 根据ID列表批量删除数据字典明细表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
      * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "删除数据字典明细表信息",
-            request = HttpRequestByIdListVo.class,
-            response = Integer.class
+        value = "删除数据字典明细表信息",
+        description = "根据ID列表批量删除数据字典明细表记录",
+        request = HttpRequestByIdListVo.class,
+        response = Integer.class,
+        method = RequestMethodEnum.POST
     )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_del,method = RequestMethod.POST)
-    //@RequiresPermissions("sys:dictitem:del")
-    public  void  del(OutputSystem out, HttpRequestByIdListVo idRequestVo){
+    @DeleteMapping(value = UrlCommand.sys_sysDictItem_del)
+    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+
+        log.info("删除数据字典明细表信息, IDs: {}", idRequestVo.getIdList());
+
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
-            out.write(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
-            return ;
+            log.warn("删除数据字典明细表信息参数错误, ID列表为空");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
+
         int result = sysDictItemService.delSysDictItemByIds(idRequestVo.getIdList());
-        out.write(result);
+
+        log.info("删除数据字典明细表信息完成, 删除数量: {}", result);
+        return result;
     }
-
-
-
-    /**
-     * Title: 导出数据字典明细表信息
-     * Description:id @{Link Long}
-     * @param
-     * @return
-     * @author suven
-     * date 2022-02-28 16:10:15
-     *  --------------------------------------------------------
-     *  modifier    modifyTime                 comment
-     *
-     *  --------------------------------------------------------
-     */
-    @ApiDoc(
-            value = "导出数据字典明细表信息",
-            request = SysDictItemQueryRequestVo.class,
-            response = boolean.class
-    )
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_export,method = RequestMethod.GET)
-    //@RequiresPermissions("sys:dictitem:export")
-    public void export(HttpServletResponse response, SysDictItemQueryRequestVo sysDictItemQueryRequestVo){
-
-            SysDictItemRequestDto sysDictItemRequestDto = SysDictItemRequestDto.build().clone(sysDictItemQueryRequestVo);
-
-        Pager<SysDictItemRequestDto> page =  Pager.of();
-        page.toPageSize(sysDictItemQueryRequestVo.getPageSize()).toPageNo(sysDictItemQueryRequestVo.getPageNo());
-        page.toParamObject(sysDictItemRequestDto );
-
-        SysDictItemQueryEnum queryEnum =  SysDictItemQueryEnum.DESC_ID;
-        PageResult<SysDictItemResponseDto> resultList = sysDictItemService.getSysDictItemByNextPage(page,queryEnum);
-        List<SysDictItemResponseDto> data = resultList.getList();
-
-        //写入文件
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDictItemResponseVo.class,data,"导出数据字典明细表信息");
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
-        }
-    }
-
-
-    /**
-    * 通过excel导入数据
-    * @param out
-    * @param files
-    */
-    @RequestMapping(value = UrlCommand.sys_sysDictItem_import, method = RequestMethod.POST)
-    //@RequiresPermissions("sys:dictitem:import")
-    public void importExcel(OutputSystem out, @PathVariable("files") MultipartFile files) {
-        //写入文件
-        try {
-            InputStream initialStream = files.getInputStream();
-            boolean result = sysDictItemService.saveData(initialStream);
-            out.write(result);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-    }
-
 
 }

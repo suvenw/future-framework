@@ -2,33 +2,17 @@ package com.suven.framework.sys.controller;
 
 
 
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
-import java.util.List;
-import java.io.*;
-
-import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-// import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.validation.annotation.Validated;
 import lombok.extern.slf4j.Slf4j;
 
 
-import com.suven.framework.core.IterableConvert;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.http.handler.OutputSystem;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
-import com.suven.framework.util.excel.ExcelUtils;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.common.api.ExceptionFactory;
 import com.suven.framework.common.enums.CodeEnum;
@@ -38,7 +22,6 @@ import com.suven.framework.sys.service.SysDepartRolePermissionService;
 import com.suven.framework.sys.vo.request.SysDepartRolePermissionQueryRequestVo;
 import com.suven.framework.sys.vo.request.SysDepartRolePermissionAddRequestVo;
 import com.suven.framework.sys.vo.response.SysDepartRolePermissionShowResponseVo;
-import com.suven.framework.sys.vo.response.SysDepartRolePermissionResponseVo;
 
 import com.suven.framework.sys.dto.request.SysDepartRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartRolePermissionResponseDto;
