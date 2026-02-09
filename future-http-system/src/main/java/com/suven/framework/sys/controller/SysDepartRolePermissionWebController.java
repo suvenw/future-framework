@@ -2,6 +2,10 @@ package com.suven.framework.sys.controller;
 
 
 
+import com.suven.framework.common.enums.SysResultCodeEnum;
+import com.suven.framework.http.api.ApiDoc;
+import com.suven.framework.http.api.RequestMethodEnum;
+import com.suven.framework.http.exception.ExceptionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import lombok.extern.slf4j.Slf4j;
@@ -11,11 +15,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
-import com.suven.framework.http.enums.RequestMethodEnum;
-import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
 
 
 import com.suven.framework.sys.service.SysDepartRolePermissionService;
@@ -26,6 +26,11 @@ import com.suven.framework.sys.vo.response.SysDepartRolePermissionShowResponseVo
 import com.suven.framework.sys.dto.request.SysDepartRolePermissionRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartRolePermissionResponseDto;
 import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -53,7 +58,6 @@ import com.suven.framework.sys.dto.enums.SysDepartRolePermissionQueryEnum;
 
 @RestController
 @Slf4j
-@Validated
 @ApiDoc(
     group = DocumentConst.Sys.SYS_DOC_GROUP,
     groupDesc = DocumentConst.Sys.SYS_DOC_DES,
@@ -91,7 +95,7 @@ public class SysDepartRolePermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartRolePermission_list)
-    public PageResult<SysDepartRolePermissionShowResponseVo> pageList(@Valid SysDepartRolePermissionQueryRequestVo sysDepartRolePermissionQueryRequestVo) {
+    public PageResult<SysDepartRolePermissionShowResponseVo> pageList(  SysDepartRolePermissionQueryRequestVo sysDepartRolePermissionQueryRequestVo) {
 
         log.info("分页查询部门角色权限表, 参数: {}", sysDepartRolePermissionQueryRequestVo);
 
@@ -124,11 +128,10 @@ public class SysDepartRolePermissionWebController {
         value = "新增部门角色权限表信息",
         description = "创建新的部门角色权限表记录",
         request = SysDepartRolePermissionAddRequestVo.class,
-        response = Long.class,
-        method = RequestMethodEnum.POST
+        response = Long.class
     )
     @PostMapping(value = UrlCommand.sys_sysDepartRolePermission_add)
-    public Long create(@Valid SysDepartRolePermissionAddRequestVo sysDepartRolePermissionAddRequestVo) {
+    public Long create(  SysDepartRolePermissionAddRequestVo sysDepartRolePermissionAddRequestVo) {
 
         log.info("新增部门角色权限表信息, 参数: {}", sysDepartRolePermissionAddRequestVo);
 
@@ -138,7 +141,7 @@ public class SysDepartRolePermissionWebController {
 
         if (responseDto == null) {
             log.error("新增部门角色权限表信息失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增部门角色权限表信息成功, ID: {}", responseDto.getId());
@@ -160,7 +163,7 @@ public class SysDepartRolePermissionWebController {
         method = RequestMethodEnum.POST
     )
     @PutMapping(value = UrlCommand.sys_sysDepartRolePermission_modify)
-    public boolean update(@Valid SysDepartRolePermissionAddRequestVo sysDepartRolePermissionAddRequestVo) {
+    public boolean update(  SysDepartRolePermissionAddRequestVo sysDepartRolePermissionAddRequestVo) {
 
         log.info("修改部门角色权限表信息, 参数: {}", sysDepartRolePermissionAddRequestVo);
 
@@ -168,7 +171,7 @@ public class SysDepartRolePermissionWebController {
 
         if (requestDto.getId() == null || requestDto.getId() <= 0) {
             log.warn("修改部门角色权限表信息参数错误, ID: {}", requestDto.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         boolean result = sysDepartRolePermissionService.updateSysDepartRolePermission(requestDto);
@@ -198,21 +201,21 @@ public class SysDepartRolePermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartRolePermission_detail)
-    public SysDepartRolePermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDepartRolePermissionShowResponseVo detail(  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询部门角色权限表详情, ID: {}", idRequestVo.getId());
 
         // 参数校验
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询部门角色权限表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDepartRolePermissionResponseDto responseDto = sysDepartRolePermissionService.getSysDepartRolePermissionById(idRequestVo.getId());
 
         if (responseDto == null) {
             log.warn("部门角色权限表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询部门角色权限表详情成功, ID: {}", idRequestVo.getId());
@@ -237,13 +240,13 @@ public class SysDepartRolePermissionWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysDepartRolePermission_del)
-    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public Integer delete(  HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除部门角色权限表信息, IDs: {}", idRequestVo.getIdList());
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除部门角色权限表信息参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDepartRolePermissionService.delSysDepartRolePermissionByIds(idRequestVo.getIdList());
