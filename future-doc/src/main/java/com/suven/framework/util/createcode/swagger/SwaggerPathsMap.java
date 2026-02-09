@@ -4,22 +4,21 @@ import java.util.TreeMap;
 
 //数据为;key-value; object  SwaggerRequestMethodBean
 //SwaggerPathsMap<url, SwaggerRequestMethodMap<RequestMethod.POST,SwaggerPathsBean>>
-public class SwaggerPathsMap<T> extends TreeMap {
+public class SwaggerPathsMap<T> extends TreeMap<String, T> {
     //map 存储的数据结构为
      // url -> SwaggerRequestMethodMap->SwaggerPathsBean
 //    RequestMethod.POST
 //    RequestMethod.GET
 
-    public static SwaggerPathsMap build(){
-        return new SwaggerPathsMap();
+    public static <T> SwaggerPathsMap<T> build(){
+        return new SwaggerPathsMap<>();
     }
 
-    public SwaggerPathsMap put(String key, SwaggerRequestMethodMap value){
+    public SwaggerPathsMap<T> put(String key, T value){
         super.put(key, value);
         return this;
     }
     public T getTo(String key){
-       Object object =  super.get(key);
-        return (T)object;
+        return super.get(key);
     }
 }
