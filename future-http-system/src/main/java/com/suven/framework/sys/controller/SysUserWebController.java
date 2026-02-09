@@ -169,14 +169,14 @@ public class SysUserWebController {
         // 参数校验
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询用户表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysUserResponseDto responseDto = sysUserService.getSysUserById(idRequestVo.getId());
 
         if (responseDto == null) {
             log.warn("用户表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询用户表详情成功, ID: {}", idRequestVo.getId());
@@ -208,7 +208,7 @@ public class SysUserWebController {
 
         if (responseDto == null) {
             log.error("新增用户表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增用户表成功, ID: {}", responseDto.getId());
@@ -237,7 +237,7 @@ public class SysUserWebController {
 
         if (sysUserAddRequestVo.getId() == null || sysUserAddRequestVo.getId() <= 0) {
             log.warn("修改用户表参数错误, ID: {}", sysUserAddRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysUserRequestDto requestDto = SysUserRequestDto.build().clone(sysUserAddRequestVo);
@@ -269,7 +269,7 @@ public class SysUserWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除用户表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysUserService.delSysUserByIds(idRequestVo.getIdList());
@@ -300,7 +300,7 @@ public class SysUserWebController {
 
         if (result == null) {
             log.warn("用户登录失败, 用户名: {}", sysUserLoginRequestVo.getUsername());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_USER_LOGIN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_USER_LOGIN_FAIL);
         }
 
         log.info("用户登录成功, 用户名: {}", sysUserLoginRequestVo.getUsername());

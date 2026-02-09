@@ -126,14 +126,14 @@ public class SysRoleWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询角色表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysRoleResponseDto responseDto = sysRoleService.getSysRoleById(idRequestVo.getId());
 
         if (responseDto == null) {
             log.warn("角色表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询角色表详情成功, ID: {}", idRequestVo.getId());
@@ -165,7 +165,7 @@ public class SysRoleWebController {
 
         if (responseDto == null) {
             log.warn("新增角色表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增角色表成功, ID: {}", responseDto.getId());
@@ -194,7 +194,7 @@ public class SysRoleWebController {
 
         if (sysRoleAddRequestVo.getId() == null || sysRoleAddRequestVo.getId() <= 0) {
             log.warn("修改角色表参数错误, ID: {}", sysRoleAddRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysRoleRequestDto requestDto = SysRoleRequestDto.build().clone(sysRoleAddRequestVo);
@@ -225,7 +225,7 @@ public class SysRoleWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除角色表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysRoleService.delSysRoleByIds(idRequestVo.getIdList());

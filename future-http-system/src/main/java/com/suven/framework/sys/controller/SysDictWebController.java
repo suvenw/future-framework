@@ -9,7 +9,6 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.common.api.ExceptionFactory;
-import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 import com.suven.framework.sys.dto.request.SysDictRequestDto;
 import com.suven.framework.sys.dto.response.SysDictResponseDto;
@@ -101,7 +100,7 @@ public class SysDictWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询后台字典类型表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDictResponseDto responseDto =
@@ -109,7 +108,7 @@ public class SysDictWebController {
 
         if (responseDto == null) {
             log.warn("后台字典类型表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询后台字典类型表详情成功, ID: {}", idRequestVo.getId());
@@ -144,7 +143,7 @@ public class SysDictWebController {
 
         if (responseDto == null) {
             log.warn("新增后台字典类型表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增后台字典类型表成功, ID: {}", responseDto.getId());
@@ -173,7 +172,7 @@ public class SysDictWebController {
 
         if (sysDictAddRequestVo.getId() == null || sysDictAddRequestVo.getId() <= 0) {
             log.warn("修改后台字典类型表参数错误, ID: {}", sysDictAddRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysDictRequestDto requestDto = SysDictRequestDto.build()
@@ -206,7 +205,7 @@ public class SysDictWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除后台字典类型表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDictService.delSysDictByIds(idRequestVo.getIdList());

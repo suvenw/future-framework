@@ -117,7 +117,7 @@ public class SysPermissionDataRuleWebController {
 
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("查询菜单权限规则表详情参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         SysPermissionDataRuleResponseDto responseDto =
@@ -125,7 +125,7 @@ public class SysPermissionDataRuleWebController {
 
         if (responseDto == null) {
             log.warn("菜单权限规则表不存在, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         log.info("查询菜单权限规则表详情成功, ID: {}", idRequestVo.getId());
@@ -160,7 +160,7 @@ public class SysPermissionDataRuleWebController {
 
         if (responseDto == null) {
             log.warn("新增菜单权限规则表失败");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_UNKOWNN_FAIL);
         }
 
         log.info("新增菜单权限规则表成功, ID: {}", responseDto.getId());
@@ -192,7 +192,7 @@ public class SysPermissionDataRuleWebController {
 
         if (requestDto.getId() == null || requestDto.getId() <= 0) {
             log.warn("修改菜单权限规则表参数错误, ID: {}", requestDto.getId());
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         boolean result = sysPermissionDataRuleService.updateSysPermissionDataRule(requestDto);
@@ -222,7 +222,7 @@ public class SysPermissionDataRuleWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除菜单权限规则表参数错误, ID列表为空");
-            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysPermissionDataRuleService.delSysPermissionDataRuleByIds(idRequestVo.getIdList());
