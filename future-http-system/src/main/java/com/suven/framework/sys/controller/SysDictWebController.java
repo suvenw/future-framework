@@ -1,38 +1,28 @@
 package com.suven.framework.sys.controller;
 
-import com.suven.framework.core.IterableConvert;
-import com.suven.framework.core.ObjectTrue;
+
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDictQueryEnum;
 import com.suven.framework.sys.dto.request.SysDictRequestDto;
 import com.suven.framework.sys.dto.response.SysDictResponseDto;
 import com.suven.framework.sys.service.SysDictService;
 import com.suven.framework.sys.vo.request.SysDictAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDictQueryRequestVo;
-import com.suven.framework.sys.vo.response.SysDictResponseVo;
 import com.suven.framework.sys.vo.response.SysDictShowResponseVo;
-import com.suven.framework.util.excel.ExcelUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 后台字典类型表 Web 控制器
@@ -42,9 +32,10 @@ import java.util.List;
 @ApiDoc(
         group = DocumentConst.Sys.SYS_DOC_GROUP,
         groupDesc = DocumentConst.Sys.SYS_DOC_DES,
-        module = "后台字典类型表模块"
+        module = "后台字典类型表模块",
+        isApp = true
 )
-@Controller
+@RestController
 @Slf4j
 @Validated
 public class SysDictWebController {
@@ -53,22 +44,19 @@ public class SysDictWebController {
     private SysDictService sysDictService;
 
     /**
-     * 跳转到后台字典类型表主界面
-     */
-    @GetMapping(value = UrlCommand.sys_sysDict_index)
-    public String index() {
-        log.info("跳转后台字典类型表主界面");
-        return "sys/sysDict_index";
-    }
-
-    /**
-     * 获取后台字典类型表分页信息
+     * 分页获取后台字典类型表信息
+     * 根据查询条件分页获取后台字典类型表列表
+     * @param sysDictQueryRequestVo 查询请求参数
+     * @return PageResult<SysDictShowResponseVo> 分页响应结果
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "获取后台字典类型表分页信息",
-            description = "根据查询条件分页获取后台字典类型表列表",
+            value = "分页获取后台字典类型表信息",
+            description = "根据条件分页查询后台字典类型表数据",
             request = SysDictQueryRequestVo.class,
-            response = SysDictShowResponseVo.class
+            response = SysDictShowResponseVo.class,
+            method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDict_list)
     public PageResult<SysDictShowResponseVo> pageList(
@@ -76,105 +64,107 @@ public class SysDictWebController {
 
         log.info("分页查询后台字典类型表, 参数: {}", sysDictQueryRequestVo);
 
-        SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build()
-                .clone(sysDictQueryRequestVo);
-
         Pager<SysDictRequestDto> pager = new Pager<>(
                 sysDictQueryRequestVo.getPageNo(),
                 sysDictQueryRequestVo.getPageSize()
         );
-        pager.toParamObject(sysDictRequestDto);
+        SysDictRequestDto requestDto = SysDictRequestDto.build()
+                .clone(sysDictQueryRequestVo);
+        pager.toParamObject(requestDto);
 
-        SysDictQueryEnum queryEnum = SysDictQueryEnum.DESC_ID;
-        PageResult<SysDictResponseDto> resultList =
-                sysDictService.getSysDictByNextPage(pager, queryEnum);
+        PageResult<SysDictResponseDto> pageResult =
+                sysDictService.getSysDictByNextPage(pager, SysDictQueryEnum.DESC_ID);
 
-        if (ObjectTrue.isEmpty(resultList) || ObjectTrue.isEmpty(resultList.getList())) {
-            log.info("分页查询后台字典类型表完成, 无数据");
-            return new PageResult<>();
-        }
-
-        PageResult<SysDictShowResponseVo> result =
-                resultList.convertBuild(SysDictShowResponseVo.class);
-        log.info("分页查询后台字典类型表完成, 总数: {}", result.getTotal());
-        return result;
+        log.info("分页查询后台字典类型表完成, 总数: {}", pageResult.getTotal());
+        return pageResult.convertBuild(SysDictShowResponseVo.class);
     }
 
     /**
-     * 根据条件查询后台字典类型表信息
+     * 查看后台字典类型表详情
+     * 根据ID获取后台字典类型表详细信息
+     * @param idRequestVo ID请求参数
+     * @return SysDictShowResponseVo 详情响应结果
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
-            value = "根据条件查询后台字典类型表信息",
-            description = "根据查询条件获取后台字典类型表列表",
-            request = SysDictQueryRequestVo.class,
-            response = SysDictShowResponseVo.class
+            value = "查看后台字典类型表信息",
+            description = "根据ID获取后台字典类型表详细信息",
+            request = HttpRequestByIdVo.class,
+            response = SysDictShowResponseVo.class,
+            method = RequestMethodEnum.GET
     )
-    @GetMapping(value = UrlCommand.sys_sysDict_queryList)
-    public List<SysDictShowResponseVo> queryList(
-            @Valid SysDictQueryRequestVo sysDictQueryRequestVo) {
+    @GetMapping(value = UrlCommand.sys_sysDict_detail)
+    public SysDictShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
-        log.info("根据条件查询后台字典类型表, 参数: {}", sysDictQueryRequestVo);
+        log.info("查询后台字典类型表详情, ID: {}", idRequestVo.getId());
 
-        SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build()
-                .clone(sysDictQueryRequestVo);
-
-        Pager<SysDictRequestDto> pager = Pager.of();
-        pager.toPageSize(sysDictQueryRequestVo.getPageSize())
-                .toPageNo(sysDictQueryRequestVo.getPageNo())
-                .toParamObject(sysDictRequestDto);
-
-        SysDictQueryEnum queryEnum = SysDictQueryEnum.DESC_ID;
-        List<SysDictResponseDto> resultList =
-                sysDictService.getSysDictListByQuery(pager, queryEnum);
-
-        if (resultList == null || resultList.isEmpty()) {
-            log.info("根据条件查询后台字典类型表完成, 无数据");
-            return new ArrayList<>();
+        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
+            log.warn("查询后台字典类型表详情参数错误, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        List<SysDictShowResponseVo> listVo =
-                IterableConvert.convertList(resultList, SysDictShowResponseVo.class);
-        log.info("根据条件查询后台字典类型表完成, 数量: {}", listVo.size());
-        return listVo;
+        SysDictResponseDto responseDto =
+                sysDictService.getSysDictById(idRequestVo.getId());
+
+        if (responseDto == null) {
+            log.warn("后台字典类型表不存在, ID: {}", idRequestVo.getId());
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
+        }
+
+        log.info("查询后台字典类型表详情成功, ID: {}", idRequestVo.getId());
+        return SysDictShowResponseVo.build().clone(responseDto);
     }
 
     /**
      * 新增后台字典类型表信息
+     * 创建新的后台字典类型表记录
+     * @param sysDictAddRequestVo 新增请求参数
+     * @return Long 新增记录的ID
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "新增后台字典类型表信息",
-            description = "新增后台字典类型表记录",
+            description = "创建新的后台字典类型表记录",
             request = SysDictAddRequestVo.class,
-            response = Long.class
+            response = Long.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDict_add)
     public Long create(@Valid SysDictAddRequestVo sysDictAddRequestVo) {
 
         log.info("新增后台字典类型表, 参数: {}", sysDictAddRequestVo);
 
-        SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build()
+        SysDictRequestDto requestDto = SysDictRequestDto.build()
                 .clone(sysDictAddRequestVo);
 
-        SysDictResponseDto sysDictResponseDto =
-                sysDictService.saveSysDict(sysDictRequestDto);
+        SysDictResponseDto responseDto =
+                sysDictService.saveSysDict(requestDto);
 
-        if (sysDictResponseDto == null) {
+        if (responseDto == null) {
             log.warn("新增后台字典类型表失败");
-            throw new RuntimeException("新增失败");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_UNKOWNN_FAIL);
         }
 
-        log.info("新增后台字典类型表成功, ID: {}", sysDictResponseDto.getId());
-        return sysDictResponseDto.getId();
+        log.info("新增后台字典类型表成功, ID: {}", responseDto.getId());
+        return responseDto.getId();
     }
 
     /**
      * 修改后台字典类型表信息
+     * 根据ID更新后台字典类型表信息
+     * @param sysDictAddRequestVo 修改请求参数
+     * @return boolean 修改是否成功
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "修改后台字典类型表信息",
-            description = "根据ID修改后台字典类型表记录",
+            description = "根据ID更新后台字典类型表记录",
             request = SysDictAddRequestVo.class,
-            response = boolean.class
+            response = boolean.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDict_modify)
     public boolean update(@Valid SysDictAddRequestVo sysDictAddRequestVo) {
@@ -183,100 +173,31 @@ public class SysDictWebController {
 
         if (sysDictAddRequestVo.getId() == null || sysDictAddRequestVo.getId() <= 0) {
             log.warn("修改后台字典类型表参数错误, ID: {}", sysDictAddRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
-        SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build()
+        SysDictRequestDto requestDto = SysDictRequestDto.build()
                 .clone(sysDictAddRequestVo);
 
-        boolean result = sysDictService.updateSysDict(sysDictRequestDto);
+        boolean result = sysDictService.updateSysDict(requestDto);
         log.info("修改后台字典类型表完成, ID: {}, 结果: {}", sysDictAddRequestVo.getId(), result);
         return result;
     }
 
     /**
-     * 查看后台字典类型表详情
-     */
-    @ApiDoc(
-            value = "查看后台字典类型表信息",
-            description = "根据ID获取后台字典类型表详细信息",
-            request = HttpRequestByIdVo.class,
-            response = SysDictShowResponseVo.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDict_detail)
-    public SysDictShowResponseVo info(@Valid HttpRequestByIdVo idRequestVo) {
-
-        log.info("查询后台字典类型表详情, ID: {}", idRequestVo.getId());
-
-        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
-            log.warn("查询后台字典类型表详情参数错误, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
-        }
-
-        SysDictResponseDto sysDictResponseDto =
-                sysDictService.getSysDictById(idRequestVo.getId());
-
-        if (sysDictResponseDto == null) {
-            log.warn("后台字典类型表不存在, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("数据不存在");
-        }
-
-        SysDictShowResponseVo vo = SysDictShowResponseVo.build()
-                .clone(sysDictResponseDto);
-        log.info("查询后台字典类型表详情成功, ID: {}", idRequestVo.getId());
-        return vo;
-    }
-
-    /**
-     * 跳转后台字典类型表编辑页面（加载详情数据）
-     */
-    @ApiDoc(
-            value = "跳转后台字典类型表编辑页面",
-            description = "获取后台字典类型表编辑页面数据",
-            request = HttpRequestByIdVo.class,
-            response = SysDictShowResponseVo.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDict_edit)
-    public SysDictShowResponseVo edit(@Valid HttpRequestByIdVo idRequestVo) {
-
-        log.info("跳转后台字典类型表编辑页面, ID: {}", idRequestVo.getId());
-
-        if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
-            log.warn("跳转编辑页面参数错误, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("ID参数错误");
-        }
-
-        SysDictResponseDto sysDictResponseDto =
-                sysDictService.getSysDictById(idRequestVo.getId());
-
-        if (sysDictResponseDto == null) {
-            log.warn("后台字典类型表不存在, ID: {}", idRequestVo.getId());
-            throw new RuntimeException("数据不存在");
-        }
-
-        SysDictShowResponseVo vo = SysDictShowResponseVo.build()
-                .clone(sysDictResponseDto);
-        log.info("跳转后台字典类型表编辑页面成功, ID: {}", idRequestVo.getId());
-        return vo;
-    }
-
-    /**
-     * 跳转后台字典类型表新增编辑界面
-     */
-    @GetMapping(value = UrlCommand.sys_sysDict_newInfo)
-    public String newInfo(ModelMap modelMap) {
-        log.info("跳转后台字典类型表新增编辑页面");
-        return "sys/sysDict_edit";
-    }
-
-    /**
      * 删除后台字典类型表信息
+     * 根据ID列表批量删除后台字典类型表记录
+     * @param idRequestVo ID列表请求参数
+     * @return Integer 删除的记录数量
+     * @author suven
+     * @date 2025-08-18
      */
     @ApiDoc(
             value = "删除后台字典类型表信息",
-            description = "根据ID列表删除后台字典类型表记录",
+            description = "根据ID列表批量删除后台字典类型表记录",
             request = HttpRequestByIdListVo.class,
-            response = Integer.class
+            response = Integer.class,
+            method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDict_del)
     public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
@@ -285,7 +206,7 @@ public class SysDictWebController {
 
         if (idRequestVo.getIdList() == null || idRequestVo.getIdList().isEmpty()) {
             log.warn("删除后台字典类型表参数错误, ID列表为空");
-            throw new RuntimeException("ID列表参数错误");
+            throw ExceptionFactory.sysException(CodeEnum.SYS_WEB_ID_INFO_NO_EXIST);
         }
 
         int result = sysDictService.delSysDictByIds(idRequestVo.getIdList());
@@ -293,66 +214,4 @@ public class SysDictWebController {
         return result;
     }
 
-    /**
-     * 导出后台字典类型表信息
-     */
-    @ApiDoc(
-            value = "导出后台字典类型表信息",
-            description = "导出后台字典类型表数据到Excel文件",
-            request = SysDictQueryRequestVo.class,
-            response = boolean.class
-    )
-    @GetMapping(value = UrlCommand.sys_sysDict_export)
-    public void export(HttpServletResponse response,
-                       @Valid SysDictQueryRequestVo sysDictQueryRequestVo) {
-
-        log.info("导出后台字典类型表, 参数: {}", sysDictQueryRequestVo);
-
-        SysDictRequestDto sysDictRequestDto = SysDictRequestDto.build()
-                .clone(sysDictQueryRequestVo);
-
-        Pager<SysDictRequestDto> pager = Pager.of();
-        pager.toPageSize(sysDictQueryRequestVo.getPageSize())
-                .toPageNo(sysDictQueryRequestVo.getPageNo())
-                .toParamObject(sysDictRequestDto);
-
-        SysDictQueryEnum queryEnum = SysDictQueryEnum.DESC_ID;
-        PageResult<SysDictResponseDto> resultList =
-                sysDictService.getSysDictByNextPage(pager, queryEnum);
-        List<SysDictResponseDto> data = resultList.getList();
-
-        try {
-            OutputStream outputStream = response.getOutputStream();
-            ExcelUtils.writeExcel(outputStream, SysDictResponseVo.class,
-                    data, "导出后台字典类型表信息");
-            log.info("导出后台字典类型表完成, 数据量: {}", data.size());
-        } catch (Exception e) {
-            log.error("导出后台字典类型表失败", e);
-        }
-    }
-
-    /**
-     * 通过 Excel 导入后台字典类型表数据
-     */
-    @ApiDoc(
-            value = "导入后台字典类型表数据",
-            description = "通过Excel文件导入后台字典类型表数据",
-            request = MultipartFile.class,
-            response = boolean.class
-    )
-    @PostMapping(value = UrlCommand.sys_sysDict_import)
-    public boolean importExcel(@RequestParam("file") MultipartFile file) {
-
-        log.info("导入后台字典类型表, 文件名: {}", file.getOriginalFilename());
-
-        try {
-            InputStream initialStream = file.getInputStream();
-            boolean result = sysDictService.saveData(initialStream);
-            log.info("导入后台字典类型表完成, 结果: {}", result);
-            return result;
-        } catch (Exception e) {
-            log.error("导入后台字典类型表失败", e);
-            throw new RuntimeException("导入失败");
-        }
-    }
 }
