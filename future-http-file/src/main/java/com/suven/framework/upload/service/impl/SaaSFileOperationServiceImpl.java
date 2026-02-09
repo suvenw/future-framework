@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -81,8 +81,8 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             record.setStatus("PENDING");
             record.setProgressPercent(0);
             record.setCallbackStatus("PENDING");
-            record.setCreateDate(new Date());
-            record.setModifyDate(new Date());
+            record.setCreateDate(LocalDateTime.now());
+            record.setModifyDate(LocalDateTime.now());
             
             SaaSFileOperationRecord savedRecord = operationRecordRepository.saveId(record);
             
@@ -181,7 +181,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         if (ObjectTrue.isNotEmpty(message)) {
             record.setMessage(message);
         }
-        record.setModifyDate(new Date());
+        record.setModifyDate(LocalDateTime.now());
         
         return operationRecordRepository.updateById(record);
     }
@@ -219,8 +219,8 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             record.setCallbackMethod(requestDto.getCallbackMethod() != null ? requestDto.getCallbackMethod() : "POST");
             record.setCallbackStatus("PENDING");
             record.setBusinessProcessStatus("PENDING");
-            record.setCreateDate(new Date());
-            record.setModifyDate(new Date());
+            record.setCreateDate(LocalDateTime.now());
+            record.setModifyDate(LocalDateTime.now());
             
             SaaSFileInterpretRecord savedRecord = interpretRecordRepository.saveId(record);
             
@@ -282,7 +282,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         if (ObjectTrue.isNotEmpty(requestDto.getBusinessExceptionInfo())) {
             record.setBusinessExceptionInfo(requestDto.getBusinessExceptionInfo());
         }
-        record.setModifyDate(new Date());
+        record.setModifyDate(LocalDateTime.now());
         
         return interpretRecordRepository.updateById(record);
     }
@@ -315,8 +315,8 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             if (ObjectTrue.isNotEmpty(callbackRequest.getBusinessExceptionInfo())) {
                 record.setBusinessExceptionInfo(callbackRequest.getBusinessExceptionInfo());
             }
-            record.setBusinessProcessTime(new Date());
-            record.setModifyDate(new Date());
+            record.setBusinessProcessTime(LocalDateTime.now());
+            record.setModifyDate(LocalDateTime.now());
             
             boolean result = interpretRecordRepository.updateById(record);
             
@@ -370,7 +370,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         }
         
         record.setDeleted(1);
-        record.setModifyDate(new Date());
+        record.setModifyDate(LocalDateTime.now());
         
         return operationRecordRepository.updateById(record);
     }
@@ -386,7 +386,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         }
         
         record.setDeleted(1);
-        record.setModifyDate(new Date());
+        record.setModifyDate(LocalDateTime.now());
         
         return interpretRecordRepository.updateById(record);
     }
@@ -410,8 +410,8 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             fieldMapping.setTransformRule(dto.getTransformRule());
             fieldMapping.setRemark(dto.getRemark());
             fieldMapping.setStatus("ACTIVE");
-            fieldMapping.setCreateDate(new Date());
-            fieldMapping.setModifyDate(new Date());
+            fieldMapping.setCreateDate(LocalDateTime.now());
+            fieldMapping.setModifyDate(LocalDateTime.now());
             
             fieldMappingMapper.insert(fieldMapping);
         }
@@ -440,70 +440,17 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             if (successCount + failCount >= records.size()) {
                 operationRecord.setStatus("COMPLETED");
             }
-            operationRecord.setModifyDate(new Date());
+            operationRecord.setModifyDate(LocalDateTime.now());
             operationRecordRepository.updateById(operationRecord);
         }
     }
 
     private SaaSFileOperationResponseDto buildOperationResponseDto(SaaSFileOperationRecord record) {
-        SaaSFileOperationResponseDto dto = new SaaSFileOperationResponseDto();
-        dto.setId(record.getId());
-        dto.setAppId(record.getAppId());
-        dto.setClientId(String.valueOf(record.getClientId()));
-        dto.setUseBusinessId(record.getUseBusinessId());
-        dto.setCompanyId(record.getCompanyId());
-        dto.setCompanyName(record.getCompanyName());
-        dto.setUploadUserId(record.getUploadUserId());
-        dto.setUploadUserName(record.getUploadUserName());
-        dto.setFileProductName(record.getFileProductName());
-        dto.setFileBusinessName(record.getFileBusinessName());
-        dto.setFunctionType(record.getFunctionType());
-        dto.setPlatformType(record.getPlatformType());
-        dto.setFileUploadStorageId(record.getFileUploadStorageId());
-        dto.setFileSourceName(record.getFileSourceName());
-        dto.setFileType(record.getFileType());
-        dto.setFileSize(record.getFileSize());
-        dto.setStatus(record.getStatus());
-        dto.setProgressPercent(record.getProgressPercent());
-        dto.setTotalCount(record.getTotalCount());
-        dto.setSuccessCount(record.getSuccessCount());
-        dto.setFailCount(record.getFailCount());
-        dto.setMessage(record.getMessage());
-        dto.setErrorMessage(record.getErrorMessage());
-        dto.setCallbackStatus(record.getCallbackStatus());
-        dto.setCallbackFailCount(record.getCallbackFailCount());
-        dto.setLastCallbackTime(record.getLastCallbackTime());
-        dto.setCreateDate(record.getCreateDate());
-        dto.setModifyDate(record.getModifyDate());
-        return dto;
+        return SaaSFileOperationResponseDto.build().clone(record);
     }
 
     private SaaSFileInterpretResponseDto buildInterpretResponseDto(SaaSFileInterpretRecord record) {
-        SaaSFileInterpretResponseDto dto = new SaaSFileInterpretResponseDto();
-        dto.setId(record.getId());
-        dto.setOperationRecordId(record.getOperationRecordId());
-        dto.setInterpretKey(record.getInterpretKey());
-        dto.setBusinessUniqueCode(record.getBusinessUniqueCode());
-        dto.setBusinessType(record.getBusinessType());
-        dto.setBusinessDescription(record.getBusinessDescription());
-        dto.setInterpretInfo(record.getInterpretInfo());
-        dto.setInterpretStatus(record.getInterpretStatus());
-        dto.setInterpretProgress(record.getInterpretProgress());
-        dto.setErrorMessage(record.getErrorMessage());
-        dto.setTotalCount(record.getTotalCount());
-        dto.setSuccessCount(record.getSuccessCount());
-        dto.setFailCount(record.getFailCount());
-        dto.setSkipCount(record.getSkipCount());
-        dto.setCallbackStatus(record.getCallbackStatus());
-        dto.setCallbackFailCount(record.getCallbackFailCount());
-        dto.setLastCallbackTime(record.getLastCallbackTime());
-        dto.setBusinessProcessStatus(record.getBusinessProcessStatus());
-        dto.setBusinessProcessResult(record.getBusinessProcessResult());
-        dto.setBusinessExceptionInfo(record.getBusinessExceptionInfo());
-        dto.setBusinessProcessTime(record.getBusinessProcessTime());
-        dto.setCreateDate(record.getCreateDate());
-        dto.setModifyDate(record.getModifyDate());
-        return dto;
+        return SaaSFileInterpretResponseDto.build().clone(record);
     }
 
     private List<SaaSFileFieldResponseDto> buildFieldResponseList(List<SaaSFileFieldMapping> fieldMappings) {
@@ -516,25 +463,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     private SaaSFileFieldResponseDto buildFieldResponseDto(SaaSFileFieldMapping fieldMapping) {
-        SaaSFileFieldResponseDto dto = new SaaSFileFieldResponseDto();
-        dto.setId(fieldMapping.getId());
-        dto.setOperationRecordId(fieldMapping.getOperationRecordId());
-        dto.setInterpretRecordId(fieldMapping.getInterpretRecordId());
-        dto.setFieldEnglishName(fieldMapping.getFieldEnglishName());
-        dto.setFieldChineseName(fieldMapping.getFieldChineseName());
-        dto.setSortOrder(fieldMapping.getSortOrder());
-        dto.setFieldType(fieldMapping.getFieldType());
-        dto.setIsPrimaryKey(fieldMapping.getIsPrimaryKey());
-        dto.setIsRequired(fieldMapping.getIsRequired());
-        dto.setDefaultValue(fieldMapping.getDefaultValue());
-        dto.setFieldDescription(fieldMapping.getFieldDescription());
-        dto.setTotalCount(fieldMapping.getTotalCount());
-        dto.setNotNullCount(fieldMapping.getNotNullCount());
-        dto.setNullCount(fieldMapping.getNullCount());
-        dto.setDuplicateCount(fieldMapping.getDuplicateCount());
-        dto.setSampleValue(fieldMapping.getSampleValue());
-        dto.setStatus(fieldMapping.getStatus());
-        return dto;
+        return SaaSFileFieldResponseDto.build().clone(fieldMapping);
     }
 
     private List<SaaSFileInterpretResponseDto> buildInterpretResponseList(List<SaaSFileInterpretRecord> records) {

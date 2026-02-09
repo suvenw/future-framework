@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * SaaS文件业务回调响应VO
@@ -74,15 +74,15 @@ public class SaaSFileCallbackResponseVo extends BaseIdEntity implements Serializ
 
     /** 最后回调时间 */
     @ApiDesc(value = "最后回调时间", required = 0)
-    private Date lastCallbackTime;
-
+    private LocalDateTime lastCallbackTime;
+    
     /** 创建时间 */
     @ApiDesc(value = "创建时间", required = 1)
-    private Date createDate;
-
+    private LocalDateTime createDate;
+    
     /** 修改时间 */
     @ApiDesc(value = "修改时间", required = 0)
-    private Date modifyDate;
+    private LocalDateTime modifyDate;
 
     public static SaaSFileCallbackResponseVo build() {
         return new SaaSFileCallbackResponseVo();

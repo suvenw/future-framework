@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -99,11 +99,11 @@ public class SaaSFileOperationRequestDto extends BaseTenantEntity implements Ser
 
     /** 创建时间-开始 */
     @ApiDesc(value = "创建时间-开始", required = 0)
-    private Date createDateStart;
-
+    private LocalDateTime createDateStart;
+    
     /** 创建时间-结束 */
     @ApiDesc(value = "创建时间-结束", required = 0)
-    private Date createDateEnd;
+    private LocalDateTime createDateEnd;
 
     /** 字段映射列表 */
     @ApiDesc(value = "字段映射列表", required = 0)
