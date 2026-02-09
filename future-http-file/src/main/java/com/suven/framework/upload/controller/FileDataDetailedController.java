@@ -97,7 +97,7 @@ public class FileDataDetailedController {
             response = FileDataDetailedResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_DATA_DETAILED_INFO)
-    public FileDataDetailedResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileDataDetailedResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件数据明细详情, ID: {}", idVo.getId());
 

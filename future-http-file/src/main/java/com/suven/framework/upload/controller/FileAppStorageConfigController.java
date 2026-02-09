@@ -105,7 +105,7 @@ public class FileAppStorageConfigController {
             response = FileAppStorageConfigResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_INFO)
-    public FileAppStorageConfigResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileAppStorageConfigResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件应用存储配置详情, ID: {}", idVo.getId());
 

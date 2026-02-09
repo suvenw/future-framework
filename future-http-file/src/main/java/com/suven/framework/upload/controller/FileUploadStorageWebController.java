@@ -212,7 +212,7 @@ public class FileUploadStorageWebController {
             response = Long.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_CREATE)
-    public Long create( @ValidatedFileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
+    public Long create( @Validated FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
 
         log.info("新增文件上传存储配置, 参数: {}", fileUploadStorageAddRequestVo);
 
@@ -246,7 +246,7 @@ public class FileUploadStorageWebController {
             response = boolean.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_UPDATE)
-    public boolean update( @ValidatedFileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
+    public boolean update( @Validated FileUploadStorageAddRequestVo fileUploadStorageAddRequestVo) {
 
         log.info("修改文件上传存储配置, 参数: {}", fileUploadStorageAddRequestVo);
 

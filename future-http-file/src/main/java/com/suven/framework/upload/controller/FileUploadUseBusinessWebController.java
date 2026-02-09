@@ -167,7 +167,7 @@ public class FileUploadUseBusinessWebController {
             response = Long.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_CREATE)
-    public Long create( @ValidatedFileUploadUseBusinessAddRequestVo addVo) {
+    public Long create( @Validated FileUploadUseBusinessAddRequestVo addVo) {
 
         log.info("新增文件上传业务配置, 参数: {}", addVo);
 
@@ -196,7 +196,7 @@ public class FileUploadUseBusinessWebController {
             response = boolean.class
     )
     @PostMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_UPDATE)
-    public boolean update( @ValidatedFileUploadUseBusinessAddRequestVo addVo) {
+    public boolean update( @Validated FileUploadUseBusinessAddRequestVo addVo) {
 
         log.info("修改文件上传业务配置, 参数: {}", addVo);
 

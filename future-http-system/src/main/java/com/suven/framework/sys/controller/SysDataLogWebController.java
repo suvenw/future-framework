@@ -93,7 +93,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDataLog_detail)
-    public SysDataLogShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public SysDataLogShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
 
         log.info("查询系统数据日志详情, ID: {}", idRequestVo.getId());
 
@@ -198,7 +198,7 @@ public class SysDataLogWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDataLog_del)
-    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
+    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除系统数据日志, ID列表: {}", idRequestVo.getIdList());
 

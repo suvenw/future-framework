@@ -97,7 +97,7 @@ public class FileUploadUseBusinessController {
             response = FileUploadUseBusinessResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_INFO)
-    public FileUploadUseBusinessResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadUseBusinessResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传业务配置详情, ID: {}", idVo.getId());
 

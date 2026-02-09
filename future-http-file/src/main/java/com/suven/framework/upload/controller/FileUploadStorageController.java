@@ -59,7 +59,7 @@ public class FileUploadStorageController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_PAGE_LIST)
     public PageResult<FileUploadStorageResponseVo> pageList(
-            @Valid FileUploadStorageRequestVo requestVo) {
+            @Validated FileUploadStorageRequestVo requestVo) {
 
         log.info("APP 分页查询文件上传存储配置, 参数: {}", requestVo);
 
@@ -97,7 +97,7 @@ public class FileUploadStorageController {
             response = FileUploadStorageResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_INFO)
-    public FileUploadStorageResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadStorageResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传存储配置详情, ID: {}", idVo.getId());
 

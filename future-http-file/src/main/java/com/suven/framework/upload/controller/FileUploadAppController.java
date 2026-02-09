@@ -97,7 +97,7 @@ public class FileUploadAppController {
             response = FileUploadAppResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_APP_INFO)
-    public FileUploadAppResponseVo info(@Valid HttpRequestByIdVo idVo) {
+    public FileUploadAppResponseVo info( @Validated HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传应用配置详情, ID: {}", idVo.getId());
 
