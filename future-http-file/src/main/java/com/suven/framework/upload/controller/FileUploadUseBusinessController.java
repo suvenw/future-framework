@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileUploadUseBusinessFacade;
 import com.suven.framework.upload.service.FileUploadUseBusinessService;
 import com.suven.framework.upload.vo.request.FileUploadUseBusinessRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadUseBusinessResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,7 +97,7 @@ public class FileUploadUseBusinessController {
             response = FileUploadUseBusinessResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_USE_BUSINESS_INFO)
-    public FileUploadUseBusinessResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadUseBusinessResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传业务配置详情, ID: {}", idVo.getId());
 

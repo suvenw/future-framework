@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileAppStorageConfigFacade;
 import com.suven.framework.upload.service.FileAppStorageConfigService;
 import com.suven.framework.upload.vo.request.FileAppStorageConfigRequestVo;
 import com.suven.framework.upload.vo.response.FileAppStorageConfigResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -105,7 +105,7 @@ public class FileAppStorageConfigController {
             response = FileAppStorageConfigResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_APP_STORAGE_CONFIG_INFO)
-    public FileAppStorageConfigResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileAppStorageConfigResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件应用存储配置详情, ID: {}", idVo.getId());
 

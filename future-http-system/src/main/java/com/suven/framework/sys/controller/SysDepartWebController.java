@@ -7,7 +7,9 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
- 
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.sys.dto.enums.SysDepartQueryEnum;
 import com.suven.framework.sys.dto.request.SysDepartRequestDto;
 import com.suven.framework.sys.dto.response.SysDepartResponseDto;
@@ -17,7 +19,7 @@ import com.suven.framework.sys.vo.request.SysDepartAddRequestVo;
 import com.suven.framework.sys.vo.request.SysDepartQueryRequestVo;
 import com.suven.framework.sys.vo.response.SysDepartShowResponseVo;
 import com.suven.framework.sys.vo.response.SysDepartTreeModelResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -118,7 +120,7 @@ public class SysDepartWebController {
             method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepart_detail)
-    public SysDepartShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
+    public SysDepartShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
         log.info("查询组织机构表详情, ID: {}", idRequestVo.getId());
 
@@ -223,7 +225,7 @@ public class SysDepartWebController {
             method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysDepart_del)
-    public int delete( @Validated HttpRequestByIdListVo idRequestVo) {
+    public int delete(@Valid HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除组织机构表, ID列表: {}", idRequestVo.getIdList());
 

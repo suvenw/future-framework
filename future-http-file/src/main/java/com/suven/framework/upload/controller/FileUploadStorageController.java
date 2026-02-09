@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileUploadStorageFacade;
 import com.suven.framework.upload.service.FileUploadStorageService;
 import com.suven.framework.upload.vo.request.FileUploadStorageRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadStorageResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,7 +59,7 @@ public class FileUploadStorageController {
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_PAGE_LIST)
     public PageResult<FileUploadStorageResponseVo> pageList(
-            @Validated FileUploadStorageRequestVo requestVo) {
+            @Valid FileUploadStorageRequestVo requestVo) {
 
         log.info("APP 分页查询文件上传存储配置, 参数: {}", requestVo);
 
@@ -97,7 +97,7 @@ public class FileUploadStorageController {
             response = FileUploadStorageResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_STORAGE_INFO)
-    public FileUploadStorageResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadStorageResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传存储配置详情, ID: {}", idVo.getId());
 

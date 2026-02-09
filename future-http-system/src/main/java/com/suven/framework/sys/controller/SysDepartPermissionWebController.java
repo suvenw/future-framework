@@ -29,7 +29,9 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.common.enums.SysResultCodeEnum;
- 
+import com.suven.framework.http.enums.RequestMethodEnum;
+import com.suven.framework.common.api.ExceptionFactory;
+import com.suven.framework.common.enums.CodeEnum;
 
 
 import com.suven.framework.sys.service.SysDepartPermissionService;
@@ -228,7 +230,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.sys_sysDepartPermission_detail)
-    public SysDepartPermissionShowResponseVo detail( @Validated HttpRequestByIdVo idRequestVo) {
+    public SysDepartPermissionShowResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
 
         log.info("查询部门权限表详情, ID: {}", idRequestVo.getId());
 
@@ -276,7 +278,7 @@ public class SysDepartPermissionWebController {
         method = RequestMethodEnum.POST
     )
     @DeleteMapping(value = UrlCommand.sys_sysDepartPermission_del)
-    public Integer delete( @Validated HttpRequestByIdListVo idRequestVo) {
+    public Integer delete(@Valid HttpRequestByIdListVo idRequestVo) {
 
         log.info("删除部门权限表信息, IDs: {}", idRequestVo.getIdList());
 

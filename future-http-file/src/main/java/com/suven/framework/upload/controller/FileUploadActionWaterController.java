@@ -13,7 +13,7 @@ import com.suven.framework.upload.facade.FileUploadActionWaterFacade;
 import com.suven.framework.upload.service.FileUploadActionWaterService;
 import com.suven.framework.upload.vo.request.FileUploadActionWaterRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadActionWaterResponseVo;
- 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -97,7 +97,7 @@ public class FileUploadActionWaterController {
             response = FileUploadActionWaterResponseVo.class
     )
     @GetMapping(value = UrlCommand.UPLOAD_FILE_UPLOAD_ACTION_WATER_INFO)
-    public FileUploadActionWaterResponseVo info( @Validated HttpRequestByIdVo idVo) {
+    public FileUploadActionWaterResponseVo info(@Valid HttpRequestByIdVo idVo) {
 
         log.info("APP 查询文件上传行为流水详情, ID: {}", idVo.getId());
 
