@@ -9,6 +9,7 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 
+import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.sys.dto.request.SysUserDepartRequestDto;
 import com.suven.framework.sys.dto.request.SysUserRequestDto;
@@ -121,7 +122,7 @@ public class SysUserWebController {
         response = SysUserShowResponseVo.class,
         method = RequestMethodEnum.GET
     )
-    @GetMapping(value = UrlCommand.sys_sysUser_pageList)
+    @GetMapping(value = UrlCommand.sys_sysUser_list)
     public PageResult<SysUserShowResponseVo> pageList(
             @Validated  SysUserQueryRequestVo sysUserQueryRequestVo) {
 
@@ -161,7 +162,7 @@ public class SysUserWebController {
         response = SysUserShowResponseVo.class,
         method = RequestMethodEnum.GET
     )
-    @GetMapping(value = UrlCommand.sys_sysUser_info)
+    @GetMapping(value = UrlCommand.sys_sysUser_detail)
     public SysUserShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
 
         log.info("查询用户表详情, ID: {}", idRequestVo.getId());
@@ -300,7 +301,7 @@ public class SysUserWebController {
 
         if (result == null) {
             log.warn("用户登录失败, 用户名: {}", sysUserLoginRequestVo.getUsername());
-            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_USER_LOGIN_FAIL);
+            throw ExceptionFactory.sysException(SysResultCodeEnum.SYS_USER_FAIL);
         }
 
         log.info("用户登录成功, 用户名: {}", sysUserLoginRequestVo.getUsername());
@@ -342,7 +343,7 @@ public class SysUserWebController {
         description = "用户退出登录",
         method = RequestMethodEnum.POST
     )
-    @PostMapping(value = UrlCommand.sys_sysUser_logout)
+    @PostMapping(value = UrlCommand.sys_logout)
     public Object logout(HttpServletRequest request) {
 
         log.info("用户退出登录");
@@ -434,7 +435,7 @@ public class SysUserWebController {
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
-    @PostMapping(value = UrlCommand.sys_sysUser_addSysUserRole)
+    @PostMapping(value = UrlCommand.sys_user_addSysUserRole)
     public Boolean addSysUserRole( @Validated  SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
 
         log.info("批量绑定用户角色, 角色ID: {}", userRoleIdsRequestVo.getRoleId());
@@ -458,7 +459,7 @@ public class SysUserWebController {
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
-    @PostMapping(value = UrlCommand.sys_sysUser_deleteUserRole)
+    @PostMapping(value = UrlCommand.sys_user_deleteUserRoleBatch)
     public Boolean deleteUserRole( @Validated  SysUserRoleIdsRequestVo userRoleIdsRequestVo) {
 
         log.info("删除角色用户, 角色ID: {}", userRoleIdsRequestVo.getRoleId());
@@ -482,7 +483,7 @@ public class SysUserWebController {
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
-    @PostMapping(value = UrlCommand.sys_sysUser_delDepart)
+    @PostMapping(value = UrlCommand.sys_user_del_depart)
     public Boolean deleteUserInDepart( @Validated  SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
 
         log.info("删除用户部门, 用户ID列表: {}", userDepartIdsRequestVo.getUserIdList());
@@ -506,7 +507,7 @@ public class SysUserWebController {
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
-    @PostMapping(value = UrlCommand.sys_sysUser_editSysDepart)
+    @PostMapping(value = UrlCommand.sys_user_editSysDepart)
     public Boolean editSysDepartWithUser( @Validated  SysUserDepartIdsRequestVo userDepartIdsRequestVo) {
 
         log.info("添加部门人员, 部门ID: {}", userDepartIdsRequestVo.getDepId());

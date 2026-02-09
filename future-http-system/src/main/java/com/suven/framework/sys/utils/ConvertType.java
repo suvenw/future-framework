@@ -372,21 +372,22 @@ public class ConvertType {
 		return new HashMap<Object, Object>();
 	}
 
-	/**
-	 * SET转换MAP
-	 * 
-	 * @param
-	 * @return
-	 */
-	public static Map<Object, Object> SetToMap(Set<Object> setobj) {
-		Map<Object, Object> map = getHashMap();
-		for (Iterator iterator = setobj.iterator(); iterator.hasNext();) {
-			Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) iterator.next();
-			map.put(entry.getKey().toString(), entry.getValue() == null ? "" : entry.getValue().toString().trim());
-		}
-		return map;
-
-	}
+//	/**
+//	 * SET转换MAP
+//	 *
+//	 * @param
+//	 * @return
+//	 */
+//	@SuppressWarnings("Map")
+//	public static Map<Object, Object> SetToMap(Set<Object> setobj) {
+//		Map<Object, Object> map = getHashMap();
+//		for (Iterator iterator = setobj.iterator(); iterator.hasNext();) {
+//			Map.Entry<Object, Object> entry = (Map.Entry<Object, Object>) iterator.next();
+//			map.put(entry.getKey().toString(), entry.getValue() == null ? "" : entry.getValue().toString().trim());
+//		}
+//		return map;
+//
+//	}
 
 	public static boolean isInnerIP(String ipAddress) {
 		boolean isInnerIp = false;
