@@ -48,6 +48,39 @@ public interface UrlCommand {
 
 ### 1. **分页查询接口规范**
 ```java
+import com.suven.framework.common.enums.CodeEnum;
+import com.suven.framework.common.enums.SysResultCodeEnum;
+import com.suven.framework.common.enums.SystemMsgCodeEnum;
+import com.suven.framework.core.ObjectTrue;
+import com.suven.framework.file.util.FileMsgEnum;
+import com.suven.framework.http.api.ApiDoc;
+import com.suven.framework.http.api.DocumentConst;
+import com.suven.framework.http.api.RequestMethodEnum;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
+import com.suven.framework.http.data.vo.HttpRequestByIdVo;
+import com.suven.framework.http.exception.SystemRuntimeException;
+import com.suven.framework.http.exception.ExceptionFactory;
+import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
+import com.suven.framework.upload.dto.response.SaaSFileResponseDto;
+import com.suven.framework.upload.facade.SaaSFileFacade;
+import com.suven.framework.upload.vo.request.SaaSFileDownloadRequestVo;
+import com.suven.framework.upload.vo.request.SaaSFileGenerateRequestVo;
+import com.suven.framework.upload.vo.request.SaaSFileQueryRequestVo;
+import com.suven.framework.upload.vo.request.SaaSFileUploadRequestVo;
+import com.suven.framework.upload.vo.response.SaaSFileDownloadResponseVo;
+import com.suven.framework.upload.vo.response.SaaSFileGenerateResponseVo;
+import com.suven.framework.upload.vo.response.SaaSFileShowResponseVo;
+import com.suven.framework.upload.vo.response.SaaSFileUploadResponseVo;
+import jakarta.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 /**
  * @Title: 分页获取用户平台化申请验证表信息
  * @Description: 根据查询条件分页获取用户平台化申请验证表列表
@@ -75,7 +108,7 @@ public interface UrlCommand {
 )
 @RequestMapping(value = UrlCommand.ACTIVITY_AUTH_CLIENT_DETAILS_PAGE_LIST, method = RequestMethodEnum.GET)
 public PageResult<AuthClientDetailsResponseVo> pageList(
-        @Valid AuthClientDetailsRequestVo authClientDetailsRequestVo) {
+        @Validated AuthClientDetailsRequestVo authClientDetailsRequestVo) {
     
     log.info("分页查询用户平台化申请验证表, 参数: {}", authClientDetailsRequestVo);
     
@@ -120,7 +153,7 @@ public PageResult<AuthClientDetailsResponseVo> pageList(
     method = RequestMethodEnum.GET
 )
 @RequestMapping(value = UrlCommand.ACTIVITY_AUTH_CLIENT_DETAILS_INFO, method = RequestMethodEnum.GET)
-public AuthClientDetailsResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+public AuthClientDetailsResponseVo detail(@Validated HttpRequestByIdVo idRequestVo) {
     
     log.info("查询用户平台化申请验证表详情, ID: {}", idRequestVo.getId());
     
@@ -153,7 +186,7 @@ public AuthClientDetailsResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) 
  * 1. 类名必须以 Controller 结尾
  * 2. 必须使用 @RestController 注解
  * 3. 必须使用 @Slf4j 记录日志
- * 4. 必须使用 @Validated 开启参数校验
+ * 4. 必须使用 @Validatedated 开启参数校验
  * 5. 依赖注入必须使用 @Autowired
  */
 @ApiDoc(
@@ -187,7 +220,7 @@ public class AuthClientDetailsController {
 
     /**
      * 分页查询接口
-     * 规范：GET请求，@Valid参数校验，统一分页响应
+     * 规范：GET请求，@Validated参数校验，统一分页响应
      */
     @ApiDoc(
         value = "分页获取用户平台化申请验证表信息",
@@ -197,7 +230,7 @@ public class AuthClientDetailsController {
     )
     @GetMapping(value = UrlCommand.ACTIVITY_AUTH_CLIENT_DETAILS_PAGE_LIST)
     public PageResult<AuthClientDetailsResponseVo> pageList(
-            @Valid AuthClientDetailsRequestVo authClientDetailsRequestVo) {
+            @Validated AuthClientDetailsRequestVo authClientDetailsRequestVo) {
         
         log.info("分页查询用户平台化申请验证表, 参数: {}", authClientDetailsRequestVo);
         
@@ -226,7 +259,7 @@ public class AuthClientDetailsController {
         response = AuthClientDetailsResponseVo.class
     )
     @GetMapping(value = UrlCommand.ACTIVITY_AUTH_CLIENT_DETAILS_INFO)
-    public AuthClientDetailsResponseVo detail(@Valid HttpRequestByIdVo idRequestVo) {
+    public AuthClientDetailsResponseVo detail(@Validated HttpRequestByIdVo idRequestVo) {
         
         log.info("查询用户平台化申请验证表详情, ID: {}", idRequestVo.getId());
         
@@ -259,7 +292,7 @@ rules:
       - "必须使用@Slf4j记录日志" 
       - "URL必须在UrlCommand接口中定义"
       - "接口必须使用@ApiDoc注解"
-      - "必须使用@Validated参数校验"
+      - "必须使用 @Validated 参数校验"
       - "分页查询必须使用PageResult包装"
       - "单一查询必须使用Result包装"
       - "必须记录操作日志"

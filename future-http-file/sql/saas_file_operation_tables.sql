@@ -158,6 +158,50 @@ CREATE TABLE saas_file_interpret_record (
     KEY idx_create_date (create_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='SaaS文件解释记录表';
 
+=============================================================================
+-- SaaS公司业务功能信息表 (saas_company_business_function)
+-- 功能: 记录每个租户/公司下的业务上传功能配置（平台、业务、功能类型、业务唯一码、回调/查询地址等）
+-- =============================================================================
+DROP TABLE IF EXISTS saas_company_business_function;
+CREATE TABLE saas_company_business_function (
+        id BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+        tenant_id BIGINT DEFAULT 0 COMMENT '租户ID',
+
+        company_id VARCHAR(64) NOT NULL COMMENT '公司ID',
+        company_name VARCHAR(128) COMMENT '公司名称',
+
+        platform_type VARCHAR(32) NOT NULL COMMENT '平台类型: WEB-网页, APP-APP, MINI-小程序, API-接口',
+        business_code VARCHAR(64) NOT NULL COMMENT '业务编码',
+        business_name VARCHAR(128) NOT NULL COMMENT '业务名称',
+        function_type VARCHAR(32) NOT NULL COMMENT '功能类型: IMPORT-导入, EXPORT-导出, UPLOAD-上传, DOWNLOAD-下载',
+
+        business_unique_code VARCHAR(128) NOT NULL COMMENT '申请的业务唯一码',
+        callback_url VARCHAR(512) COMMENT '业务回调地址',
+        query_url VARCHAR(512) COMMENT '业务查询地址',
+        access_method VARCHAR(16) COMMENT '访问方式: GET, POST, PUT, DELETE',
+
+        status VARCHAR(32) DEFAULT 'ACTIVE' COMMENT '状态: ACTIVE-启用, INACTIVE-停用',
+        remark VARCHAR(512) COMMENT '备注',
+
+-- BaseTenantEntity 统一字段风格
+        deleted TINYINT DEFAULT 0 COMMENT '删除标记: 0-未删除, 1-已删除',
+        create_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+        modify_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+
+-- 额外审计字段（与现有 SaaS 表保持一致风格）
+        create_user_id BIGINT DEFAULT 0 COMMENT '创建人ID',
+        create_user_name VARCHAR(64) COMMENT '创建人名称',
+        modify_user_id BIGINT DEFAULT 0 COMMENT '修改人ID',
+        modify_user_name VARCHAR(64) COMMENT '修改人名称',
+
+        PRIMARY KEY (id),
+        UNIQUE KEY uk_tenant_biz_unique (tenant_id, business_unique_code),
+        KEY idx_tenant_company (tenant_id, company_id),
+        KEY idx_function_type (function_type),
+        KEY idx_platform_type (platform_type),
+        KEY idx_deleted (deleted)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='SaaS公司业务功能信息表';
+
 -- =============================================================================
 -- 示例数据插入
 -- =============================================================================

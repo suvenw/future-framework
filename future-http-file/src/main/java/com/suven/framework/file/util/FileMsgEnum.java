@@ -17,10 +17,7 @@ public enum FileMsgEnum  implements IResultCodeEnum {
     DELETE_FILE_PATH_IS_NULL(1103006,"文件路径不能为空"),
     UPLOAD_FILE_EXCEPTION_FAIL(1103007,"文件上传未知异常"),
 
-
-//    RESOURCE_BANNER_UPDATE_FAIL(1103006,"更新启动页广告失败"),
-    //RESOURCE_BANNER_DELETE_FAIL(1103007,"删除启动页广告失败"),
-    ;
+;
     private int code;
     private String msg;
     private static Map<String, FileMsgEnum> msgTypeMap = Maps.newHashMap();
