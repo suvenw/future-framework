@@ -19,6 +19,7 @@ import com.suven.framework.upload.facade.SaaSFileFacade;
 import com.suven.framework.upload.service.SaaSFileOperationService;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileOperationQueryVo;
+import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
 import com.suven.framework.upload.vo.response.FileUploadAppShowResponseVo;
 import com.suven.framework.upload.vo.response.FileUploadUseBusinessShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileInterpretResponseVo;
@@ -70,6 +71,7 @@ public class SaaSFileOperationWebController {
         String SAAS_OPERATION_PAGE_LIST = "/saas/operation/pageList";
         String SAAS_OPERATION_INFO = "/saas/operation/info";
         String SAAS_INTERPRET_PAGE_LIST = "/saas/interpret/pageList";
+        String SAAS_INTERPRET_BIZ_PAGE_LIST = "/saas/interpret/biz/pageList";
         String SAAS_INTERPRET_INFO = "/saas/interpret/info";
         String SAAS_INTERPRET_PENDING = "/saas/interpret/pending";
         String SAAS_CALLBACK = "/saas/callback";
@@ -248,6 +250,43 @@ public class SaaSFileOperationWebController {
                 result.convertBuild(SaaSFileInterpretResponseVo.class);
 
         log.info("SaaS待处理解释记录查询完成, 总数: {}", result.getTotal());
+        return voResult;
+    }
+
+    /**
+     * 按业务唯一码分页查询解释记录（业务方按业务维度分页拉取数据）
+     */
+    @ApiDoc(
+        value = "按业务唯一码分页查询解释记录",
+        description = "根据 businessUniqueCode 分页查询解释记录列表",
+        request = SaaSFileInterpretPageRequestVo.class,
+        response = SaaSFileInterpretResponseVo.class,
+        method = RequestMethodEnum.POST
+    )
+    @PostMapping(value = UrlCommand.SAAS_INTERPRET_BIZ_PAGE_LIST)
+    public PageResult<SaaSFileInterpretResponseVo> interpretBizPageList(
+            @Validated @RequestBody SaaSFileInterpretPageRequestVo requestVo) {
+
+        log.info("SaaS按业务唯一码分页查询解释记录, businessUniqueCode: {}, pageNo: {}, pageSize: {}",
+                requestVo.getBusinessUniqueCode(), requestVo.getPageNo(), requestVo.getPageSize());
+
+        if (StringUtils.isBlank(requestVo.getBusinessUniqueCode())) {
+            log.warn("SaaS按业务唯一码分页查询解释记录参数错误, businessUniqueCode 为空");
+            throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
+        }
+
+        PageResult<SaaSFileInterpretResponseDto> result =
+                fileOperationService.pageQueryInterpretByBusiness(requestVo);
+
+        if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
+            log.info("SaaS按业务唯一码分页查询解释记录完成, 无数据");
+            return new PageResult<>();
+        }
+
+        PageResult<SaaSFileInterpretResponseVo> voResult =
+                result.convertBuild(SaaSFileInterpretResponseVo.class);
+
+        log.info("SaaS按业务唯一码分页查询解释记录完成, 总数: {}", result.getTotal());
         return voResult;
     }
 

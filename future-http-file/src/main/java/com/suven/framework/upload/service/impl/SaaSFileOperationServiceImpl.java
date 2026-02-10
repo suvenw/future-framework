@@ -13,13 +13,14 @@ import com.suven.framework.upload.entity.DataSourceModuleName;
 import com.suven.framework.upload.entity.SaaSFileFieldMapping;
 import com.suven.framework.upload.entity.SaaSFileInterpretRecord;
 import com.suven.framework.upload.entity.SaaSFileOperationRecord;
-import com.suven.framework.upload.mapper.SaaSFileFieldMappingMapper;
 import com.suven.framework.upload.mapper.SaaSFileInterpretRecordMapper;
 import com.suven.framework.upload.mapper.SaaSFileOperationRecordMapper;
+import com.suven.framework.upload.repository.SaaSFileFieldMappingRepository;
 import com.suven.framework.upload.repository.SaaSFileInterpretRecordRepository;
 import com.suven.framework.upload.repository.SaaSFileOperationRecordRepository;
 import com.suven.framework.upload.service.SaaSFileOperationService;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
+import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,10 +52,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     private SaaSFileOperationRecordMapper operationRecordMapper;
 
     @Autowired
-    private SaaSFileInterpretRecordMapper interpretRecordMapper;
-
-    @Autowired
-    private SaaSFileFieldMappingMapper fieldMappingMapper;
+    private SaaSFileFieldMappingRepository fieldMappingRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -64,7 +62,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         try {
             SaaSFileOperationRecord record = new SaaSFileOperationRecord();
             record.setAppId(requestDto.getAppId());
-            record.setClientId(Long.parseLong(requestDto.getClientId()));
+            record.setClientId(requestDto.getClientId());
             record.setUseBusinessId(requestDto.getUseBusinessId());
             record.setCompanyId(requestDto.getCompanyId());
             record.setCompanyName(requestDto.getCompanyName());
@@ -112,13 +110,8 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         
         SaaSFileOperationResponseDto responseDto = buildOperationResponseDto(record);
         
-        // 查询字段映射
-        List<SaaSFileFieldMapping> fieldMappings = fieldMappingMapper.selectList(
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<SaaSFileFieldMapping>()
-                .eq(SaaSFileFieldMapping::getOperationRecordId, id)
-                .eq(SaaSFileFieldMapping::getDeleted, 0)
-                .orderByAsc(SaaSFileFieldMapping::getSortOrder)
-        );
+        // 查询字段映射，统一由 Repository 封装查询条件
+        List<SaaSFileFieldMapping> fieldMappings = fieldMappingRepository.getByOperationRecordId(id);
         responseDto.setFieldMappings(buildFieldResponseList(fieldMappings));
         
         // 查询解释记录
@@ -358,6 +351,39 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         return records.stream()
             .map(this::buildInterpretResponseDto)
             .toList();
+    }
+
+    @Override
+    public PageResult<SaaSFileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo) {
+        log.info("按业务唯一码分页查询解释记录, businessUniqueCode: {}, pageNo: {}, pageSize: {}",
+                requestVo.getBusinessUniqueCode(), requestVo.getPageNo(), requestVo.getPageSize());
+
+        String businessUniqueCode = requestVo.getBusinessUniqueCode();
+
+        List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
+        if (records == null) {
+            records = new ArrayList<>();
+        }
+
+        int total = records.size();
+        int pageNo = requestVo.getPageNo() <= 0 ? 1 : requestVo.getPageNo();
+        int pageSize = requestVo.getPageSize() <= 0 ? 20 : requestVo.getPageSize();
+
+        int fromIndex = (pageNo - 1) * pageSize;
+        if (fromIndex >= total) {
+            fromIndex = 0;
+        }
+        int toIndex = Math.min(fromIndex + pageSize, total);
+
+        List<SaaSFileInterpretRecord> pageList = records.subList(fromIndex, toIndex);
+
+        PageResult<SaaSFileInterpretResponseDto> result = new PageResult<>();
+        result.setTotal(total);
+        result.setList(pageList.stream()
+                .map(this::buildInterpretResponseDto)
+                .toList());
+
+        return result;
     }
 
     @Override
