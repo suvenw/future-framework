@@ -7,6 +7,7 @@ import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
 import com.suven.framework.upload.dto.response.SaaSFileInterpretResponseDto;
 import com.suven.framework.upload.dto.response.SaaSFileOperationResponseDto;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
+import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
 
 import java.util.List;
 
@@ -138,4 +139,12 @@ public interface SaaSFileOperationService {
      * @return boolean 是否成功
      */
     boolean deleteInterpretRecord(long id);
+
+    /**
+     * 按业务唯一码分页查询解释记录列表
+     *
+     * @param requestVo 解释结果分页查询请求VO（包含 businessUniqueCode 与分页参数）
+     * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
+     */
+    PageResult<SaaSFileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo);
 }
