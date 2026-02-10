@@ -1,8 +1,10 @@
 package com.suven.framework.upload.controller;
 
+import com.suven.framework.common.enums.CodeEnum;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.common.enums.SystemMsgCodeEnum;
 import com.suven.framework.core.ObjectTrue;
+import com.suven.framework.file.util.FileMsgEnum;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.api.RequestMethodEnum;
@@ -10,7 +12,6 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.enums.RequestMethodEnum;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
@@ -128,7 +129,7 @@ public class SaaSFileWebController {
         
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("SaaS文件详情查询参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
+            throw ExceptionFactory.sysException(FileMsgEnum.PARAM_IS_INVALID);
         }
         
         SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
@@ -165,7 +166,7 @@ public class SaaSFileWebController {
         
         if (file.isEmpty()) {
             log.warn("SaaS文件上传失败, 文件为空");
-            throw ExceptionFactory.sysException(SystemMsgCodeEnum.FILE_IS_EMPTY);
+            throw ExceptionFactory.sysException(CodeEnum.FILE_IS_EMPTY);
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
