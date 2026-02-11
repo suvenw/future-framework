@@ -9,18 +9,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 /**
  * SaaS平台文件字段映射记录表
  * 
- * 功能：记录文件解释的字段英文名、中文名、排编号，关联解释记录和操作记录
+ * 功能：记录文件解释的字段英文名、中文名、排编号，关联业务功能配置
  * 
  * @author suven
  * @version v1.0.0
- * date 创建时间: 2026-02-09
+ * @date 创建时间: 2026-02-11
  */
-@Setter@Getter
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +30,9 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
 
     // ==================== 关联信息 ====================
     
-    /** 操作记录ID，关联saas_file_operation_record表 */
-    @ApiDesc(value = "操作记录ID", required = 1)
-    private long operationRecordId;
-    
-    /** 解释记录ID，关联saas_file_interpret_record表 */
-    @ApiDesc(value = "解释记录ID", required = 0)
-    private long interpretRecordId;
+    /** 业务功能配置ID，关联saas_company_business_function表 */
+    @ApiDesc(value = "业务功能配置ID", required = 0)
+    private long businessFunctionId;
 
     // ==================== 字段信息 ====================
     
@@ -77,6 +72,20 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
     @ApiDesc(value = "字段描述", required = 0)
     private String fieldDescription;
 
+    // ==================== 验证规则 ====================
+    
+    /** 字段格式验证规则 */
+    @ApiDesc(value = "字段格式验证规则", required = 0)
+    private String validateRule;
+    
+    /** 字段转换规则(正则表达式或转换代码) */
+    @ApiDesc(value = "字段转换规则", required = 0)
+    private String transformRule;
+    
+    /** 字段示例值 */
+    @ApiDesc(value = "字段示例值", required = 0)
+    private String sampleValue;
+
     // ==================== 统计信息 ====================
     
     /** 字段对应的数据总条数 */
@@ -95,41 +104,24 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
     @ApiDesc(value = "重复值数量", required = 0)
     private int duplicateCount;
 
-    // ==================== 扩展信息 ====================
-    
-    /** 字段格式验证规则 */
-    @ApiDesc(value = "字段格式验证规则", required = 0)
-    private String validateRule;
-    
-    /** 字段转换规则(正则表达式或转换代码) */
-    @ApiDesc(value = "字段转换规则", required = 0)
-    private String transformRule;
-    
-    /** 字段示例值 */
-    @ApiDesc(value = "字段示例值", required = 0)
-    private String sampleValue;
-    
-    /** 备注 */
-    @ApiDesc(value = "备注", required = 0)
-    private String remark;
-
     // ==================== 状态信息 ====================
     
     /** 状态: ACTIVE-激活, INACTIVE-禁用, DELETED-已删除 */
     @ApiDesc(value = "状态", required = 0)
     private String status;
+    
+    /** 备注 */
+    @ApiDesc(value = "备注", required = 0)
+    private String remark;
+
+    // ==================== 构建辅助方法 ====================
 
     public static SaaSFileFieldMapping build() {
         return new SaaSFileFieldMapping();
     }
 
-    public SaaSFileFieldMapping toOperationRecordId(long operationRecordId) {
-        this.operationRecordId = operationRecordId;
-        return this;
-    }
-
-    public SaaSFileFieldMapping toInterpretRecordId(long interpretRecordId) {
-        this.interpretRecordId = interpretRecordId;
+    public SaaSFileFieldMapping toBusinessFunctionId(long businessFunctionId) {
+        this.businessFunctionId = businessFunctionId;
         return this;
     }
 
@@ -178,6 +170,21 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
         return this;
     }
 
+    public SaaSFileFieldMapping toValidateRule(String validateRule) {
+        this.validateRule = validateRule;
+        return this;
+    }
+
+    public SaaSFileFieldMapping toTransformRule(String transformRule) {
+        this.transformRule = transformRule;
+        return this;
+    }
+
+    public SaaSFileFieldMapping toSampleValue(String sampleValue) {
+        this.sampleValue = sampleValue;
+        return this;
+    }
+
     public SaaSFileFieldMapping toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
@@ -198,28 +205,13 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
         return this;
     }
 
-    public SaaSFileFieldMapping toValidateRule(String validateRule) {
-        this.validateRule = validateRule;
-        return this;
-    }
-
-    public SaaSFileFieldMapping toTransformRule(String transformRule) {
-        this.transformRule = transformRule;
-        return this;
-    }
-
-    public SaaSFileFieldMapping toSampleValue(String sampleValue) {
-        this.sampleValue = sampleValue;
+    public SaaSFileFieldMapping toStatus(String status) {
+        this.status = status;
         return this;
     }
 
     public SaaSFileFieldMapping toRemark(String remark) {
         this.remark = remark;
-        return this;
-    }
-
-    public SaaSFileFieldMapping toStatus(String status) {
-        this.status = status;
         return this;
     }
 }

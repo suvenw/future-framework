@@ -15,12 +15,14 @@ import java.time.LocalDateTime;
  * SaaS平台文件解释记录表
  * 
  * 功能：记录文件解释的详细信息，包含解释信息JSON、业务申请唯一码、回调状态等
+ *       关联业务文件上传表，记录每行数据的解释结果
  * 
  * @author suven
  * @version v1.0.0
- * date 创建时间: 2026-02-09
+ * @date 创建时间: 2026-02-11
  */
-@Setter@Getter
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,18 +33,18 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
 
     // ==================== 关联信息 ====================
     
-    /** 操作记录ID，关联saas_file_operation_record表 */
-    @ApiDesc(value = "操作记录ID", required = 1)
-    private long operationRecordId;
+    /** 文件上传ID，关联saas_file_upload表 */
+    @ApiDesc(value = "文件上传ID", required = 1)
+    private long fileUploadId;
     
     /** 解释标识，用于关联字段映射 */
-    @ApiDesc(value = "解释标识", required = 1)
+    @ApiDesc(value = "解释标识", required = 0)
     private String interpretKey;
 
     // ==================== 业务信息 ====================
     
     /** 业务申请唯一码，用于数据新增或修改 */
-    @ApiDesc(value = "业务申请唯一码", required = 1)
+    @ApiDesc(value = "业务申请唯一码", required = 0)
     private String businessUniqueCode;
     
     /** 业务类型 */
@@ -60,7 +62,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
     private String interpretInfo;
     
     /** 解释状态: PENDING-待解释, PROCESSING-解释中, COMPLETED-已解释, FAILED-解释失败 */
-    @ApiDesc(value = "解释状态", required = 1)
+    @ApiDesc(value = "解释状态", required = 0)
     private String interpretStatus;
     
     /** 解释进度 0-100 */
@@ -167,12 +169,14 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
     @ApiDesc(value = "备注", required = 0)
     private String remark;
 
+    // ==================== 构建辅助方法 ====================
+
     public static SaaSFileInterpretRecord build() {
         return new SaaSFileInterpretRecord();
     }
 
-    public SaaSFileInterpretRecord toOperationRecordId(long operationRecordId) {
-        this.operationRecordId = operationRecordId;
+    public SaaSFileInterpretRecord toFileUploadId(long fileUploadId) {
+        this.fileUploadId = fileUploadId;
         return this;
     }
 
@@ -216,7 +220,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public SaaSFileInterpretRecord toLastInterpretTime(Date lastInterpretTime) {
+    public SaaSFileInterpretRecord toLastInterpretTime(LocalDateTime lastInterpretTime) {
         this.lastInterpretTime = lastInterpretTime;
         return this;
     }
@@ -271,7 +275,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public SaaSFileInterpretRecord toLastCallbackTime(Date lastCallbackTime) {
+    public SaaSFileInterpretRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
@@ -301,7 +305,7 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessProcessTime(Date businessProcessTime) {
+    public SaaSFileInterpretRecord toBusinessProcessTime(LocalDateTime businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
