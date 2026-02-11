@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.DS;
+import com.suven.framework.file.client.FileClient;
+import com.suven.framework.file.config.UpLoadConstant;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +70,18 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
 
     @Autowired
     private SaaSFileDownloadRecordMapper downloadRecordMapper;
+
+    /** 文件存储客户端 */
+    @Autowired(required = false)
+    private FileClient fileClient;
+
+    /** 文件存储域名 */
+    @Value("${file.storage.domain:https://file.example.com}")
+    private String storageDomain;
+
+    /** 文件存储基础路径 */
+    @Value("${file.storage.basePath:saas/export}")
+    private String storageBasePath;
 
     /**
      * 申请生成文件
@@ -739,14 +754,112 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
 
     /**
      * 上传到文件存储服务
+     * 
+     * 功能：将生成的文件上传到OSS/S3等文件存储服务，并返回访问URL
      */
     private String uploadToFileStorage(SaaSFileDownloadRecord record) {
-        // TODO: 实现文件上传到文件存储服务（如OSS、S3等）
-        // 这里应该调用文件存储服务上传文件并返回访问URL
         log.info("上传文件到存储服务: filePath={}", record.getFilePath());
 
-        // 临时返回空，实际需要集成文件存储服务
-        return null;
+        // 检查文件是否存在
+        File file = new File(record.getFilePath());
+        if (!file.exists() || !file.isFile()) {
+            log.error("文件不存在: filePath={}", record.getFilePath());
+            return null;
+        }
+
+        try {
+            // 读取文件内容
+            byte[] fileContent = readFileToBytes(file);
+            
+            // 生成OSS存储路径
+            String ossPath = generateOssPath(record);
+            
+            // 获取文件类型
+            String fileType = record.getFileType();
+            
+            // 调用FileClient上传文件
+            if (fileClient != null) {
+                String accessUrl = fileClient.upload(fileContent, ossPath, fileType);
+                log.info("文件上传成功: ossPath={}, accessUrl={}", ossPath, accessUrl);
+                
+                // 更新下载记录中的文件存储信息
+                record.setFilePath(ossPath);
+                record.setFileMd5(calculateContentMd5(fileContent));
+                record.setFileSize(file.length());
+                record.setFileAccessUrl(accessUrl);
+                record.setAccessExpireTime(LocalDateTime.now().plusDays(7)); // 默认7天过期
+                
+                // 更新记录
+                downloadRecordRepository.updateById(record);
+                
+                return accessUrl;
+            } else {
+                log.warn("FileClient未配置，无法上传文件到存储服务");
+                // 如果没有配置FileClient，返回本地文件路径
+                return storageDomain + "/" + ossPath;
+            }
+            
+        } catch (Exception e) {
+            log.error("文件上传失败: filePath={}", record.getFilePath(), e);
+            return null;
+        }
+    }
+
+    /**
+     * 生成OSS存储路径
+     */
+    private String generateOssPath(SaaSFileDownloadRecord record) {
+        // 格式: saas/export/{businessCode}/{date}/{filename}
+        String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        String businessCode = record.getBusinessUniqueCode();
+        if (businessCode == null) {
+            businessCode = "default";
+        }
+        
+        // 构建路径
+        StringBuilder path = new StringBuilder();
+        path.append(storageBasePath);
+        path.append("/");
+        path.append(businessCode);
+        path.append("/");
+        path.append(dateStr);
+        path.append("/");
+        path.append(record.getFileName());
+        
+        return path.toString();
+    }
+
+    /**
+     * 读取文件内容为字节数组
+     */
+    private byte[] readFileToBytes(File file) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try (FileInputStream fis = new FileInputStream(file)) {
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                bos.write(buffer, 0, bytesRead);
+            }
+        }
+        return bos.toByteArray();
+    }
+
+    /**
+     * 计算字节数组的MD5
+     */
+    private String calculateContentMd5(byte[] content) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] digest = md.digest(content);
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            log.error("MD5计算失败", e);
+            return "";
+        }
     }
 
     /**
