@@ -22,23 +22,23 @@ import java.util.List;
  * 
  * @author suven
  * @version v1.0.0
- * date 创建时间: 2026-02-09
+ * @date 创建时间: 2026-02-11
  */
 @Repository("saaSFileInterpretRecordRepository")
 public class SaaSFileInterpretRecordRepository extends AbstractMyBatisRepository<SaaSFileInterpretRecordMapper, SaaSFileInterpretRecord> {
 
     /**
-     * 根据操作记录ID查询解释记录列表
+     * 根据文件上传ID查询解释记录列表
      * 
-     * @param operationRecordId 操作记录ID
+     * @param fileUploadId 文件上传ID
      * @return 解释记录列表
      */
-    public List<SaaSFileInterpretRecord> getByOperationRecordId(long operationRecordId) {
-        if (operationRecordId <= 0) {
+    public List<SaaSFileInterpretRecord> getByFileUploadId(long fileUploadId) {
+        if (fileUploadId <= 0) {
             return new ArrayList<>();
         }
         QueryWrapper<SaaSFileInterpretRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("operation_record_id", operationRecordId);
+        queryWrapper.eq("file_upload_id", fileUploadId);
         queryWrapper.eq("deleted", 0);
         queryWrapper.orderByDesc("id");
         return this.list(queryWrapper);
@@ -47,17 +47,17 @@ public class SaaSFileInterpretRecordRepository extends AbstractMyBatisRepository
     /**
      * 分页查询解释记录
      * 
-     * @param operationRecordId 操作记录ID
+     * @param fileUploadId 文件上传ID
      * @param status 状态
      * @param pager 分页参数
      * @return 分页结果
      */
-    public List<SaaSFileInterpretRecord> getByOperationRecordIdAndStatus(long operationRecordId, String status, Pager pager) {
-        if (operationRecordId <= 0) {
+    public List<SaaSFileInterpretRecord> getByFileUploadIdAndStatus(long fileUploadId, String status, Pager pager) {
+        if (fileUploadId <= 0) {
             return new ArrayList<>();
         }
         QueryWrapper<SaaSFileInterpretRecord> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("operation_record_id", operationRecordId);
+        queryWrapper.eq("file_upload_id", fileUploadId);
         if (ObjectTrue.isNotEmpty(status)) {
             queryWrapper.eq("interpret_status", status);
         }
@@ -87,6 +87,40 @@ public class SaaSFileInterpretRecordRepository extends AbstractMyBatisRepository
         queryWrapper.eq("deleted", 0);
         queryWrapper.orderByDesc("id");
         return this.list(queryWrapper);
+    }
+
+    /**
+     * 根据解释标识查询解释记录
+     * 
+     * @param interpretKey 解释标识
+     * @return 解释记录
+     */
+    public SaaSFileInterpretRecord getByInterpretKey(String interpretKey) {
+        if (ObjectTrue.isEmpty(interpretKey)) {
+            return null;
+        }
+        QueryWrapper<SaaSFileInterpretRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("interpret_key", interpretKey);
+        queryWrapper.eq("deleted", 0);
+        return this.getOne(queryWrapper);
+    }
+
+    /**
+     * 根据业务唯一码和解释标识查询解释记录
+     * 
+     * @param businessUniqueCode 业务唯一码
+     * @param interpretKey 解释标识
+     * @return 解释记录
+     */
+    public SaaSFileInterpretRecord getByBusinessUniqueCodeAndInterpretKey(String businessUniqueCode, String interpretKey) {
+        if (ObjectTrue.isEmpty(businessUniqueCode) || ObjectTrue.isEmpty(interpretKey)) {
+            return null;
+        }
+        QueryWrapper<SaaSFileInterpretRecord> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("business_unique_code", businessUniqueCode);
+        queryWrapper.eq("interpret_key", interpretKey);
+        queryWrapper.eq("deleted", 0);
+        return this.getOne(queryWrapper);
     }
 
     /**
