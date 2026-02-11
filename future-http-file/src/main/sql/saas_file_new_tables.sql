@@ -122,6 +122,7 @@ CREATE TABLE `saas_file_upload` (
     `field_mapping_id` bigint DEFAULT NULL COMMENT '字段映射ID，关联saas_file_field_mapping表',
     
     -- 业务信息
+    `app_id` varchar(64) DEFAULT NULL COMMENT '注册应用ID',
     `business_unique_code` varchar(128) DEFAULT NULL COMMENT '业务唯一码，关联业务功能配置',
     `upload_batch_no` varchar(64) DEFAULT NULL COMMENT '上传批次号',
     
@@ -266,5 +267,83 @@ CREATE TABLE `saas_file_interpret_record` (
     KEY `idx_business_process_status` (`business_process_status`),
     KEY `idx_create_date` (`create_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='文件解释记录明细表';
+
+-- ============================================================
+-- 表5: SaaS文件下载记录表
+-- 功能: 记录每一次文件生成和下载操作，包含业务功能、数据查询、文件生成等信息
+-- 用于追踪批量大数据导出功能的使用情况
+-- ============================================================
+DROP TABLE IF EXISTS `saas_file_download_record`;
+CREATE TABLE `saas_file_download_record` (
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+    
+    -- 关联信息
+    `business_function_id` bigint DEFAULT NULL COMMENT '业务功能配置ID，关联saas_company_business_function表',
+    `field_mapping_id` bigint DEFAULT NULL COMMENT '字段映射ID，关联saas_file_field_mapping表',
+    
+    -- 业务信息
+    `business_unique_code` varchar(128) NOT NULL COMMENT '业务唯一码，关联业务功能配置',
+    `business_type` varchar(64) DEFAULT NULL COMMENT '业务类型',
+    `business_description` varchar(512) DEFAULT NULL COMMENT '业务描述',
+    
+    -- 下载用户信息
+    `download_user_id` bigint DEFAULT NULL COMMENT '下载人员ID',
+    `download_user_name` varchar(64) DEFAULT NULL COMMENT '下载人员名称',
+    `download_dept_id` bigint DEFAULT NULL COMMENT '下载人员部门ID',
+    `download_dept_name` varchar(128) DEFAULT NULL COMMENT '下载人员部门名称',
+    
+    -- 查询条件
+    `query_condition` text COMMENT '查询条件JSON，存储业务方提供的查询参数',
+    `total_query_count` bigint DEFAULT 0 COMMENT '查询结果总数据量',
+    `query_time_ms` bigint DEFAULT 0 COMMENT '查询耗时（毫秒）',
+    
+    -- 文件信息
+    `file_name` varchar(256) NOT NULL COMMENT '生成文件名称',
+    `file_type` varchar(16) NOT NULL COMMENT '生成文件类型: XLS, XLSX, CSV',
+    `file_size` bigint DEFAULT NULL COMMENT '生成文件大小（字节）',
+    `file_path` varchar(512) DEFAULT NULL COMMENT '文件存储路径',
+    `file_md5` varchar(64) DEFAULT NULL COMMENT '文件MD5值',
+    
+    -- 下载状态
+    `generate_status` varchar(32) NOT NULL DEFAULT 'PENDING' COMMENT '生成状态: PENDING-待生成, PROCESSING-生成中, COMPLETED-已完成, FAILED-失败, CANCELLED-已取消',
+    `progress_percent` int DEFAULT 0 COMMENT '生成进度百分比 0-100',
+    `message` varchar(1024) DEFAULT NULL COMMENT '生成消息',
+    `error_message` varchar(2048) DEFAULT NULL COMMENT '错误信息',
+    
+    -- 下载信息
+    `download_count` int DEFAULT 0 COMMENT '下载次数',
+    `last_download_time` datetime DEFAULT NULL COMMENT '最后下载时间',
+    `file_access_url` varchar(1024) DEFAULT NULL COMMENT '文件访问URL',
+    `access_expire_time` datetime DEFAULT NULL COMMENT '文件访问过期时间',
+    
+    -- 统计信息
+    `export_count` bigint DEFAULT 0 COMMENT '导出数据总条数',
+    `success_count` bigint DEFAULT 0 COMMENT '导出成功条数',
+    `fail_count` bigint DEFAULT 0 COMMENT '导出失败条数',
+    
+    -- 时间信息
+    `generate_start_time` datetime DEFAULT NULL COMMENT '文件生成开始时间',
+    `generate_end_time` datetime DEFAULT NULL COMMENT '文件生成结束时间',
+    `generate_time_ms` bigint DEFAULT 0 COMMENT '文件生成耗时（毫秒）',
+    
+    -- 通用字段
+    `create_id` bigint DEFAULT NULL COMMENT '创建人ID',
+    `create_name` varchar(64) DEFAULT NULL COMMENT '创建人名称',
+    `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+    `modify_id` bigint DEFAULT NULL COMMENT '修改人ID',
+    `modify_name` varchar(64) DEFAULT NULL COMMENT '修改人名称',
+    `modify_date` datetime DEFAULT NULL COMMENT '修改时间',
+    `deleted` int DEFAULT 0 COMMENT '删除标记: 0-未删除, 1-已删除',
+    `version` int DEFAULT 0 COMMENT '版本号',
+    
+    PRIMARY KEY (`id`),
+    KEY `idx_business_function_id` (`business_function_id`),
+    KEY `idx_business_unique_code` (`business_unique_code`),
+    KEY `idx_generate_status` (`generate_status`),
+    KEY `idx_file_type` (`file_type`),
+    KEY `idx_download_user_id` (`download_user_id`),
+    KEY `idx_create_date` (`create_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='SaaS文件下载记录表';
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -43,6 +43,10 @@ public class SaaSFileUpload extends BaseTenantEntity {
 
     // ==================== 业务信息 ====================
     
+    /** 注册应用ID */
+    @ApiDesc(value = "注册应用ID", required = 0)
+    private String appId;
+    
     /** 业务唯一码，关联业务功能配置 */
     @ApiDesc(value = "业务唯一码", required = 0)
     private String businessUniqueCode;
@@ -212,6 +216,11 @@ public class SaaSFileUpload extends BaseTenantEntity {
 
     public SaaSFileUpload toFieldMappingId(long fieldMappingId) {
         this.fieldMappingId = fieldMappingId;
+        return this;
+    }
+
+    public SaaSFileUpload toAppId(String appId) {
+        this.appId = appId;
         return this;
     }
 
