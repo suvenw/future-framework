@@ -1,92 +1,350 @@
 /**
- * upload 模块，主要提供两块能力：
- * 1. 提供文件，支撑上传的通用与核心业务。
- * 2. 研发工具，提升研发效率与质量。 例如说：代码生成器、接口文档等等
+ * upload 模块 - 企业级文件上传与数据处理平台
+ * ============================================================================
+ * 主要提供三块能力：
+ * 1. 【文件存储平台】提供文件上传、存储、访问的通用与核心业务能力
+ * 2. 【SaaS多租户增强】提供多租户场景下的文件上传、解析、回调完整解决方案
+ * 3. 【下载任务中心】提供批量大数据文件生成与下载能力
+ * 4. 【Excel在线预览】提供 Luckysheet 格式的 Excel 在线预览服务
+ * ============================================================================
  *
- * 一. 主要是文件上传后,数据地址记录相关信息,做成平台化,
- *  配置:
- *  1.创建app应用,  FileUploadApp 表存储
- *  2.每个应用支持多个存储空间配置; FileAppStorageConfig 表存储相关信息,与(1)的关系,多对1的关系,1个应用有多个配置存储空间信息
- *  3.一个app应用,有多种场景业务,FileUploadUseBusiness 表存储相关信息, 与(1),(2)的关系,是多对1的关系;即一个应用有支持多种业务场景使用;
- *  4.上传业务方文件数据;FileUploadStorage 表存储相关信息; 一个应用,根据存储空间配置信息,存储文件相关信息,和访问信息,与(1),(2),(3)的关系,是多对一的关系;
- *   4-1.根据(3)的属性 callbackService 配置信息和结合dataForm,formType,组装回调业务方,验证数据准确性
- *   4-2.根据"应用--对应业务场景的配置属性,和自定义上传的属性维护FileUploadStorage属性信息,优先自定义的,不存在时使用 FileUploadUseBusiness里的属性;
- *   4-3.根据interpretData 属性判断,是否需要解悉文件数据解释存储到 mogodb 中,提供界面修改,查询,展示和验证
- *   4-4.提供exel解决数据;提供txt数据解释,后面迭代增加;
- *   4-5.提供访问文件对应存储中间的文件访问完整地址;
- *   4-6.提供文件对应对应存储中间的文件名称,域名地址,后期由业务选择存储到具体数据逻辑数据库中,提供业务列表数据;
- *   4-7.提供文件生成临时访问算法逻辑,让业务方决定,临时授权访问逻辑
- *  5.根据 FileUploadStorage的属性 interpretData,和fileType 文件类型,实现对应的数据解释,生成json数据,存储到mongodb数据库中,FileDataDetailed为存储到mongodb表对象的基本通用信息;
- *  6.根据业务的通过信息,提供业务分页读取的数据逻辑实现,
- *    6-1.根据interpretData, interpretDataTotal值,结合分页逻辑,提供分页查询获取列表数据;
- *    6-2.验证数据是否准确 callbackValidate,结合FileUploadUseBusiness 表的 callbackService或 callbackAsyncService 回调服务地址,将数据回调业务,
- *  7.mongodb 表,提供相关冗余信息,方便业务方搜索和查询使用;
- *  8.FileDataDetailedToMG 表,记录回调业务异常逻辑记录信息,对应errorCode错误code和errorMessage 错误提示信息
- *  9.FileUploadActionWater 表,记录提供操作的行为记录信息;
- *  10.FileBusinessCallbackWater 文件平台回调各业务方,异常处理信息和处理结果
- *
- *  二.下载任务中心
- *  1.接入下载文件任务
- *  2.调用业务下载文件接口
- *  3.结合业务数据和生成文件格式,生成文件
- *  4.将上成文件上传到存储中心
- *  5.提供安全验证下载文件逻辑
+ * @author suven
+ * @version 3.0.0
+ * @since 2024-01-01
  */
 package com.suven.framework.upload.entity;
 
-
-
-
-
-
-
-
-
-
-
-// /** 是否全部数据通过数据检查 **/
-//    private long id;
-//     private long idempotent
-/** 回调状态.0.未执行, 1.已回调成功, 2.已回调成异常 **/
-//    private int callbackStatus;
-/** 解决数据信息,统一json 格式存储 **/
-//    private String dataJson;
-/** 是否通过数据检查,检查异常修改为 .1,默认为0 **/
-//      private int checkStatus;
-/** 检查数据错误提示编码 **/
-//    private String errorCode;
-/** 检查数据错误提示信息 **/
-//    private String errorMessage;
-
-
-
-
-//
-//    /** 业务公司人员的部门id **/
-//    private long  deptId;
-//    /** 业务公司人员的部门名称 **/
-//    private String deptName;
-//    /** 上传人员的id**/
-//    private long uploadUserId;
-//    /** 上传人员的名称 **/
-//    private String uploadUserName;
-
-
-
-
-
-
-// /** 是否全部数据通过数据检查 **/
-//    private long id;
-//     private long idempotent
-/** 回调状态.0.未执行, 1.已回调成功, 2.已回调成异常 **/
-//    private int callbackStatus;
-/** 解决数据信息,统一json 格式存储 **/
-//    private String dataJson;
-/** 是否通过数据检查,检查异常修改为 .1,默认为0 **/
-//      private int checkStatus;
-/** 检查数据错误提示编码 **/
-//    private String errorCode;
-/** 检查数据错误提示信息 **/
-//    private String errorMessage;
-
+/**
+ * ============================================================================
+ * 一. 基础文件上传平台（原生功能）
+ * ============================================================================
+ *
+ * 1. 应用配置管理
+ *    ├─ FileUploadApp              : 应用信息表，存储应用基础信息
+ *    ├─ FileAppStorageConfig      : 应用存储配置表，支持多存储空间配置（N:1 关联应用）
+ *    └─ FileUploadUseBusiness     : 业务场景配置表，定义业务回调参数（N:1 关联应用和存储配置）
+ *
+ * 2. 文件存储管理
+ *    └─ FileUploadStorage         : 文件存储主表，存储文件信息和访问地址（N:1 关联上述三表）
+ *       ├─ 支持多存储后端（OSS、S3、FastDFS、SFTP、Local）
+ *       ├─ 临时访问URL生成（支持时效性授权）
+ *       ├─ 文件元数据管理（大小、类型、MD5等）
+ *       └─ 自定义属性覆盖机制（优先使用文件级配置，其次使用业务场景配置）
+ *
+ * 3. 数据解释与存储
+ *    ├─ FileDataDetailed          : 文件解析数据主表（MongoDB存储）
+ *    │   ├─ 支持 Excel (.xls/.xlsx)、CSV、TXT 等格式解析
+ *    │   ├─ 按行存储解析后的 JSON 数据
+ *    │   └─ 支持数据校验状态跟踪
+ *    └─ FileDataDetailedToMG      : 解析数据扩展表
+ *       ├─ 记录回调异常信息（errorCode、errorMessage）
+ *       └─ 记录数据校验结果
+ *
+ * 4. 回调管理
+ *    ├─ FileBusinessCallbackWater : 回调流水表
+ *    │   ├─ 记录回调请求参数和响应结果
+ *    │   ├─ 支持同步/异步回调模式
+ *    │   └─ 异常自动重试机制
+ *    └─ callbackValidate          : 数据校验开关
+ *       ├─ 校验通过后触发业务回调
+ *       ├─ 支持自定义回调地址（callbackService）
+ *       └─ 支持异步回调（callbackAsyncService）
+ *
+ * 5. 操作审计
+ *    └─ FileUploadActionWater     : 操作流水表
+ *       ├─ 记录所有文件操作行为
+ *       ├─ 支持操作类型分类
+ *       └─ 完整审计追踪
+ *
+ * ============================================================================
+ * 二. SaaS 多租户增强功能（2026年新增）
+ * ============================================================================
+ *
+ * 【核心设计理念】
+ * 提供完整的多租户文件上传、解析、回调业务流程，支持灵活的字段映射和业务定制
+ *
+ * 1. 公司业务功能配置
+ *    └─ SaaSCompanyBusinessFunction  : 公司业务功能信息表
+ *       ├─ 租户/公司/平台/业务维度配置
+ *       ├─ 功能类型和唯一业务码（businessUniqueCode）
+ *       ├─ 回调地址配置（callbackUrl）
+ *       ├─ 查询地址配置（queryUrl）
+ *       └─ 访问方式定义（HTTP/HTTPS）
+ *
+ * 2. 字段映射管理
+ *    └─ SaaSFileFieldMapping        : 业务功能中英文字段映射表
+ *       ├─ 关联公司业务功能（N:1）
+ *       ├─ 英文字段名 → 中文字段名映射
+ *       ├─ 排序权重配置（sortOrder）
+ *       └─ 支持文件解析时的字段转换
+ *
+ * 3. 文件上传管理
+ *    └─ SaaSFileUpload             : 业务文件上传记录表
+ *       ├─ 关联公司业务功能（N:1）
+ *       ├─ 关联字段映射（N:1）
+ *       ├─ 上传批次号（uploadBatchNo）
+ *       ├─ 解释标识（interpretFlag）
+ *       ├─ 解释状态（interpretStatus）
+ *       └─ 业务唯一码（businessUniqueCode）
+ *
+ * 4. 文件解释记录
+ *    └─ SaaSFileInterpretRecord    : 文件解释记录明细表
+ *       ├─ 关联文件上传（N:1）
+ *       ├─ 行号记录（rowNumber）
+ *       ├─ 解析数据 JSON 存储（dataJson）
+ *       ├─ 原始数据 JSON 存储（rawDataJson）
+ *       ├─ 校验状态（checkStatus）
+ *       ├─ 异常信息记录（errorCode、errorMessage）
+ *       ├─ 业务处理时间（businessProcessTime）
+ *       └─ 业务处理结果回写接口
+ *
+ * 5. 解释回调机制
+ *    ├─ CallbackPayload           : 回调数据封装
+ *    │   ├─ 数据总量统计（totalCount）
+ *    │   ├─ 解析进度（progressPercent）
+ *    │   ├─ 成功/失败数量（successCount/failCount）
+ *    │   └─ 失败原因详情（failReasons）
+ *    ├─ Callback Strategies       : 回调策略
+ *    │   ├─ 同步回调：解析完成后立即回调
+ *    │   ├─ 异步回调：放入消息队列处理
+ *    │   └─ 条件回调：满足特定条件时触发
+ *    └─ Retry Mechanism           : 重试机制
+ *       ├─ 最大重试次数配置
+ *       ├─ 指数退避策略
+ *       └─ 重试记录持久化
+ *
+ * 6. 数据查询接口
+ *    ├─ 分页查询解释记录
+ *    ├─ 按文件上传ID查询
+ *    ├─ 按业务唯一码查询
+ *    ├─ 条件筛选（状态、时间范围）
+ *    └─ 批量数据导出
+ *
+ * ============================================================================
+ * 三. 文件解析服务（2026年新增）
+ * ============================================================================
+ *
+ * 1. 解析服务架构
+ *    ├─ SaaSFileParseService       : 文件解析服务接口
+ *    │   ├─ 支持文件类型自动识别
+ *    │   ├─ 统一解析结果格式（SaaSFileParseResultDto）
+ *    │   └─ 支持字段映射转换
+ *    │
+ *    ├─ XLSFileParser             : Excel 文件解析器
+ *    │   ├─ 使用 EasyExcel 框架
+ *    │   ├─ 支持 .xls 和 .xlsx 格式
+ *    │   ├─ 单元格类型自动识别
+ *    │   └─ 公式结果解析
+ *    │
+ *    └─ CSVFileParser             : CSV 文件解析器
+ *        ├─ 智能分隔符检测
+ *        ├─ 字符编码自动识别
+ *        ├─ 引号字段处理
+ *        └─ 数据类型推断
+ *
+ * 2. 解析结果格式
+ *    └─ SaaSFileParseResultDto
+ *       ├─ success                : 解析是否成功
+ *       ├─ totalRows              : 总行数
+ *       ├─ successRows            : 成功解析行数
+ *       ├─ failRows               : 失败行数
+ *       ├─ skipRows               : 跳过行数
+ *       ├─ dataRows               : 解析后的数据列表
+ *       ├─ rawDataRows            : 原始数据列表
+ *       ├─ errorMessage           : 错误信息
+ *       └─ parseTimeMs            : 解析耗时
+ *
+ * 3. 字段映射转换
+ *    ├─ 英文字段 → 中文字段映射
+ *    ├─ 数据类型转换（String/Number/Date/Boolean）
+ *    ├─ 数据校验规则
+ *    │   ├─ 必填校验
+ *    │   ├─ 格式校验
+ *    │   ├─ 范围校验
+ *    │   └─ 唯一性校验
+ *    └─ 默认值处理
+ *
+ * ============================================================================
+ * 四. 下载任务中心（2026年新增）
+ * ============================================================================
+ *
+ * 【功能概述】
+ * 提供批量大数据文件生成能力，支持异步生成和断点续传
+ *
+ * 1. 下载记录管理
+ *    └─ SaaSFileDownloadRecord     : 下载记录表
+ *       ├─ 关联业务功能（N:1）
+ *       ├─ 关联字段映射（N:1）
+ *       ├─ 查询条件存储（queryCondition）
+ *       ├─ 生成状态（generateStatus）
+ *       ├─ 进度跟踪（progressPercent）
+ *       ├─ 生成统计（exportCount/successCount/failCount）
+ *       ├─ 文件信息（fileName/fileSize/fileMd5）
+ *       ├─ 访问链接（fileAccessUrl/accessExpireTime）
+ *       └─ 下载计数（downloadCount）
+ *
+ * 2. 生成流程
+ *    ├─ 1. 申请生成文件
+ *    │   └─ 配置数据源、查询条件、文件格式
+ *    │
+ *    ├─ 2. 调用业务接口获取数据
+ *    │   ├─ HTTP/HTTPS 数据接口
+ *    │   ├─ 分页查询 Pager.list<OBJECT>
+ *    │   └─ 支持超时配置
+ *    │
+ *    ├─ 3. 数据转换处理
+ *    │   ├─ 英文字段 → 中文字段映射
+ *    │   ├─ 生成中文表头
+ *    │   └─ 数据类型格式化
+ *    │
+ *    ├─ 4. 文件生成
+ *    │   ├─ 支持格式：XLSX、CSV
+ *    │   ├─ 分批写入大数据
+ *    │   └─ 进度实时更新
+ *    │
+ *    └─ 5. 文件存储与分发
+ *        ├─ 上传到文件存储服务
+ *        ├─ 生成访问URL
+ *        └─ 更新记录状态
+ *
+ * 3. 异步生成机制
+ *    ├─ 任务队列管理
+ *    ├─ 进度实时查询
+ *    ├─ 任务取消支持
+ *    └─ 失败重试策略
+ *
+ * ============================================================================
+ * 五. Excel 在线预览（2026年新增 - Luckysheet集成）
+ * ============================================================================
+ *
+ * 【功能概述】
+ * 将 Excel 文件转换为 Luckysheet JSON 格式，支持在线预览和编辑
+ *
+ * 1. 预览服务
+ *    └─ LuckysheetPreviewService
+ *       ├─ preview()              : 完整预览
+ *       ├─ previewSheet()         : 指定 Sheet 预览
+ *       ├─ previewAsJson()        : 获取 JSON 数据
+ *       └─ getSheetNames()        : 获取 Sheet 名称列表
+ *
+ * 2. 数据模型
+ *    ├─ LuckysheetCellData        : 单元格数据
+ *    │   ├─ v (value)            : 单元格值
+ *    │   ├─ m (raw value)       : 原始值
+ *    │   ├─ t (type)            : 数据类型
+ *    │   ├─ style                : 样式信息
+ *    │   ├─ f (formula)          : 公式
+ *    │   └─ merge (colspan/rowspan) : 合并单元格
+ *    │
+ *    ├─ LuckysheetCellStyle       : 单元格样式
+ *    │   ├─ bg (background)     : 背景色
+ *    │   ├─ fc (font color)     : 字体颜色
+ *    │   ├─ fs (font size)       : 字号
+ *    │   ├─ ff (font family)    : 字体
+ *    │   ├─ bl (bold)           : 加粗
+ *    │   ├─ it (italic)         : 斜体
+ *    │   └─ 边框、对齐方式等...
+ *    │
+ *    └─ LuckysheetSheetConfig     : Sheet 配置
+ *        ├─ name                 : Sheet 名称
+ *        ├─ data                 : 单元格数据
+ *        ├─ merge                : 合并单元格信息
+ *        ├─ rowlen/collen        : 行高列宽
+ *        ├─ freeze               : 冻结窗格
+ *        ├─ filter               : 筛选器
+ *        └─ protect              : 保护设置
+ *
+ * 3. API 接口
+ *    └─ LuckysheetPreviewController
+ *       ├─ POST /luckysheet/preview        : 预览文件
+ *       ├─ GET /luckysheet/json            : 获取 JSON 数据
+ *       ├─ GET /luckysheet/sheets          : 获取 Sheet 列表
+ *       ├─ GET /luckysheet/sheets/{name}   : 获取指定 Sheet
+ *       └─ GET /luckysheet/check           : 检查是否为 Excel
+ *
+ * ============================================================================
+ * 六. 文件存储客户端（file 模块）
+ * ============================================================================
+ *
+ * 【统一文件存储接口】
+ * 提供抽象的文件存储客户端，支持多种存储后端无缝切换
+ *
+ * 1. 存储类型
+ *    ├─ OSS (阿里云/腾讯云/七牛云)
+ *    ├─ S3 (AWS/ MinIO)
+ *    ├─ FastDFS
+ *    ├─ SFTP
+ *    └─ Local (本地存储)
+ *
+ * 2. 核心接口
+ *    └─ FileClient
+ *       ├─ upload()               : 上传文件
+ *       ├─ download()             : 下载文件
+ *       ├─ delete()               : 删除文件
+ *       ├─ exists()               : 检查文件存在
+ *       ├─ getUrl()               : 获取访问URL
+ *       └─ getMd5()               : 获取文件MD5
+ *
+ * 3. 配置管理
+ *    ├─ FileClientConfig         : 客户端配置
+ *    ├─ FileClientFactory        : 客户端工厂
+ *    └─ FileStorageEnum          : 存储类型枚举
+ *
+ * ============================================================================
+ * 七. 完整业务流程示例
+ * ============================================================================
+ *
+ * 【场景：企业批量数据导入】
+ *
+ * 1. 业务配置阶段
+ *    ├─ 创建应用 → FileUploadApp
+ *    ├─ 配置存储空间 → FileAppStorageConfig
+ *    └─ 配置业务场景 → FileUploadUseBusiness
+ *       ├─ 设置回调地址
+ *       ├─ 定义字段映射
+ *       └─ 配置校验规则
+ *
+ * 2. 文件上传阶段
+ *    ├─ 上传文件 → SaaSFileUpload
+ *    ├─ 选择业务功能 → SaaSCompanyBusinessFunction
+ *    ├─ 选择字段映射 → SaaSFileFieldMapping
+ *    └─ 生成上传批次号
+ *
+ * 3. 文件解析阶段
+ *    ├─ 识别文件类型
+ *    ├─ 选择解析器（XLS/CSV）
+ *    ├─ 应用字段映射
+ *    ├─ 数据校验
+ *    └─ 保存解析结果 → SaaSFileInterpretRecord
+ *
+ * 4. 回调通知阶段
+ *    ├─ 组装回调数据
+ *    ├─ 发送回调请求
+ *    ├─ 处理回调响应
+ *    └─ 记录回调流水 → FileBusinessCallbackWater
+ *
+ * 5. 数据查询阶段
+ *    ├─ 分页查询解析数据
+ *    ├─ 导出处理结果
+ *    └─ 异常数据修正
+ *
+ * 【场景：批量数据导出】
+ *
+ * 1. 申请下载
+ *    ├─ 选择业务功能
+ *    ├─ 配置查询条件
+ *    └─ 提交下载申请
+ *
+ * 2. 异步生成
+ *    ├─ 调用业务数据接口
+ *    ├─ 转换字段为中文
+ *    ├─ 生成 Excel 文件
+ *    └─ 上传到存储服务
+ *
+ * 3. 下载分发
+ *    ├─ 生成访问链接
+ *    ├─ 更新下载记录
+ *    └─ 提供下载接口
+ *
+ * ============================================================================
+ */
