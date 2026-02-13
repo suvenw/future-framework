@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * SaaS平台文件字段映射记录表
+ * 平台文件字段映射记录表
  * 
  * 功能：记录文件解释的字段英文名、中文名、排编号，关联业务功能配置
  * 
@@ -24,7 +24,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_file_field_mapping")
-public class SaaSFileFieldMapping extends BaseTenantEntity {
+public class FileFieldMapping extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -116,101 +116,101 @@ public class SaaSFileFieldMapping extends BaseTenantEntity {
 
     // ==================== 构建辅助方法 ====================
 
-    public static SaaSFileFieldMapping build() {
-        return new SaaSFileFieldMapping();
+    public static FileFieldMapping build() {
+        return new FileFieldMapping();
     }
 
-    public SaaSFileFieldMapping toBusinessFunctionId(long businessFunctionId) {
+    public FileFieldMapping toBusinessFunctionId(long businessFunctionId) {
         this.businessFunctionId = businessFunctionId;
         return this;
     }
 
-    public SaaSFileFieldMapping toFieldEnglishName(String fieldEnglishName) {
+    public FileFieldMapping toFieldEnglishName(String fieldEnglishName) {
         this.fieldEnglishName = fieldEnglishName;
         return this;
     }
 
-    public SaaSFileFieldMapping toFieldChineseName(String fieldChineseName) {
+    public FileFieldMapping toFieldChineseName(String fieldChineseName) {
         this.fieldChineseName = fieldChineseName;
         return this;
     }
 
-    public SaaSFileFieldMapping toSortOrder(int sortOrder) {
+    public FileFieldMapping toSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
         return this;
     }
 
-    public SaaSFileFieldMapping toFieldType(String fieldType) {
+    public FileFieldMapping toFieldType(String fieldType) {
         this.fieldType = fieldType;
         return this;
     }
 
-    public SaaSFileFieldMapping toFieldLength(int fieldLength) {
+    public FileFieldMapping toFieldLength(int fieldLength) {
         this.fieldLength = fieldLength;
         return this;
     }
 
-    public SaaSFileFieldMapping toIsPrimaryKey(int isPrimaryKey) {
+    public FileFieldMapping toIsPrimaryKey(int isPrimaryKey) {
         this.isPrimaryKey = isPrimaryKey;
         return this;
     }
 
-    public SaaSFileFieldMapping toIsRequired(int isRequired) {
+    public FileFieldMapping toIsRequired(int isRequired) {
         this.isRequired = isRequired;
         return this;
     }
 
-    public SaaSFileFieldMapping toDefaultValue(String defaultValue) {
+    public FileFieldMapping toDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public SaaSFileFieldMapping toFieldDescription(String fieldDescription) {
+    public FileFieldMapping toFieldDescription(String fieldDescription) {
         this.fieldDescription = fieldDescription;
         return this;
     }
 
-    public SaaSFileFieldMapping toValidateRule(String validateRule) {
+    public FileFieldMapping toValidateRule(String validateRule) {
         this.validateRule = validateRule;
         return this;
     }
 
-    public SaaSFileFieldMapping toTransformRule(String transformRule) {
+    public FileFieldMapping toTransformRule(String transformRule) {
         this.transformRule = transformRule;
         return this;
     }
 
-    public SaaSFileFieldMapping toSampleValue(String sampleValue) {
+    public FileFieldMapping toSampleValue(String sampleValue) {
         this.sampleValue = sampleValue;
         return this;
     }
 
-    public SaaSFileFieldMapping toTotalCount(int totalCount) {
+    public FileFieldMapping toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileFieldMapping toNotNullCount(int notNullCount) {
+    public FileFieldMapping toNotNullCount(int notNullCount) {
         this.notNullCount = notNullCount;
         return this;
     }
 
-    public SaaSFileFieldMapping toNullCount(int nullCount) {
+    public FileFieldMapping toNullCount(int nullCount) {
         this.nullCount = nullCount;
         return this;
     }
 
-    public SaaSFileFieldMapping toDuplicateCount(int duplicateCount) {
+    public FileFieldMapping toDuplicateCount(int duplicateCount) {
         this.duplicateCount = duplicateCount;
         return this;
     }
 
-    public SaaSFileFieldMapping toStatus(String status) {
+    public FileFieldMapping toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileFieldMapping toRemark(String remark) {
+    public FileFieldMapping toRemark(String remark) {
         this.remark = remark;
         return this;
     }

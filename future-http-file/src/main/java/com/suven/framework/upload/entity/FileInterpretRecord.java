@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * SaaS平台文件解释记录表
+ * 平台文件解释记录表
  * 
  * 功能：记录文件解释的详细信息，包含解释信息JSON、业务申请唯一码、回调状态等
  *       关联业务文件上传表，记录每行数据的解释结果
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_file_interpret_record")
-public class SaaSFileInterpretRecord extends BaseTenantEntity {
+public class FileInterpretRecord extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -171,161 +171,161 @@ public class SaaSFileInterpretRecord extends BaseTenantEntity {
 
     // ==================== 构建辅助方法 ====================
 
-    public static SaaSFileInterpretRecord build() {
-        return new SaaSFileInterpretRecord();
+    public static FileInterpretRecord build() {
+        return new FileInterpretRecord();
     }
 
-    public SaaSFileInterpretRecord toFileUploadId(long fileUploadId) {
+    public FileInterpretRecord toFileUploadId(long fileUploadId) {
         this.fileUploadId = fileUploadId;
         return this;
     }
 
-    public SaaSFileInterpretRecord toInterpretKey(String interpretKey) {
+    public FileInterpretRecord toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessUniqueCode(String businessUniqueCode) {
+    public FileInterpretRecord toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessType(String businessType) {
+    public FileInterpretRecord toBusinessType(String businessType) {
         this.businessType = businessType;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessDescription(String businessDescription) {
+    public FileInterpretRecord toBusinessDescription(String businessDescription) {
         this.businessDescription = businessDescription;
         return this;
     }
 
-    public SaaSFileInterpretRecord toInterpretInfo(String interpretInfo) {
+    public FileInterpretRecord toInterpretInfo(String interpretInfo) {
         this.interpretInfo = interpretInfo;
         return this;
     }
 
-    public SaaSFileInterpretRecord toInterpretStatus(String interpretStatus) {
+    public FileInterpretRecord toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileInterpretRecord toInterpretProgress(int interpretProgress) {
+    public FileInterpretRecord toInterpretProgress(int interpretProgress) {
         this.interpretProgress = interpretProgress;
         return this;
     }
 
-    public SaaSFileInterpretRecord toInterpretFailCount(int interpretFailCount) {
+    public FileInterpretRecord toInterpretFailCount(int interpretFailCount) {
         this.interpretFailCount = interpretFailCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toLastInterpretTime(LocalDateTime lastInterpretTime) {
+    public FileInterpretRecord toLastInterpretTime(LocalDateTime lastInterpretTime) {
         this.lastInterpretTime = lastInterpretTime;
         return this;
     }
 
-    public SaaSFileInterpretRecord toErrorMessage(String errorMessage) {
+    public FileInterpretRecord toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileInterpretRecord toTotalCount(int totalCount) {
+    public FileInterpretRecord toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toSuccessCount(int successCount) {
+    public FileInterpretRecord toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toFailCount(int failCount) {
+    public FileInterpretRecord toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toSkipCount(int skipCount) {
+    public FileInterpretRecord toSkipCount(int skipCount) {
         this.skipCount = skipCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toNeedCallback(int needCallback) {
+    public FileInterpretRecord toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackUrl(String callbackUrl) {
+    public FileInterpretRecord toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackMethod(String callbackMethod) {
+    public FileInterpretRecord toCallbackMethod(String callbackMethod) {
         this.callbackMethod = callbackMethod;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackStatus(String callbackStatus) {
+    public FileInterpretRecord toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackFailCount(int callbackFailCount) {
+    public FileInterpretRecord toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileInterpretRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
+    public FileInterpretRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackRequest(String callbackRequest) {
+    public FileInterpretRecord toCallbackRequest(String callbackRequest) {
         this.callbackRequest = callbackRequest;
         return this;
     }
 
-    public SaaSFileInterpretRecord toCallbackResponse(String callbackResponse) {
+    public FileInterpretRecord toCallbackResponse(String callbackResponse) {
         this.callbackResponse = callbackResponse;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessProcessStatus(String businessProcessStatus) {
+    public FileInterpretRecord toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessProcessResult(String businessProcessResult) {
+    public FileInterpretRecord toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileInterpretRecord toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileInterpretRecord toBusinessProcessTime(LocalDateTime businessProcessTime) {
+    public FileInterpretRecord toBusinessProcessTime(LocalDateTime businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
 
-    public SaaSFileInterpretRecord toExtField1(String extField1) {
+    public FileInterpretRecord toExtField1(String extField1) {
         this.extField1 = extField1;
         return this;
     }
 
-    public SaaSFileInterpretRecord toExtField2(String extField2) {
+    public FileInterpretRecord toExtField2(String extField2) {
         this.extField2 = extField2;
         return this;
     }
 
-    public SaaSFileInterpretRecord toExtField3(String extField3) {
+    public FileInterpretRecord toExtField3(String extField3) {
         this.extField3 = extField3;
         return this;
     }
 
-    public SaaSFileInterpretRecord toRemark(String remark) {
+    public FileInterpretRecord toRemark(String remark) {
         this.remark = remark;
         return this;
     }

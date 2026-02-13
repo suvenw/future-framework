@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * SaaS平台业务文件上传表
+ * 平台业务文件上传表
  * 
  * 功能：实现具体业务上传文件管理，关联业务功能配置和字段映射
  *       包含文件信息、解释标识、处理状态、回调配置等
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_file_upload")
-public class SaaSFileUpload extends BaseTenantEntity {
+public class FileUpload extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -205,196 +205,196 @@ public class SaaSFileUpload extends BaseTenantEntity {
 
     // ==================== 构建辅助方法 ====================
 
-    public static SaaSFileUpload build() {
-        return new SaaSFileUpload();
+    public static FileUpload build() {
+        return new FileUpload();
     }
 
-    public SaaSFileUpload toBusinessFunctionId(long businessFunctionId) {
+    public FileUpload toBusinessFunctionId(long businessFunctionId) {
         this.businessFunctionId = businessFunctionId;
         return this;
     }
 
-    public SaaSFileUpload toFieldMappingId(long fieldMappingId) {
+    public FileUpload toFieldMappingId(long fieldMappingId) {
         this.fieldMappingId = fieldMappingId;
         return this;
     }
 
-    public SaaSFileUpload toAppId(String appId) {
+    public FileUpload toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileUpload toBusinessUniqueCode(String businessUniqueCode) {
+    public FileUpload toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileUpload toUploadBatchNo(String uploadBatchNo) {
+    public FileUpload toUploadBatchNo(String uploadBatchNo) {
         this.uploadBatchNo = uploadBatchNo;
         return this;
     }
 
-    public SaaSFileUpload toUploadUserId(long uploadUserId) {
+    public FileUpload toUploadUserId(long uploadUserId) {
         this.uploadUserId = uploadUserId;
         return this;
     }
 
-    public SaaSFileUpload toUploadUserName(String uploadUserName) {
+    public FileUpload toUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
         return this;
     }
 
-    public SaaSFileUpload toUploadDeptId(long uploadDeptId) {
+    public FileUpload toUploadDeptId(long uploadDeptId) {
         this.uploadDeptId = uploadDeptId;
         return this;
     }
 
-    public SaaSFileUpload toUploadDeptName(String uploadDeptName) {
+    public FileUpload toUploadDeptName(String uploadDeptName) {
         this.uploadDeptName = uploadDeptName;
         return this;
     }
 
-    public SaaSFileUpload toFileSourceName(String fileSourceName) {
+    public FileUpload toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileUpload toFileStorageName(String fileStorageName) {
+    public FileUpload toFileStorageName(String fileStorageName) {
         this.fileStorageName = fileStorageName;
         return this;
     }
 
-    public SaaSFileUpload toFileType(String fileType) {
+    public FileUpload toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileUpload toFileSize(long fileSize) {
+    public FileUpload toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileUpload toFileMd5(String fileMd5) {
+    public FileUpload toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileUpload toFilePath(String filePath) {
+    public FileUpload toFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }
 
-    public SaaSFileUpload toFileStorageId(long fileStorageId) {
+    public FileUpload toFileStorageId(long fileStorageId) {
         this.fileStorageId = fileStorageId;
         return this;
     }
 
-    public SaaSFileUpload toInterpretFlag(int interpretFlag) {
+    public FileUpload toInterpretFlag(int interpretFlag) {
         this.interpretFlag = interpretFlag;
         return this;
     }
 
-    public SaaSFileUpload toInterpretStatus(String interpretStatus) {
+    public FileUpload toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileUpload toInterpretKey(String interpretKey) {
+    public FileUpload toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileUpload toStatus(String status) {
+    public FileUpload toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileUpload toProgressPercent(int progressPercent) {
+    public FileUpload toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileUpload toTotalCount(int totalCount) {
+    public FileUpload toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileUpload toSuccessCount(int successCount) {
+    public FileUpload toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileUpload toFailCount(int failCount) {
+    public FileUpload toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileUpload toSkipCount(int skipCount) {
+    public FileUpload toSkipCount(int skipCount) {
         this.skipCount = skipCount;
         return this;
     }
 
-    public SaaSFileUpload toMessage(String message) {
+    public FileUpload toMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public SaaSFileUpload toErrorMessage(String errorMessage) {
+    public FileUpload toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileUpload toNeedCallback(int needCallback) {
+    public FileUpload toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
         return this;
     }
 
-    public SaaSFileUpload toCallbackUrl(String callbackUrl) {
+    public FileUpload toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSFileUpload toCallbackRelationKey(String callbackRelationKey) {
+    public FileUpload toCallbackRelationKey(String callbackRelationKey) {
         this.callbackRelationKey = callbackRelationKey;
         return this;
     }
 
-    public SaaSFileUpload toCallbackStatus(String callbackStatus) {
+    public FileUpload toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileUpload toCallbackFailCount(int callbackFailCount) {
+    public FileUpload toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileUpload toLastCallbackTime(LocalDateTime lastCallbackTime) {
+    public FileUpload toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileUpload toCallbackResponse(String callbackResponse) {
+    public FileUpload toCallbackResponse(String callbackResponse) {
         this.callbackResponse = callbackResponse;
         return this;
     }
 
-    public SaaSFileUpload toBusinessProcessStatus(String businessProcessStatus) {
+    public FileUpload toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileUpload toBusinessProcessResult(String businessProcessResult) {
+    public FileUpload toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileUpload toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileUpload toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileUpload toBusinessProcessTime(LocalDateTime businessProcessTime) {
+    public FileUpload toBusinessProcessTime(LocalDateTime businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
