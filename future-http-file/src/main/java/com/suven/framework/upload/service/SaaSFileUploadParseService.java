@@ -2,18 +2,17 @@ package com.suven.framework.upload.service;
 
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.response.SaaSFileParseResultDto;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
-import com.suven.framework.upload.entity.SaaSFileInterpretRecord;
-import com.suven.framework.upload.entity.SaaSFileUpload;
-import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
+import com.suven.framework.upload.dto.response.FileParseResultDto;
+import com.suven.framework.upload.entity.FileFieldMapping;
+import com.suven.framework.upload.entity.FileInterpretRecord;
+import com.suven.framework.upload.entity.FileUpload;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
 
 /**
- * SaaS文件上传与解析服务接口
+ * 文件上传与解析服务接口
  * 
  * 功能：定义文件上传、解析、保存的完整业务流程接口
  * 
@@ -21,7 +20,7 @@ import java.util.List;
  * @version v1.0.0
  * @date 创建时间: 2026-02-11
  */
-public interface SaaSFileUploadParseService {
+public interface FileUploadParseService {
 
     /**
      * 上传并解析文件
@@ -31,9 +30,9 @@ public interface SaaSFileUploadParseService {
      * @param businessUniqueCode 业务唯一码
      * @param needCallback 是否需要回调
      * @param callbackUrl 回调URL
-     * @return SaaSFileUpload 文件上传记录
+     * @return FileUpload 文件上传记录
      */
-    SaaSFileUpload uploadAndParse(
+    FileUpload uploadAndParse(
             MultipartFile file,
             String appId,
             String businessUniqueCode,
@@ -49,9 +48,9 @@ public interface SaaSFileUploadParseService {
      * @param fieldMappings 字段映射列表
      * @param needCallback 是否需要回调
      * @param callbackUrl 回调URL
-     * @return SaaSFileUpload 文件上传记录
+     * @return FileUpload 文件上传记录
      */
-    SaaSFileUpload uploadAndParseWithMapping(
+    FileUpload uploadAndParseWithMapping(
             MultipartFile file,
             String appId,
             String businessUniqueCode,
@@ -97,18 +96,18 @@ public interface SaaSFileUploadParseService {
      * 获取文件上传记录
      * 
      * @param id 记录ID
-     * @return SaaSFileUpload
+     * @return FileUpload
      */
-    SaaSFileUpload getFileUpload(long id);
+    FileUpload getFileUpload(long id);
 
     /**
      * 分页查询文件上传记录
      * 
      * @param requestDto 查询条件
      * @param pager 分页参数
-     * @return PageResult<SaaSFileUpload>
+     * @return PageResult<FileUpload>
      */
-    PageResult<SaaSFileUpload> pageQueryFileUpload(SaaSFileUpload requestDto, Pager pager);
+    PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager pager);
 
     /**
      * 获取解释记录
