@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * SaaS平台文件下载记录表
+ * 平台文件下载记录表
  * 
  * 功能：记录每一次文件生成和下载操作，包含业务功能、数据查询、文件生成等信息
  *       用于追踪批量大数据导出功能的使用情况
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_file_download_record")
-public class SaaSFileDownloadRecord extends BaseTenantEntity {
+public class FileDownloadRecord extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -175,161 +175,161 @@ public class SaaSFileDownloadRecord extends BaseTenantEntity {
 
     // ==================== 构建辅助方法 ====================
 
-    public static SaaSFileDownloadRecord build() {
-        return new SaaSFileDownloadRecord();
+    public static FileDownloadRecord build() {
+        return new FileDownloadRecord();
     }
 
-    public SaaSFileDownloadRecord toBusinessFunctionId(long businessFunctionId) {
+    public FileDownloadRecord toBusinessFunctionId(long businessFunctionId) {
         this.businessFunctionId = businessFunctionId;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFieldMappingId(long fieldMappingId) {
+    public FileDownloadRecord toFieldMappingId(long fieldMappingId) {
         this.fieldMappingId = fieldMappingId;
         return this;
     }
 
-    public SaaSFileDownloadRecord toBusinessUniqueCode(String businessUniqueCode) {
+    public FileDownloadRecord toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileDownloadRecord toBusinessType(String businessType) {
+    public FileDownloadRecord toBusinessType(String businessType) {
         this.businessType = businessType;
         return this;
     }
 
-    public SaaSFileDownloadRecord toBusinessDescription(String businessDescription) {
+    public FileDownloadRecord toBusinessDescription(String businessDescription) {
         this.businessDescription = businessDescription;
         return this;
     }
 
-    public SaaSFileDownloadRecord toDownloadUserId(long downloadUserId) {
+    public FileDownloadRecord toDownloadUserId(long downloadUserId) {
         this.downloadUserId = downloadUserId;
         return this;
     }
 
-    public SaaSFileDownloadRecord toDownloadUserName(String downloadUserName) {
+    public FileDownloadRecord toDownloadUserName(String downloadUserName) {
         this.downloadUserName = downloadUserName;
         return this;
     }
 
-    public SaaSFileDownloadRecord toDownloadDeptId(long downloadDeptId) {
+    public FileDownloadRecord toDownloadDeptId(long downloadDeptId) {
         this.downloadDeptId = downloadDeptId;
         return this;
     }
 
-    public SaaSFileDownloadRecord toDownloadDeptName(String downloadDeptName) {
+    public FileDownloadRecord toDownloadDeptName(String downloadDeptName) {
         this.downloadDeptName = downloadDeptName;
         return this;
     }
 
-    public SaaSFileDownloadRecord toQueryCondition(String queryCondition) {
+    public FileDownloadRecord toQueryCondition(String queryCondition) {
         this.queryCondition = queryCondition;
         return this;
     }
 
-    public SaaSFileDownloadRecord toTotalQueryCount(long totalQueryCount) {
+    public FileDownloadRecord toTotalQueryCount(long totalQueryCount) {
         this.totalQueryCount = totalQueryCount;
         return this;
     }
 
-    public SaaSFileDownloadRecord toQueryTimeMs(long queryTimeMs) {
+    public FileDownloadRecord toQueryTimeMs(long queryTimeMs) {
         this.queryTimeMs = queryTimeMs;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFileName(String fileName) {
+    public FileDownloadRecord toFileName(String fileName) {
         this.fileName = fileName;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFileType(String fileType) {
+    public FileDownloadRecord toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFileSize(long fileSize) {
+    public FileDownloadRecord toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFilePath(String filePath) {
+    public FileDownloadRecord toFilePath(String filePath) {
         this.filePath = filePath;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFileMd5(String fileMd5) {
+    public FileDownloadRecord toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileDownloadRecord toGenerateStatus(String generateStatus) {
+    public FileDownloadRecord toGenerateStatus(String generateStatus) {
         this.generateStatus = generateStatus;
         return this;
     }
 
-    public SaaSFileDownloadRecord toProgressPercent(int progressPercent) {
+    public FileDownloadRecord toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileDownloadRecord toMessage(String message) {
+    public FileDownloadRecord toMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public SaaSFileDownloadRecord toErrorMessage(String errorMessage) {
+    public FileDownloadRecord toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileDownloadRecord toDownloadCount(int downloadCount) {
+    public FileDownloadRecord toDownloadCount(int downloadCount) {
         this.downloadCount = downloadCount;
         return this;
     }
 
-    public SaaSFileDownloadRecord toLastDownloadTime(LocalDateTime lastDownloadTime) {
+    public FileDownloadRecord toLastDownloadTime(LocalDateTime lastDownloadTime) {
         this.lastDownloadTime = lastDownloadTime;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFileAccessUrl(String fileAccessUrl) {
+    public FileDownloadRecord toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileDownloadRecord toAccessExpireTime(LocalDateTime accessExpireTime) {
+    public FileDownloadRecord toAccessExpireTime(LocalDateTime accessExpireTime) {
         this.accessExpireTime = accessExpireTime;
         return this;
     }
 
-    public SaaSFileDownloadRecord toExportCount(long exportCount) {
+    public FileDownloadRecord toExportCount(long exportCount) {
         this.exportCount = exportCount;
         return this;
     }
 
-    public SaaSFileDownloadRecord toSuccessCount(long successCount) {
+    public FileDownloadRecord toSuccessCount(long successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileDownloadRecord toFailCount(long failCount) {
+    public FileDownloadRecord toFailCount(long failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileDownloadRecord toGenerateStartTime(LocalDateTime generateStartTime) {
+    public FileDownloadRecord toGenerateStartTime(LocalDateTime generateStartTime) {
         this.generateStartTime = generateStartTime;
         return this;
     }
 
-    public SaaSFileDownloadRecord toGenerateEndTime(LocalDateTime generateEndTime) {
+    public FileDownloadRecord toGenerateEndTime(LocalDateTime generateEndTime) {
         this.generateEndTime = generateEndTime;
         return this;
     }
 
-    public SaaSFileDownloadRecord toGenerateTimeMs(long generateTimeMs) {
+    public FileDownloadRecord toGenerateTimeMs(long generateTimeMs) {
         this.generateTimeMs = generateTimeMs;
         return this;
     }

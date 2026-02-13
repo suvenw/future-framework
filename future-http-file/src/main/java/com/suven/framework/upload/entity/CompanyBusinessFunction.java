@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * SaaS公司业务功能信息表
+ * 公司业务功能信息表
  *
  * 功能：记录租户/公司维度下的业务上传功能配置，包括平台、业务、功能类型、
  *       业务唯一码、业务回调地址、业务查询地址和访问方式等。
  *
- * 与现有 SaaS 上传方案的关系：
- * - 通过 businessUniqueCode 将本表与 SaaSFileInterpretRecord 串联，
+ * 与现有上传方案的关系：
+ * - 通过 businessUniqueCode 将本表与 FileInterpretRecord 串联，
  *   作为解释结果与业务配置之间的桥梁；
  * - 业务侧在申请上传/解释能力时，先在本表登记一条配置记录，
  *   上传与回调流程根据 businessUniqueCode 进行绑定与路由。
@@ -33,7 +33,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_company_business_function")
-public class SaaSCompanyBusinessFunction extends BaseTenantEntity {
+public class CompanyBusinessFunction extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -91,68 +91,67 @@ public class SaaSCompanyBusinessFunction extends BaseTenantEntity {
 
     // ==================== 构建辅助方法 ====================
 
-    public static SaaSCompanyBusinessFunction build() {
-        return new SaaSCompanyBusinessFunction();
+    public static CompanyBusinessFunction build() {
+        return new CompanyBusinessFunction();
     }
 
-    public SaaSCompanyBusinessFunction toCompanyId(String companyId) {
+    public CompanyBusinessFunction toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toCompanyName(String companyName) {
+    public CompanyBusinessFunction toCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toPlatformType(String platformType) {
+    public CompanyBusinessFunction toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toBusinessCode(String businessCode) {
+    public CompanyBusinessFunction toBusinessCode(String businessCode) {
         this.businessCode = businessCode;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toBusinessName(String businessName) {
+    public CompanyBusinessFunction toBusinessName(String businessName) {
         this.businessName = businessName;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toFunctionType(String functionType) {
+    public CompanyBusinessFunction toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toBusinessUniqueCode(String businessUniqueCode) {
+    public CompanyBusinessFunction toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toCallbackUrl(String callbackUrl) {
+    public CompanyBusinessFunction toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toQueryUrl(String queryUrl) {
+    public CompanyBusinessFunction toQueryUrl(String queryUrl) {
         this.queryUrl = queryUrl;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toAccessMethod(String accessMethod) {
+    public CompanyBusinessFunction toAccessMethod(String accessMethod) {
         this.accessMethod = accessMethod;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toStatus(String status) {
+    public CompanyBusinessFunction toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSCompanyBusinessFunction toRemark(String remark) {
+    public CompanyBusinessFunction toRemark(String remark) {
         this.remark = remark;
         return this;
     }
 }
-
