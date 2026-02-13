@@ -12,10 +12,14 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * 平台文件解释记录表
+ * 文件解释记录明细表
  * 
- * 功能：记录文件解释的详细信息，包含解释信息JSON、业务申请唯一码、回调状态等
- *       关联业务文件上传表，记录每行数据的解释结果
+ * 功能：记录文件解析后的每行数据详情，关联业务功能、字段映射和文件上传
+ * 
+ * 关联关系：
+ * ├─ 关联公司业务功能（N:1）- businessFunctionId -> CompanyBusinessFunction.id
+ * ├─ 关联字段映射（N:1）- fieldMappingId -> FileFieldMapping.id
+ * ├─ 关联文件上传管理（N:1）- fileUploadId -> FileUpload.id
  * 
  * @author suven
  * @version v1.0.0
@@ -31,127 +35,124 @@ public class FileInterpretRecord extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
-    // ==================== 关联信息 ====================
+    // ==================== 关联关系 ====================
     
-    /** 文件上传ID，关联saas_file_upload表 */
-    @ApiDesc(value = "文件上传ID", required = 1)
+    /** 公司业务功能ID，关联 saas_company_business_function 表 */
+    @ApiDesc(value = "公司业务功能ID", required = 1)
+    private long businessFunctionId;
+    
+    /** 字段映射ID，关联 saas_file_field_mapping 表 */
+    @ApiDesc(value = "字段映射ID", required = 0)
+    private long fieldMappingId;
+    
+    /** 文件上传管理ID，关联 saas_file_upload 表 */
+    @ApiDesc(value = "文件上传管理ID", required = 1)
     private long fileUploadId;
-    
-    /** 解释标识，用于关联字段映射 */
-    @ApiDesc(value = "解释标识", required = 0)
-    private String interpretKey;
 
-    // ==================== 业务信息 ====================
+    // ==================== 行号记录 ====================
     
-    /** 业务申请唯一码，用于数据新增或修改 */
-    @ApiDesc(value = "业务申请唯一码", required = 0)
-    private String businessUniqueCode;
+    /** 行号记录，当前数据在文件中的行号 */
+    @ApiDesc(value = "行号", required = 1)
+    private int rowNumber;
     
-    /** 业务类型 */
-    @ApiDesc(value = "业务类型", required = 0)
-    private String businessType;
-    
-    /** 业务描述 */
-    @ApiDesc(value = "业务描述", required = 0)
-    private String businessDescription;
+    /** 行序号，用于排序展示 */
+    @ApiDesc(value = "行序号", required = 0)
+    private int rowIndex;
 
-    // ==================== 解释信息 ====================
+    // ==================== 数据存储 ====================
+
+    /** 原始数据 JSON 存储，未转换的原始数据 */
+    @ApiDesc(value = "原始数据JSON", required = 0)
+    private String rawDataJson;
+
+    /** 解析数据 JSON 存储，转换后的数据（英文字段名 -> 值） */
+    @ApiDesc(value = "解析数据JSON", required = 0)
+    private String dataJson;
     
-    /** 解释信息JSON，存储字段与值的映射关系 */
-    @ApiDesc(value = "解释信息JSON", required = 0)
-    private String interpretInfo;
+    /** 解析后的中文数据 JSON（中文字段名 -> 值），用于业务处理 */
+    @ApiDesc(value = "中文数据JSON", required = 0)
+    private String chineseDataJson;
+
+    // ==================== 校验状态 ====================
     
-    /** 解释状态: PENDING-待解释, PROCESSING-解释中, COMPLETED-已解释, FAILED-解释失败 */
-    @ApiDesc(value = "解释状态", required = 0)
-    private String interpretStatus;
+    /** 校验状态: PENDING-待校验, VALID-校验通过, INVALID-校验失败, WARNING-警告 */
+    @ApiDesc(value = "校验状态", required = 0)
+    private String checkStatus;
     
-    /** 解释进度 0-100 */
-    @ApiDesc(value = "解释进度", required = 0)
-    private int interpretProgress;
+    /** 校验详情 JSON，存储各字段校验结果 */
+    @ApiDesc(value = "校验详情JSON", required = 0)
+    private String checkDetailJson;
     
-    /** 解释失败次数 */
-    @ApiDesc(value = "解释失败次数", required = 0)
-    private int interpretFailCount;
+    /** 校验通过数 */
+    @ApiDesc(value = "校验通过数", required = 0)
+    private int validCount;
     
-    /** 最后解释时间 */
-    @ApiDesc(value = "最后解释时间", required = 0)
-    private LocalDateTime lastInterpretTime;
+    /** 校验失败数 */
+    @ApiDesc(value = "校验失败数", required = 0)
+    private int invalidCount;
+    
+    /** 警告数 */
+    @ApiDesc(value = "警告数", required = 0)
+    private int warningCount;
+
+    // ==================== 异常信息记录 ====================
+    
+    /** 错误代码 */
+    @ApiDesc(value = "错误代码", required = 0)
+    private String errorCode;
     
     /** 错误信息 */
     @ApiDesc(value = "错误信息", required = 0)
     private String errorMessage;
+    
+    /** 异常堆栈信息 */
+    @ApiDesc(value = "异常堆栈", required = 0)
+    private String exceptionStack;
+    
+    /** 重试次数 */
+    @ApiDesc(value = "重试次数", required = 0)
+    private int retryCount;
 
-    // ==================== 统计信息 ====================
+    // ==================== 处理状态 ====================
     
-    /** 数据总条数 */
-    @ApiDesc(value = "数据总条数", required = 0)
-    private int totalCount;
+    /** 处理状态: PENDING-待处理, PROCESSING-处理中, SUCCESS-处理成功, FAILED-处理失败, SKIPPED-已跳过 */
+    @ApiDesc(value = "处理状态", required = 0)
+    private String processStatus;
     
-    /** 成功解释条数 */
-    @ApiDesc(value = "成功解释条数", required = 0)
-    private int successCount;
+    /** 处理进度 */
+    @ApiDesc(value = "处理进度", required = 0)
+    private int progressPercent;
     
-    /** 失败解释条数 */
-    @ApiDesc(value = "失败解释条数", required = 0)
-    private int failCount;
-    
-    /** 跳过解释条数 */
-    @ApiDesc(value = "跳过解释条数", required = 0)
-    private int skipCount;
-
-    // ==================== 回调信息 ====================
-    
-    /** 是否需要回调: 0-否, 1-是 */
-    @ApiDesc(value = "是否需要回调", required = 0)
-    private int needCallback;
-    
-    /** 回调URL */
-    @ApiDesc(value = "回调URL", required = 0)
-    private String callbackUrl;
-    
-    /** 回调HTTP方法: GET, POST */
-    @ApiDesc(value = "回调HTTP方法", required = 0)
-    private String callbackMethod;
-    
-    /** 回调状态: PENDING-待回调, SUCCESS-回调成功, FAILED-回调失败 */
-    @ApiDesc(value = "回调状态", required = 0)
-    private String callbackStatus;
-    
-    /** 回调失败次数 */
-    @ApiDesc(value = "回调失败次数", required = 0)
-    private int callbackFailCount;
-    
-    /** 最后回调时间 */
-    @ApiDesc(value = "最后回调时间", required = 0)
-    private LocalDateTime lastCallbackTime;
-    
-    /** 回调请求内容 */
-    @ApiDesc(value = "回调请求内容", required = 0)
-    private String callbackRequest;
-    
-    /** 回调响应内容 */
-    @ApiDesc(value = "回调响应内容", required = 0)
-    private String callbackResponse;
+    /** 处理消息 */
+    @ApiDesc(value = "处理消息", required = 0)
+    private String processMessage;
 
     // ==================== 业务处理结果 ====================
     
     /** 业务处理状态: PENDING-待处理, PROCESSING-处理中, SUCCESS-处理成功, FAILED-处理失败 */
     @ApiDesc(value = "业务处理状态", required = 0)
-    private String businessProcessStatus;
+    private String businessStatus;
     
     /** 业务处理结果描述 */
-    @ApiDesc(value = "业务处理结果描述", required = 0)
-    private String businessProcessResult;
+    @ApiDesc(value = "业务处理结果", required = 0)
+    private String businessResult;
     
     /** 业务处理异常信息 */
-    @ApiDesc(value = "业务处理异常信息", required = 0)
-    private String businessExceptionInfo;
+    @ApiDesc(value = "业务异常信息", required = 0)
+    private String businessErrorMessage;
     
     /** 业务处理时间 */
     @ApiDesc(value = "业务处理时间", required = 0)
     private LocalDateTime businessProcessTime;
+    
+    /** 业务处理完成时间 */
+    @ApiDesc(value = "业务处理完成时间", required = 0)
+    private LocalDateTime businessFinishTime;
 
-    // ==================== 扩展信息 ====================
+    
+    /** 业务唯一码 */
+    @ApiDesc(value = "业务唯一码", required = 0)
+    private String businessUniqueCode;
     
     /** 扩展字段1 */
     @ApiDesc(value = "扩展字段1", required = 0)
@@ -175,53 +176,73 @@ public class FileInterpretRecord extends BaseTenantEntity {
         return new FileInterpretRecord();
     }
 
+    public FileInterpretRecord toBusinessFunctionId(long businessFunctionId) {
+        this.businessFunctionId = businessFunctionId;
+        return this;
+    }
+
+    public FileInterpretRecord toFieldMappingId(long fieldMappingId) {
+        this.fieldMappingId = fieldMappingId;
+        return this;
+    }
+
     public FileInterpretRecord toFileUploadId(long fileUploadId) {
         this.fileUploadId = fileUploadId;
         return this;
     }
 
-    public FileInterpretRecord toInterpretKey(String interpretKey) {
-        this.interpretKey = interpretKey;
+    public FileInterpretRecord toRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
         return this;
     }
 
-    public FileInterpretRecord toBusinessUniqueCode(String businessUniqueCode) {
-        this.businessUniqueCode = businessUniqueCode;
+    public FileInterpretRecord toRowIndex(int rowIndex) {
+        this.rowIndex = rowIndex;
         return this;
     }
 
-    public FileInterpretRecord toBusinessType(String businessType) {
-        this.businessType = businessType;
+    public FileInterpretRecord toDataJson(String dataJson) {
+        this.dataJson = dataJson;
         return this;
     }
 
-    public FileInterpretRecord toBusinessDescription(String businessDescription) {
-        this.businessDescription = businessDescription;
+    public FileInterpretRecord toRawDataJson(String rawDataJson) {
+        this.rawDataJson = rawDataJson;
         return this;
     }
 
-    public FileInterpretRecord toInterpretInfo(String interpretInfo) {
-        this.interpretInfo = interpretInfo;
+    public FileInterpretRecord toChineseDataJson(String chineseDataJson) {
+        this.chineseDataJson = chineseDataJson;
         return this;
     }
 
-    public FileInterpretRecord toInterpretStatus(String interpretStatus) {
-        this.interpretStatus = interpretStatus;
+    public FileInterpretRecord toCheckStatus(String checkStatus) {
+        this.checkStatus = checkStatus;
         return this;
     }
 
-    public FileInterpretRecord toInterpretProgress(int interpretProgress) {
-        this.interpretProgress = interpretProgress;
+    public FileInterpretRecord toCheckDetailJson(String checkDetailJson) {
+        this.checkDetailJson = checkDetailJson;
         return this;
     }
 
-    public FileInterpretRecord toInterpretFailCount(int interpretFailCount) {
-        this.interpretFailCount = interpretFailCount;
+    public FileInterpretRecord toValidCount(int validCount) {
+        this.validCount = validCount;
         return this;
     }
 
-    public FileInterpretRecord toLastInterpretTime(LocalDateTime lastInterpretTime) {
-        this.lastInterpretTime = lastInterpretTime;
+    public FileInterpretRecord toInvalidCount(int invalidCount) {
+        this.invalidCount = invalidCount;
+        return this;
+    }
+
+    public FileInterpretRecord toWarningCount(int warningCount) {
+        this.warningCount = warningCount;
+        return this;
+    }
+
+    public FileInterpretRecord toErrorCode(String errorCode) {
+        this.errorCode = errorCode;
         return this;
     }
 
@@ -230,38 +251,58 @@ public class FileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public FileInterpretRecord toTotalCount(int totalCount) {
-        this.totalCount = totalCount;
+    public FileInterpretRecord toExceptionStack(String exceptionStack) {
+        this.exceptionStack = exceptionStack;
         return this;
     }
 
-    public FileInterpretRecord toSuccessCount(int successCount) {
-        this.successCount = successCount;
+    public FileInterpretRecord toRetryCount(int retryCount) {
+        this.retryCount = retryCount;
         return this;
     }
 
-    public FileInterpretRecord toFailCount(int failCount) {
-        this.failCount = failCount;
+    public FileInterpretRecord toProcessStatus(String processStatus) {
+        this.processStatus = processStatus;
         return this;
     }
 
-    public FileInterpretRecord toSkipCount(int skipCount) {
-        this.skipCount = skipCount;
+    public FileInterpretRecord toProgressPercent(int progressPercent) {
+        this.progressPercent = progressPercent;
+        return this;
+    }
+
+    public FileInterpretRecord toProcessMessage(String processMessage) {
+        this.processMessage = processMessage;
+        return this;
+    }
+
+    public FileInterpretRecord toBusinessStatus(String businessStatus) {
+        this.businessStatus = businessStatus;
+        return this;
+    }
+
+    public FileInterpretRecord toBusinessResult(String businessResult) {
+        this.businessResult = businessResult;
+        return this;
+    }
+
+    public FileInterpretRecord toBusinessErrorMessage(String businessErrorMessage) {
+        this.businessErrorMessage = businessErrorMessage;
+        return this;
+    }
+
+    public FileInterpretRecord toBusinessProcessTime(LocalDateTime businessProcessTime) {
+        this.businessProcessTime = businessProcessTime;
+        return this;
+    }
+
+    public FileInterpretRecord toBusinessFinishTime(LocalDateTime businessFinishTime) {
+        this.businessFinishTime = businessFinishTime;
         return this;
     }
 
     public FileInterpretRecord toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
-        return this;
-    }
-
-    public FileInterpretRecord toCallbackUrl(String callbackUrl) {
-        this.callbackUrl = callbackUrl;
-        return this;
-    }
-
-    public FileInterpretRecord toCallbackMethod(String callbackMethod) {
-        this.callbackMethod = callbackMethod;
         return this;
     }
 
@@ -280,33 +321,13 @@ public class FileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public FileInterpretRecord toCallbackRequest(String callbackRequest) {
-        this.callbackRequest = callbackRequest;
-        return this;
-    }
-
     public FileInterpretRecord toCallbackResponse(String callbackResponse) {
         this.callbackResponse = callbackResponse;
         return this;
     }
 
-    public FileInterpretRecord toBusinessProcessStatus(String businessProcessStatus) {
-        this.businessProcessStatus = businessProcessStatus;
-        return this;
-    }
-
-    public FileInterpretRecord toBusinessProcessResult(String businessProcessResult) {
-        this.businessProcessResult = businessProcessResult;
-        return this;
-    }
-
-    public FileInterpretRecord toBusinessExceptionInfo(String businessExceptionInfo) {
-        this.businessExceptionInfo = businessExceptionInfo;
-        return this;
-    }
-
-    public FileInterpretRecord toBusinessProcessTime(LocalDateTime businessProcessTime) {
-        this.businessProcessTime = businessProcessTime;
+    public FileInterpretRecord toBusinessUniqueCode(String businessUniqueCode) {
+        this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
@@ -328,5 +349,72 @@ public class FileInterpretRecord extends BaseTenantEntity {
     public FileInterpretRecord toRemark(String remark) {
         this.remark = remark;
         return this;
+    }
+
+    // ==================== 业务方法 ====================
+
+    /**
+     * 标记校验通过
+     */
+    public void markValid() {
+        this.checkStatus = "VALID";
+        this.validCount = 1;
+        this.invalidCount = 0;
+    }
+
+    /**
+     * 标记校验失败
+     * @param errorMessage 错误信息
+     */
+    public void markInvalid(String errorMessage) {
+        this.checkStatus = "INVALID";
+        this.validCount = 0;
+        this.invalidCount = 1;
+        this.errorMessage = errorMessage;
+    }
+
+    /**
+     * 标记业务处理成功
+     * @param businessResult 业务结果
+     */
+    public void markBusinessSuccess(String businessResult) {
+        this.businessStatus = "SUCCESS";
+        this.businessResult = businessResult;
+        this.businessProcessTime = LocalDateTime.now();
+    }
+
+    /**
+     * 标记业务处理失败
+     * @param errorMessage 错误信息
+     */
+    public void markBusinessFailed(String errorMessage) {
+        this.businessStatus = "FAILED";
+        this.businessErrorMessage = errorMessage;
+        this.businessProcessTime = LocalDateTime.now();
+    }
+
+    /**
+     * 标记处理中
+     * @param message 处理消息
+     */
+    public void markProcessing(String message) {
+        this.processStatus = "PROCESSING";
+        this.processMessage = message;
+    }
+
+    /**
+     * 增加重试次数
+     */
+    public void incrementRetry() {
+        this.retryCount++;
+    }
+
+    /**
+     * 是否可以重试
+     * @param maxRetry 最大重试次数
+     * @return 是否可以重试
+     */
+    public boolean canRetry(int maxRetry) {
+        return this.retryCount < maxRetry;
     }
 }

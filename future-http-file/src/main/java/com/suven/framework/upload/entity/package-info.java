@@ -3,7 +3,7 @@
  * ============================================================================
  * 主要提供三块能力：
  * 1. 【文件存储平台】提供文件上传、存储、访问的通用与核心业务能力
- * 2. 【SaaS多租户增强】提供多租户场景下的文件上传、解析、回调完整解决方案
+ * 2. 【 多租户增强】提供多租户场景下的文件上传、解析、回调完整解决方案
  * 3. 【下载任务中心】提供批量大数据文件生成与下载能力
  * 4. 【Excel在线预览】提供 Luckysheet 格式的 Excel 在线预览服务
  * ============================================================================
@@ -57,14 +57,14 @@ package com.suven.framework.upload.entity;
  *       └─ 完整审计追踪
  *
  * ============================================================================
- * 二. SaaS 多租户增强功能（2026年新增）
+ * 二.   多租户增强功能（2026年新增）
  * ============================================================================
  *
  * 【核心设计理念】
  * 提供完整的多租户文件上传、解析、回调业务流程，支持灵活的字段映射和业务定制
  *
  * 1. 公司业务功能配置
- *    └─ SaaSCompanyBusinessFunction  : 公司业务功能信息表
+ *    └─ CompanyBusinessFunction  : 公司业务功能信息表
  *       ├─ 租户/公司/平台/业务维度配置
  *       ├─ 功能类型和唯一业务码（businessUniqueCode）
  *       ├─ 回调地址配置（callbackUrl）
@@ -72,14 +72,14 @@ package com.suven.framework.upload.entity;
  *       └─ 访问方式定义（HTTP/HTTPS）
  *
  * 2. 字段映射管理
- *    └─ SaaSFileFieldMapping        : 业务功能中英文字段映射表
+ *    └─  FileFieldMapping        : 业务功能中英文字段映射表
  *       ├─ 关联公司业务功能（N:1）
  *       ├─ 英文字段名 → 中文字段名映射
  *       ├─ 排序权重配置（sortOrder）
  *       └─ 支持文件解析时的字段转换
  *
  * 3. 文件上传管理
- *    └─ SaaSFileUpload             : 业务文件上传记录表
+ *    └─  FileUpload             : 业务文件上传记录表
  *       ├─ 关联公司业务功能（N:1）
  *       ├─ 关联字段映射（N:1）
  *       ├─ 上传批次号（uploadBatchNo）
@@ -88,8 +88,10 @@ package com.suven.framework.upload.entity;
  *       └─ 业务唯一码（businessUniqueCode）
  *
  * 4. 文件解释记录
- *    └─ SaaSFileInterpretRecord    : 文件解释记录明细表
- *       ├─ 关联文件上传（N:1）
+ *    └─  FileInterpretRecord    : 文件解释记录明细表
+ *       ├─ 关联公司业务功能（N:1）
+ *       ├─ 关联字段映射（N:1）
+ *       ├─ 关联文件上传管理（N:1）
  *       ├─ 行号记录（rowNumber）
  *       ├─ 解析数据 JSON 存储（dataJson）
  *       ├─ 原始数据 JSON 存储（rawDataJson）
@@ -125,9 +127,9 @@ package com.suven.framework.upload.entity;
  * ============================================================================
  *
  * 1. 解析服务架构
- *    ├─ SaaSFileParseService       : 文件解析服务接口
+ *    ├─  FileParseService       : 文件解析服务接口
  *    │   ├─ 支持文件类型自动识别
- *    │   ├─ 统一解析结果格式（SaaSFileParseResultDto）
+ *    │   ├─ 统一解析结果格式（ FileParseResultDto）
  *    │   └─ 支持字段映射转换
  *    │
  *    ├─ XLSFileParser             : Excel 文件解析器
@@ -143,7 +145,7 @@ package com.suven.framework.upload.entity;
  *        └─ 数据类型推断
  *
  * 2. 解析结果格式
- *    └─ SaaSFileParseResultDto
+ *    └─  FileParseResultDto
  *       ├─ success                : 解析是否成功
  *       ├─ totalRows              : 总行数
  *       ├─ successRows            : 成功解析行数
@@ -172,7 +174,7 @@ package com.suven.framework.upload.entity;
  * 提供批量大数据文件生成能力，支持异步生成和断点续传
  *
  * 1. 下载记录管理
- *    └─ SaaSFileDownloadRecord     : 下载记录表
+ *    └─  FileDownloadRecord     : 下载记录表
  *       ├─ 关联业务功能（N:1）
  *       ├─ 关联字段映射（N:1）
  *       ├─ 查询条件存储（queryCondition）
@@ -305,9 +307,9 @@ package com.suven.framework.upload.entity;
  *       └─ 配置校验规则
  *
  * 2. 文件上传阶段
- *    ├─ 上传文件 → SaaSFileUpload
- *    ├─ 选择业务功能 → SaaSCompanyBusinessFunction
- *    ├─ 选择字段映射 → SaaSFileFieldMapping
+ *    ├─ 上传文件 →  FileUpload
+ *    ├─ 选择业务功能 →  CompanyBusinessFunction
+ *    ├─ 选择字段映射 →  FileFieldMapping
  *    └─ 生成上传批次号
  *
  * 3. 文件解析阶段
@@ -315,7 +317,7 @@ package com.suven.framework.upload.entity;
  *    ├─ 选择解析器（XLS/CSV）
  *    ├─ 应用字段映射
  *    ├─ 数据校验
- *    └─ 保存解析结果 → SaaSFileInterpretRecord
+ *    └─ 保存解析结果 →  FileInterpretRecord
  *
  * 4. 回调通知阶段
  *    ├─ 组装回调数据

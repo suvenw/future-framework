@@ -27,7 +27,7 @@ import java.util.*;
  */
 @Slf4j
 @Service("xlsFileParser")
-public class XLSFileParser implements SaaSFileParseService {
+public class XLSFileParser implements FileParseService {
 
     /**
      * 默认跳过行数（表头）

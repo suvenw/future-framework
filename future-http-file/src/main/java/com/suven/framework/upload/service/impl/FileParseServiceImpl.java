@@ -60,7 +60,7 @@ public class FileParseServiceImpl implements FileParseService {
     @Override
     public FileParseResultDto parse(InputStream inputStream, String fileName, String fileType) {
         log.info("开始解析文件: {}, 类型: {}", fileName, fileType);
-        
+
         SaaSFileParseService parser = getParser(fileName, fileType);
         if (parser == null) {
             log.error("不支持的文件类型: {}", fileType);
