@@ -152,7 +152,7 @@ public abstract class AbstractHutoolRequestProxy extends AbstractHttpProxy imple
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public HutoolRequestBuilder getRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest proxyRequest )  {
+    public HutoolRequestBuilder getRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest proxyRequest )  {
         this.initHttpProxyRequest(proxyRequest);
         String requestUrl = url;
         if (HttpParamsUtil.isNotEmpty(params)) {
@@ -186,7 +186,7 @@ public abstract class AbstractHutoolRequestProxy extends AbstractHttpProxy imple
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public HutoolRequestBuilder postFormRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest proxyRequest  )  {
+    public HutoolRequestBuilder postFormRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest proxyRequest  )  {
         HttpRequest request = HttpRequest.post(url);
         this.initHttpProxyRequest(proxyRequest);
         if (proxyRequest.isEncode()) {

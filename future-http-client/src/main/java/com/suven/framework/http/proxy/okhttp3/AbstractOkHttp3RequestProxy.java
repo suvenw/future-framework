@@ -169,7 +169,7 @@ public abstract class AbstractOkHttp3RequestProxy  extends AbstractHttpProxy imp
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public Okhttp3RequestBuilder getRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest  httpProxyRequest )  {
+    public Okhttp3RequestBuilder getRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest  httpProxyRequest )  {
         if( null ==  httpProxyRequest){
             httpProxyRequest = HttpProxyDefaultRequest.builder();
         }
@@ -208,7 +208,7 @@ public abstract class AbstractOkHttp3RequestProxy  extends AbstractHttpProxy imp
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public Okhttp3RequestBuilder postFormRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest  httpProxyRequest )  {
+    public Okhttp3RequestBuilder postFormRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest  httpProxyRequest )  {
         if( null ==  httpProxyRequest){
             httpProxyRequest = HttpProxyDefaultRequest.builder();
         }

@@ -211,7 +211,7 @@ public abstract class AbstractApacheRequestProxy extends AbstractHttpProxy imple
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public ApacheRequestBuilder getRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest)  {
+    public ApacheRequestBuilder getRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest)  {
         this.initHttpProxyRequest(httpProxyRequest);
         String requestUrl = url;
         if (HttpParamsUtil.isNotEmpty(params)) {
@@ -247,7 +247,7 @@ public abstract class AbstractApacheRequestProxy extends AbstractHttpProxy imple
      */
 
     @Override
-    public ApacheRequestBuilder postFormRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest)  {
+    public ApacheRequestBuilder postFormRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest)  {
         HttpPost request = new HttpPost(url);
         this.initHttpProxyRequest(httpProxyRequest);
         if (HttpParamsUtil.isNotEmpty(params)) {
