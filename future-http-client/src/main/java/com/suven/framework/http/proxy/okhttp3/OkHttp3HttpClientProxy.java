@@ -90,7 +90,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse get(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -112,7 +112,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse get(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -134,7 +134,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -155,7 +155,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -176,7 +176,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		Okhttp3RequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -301,7 +301,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse post(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -317,7 +317,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse post(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -339,7 +339,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -360,7 +360,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -382,7 +382,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -439,7 +439,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
@@ -462,7 +462,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
@@ -485,7 +485,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
@@ -507,7 +507,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,future);
@@ -529,7 +529,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,future);
@@ -659,7 +659,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
@@ -676,7 +676,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
@@ -699,7 +699,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
@@ -721,7 +721,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,future);
@@ -743,7 +743,7 @@ public class OkHttp3HttpClientProxy extends AbstractOkHttp3RequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		OkHttp3FutureCallback future =  OkHttp3FutureCallback.build();
 		Okhttp3RequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,future);

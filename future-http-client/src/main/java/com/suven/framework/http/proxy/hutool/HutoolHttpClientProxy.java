@@ -98,7 +98,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse get(String url,Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -120,7 +120,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse get(String url,Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -142,7 +142,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse get(String url,Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		HutoolRequestBuilder request = this.getRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -163,7 +163,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url,Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -184,7 +184,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url,Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.getRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -308,7 +308,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse post(String url,Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -324,7 +324,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse post(String url,Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -346,7 +346,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse post(String url,Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		HutoolRequestBuilder request = this.postFormRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -367,7 +367,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url,Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -388,7 +388,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url,Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.postFormRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -441,7 +441,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse getAsync(String url,Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -463,7 +463,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse getAsync(String url,Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -485,7 +485,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse getAsync(String url,Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		HutoolRequestBuilder request = this.getRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -506,7 +506,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url,Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.getRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
 		return response;
@@ -527,7 +527,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url,Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.getRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
 		return response;
@@ -649,7 +649,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse postAsync(String url,Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -665,7 +665,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse postAsync(String url,Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -687,7 +687,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse postAsync(String url,Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		HutoolRequestBuilder request = this.postFormRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -708,7 +708,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url,Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 //		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		HutoolRequestBuilder request = this.postFormRequest(url,params,null, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
@@ -730,7 +730,7 @@ public class HutoolHttpClientProxy extends AbstractHutoolRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url,Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		HutoolRequestBuilder request = this.postFormRequest(url,params,header, httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request);
 		return response;
