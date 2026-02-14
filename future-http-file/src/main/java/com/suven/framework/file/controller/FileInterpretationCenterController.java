@@ -8,5 +8,5 @@ package com.suven.framework.file.controller;
  * "Center" 意味着中心、中心点或中心位置。在这种情况下，"center" 指代一个地方或一个系统，用于集中管理、安排和监控任务的执行。
  * 因此，"Interpretation center" 指的是一个集中管理、安排和监控任务的地方、系统或平台。它可以是一个软件应用程序、一个在线平台、一个工作台或一个组织内的特定部门或团队。任务中心旨在帮助用户或团队更好地组织和管理任务，提高工作效率，并确保任务按时完成。
  */
-public class uploadpretationCenterController {
+public class FileInterpretationCenterController {
 }
