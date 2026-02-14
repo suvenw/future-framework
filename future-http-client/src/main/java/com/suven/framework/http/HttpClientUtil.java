@@ -76,7 +76,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse get(String url, Map<String, String> params, int timeout) {
+	 public static HttpClientResponse get(String url, Map<String, ?> params, int timeout) {
 		 checkHttpNotNull(proxy);
 		 return proxy.get(url,params,timeout);
 	}
@@ -96,7 +96,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header) {
+	 public static HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header) {
 		 checkHttpNotNull(proxy);
 		 return proxy.get(url,params,header);
 	}
@@ -115,7 +115,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse get(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	 public static HttpClientResponse get(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		 checkHttpNotNull(proxy);
 		 return proxy.get(url,params,httpProxyRequest);
 	}
@@ -182,7 +182,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse post(String url, Map<String, String> params, int timeout) {
+	 public static HttpClientResponse post(String url, Map<String, ?> params, int timeout) {
 		 checkHttpNotNull(proxy);
 		 return proxy.post(url,params,timeout);
 	}
@@ -202,7 +202,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header) {
+	 public static HttpClientResponse post(String url, Map<String, Object> params, HttpProxyHeader header) {
 		 checkHttpNotNull(proxy);
 		 return proxy.post(url,params,header);
 	}
@@ -221,7 +221,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse post(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	 public static HttpClientResponse post(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		 checkHttpNotNull(proxy);
 		 return proxy.post(url,params,httpProxyRequest);
 	}
@@ -253,7 +253,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @param httpProxyRequest 是否需要 url encode
 	 * @return 结果
 	 */
-	public static HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public static HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		checkHttpNotNull(proxy);
 		return proxy.getAsync(url, params,null, httpProxyRequest);
 	}
@@ -266,7 +266,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @param encode 是否需要 url encode
 	 * @return 结果
 	 */
-	public static HttpClientResponse get(String url, Map<String, String> params, boolean encode) {
+	public static HttpClientResponse get(String url, Map<String, ?> params, boolean encode) {
 		checkHttpNotNull(proxy);
 		return proxy.get(url, params, encode);
 	}
@@ -280,7 +280,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @param httpProxyRequest 是否需要 url encode
 	 * @return 结果
 	 */
-	public static HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public static HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		checkHttpNotNull(proxy);
 		return proxy.get(url, params, header, httpProxyRequest);
 	}
@@ -329,7 +329,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @param encode 是否需要 url encode
 	 * @return 结果
 	 */
-	public static HttpClientResponse post(String url, Map<String, String> params, boolean encode) {
+	public static HttpClientResponse post(String url, Map<String, ?> params, boolean encode) {
 		checkHttpNotNull(proxy);
 		return proxy.post(url, params, encode);
 	}
@@ -343,7 +343,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @param httpProxyRequest 是否需要 url encode
 	 * @return 结果
 	 */
-	public static HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public static HttpClientResponse post(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		checkHttpNotNull(proxy);
 		return proxy.post(url, params, header, httpProxyRequest);
 	}
@@ -381,7 +381,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse getAsync(String url, Map<String, String> params, int timeout) {
+	 public static HttpClientResponse getAsync(String url, Map<String, ?> params, int timeout) {
 		 checkHttpNotNull(proxy);
 		 return proxy.getAsync(url, params,timeout);
 	}
@@ -401,7 +401,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse getAsync(String url, Map<String, String> params, boolean encode) {
+	 public static HttpClientResponse getAsync(String url, Map<String, ?> params, boolean encode) {
 		 checkHttpNotNull(proxy);
 		 return proxy.getAsync(url, params,encode);
 	}
@@ -421,7 +421,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	 public static HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		 checkHttpNotNull(proxy);
 		 return proxy.getAsync(url, params,header);
 	}
@@ -441,7 +441,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	 public static HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		 checkHttpNotNull(proxy);
 		 return proxy.getAsync(url, params,header,httpProxyRequest);
 	}
@@ -553,7 +553,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse postAsync(String url, Map<String, String> params, int timeout) {
+	 public static HttpClientResponse postAsync(String url, Map<String, ?> params, int timeout) {
 		 checkHttpNotNull(proxy);
 		 return proxy.postAsync(url,params,timeout);
 	}
@@ -567,7 +567,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse postAsync(String url, Map<String, String> params, boolean encode) {
+	 public static HttpClientResponse postAsync(String url, Map<String, ?> params, boolean encode) {
 		 checkHttpNotNull(proxy);
 		 return proxy.postAsync(url,params,encode);
 	}
@@ -587,7 +587,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	 public static HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		 checkHttpNotNull(proxy);
 		 return proxy.postAsync(url,params,header);
 	}
@@ -606,7 +606,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	 public static HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		 checkHttpNotNull(proxy);
 		 return proxy.postAsync(url,params,httpProxyRequest);
 	}
@@ -626,7 +626,7 @@ public class HttpClientUtil extends HttpClientUtilProxy {
 	 * @return 结果
 	 */
 	 
-	 public static HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	 public static HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		 checkHttpNotNull(proxy);
 		 return proxy.postAsync(url,params,header,httpProxyRequest);
 	}

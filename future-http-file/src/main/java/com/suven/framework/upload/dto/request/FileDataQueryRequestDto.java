@@ -21,7 +21,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaaSFileDataQueryRequestDto implements Serializable {
+public class FileDataQueryRequestDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -101,8 +101,8 @@ public class SaaSFileDataQueryRequestDto implements Serializable {
      * @param businessUniqueCode 业务唯一码
      * @return SaaSFileDataQueryRequestDto
      */
-    public static SaaSFileDataQueryRequestDto create(String businessUniqueCode) {
-        return SaaSFileDataQueryRequestDto.builder()
+    public static FileDataQueryRequestDto create(String businessUniqueCode) {
+        return FileDataQueryRequestDto.builder()
                 .businessUniqueCode(businessUniqueCode)
                 .httpMethod("POST")
                 .pageSize(1000)
@@ -119,7 +119,7 @@ public class SaaSFileDataQueryRequestDto implements Serializable {
      * @param value 值
      * @return this
      */
-    public SaaSFileDataQueryRequestDto addQueryParam(String key, Object value) {
+    public FileDataQueryRequestDto addQueryParam(String key, Object value) {
         if (this.queryParams == null) {
             this.queryParams = new java.util.HashMap<>();
         }
@@ -134,7 +134,7 @@ public class SaaSFileDataQueryRequestDto implements Serializable {
      * @param value 值
      * @return this
      */
-    public SaaSFileDataQueryRequestDto addHeader(String key, String value) {
+    public FileDataQueryRequestDto addHeader(String key, String value) {
         if (this.headers == null) {
             this.headers = new java.util.HashMap<>();
         }

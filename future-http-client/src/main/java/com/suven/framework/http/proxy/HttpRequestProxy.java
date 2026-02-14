@@ -53,7 +53,7 @@ public interface HttpRequestProxy <T extends HttpRequestBuilder>{
      *  https 是否使用证书  https 的值为 true 或 false, 默认为false
      * @return HttpRequestBuilder 代码请求对象
      */
-    T getRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest );
+    T getRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest );
 
 
 
@@ -71,7 +71,7 @@ public interface HttpRequestProxy <T extends HttpRequestBuilder>{
      *  https 是否使用证书  https 的值为 true 或 false, 默认为false
      * @return HttpRequestBuilder 代码请求对象
      */
-    T postFormRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest );
+    T postFormRequest(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest );
 
     /**
      * POST 方式 提交表单实现的业务,转换请求执行的逻辑的实现方法,返回各业务的请求对像的代理对象HttpRequestBuilder

@@ -8,20 +8,23 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.file.client.FileClient;
+import com.suven.framework.http.HttpClientUtil;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
-import com.suven.framework.upload.dto.request.SaaSFileDataQueryRequestDto;
+import com.suven.framework.http.proxy.HttpClientResponse;
+import com.suven.framework.http.proxy.HttpProxyDefaultRequest;
+import com.suven.framework.http.proxy.HttpProxyRequest;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
+import com.suven.framework.upload.entity.CompanyBusinessFunction;
 import com.suven.framework.upload.entity.DataSourceModuleName;
-import com.suven.framework.upload.entity.SaaSCompanyBusinessFunction;
-import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
-import com.suven.framework.upload.mapper.SaaSFileDownloadRecordMapper;
+import com.suven.framework.upload.entity.FileDownloadRecord;
+import com.suven.framework.upload.entity.FileFieldMapping;
+import com.suven.framework.upload.mapper.FileDownloadRecordMapper;
 import com.suven.framework.upload.repository.CompanyBusinessFunctionRepository;
 import com.suven.framework.upload.repository.FileDownloadRecordRepository;
-import com.suven.framework.upload.repository.SaaSFileFieldMappingRepository;
-import com.suven.framework.upload.service.SaaSFileGenerateService;
-import com.suven.framework.upload.util.http.OkHttpClients;
+import com.suven.framework.upload.repository.FileFieldMappingRepository;
+import com.suven.framework.upload.service.FileGenerateService;
 import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;
@@ -53,7 +56,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
+public class FileGenerateServiceImpl implements FileGenerateService {
 
     private static final DateTimeFormatter FILE_NAME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -62,13 +65,13 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     private FileDownloadRecordRepository downloadRecordRepository;
 
     @Autowired
-    private SaaSFileFieldMappingRepository fieldMappingRepository;
+    private FileFieldMappingRepository fieldMappingRepository;
 
     @Autowired
     private CompanyBusinessFunctionRepository businessFunctionRepository;
 
     @Autowired
-    private SaaSFileDownloadRecordMapper downloadRecordMapper;
+    private FileDownloadRecordMapper downloadRecordMapper;
 
     /** 文件存储客户端 */
     @Autowired(required = false)
@@ -87,14 +90,14 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileDownloadRecord applyGenerateFile(SaaSFileDataQueryRequestDto requestDto) {
+    public FileDownloadRecord applyGenerateFile(FileDataQueryRequestDto requestDto) {
         log.info("申请生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         // 验证参数
         validateRequestDto(requestDto);
 
         // 创建下载记录
-        SaaSFileDownloadRecord record = createDownloadRecord(requestDto);
+        FileDownloadRecord record = createDownloadRecord(requestDto);
 
         // 异步生成文件
         asyncGenerateFileInternal(record.getId(), requestDto);
@@ -106,14 +109,14 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 同步生成文件
      */
     @Override
-    public String syncGenerateFile(SaaSFileDataQueryRequestDto requestDto) {
+    public String syncGenerateFile(FileDataQueryRequestDto requestDto) {
         log.info("同步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         // 验证参数
         validateRequestDto(requestDto);
 
         // 创建下载记录
-        SaaSFileDownloadRecord record = createDownloadRecord(requestDto);
+        FileDownloadRecord record = createDownloadRecord(requestDto);
 
         try {
             // 执行生成
@@ -133,14 +136,14 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 异步生成文件
      */
     @Override
-    public long asyncGenerateFile(SaaSFileDataQueryRequestDto requestDto, String callbackUrl) {
+    public long asyncGenerateFile(FileDataQueryRequestDto requestDto, String callbackUrl) {
         log.info("异步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         // 验证参数
         validateRequestDto(requestDto);
 
         // 创建下载记录
-        SaaSFileDownloadRecord record = createDownloadRecord(requestDto);
+        FileDownloadRecord record = createDownloadRecord(requestDto);
 
         // 异步执行生成
         asyncGenerateFileInternal(record.getId(), requestDto);
@@ -153,7 +156,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     @Async("fileGenerateExecutor")
     public CompletableFuture<Void> asyncGenerateFileInternal(long downloadRecordId, 
-                                                            SaaSFileDataQueryRequestDto requestDto) {
+                                                            FileDataQueryRequestDto requestDto) {
         try {
             executeGenerate(downloadRecordId, requestDto);
         } catch (Exception e) {
@@ -166,10 +169,10 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     /**
      * 执行文件生成
      */
-    private void executeGenerate(long downloadRecordId, SaaSFileDataQueryRequestDto requestDto) {
+    private void executeGenerate(long downloadRecordId, FileDataQueryRequestDto requestDto) {
         log.info("执行文件生成: downloadRecordId={}", downloadRecordId);
 
-        SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+        FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
         if (record == null) {
             throw new RuntimeException("下载记录不存在: " + downloadRecordId);
         }
@@ -182,10 +185,10 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
             downloadRecordRepository.updateById(record);
 
             // 获取字段映射
-            List<SaaSFileFieldMapping> fieldMappings = getFieldMappings(requestDto.getBusinessUniqueCode());
+            List<FileFieldMapping> fieldMappings = getFieldMappings(requestDto.getBusinessUniqueCode());
 
             // 获取业务配置
-            SaaSCompanyBusinessFunction function = getBusinessFunction(requestDto.getBusinessUniqueCode());
+            CompanyBusinessFunction function = getBusinessFunction(requestDto.getBusinessUniqueCode());
             if (function != null) {
                 record.setBusinessFunctionId(function.getId());
                 record.setBusinessType(function.getBusinessName());
@@ -193,7 +196,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
             }
 
             // 分页查询数据
-            List<Map<String, Object>> allData = queryDataByPages(requestDto);
+            List<JSONObject> allData = queryDataByPages(requestDto);
 
             record.setProgressPercent(50);
             record.setTotalQueryCount(allData.size());
@@ -246,7 +249,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 获取文件生成状态
      */
     @Override
-    public SaaSFileDownloadRecord getGenerateStatus(long downloadRecordId) {
+    public FileDownloadRecord getGenerateStatus(long downloadRecordId) {
         return downloadRecordRepository.getById(downloadRecordId);
     }
 
@@ -255,7 +258,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     @Override
     public String getDownloadUrl(long downloadRecordId) {
-        SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+        FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
         if (record == null) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL, "下载记录不存在");
         }
@@ -286,31 +289,31 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 分页查询下载记录
      */
     @Override
-    public PageResult<SaaSFileDownloadRecord> pageQueryDownloadRecords(
+    public PageResult<FileDownloadRecord> pageQueryDownloadRecords(
             SaaSFileDownloadQueryRequestVo requestVo, Pager pager) {
         log.info("分页查询下载记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
-        LambdaQueryWrapper<SaaSFileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
 
         if (StringUtils.isNotBlank(requestVo.getBusinessUniqueCode())) {
-            queryWrapper.eq(SaaSFileDownloadRecord::getBusinessUniqueCode, requestVo.getBusinessUniqueCode());
+            queryWrapper.eq(FileDownloadRecord::getBusinessUniqueCode, requestVo.getBusinessUniqueCode());
         }
         if (requestVo.getBusinessFunctionId() != null && requestVo.getBusinessFunctionId() > 0) {
-            queryWrapper.eq(SaaSFileDownloadRecord::getBusinessFunctionId, requestVo.getBusinessFunctionId());
+            queryWrapper.eq(FileDownloadRecord::getBusinessFunctionId, requestVo.getBusinessFunctionId());
         }
         if (StringUtils.isNotBlank(requestVo.getGenerateStatus())) {
-            queryWrapper.eq(SaaSFileDownloadRecord::getGenerateStatus, requestVo.getGenerateStatus());
+            queryWrapper.eq(FileDownloadRecord::getGenerateStatus, requestVo.getGenerateStatus());
         }
         if (StringUtils.isNotBlank(requestVo.getFileType())) {
-            queryWrapper.eq(SaaSFileDownloadRecord::getFileType, requestVo.getFileType());
+            queryWrapper.eq(FileDownloadRecord::getFileType, requestVo.getFileType());
         }
         if (StringUtils.isNotBlank(requestVo.getFileName())) {
-            queryWrapper.like(SaaSFileDownloadRecord::getFileName, requestVo.getFileName());
+            queryWrapper.like(FileDownloadRecord::getFileName, requestVo.getFileName());
         }
-        queryWrapper.eq(SaaSFileDownloadRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileDownloadRecord::getId);
+        queryWrapper.eq(FileDownloadRecord::getDeleted, 0);
+        queryWrapper.orderByDesc(FileDownloadRecord::getId);
 
-        PageResult<SaaSFileDownloadRecord> result = new PageResult<>();
+        PageResult<FileDownloadRecord> result = new PageResult<>();
         result.setTotal(pager.getTotal());
         result.setList(downloadRecordMapper.selectPage(
                 new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(pager.getPageNo(), pager.getPageSize()),
@@ -324,16 +327,16 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 根据业务唯一码查询下载记录
      */
     @Override
-    public PageResult<SaaSFileDownloadRecord> queryByBusinessCode(String businessUniqueCode, Pager pager) {
+    public PageResult<FileDownloadRecord> queryByBusinessCode(String businessUniqueCode, Pager pager) {
         log.info("根据业务唯一码查询下载记录: businessUniqueCode={}", businessUniqueCode);
 
         if (StringUtils.isBlank(businessUniqueCode)) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
 
-        List<SaaSFileDownloadRecord> records = downloadRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
+        List<FileDownloadRecord> records = downloadRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
 
-        PageResult<SaaSFileDownloadRecord> result = new PageResult<>();
+        PageResult<FileDownloadRecord> result = new PageResult<>();
         result.setTotal(records.size());
 
         int pageNo = pager.getPageNo() <= 0 ? 1 : pager.getPageNo();
@@ -355,7 +358,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     @Override
     public Map<String, Object> getGenerateProgress(long downloadRecordId) {
-        SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+        FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
         if (record == null) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL, "下载记录不存在");
         }
@@ -386,7 +389,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     public boolean cancelGenerate(long downloadRecordId) {
         log.info("取消文件生成任务: downloadRecordId={}", downloadRecordId);
 
-        SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+        FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
         if (record == null) {
             return false;
         }
@@ -411,7 +414,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     public boolean deleteDownloadRecord(long downloadRecordId) {
         log.info("删除下载记录: downloadRecordId={}", downloadRecordId);
 
-        SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+        FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
         if (record == null) {
             return false;
         }
@@ -435,26 +438,26 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     @Override
     public List<Map<String, Object>> convertFieldsToChinese(
-            List<Map<String, Object>> dataList,
-            List<SaaSFileFieldMapping> fieldMappings) {
+            List<JSONObject> dataList,
+            List<FileFieldMapping> fieldMappings) {
 
         if (ObjectTrue.isEmpty(dataList) || ObjectTrue.isEmpty(fieldMappings)) {
-            return dataList;
+            return new ArrayList<>();
         }
 
         // 创建字段映射表
-        Map<String, String> fieldNameMapping = new HashMap<>();
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
+        Map<String, Object>  fieldNameMapping = new HashMap<>();
+        for (FileFieldMapping mapping : fieldMappings) {
             fieldNameMapping.put(mapping.getFieldEnglishName(), mapping.getFieldChineseName());
         }
 
         // 转换每行数据
-        List<Map<String, Object>> result = new ArrayList<>();
-        for (Map<String, Object> row : dataList) {
+        List< Map<String, Object>> result = new ArrayList<>();
+        for (JSONObject row : dataList) {
             Map<String, Object> newRow = new LinkedHashMap<>();
             for (Map.Entry<String, Object> entry : row.entrySet()) {
-                String chineseName = fieldNameMapping.getOrDefault(entry.getKey(), entry.getKey());
-                newRow.put(chineseName, entry.getValue());
+                Object chineseName = fieldNameMapping.getOrDefault(entry.getKey(), entry.getKey());
+                newRow.put(String.valueOf(chineseName), entry.getValue());
             }
             result.add(newRow);
         }
@@ -466,16 +469,16 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 生成表头（中文）
      */
     @Override
-    public List<String> generateChineseHeaders(List<SaaSFileFieldMapping> fieldMappings) {
+    public List<String> generateChineseHeaders(List<FileFieldMapping> fieldMappings) {
         if (ObjectTrue.isEmpty(fieldMappings)) {
             return new ArrayList<>();
         }
 
         List<String> headers = new ArrayList<>();
         // 按排编号排序
-        fieldMappings.sort(Comparator.comparingInt(SaaSFileFieldMapping::getSortOrder));
+        fieldMappings.sort(Comparator.comparingInt(FileFieldMapping::getSortOrder));
 
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
+        for (FileFieldMapping mapping : fieldMappings) {
             headers.add(mapping.getFieldChineseName());
         }
 
@@ -486,13 +489,13 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 获取字段映射
      */
     @Override
-    public List<SaaSFileFieldMapping> getFieldMappings(String businessUniqueCode) {
+    public List<FileFieldMapping> getFieldMappings(String businessUniqueCode) {
         if (StringUtils.isBlank(businessUniqueCode)) {
             return new ArrayList<>();
         }
 
         // 获取业务功能配置
-        SaaSCompanyBusinessFunction function = getBusinessFunction(businessUniqueCode);
+        CompanyBusinessFunction function = getBusinessFunction(businessUniqueCode);
         if (function == null) {
             return new ArrayList<>();
         }
@@ -506,7 +509,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     /**
      * 验证请求参数
      */
-    private void validateRequestDto(SaaSFileDataQueryRequestDto requestDto) {
+    private void validateRequestDto(FileDataQueryRequestDto requestDto) {
         if (StringUtils.isBlank(requestDto.getBusinessUniqueCode())) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
@@ -518,8 +521,8 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     /**
      * 创建下载记录
      */
-    private SaaSFileDownloadRecord createDownloadRecord(SaaSFileDataQueryRequestDto requestDto) {
-        SaaSFileDownloadRecord record = new SaaSFileDownloadRecord();
+    private FileDownloadRecord createDownloadRecord(FileDataQueryRequestDto requestDto) {
+        FileDownloadRecord record = new FileDownloadRecord();
         record.setBusinessUniqueCode(requestDto.getBusinessUniqueCode());
         record.setDownloadUserId(requestDto.getDownloadUserId());
         record.setDownloadUserName(requestDto.getDownloadUserName());
@@ -532,19 +535,19 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
         record.setFileType(requestDto.getFileType() != null ? requestDto.getFileType().toUpperCase() : "XLSX");
         record.setCreateDate(LocalDateTime.now());
         record.setModifyDate(LocalDateTime.now());
-
-        return downloadRecordRepository.saveId(record);
+        downloadRecordRepository.save(record);
+        return record;
     }
 
     /**
      * 获取业务功能配置
      */
-    private SaaSCompanyBusinessFunction getBusinessFunction(String businessUniqueCode) {
+    private CompanyBusinessFunction getBusinessFunction(String businessUniqueCode) {
         try {
-            LambdaQueryWrapper<SaaSCompanyBusinessFunction> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(SaaSCompanyBusinessFunction::getBusinessUniqueCode, businessUniqueCode);
-            queryWrapper.eq(SaaSCompanyBusinessFunction::getStatus, "ACTIVE");
-            queryWrapper.eq(SaaSCompanyBusinessFunction::getDeleted, 0);
+            LambdaQueryWrapper<CompanyBusinessFunction> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(CompanyBusinessFunction::getBusinessUniqueCode, businessUniqueCode);
+            queryWrapper.eq(CompanyBusinessFunction::getStatus, "ACTIVE");
+            queryWrapper.eq(CompanyBusinessFunction::getDeleted, 0);
             return businessFunctionRepository.getOne(queryWrapper);
         } catch (Exception e) {
             log.warn("获取业务功能配置失败: {}", businessUniqueCode, e);
@@ -555,8 +558,8 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     /**
      * 分页查询数据
      */
-    private List<Map<String, Object>> queryDataByPages(SaaSFileDataQueryRequestDto requestDto) {
-        List<Map<String, Object>> allData = new ArrayList<>();
+    private List<JSONObject> queryDataByPages(FileDataQueryRequestDto requestDto) {
+        List<JSONObject> allData = new ArrayList<>();
         int pageNo = 1;
         int pageSize = requestDto.getPageSize() > 0 ? requestDto.getPageSize() : 1000;
         int timeoutMs = requestDto.getTimeoutMs() > 0 ? requestDto.getTimeoutMs() : 30000;
@@ -572,35 +575,26 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
                 params.put("pageSize", pageSize);
 
                 // 调用业务接口
-                String jsonResult = httpPost(requestDto.getDataQueryUrl(), params, timeoutMs);
-                if (StringUtils.isBlank(jsonResult)) {
+//                String jsonResult = httpPost(requestDto.getDataQueryUrl(), params, timeoutMs);
+                HttpProxyRequest proxyRequest = new HttpProxyDefaultRequest();
+                proxyRequest.getTimeout(timeoutMs);
+                HttpClientResponse jsonResponse = HttpClientUtil.post(requestDto.getDataQueryUrl(),params,proxyRequest);
+                if (Objects.isNull(jsonResponse) || !ObjectTrue.isTrue(jsonResponse.isSuccess() )) {
                     log.warn("查询接口返回空数据: url={}, pageNo={}", requestDto.getDataQueryUrl(), pageNo);
                     break;
                 }
-
+                PageResult<JSONObject> pageResult =   jsonResponse.parseBody(PageResult.class);
                 // 解析返回数据
-                JSONObject result = JSON.parseObject(jsonResult);
-                JSONArray dataArray = result.getJSONArray("list");
-                if (dataArray == null || dataArray.isEmpty()) {
+                if (ObjectTrue.isEmpty(pageResult)  || ObjectTrue.isEmpty(pageResult.getList())) {
                     break;
                 }
-
-                for (int i = 0; i < dataArray.size(); i++) {
-                    allData.add(dataArray.getJSONObject(i));
-                }
-
+                allData.addAll(pageResult.getList());
                 // 检查是否还有更多数据
-                Integer total = result.getInteger("total");
-                Integer totalPages = result.getInteger("totalPages");
-                if (total == null || totalPages == null) {
+                int total = pageResult.getIsNextPage();
+                if ( total <= 0) {
                     // 如果没有分页信息，假设只有一页
                     break;
                 }
-
-                if (pageNo >= totalPages) {
-                    break;
-                }
-
                 pageNo++;
 
             } catch (Exception e) {
@@ -613,25 +607,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
         return allData;
     }
 
-    /**
-     * HTTP POST请求
-     */
-    private String httpPost(String url, Map<String, Object> params, int timeoutMs) {
-        try {
-            String jsonParams = JSON.toJSONString(params);
-            Response response = OkHttpClients.postHttp(url, jsonParams);
 
-            if (response == null || !response.isSuccessful()) {
-                log.warn("HTTP请求失败: url={}, code={}", url, response != null ? response.code() : "null");
-                return null;
-            }
-
-            return response.body() != null ? response.body().string() : null;
-        } catch (Exception e) {
-            log.error("HTTP请求异常: url={}", url, e);
-            return null;
-        }
-    }
 
     /**
      * 生成文件名
@@ -756,7 +732,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      * 
      * 功能：将生成的文件上传到OSS/S3等文件存储服务，并返回访问URL
      */
-    private String uploadToFileStorage(SaaSFileDownloadRecord record) {
+    private String uploadToFileStorage(FileDownloadRecord record) {
         log.info("上传文件到存储服务: filePath={}", record.getFilePath());
 
         // 检查文件是否存在
@@ -807,7 +783,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     /**
      * 生成OSS存储路径
      */
-    private String generateOssPath(SaaSFileDownloadRecord record) {
+    private String generateOssPath(FileDownloadRecord record) {
         // 格式: saas/export/{businessCode}/{date}/{filename}
         String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String businessCode = record.getBusinessUniqueCode();
@@ -866,7 +842,7 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
      */
     private void updateRecordError(long downloadRecordId, String errorMessage) {
         try {
-            SaaSFileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
+            FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
             if (record != null) {
                 record.setGenerateStatus("FAILED");
                 record.setErrorMessage(errorMessage);

@@ -100,7 +100,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse get(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -122,7 +122,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse get(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -144,7 +144,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		JavaRequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -165,7 +165,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -186,7 +186,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse get(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse get(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -308,7 +308,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse post(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		JavaRequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -324,7 +324,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse post(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		JavaRequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -346,7 +346,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		JavaRequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
@@ -367,7 +367,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.postFormRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -388,7 +388,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse post(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse post(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.postFormRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.execute(request);
 		return response;
@@ -443,7 +443,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -465,7 +465,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -487,7 +487,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		JavaRequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -508,7 +508,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.getRequest(url,params,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
 		return response;
@@ -529,7 +529,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.getRequest(url,params,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
 		return response;
@@ -652,7 +652,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, int timeout) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, int timeout) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setTimeout(timeout);
 		JavaRequestBuilder request = this.postFormRequest(url,params ,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -668,7 +668,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, boolean encode) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, boolean encode) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder().setEncode(encode);
 		JavaRequestBuilder request = this.postFormRequest(url,params ,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -690,7 +690,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header) {
 		HttpProxyRequest httpProxyRequest = HttpProxyDefaultRequest.builder();
 		JavaRequestBuilder request = this.postFormRequest(url,params ,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
@@ -711,7 +711,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.postFormRequest(url,params ,null,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
 		return response;
@@ -732,7 +732,7 @@ public  class JavaHttpClientProxy extends AbstractJavaRequestProxy {
 	 * @return 结果
 	 */
 	@Override
-	public HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
+	public HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest) {
 		JavaRequestBuilder request = this.postFormRequest(url,params ,header,httpProxyRequest);
 		HttpClientResponse response = this.executeAsync(request,null);
 		return response;

@@ -29,7 +29,7 @@ import java.util.List;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class SaaSFileServiceImpl implements SaaSFileService {
+public class FileServiceImpl implements SaaSFileService {
 
     @Autowired
     private FileUploadStorageRepository fileUploadStorageRepository;

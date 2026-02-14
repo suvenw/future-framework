@@ -33,7 +33,7 @@ public  class ObjectTrue {
      * @return {@code true} - 不为空，{@code false} - 为空
      */
     public static boolean isTrue(Boolean object) {
-        return  null != object && object == true ;
+        return  null != object && object;
     }
 
     /**

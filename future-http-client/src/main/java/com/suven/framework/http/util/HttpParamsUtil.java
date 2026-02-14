@@ -211,7 +211,7 @@ public class HttpParamsUtil {
 	 * @param encode 是否转码
 	 * @return str
 	 */
-	public static String parseMapToString(Map<String, String> params, boolean encode) {
+	public static String parseMapToString(Map<String, ?> params, boolean encode) {
 		if(isEmpty(params)){
 			return "";
 		}
@@ -361,7 +361,7 @@ public class HttpParamsUtil {
 			return treeMap;
 		}else {
 			Object object = JSON.parse(urlParam);
-			Map<String, String>  treeMap = toMap(object,decode);
+			Map<String,String>  treeMap = toMap(object,decode);
 			return treeMap;
 
 		}
@@ -394,9 +394,9 @@ public class HttpParamsUtil {
 
 //	public static HttpRequestParams getClientSign(Object head,Object body,String md5Key,boolean decode)  {
 //		//1.请求参数对象转换排序的map树
-//		Map<String, String> dataMap = new TreeMap<>();
-//		Map<String, String> headerMap = null;
-//		Map<String, String> bodyMap = null;
+//		Map<String, ?> dataMap = new TreeMap<>();
+//		Map<String, ?> headerMap = null;
+//		Map<String, ?> bodyMap = null;
 //		if(null != head){
 //			headerMap = toMap(head,decode);
 //			if(headerMap != null && !headerMap.isEmpty()){
@@ -455,7 +455,7 @@ public class HttpParamsUtil {
 	 * @param decode ,内容是否需要decode
 	 * @return
 	 */
-	public static Map<String, String> getClientSignMap(Object head,Object body,boolean decode ){
+	public static Map<String, ?> getClientSignMap(Object head,Object body,boolean decode ){
 		Map<String, String> dataMap = new TreeMap<>();
 		if(null != head){
 			Map<String, String> headMap = toMap(head,decode);

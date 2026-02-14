@@ -145,7 +145,7 @@ public abstract class AbstractJavaRequestProxy extends AbstractHttpProxy impleme
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public JavaRequestBuilder getRequest(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest )  {
+    public JavaRequestBuilder getRequest(String url,Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest )  {
         if( null ==  httpProxyRequest){
             httpProxyRequest = HttpProxyDefaultRequest.builder();
         }
@@ -180,7 +180,7 @@ public abstract class AbstractJavaRequestProxy extends AbstractHttpProxy impleme
      * @return HttpRequestBuilder 代码请求对象
      */
     @Override
-    public JavaRequestBuilder postFormRequest(String url, Map<String, String> params, HttpProxyHeader header,  HttpProxyRequest httpProxyRequest )  {
+    public JavaRequestBuilder postFormRequest(String url,Map<String, ?> params, HttpProxyHeader header,  HttpProxyRequest httpProxyRequest )  {
         if( null ==  httpProxyRequest){
             httpProxyRequest = HttpProxyDefaultRequest.builder();
         }
