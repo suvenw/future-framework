@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileInterpretResponseDto implements Serializable {
+public class FileInterpretResponseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -115,121 +115,121 @@ public class SaaSFileInterpretResponseDto implements Serializable {
     @ApiDesc(value = "修改时间", required = 0)
     private LocalDateTime modifyDate;
 
-    public static SaaSFileInterpretResponseDto build() {
-        return new SaaSFileInterpretResponseDto();
+    public static FileInterpretResponseDto build() {
+        return new FileInterpretResponseDto();
     }
 
-    public SaaSFileInterpretResponseDto toId(long id) {
+    public FileInterpretResponseDto toId(long id) {
         this.id = id;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toOperationRecordId(long operationRecordId) {
+    public FileInterpretResponseDto toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toInterpretKey(String interpretKey) {
+    public FileInterpretResponseDto toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessUniqueCode(String businessUniqueCode) {
+    public FileInterpretResponseDto toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessType(String businessType) {
+    public FileInterpretResponseDto toBusinessType(String businessType) {
         this.businessType = businessType;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessDescription(String businessDescription) {
+    public FileInterpretResponseDto toBusinessDescription(String businessDescription) {
         this.businessDescription = businessDescription;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toInterpretInfo(String interpretInfo) {
+    public FileInterpretResponseDto toInterpretInfo(String interpretInfo) {
         this.interpretInfo = interpretInfo;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toInterpretStatus(String interpretStatus) {
+    public FileInterpretResponseDto toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toInterpretProgress(int interpretProgress) {
+    public FileInterpretResponseDto toInterpretProgress(int interpretProgress) {
         this.interpretProgress = interpretProgress;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toErrorMessage(String errorMessage) {
+    public FileInterpretResponseDto toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toTotalCount(int totalCount) {
+    public FileInterpretResponseDto toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toSuccessCount(int successCount) {
+    public FileInterpretResponseDto toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toFailCount(int failCount) {
+    public FileInterpretResponseDto toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toSkipCount(int skipCount) {
+    public FileInterpretResponseDto toSkipCount(int skipCount) {
         this.skipCount = skipCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toCallbackStatus(String callbackStatus) {
+    public FileInterpretResponseDto toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toCallbackFailCount(int callbackFailCount) {
+    public FileInterpretResponseDto toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toLastCallbackTime(Date lastCallbackTime) {
+    public FileInterpretResponseDto toLastCallbackTime(Date lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessProcessStatus(String businessProcessStatus) {
+    public FileInterpretResponseDto toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessProcessResult(String businessProcessResult) {
+    public FileInterpretResponseDto toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileInterpretResponseDto toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toBusinessProcessTime(Date businessProcessTime) {
+    public FileInterpretResponseDto toBusinessProcessTime(Date businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toCreateDate(Date createDate) {
+    public FileInterpretResponseDto toCreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public SaaSFileInterpretResponseDto toModifyDate(Date modifyDate) {
+    public FileInterpretResponseDto toModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }

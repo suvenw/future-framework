@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.http.data.entity.Pager;
-import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
-import com.suven.framework.upload.mapper.SaaSFileDownloadRecordMapper;
+import com.suven.framework.upload.entity.FileDownloadRecord;
+import com.suven.framework.upload.entity.FileDownloadRecord;
+import com.suven.framework.upload.mapper.FileDownloadRecordMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ import java.util.List;
  * @version v1.0.0
  * @date 创建时间: 2026-02-11
  */
-@Repository("saaSFileDownloadRecordRepository")
-public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<SaaSFileDownloadRecordMapper, SaaSFileDownloadRecord> {
+@Repository("fileDownloadRecordRepository")
+public class FileDownloadRecordRepository extends AbstractMyBatisRepository<FileDownloadRecordMapper, FileDownloadRecord> {
 
     /**
      * 根据ID查询下载记录
@@ -29,7 +30,7 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param id 记录ID
      * @return 下载记录
      */
-    public SaaSFileDownloadRecord getById(long id) {
+    public FileDownloadRecord getById(long id) {
         if (id <= 0) {
             return null;
         }
@@ -42,14 +43,14 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param businessUniqueCode 业务唯一码
      * @return 下载记录列表
      */
-    public List<SaaSFileDownloadRecord> getByBusinessUniqueCode(String businessUniqueCode) {
+    public List<FileDownloadRecord> getByBusinessUniqueCode(String businessUniqueCode) {
         if (ObjectTrue.isEmpty(businessUniqueCode)) {
             return new ArrayList<>();
         }
-        LambdaQueryWrapper<SaaSFileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SaaSFileDownloadRecord::getBusinessUniqueCode, businessUniqueCode);
-        queryWrapper.eq(SaaSFileDownloadRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileDownloadRecord::getId);
+        LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FileDownloadRecord::getBusinessUniqueCode, businessUniqueCode);
+        queryWrapper.eq(FileDownloadRecord::getDeleted, 0);
+        queryWrapper.orderByDesc(FileDownloadRecord::getId);
         return this.list(queryWrapper);
     }
 
@@ -60,18 +61,18 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param pager 分页参数
      * @return 下载记录列表
      */
-    public List<SaaSFileDownloadRecord> getByBusinessFunctionId(long businessFunctionId, Pager pager) {
+    public List<FileDownloadRecord> getByBusinessFunctionId(long businessFunctionId, Pager pager) {
         if (businessFunctionId <= 0) {
             return new ArrayList<>();
         }
-        LambdaQueryWrapper<SaaSFileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SaaSFileDownloadRecord::getBusinessFunctionId, businessFunctionId);
-        queryWrapper.eq(SaaSFileDownloadRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileDownloadRecord::getId);
+        LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FileDownloadRecord::getBusinessFunctionId, businessFunctionId);
+        queryWrapper.eq(FileDownloadRecord::getDeleted, 0);
+        queryWrapper.orderByDesc(FileDownloadRecord::getId);
         
-        Page<SaaSFileDownloadRecord> page = new Page<>(pager.getPageNo(), pager.getPageSize());
+        Page<FileDownloadRecord> page = new Page<>(pager.getPageNo(), pager.getPageSize());
         page.setSearchCount(pager.isSearchCount());
-        IPage<SaaSFileDownloadRecord> pageResult = this.page(page, queryWrapper);
+        IPage<FileDownloadRecord> pageResult = this.page(page, queryWrapper);
         pager.setTotal(pageResult.getTotal());
         return pageResult.getRecords();
     }
@@ -83,18 +84,18 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param pager 分页参数
      * @return 下载记录列表
      */
-    public List<SaaSFileDownloadRecord> getByGenerateStatus(String status, Pager pager) {
+    public List<FileDownloadRecord> getByGenerateStatus(String status, Pager pager) {
         if (ObjectTrue.isEmpty(status)) {
             return new ArrayList<>();
         }
-        LambdaQueryWrapper<SaaSFileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SaaSFileDownloadRecord::getGenerateStatus, status);
-        queryWrapper.eq(SaaSFileDownloadRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileDownloadRecord::getId);
+        LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(FileDownloadRecord::getGenerateStatus, status);
+        queryWrapper.eq(FileDownloadRecord::getDeleted, 0);
+        queryWrapper.orderByDesc(FileDownloadRecord::getId);
         
-        Page<SaaSFileDownloadRecord> page = new Page<>(pager.getPageNo(), pager.getPageSize());
+        Page<FileDownloadRecord> page = new Page<>(pager.getPageNo(), pager.getPageSize());
         page.setSearchCount(pager.isSearchCount());
-        IPage<SaaSFileDownloadRecord> pageResult = this.page(page, queryWrapper);
+        IPage<FileDownloadRecord> pageResult = this.page(page, queryWrapper);
         pager.setTotal(pageResult.getTotal());
         return pageResult.getRecords();
     }
@@ -105,7 +106,7 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param record 下载记录
      * @return 是否成功
      */
-    public boolean updateDownloadRecord(SaaSFileDownloadRecord record) {
+    public boolean updateDownloadRecord(FileDownloadRecord record) {
         if (record == null || record.getId() <= 0) {
             return false;
         }
@@ -119,7 +120,7 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @return 是否成功
      */
     public boolean incrementDownloadCount(long id) {
-        SaaSFileDownloadRecord record = this.getById(id);
+        FileDownloadRecord record = this.getById(id);
         if (record == null) {
             return false;
         }
@@ -133,7 +134,7 @@ public class SaaSFileDownloadRecordRepository extends AbstractMyBatisRepository<
      * @param records 下载记录列表
      * @return 是否成功
      */
-    public boolean updateBatchDownloadRecords(List<SaaSFileDownloadRecord> records) {
+    public boolean updateBatchDownloadRecords(List<FileDownloadRecord> records) {
         if (ObjectTrue.isEmpty(records)) {
             return false;
         }

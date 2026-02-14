@@ -4,8 +4,8 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
-import com.suven.framework.upload.dto.response.SaaSFileInterpretResponseDto;
-import com.suven.framework.upload.dto.response.SaaSFileOperationResponseDto;
+import com.suven.framework.upload.dto.response.FileInterpretResponseDto;
+import com.suven.framework.upload.dto.response.FileOperationResponseDto;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
 
@@ -26,7 +26,7 @@ public interface SaaSFileOperationService {
      * @param requestDto 操作记录请求DTO
      * @return SaaSFileOperationResponseDto 操作记录响应DTO
      */
-    SaaSFileOperationResponseDto createOperationRecord(SaaSFileOperationRequestDto requestDto);
+    FileOperationResponseDto createOperationRecord(SaaSFileOperationRequestDto requestDto);
 
     /**
      * 查询操作记录详情
@@ -34,7 +34,7 @@ public interface SaaSFileOperationService {
      * @param id 操作记录ID
      * @return SaaSFileOperationResponseDto 操作记录响应DTO
      */
-    SaaSFileOperationResponseDto getOperationDetail(long id);
+    FileOperationResponseDto getOperationDetail(long id);
 
     /**
      * 分页查询操作记录列表
@@ -43,7 +43,7 @@ public interface SaaSFileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileOperationResponseDto> 分页结果
      */
-    PageResult<SaaSFileOperationResponseDto> queryOperationPage(SaaSFileOperationRequestDto requestDto, Pager pager);
+    PageResult<FileOperationResponseDto> queryOperationPage(SaaSFileOperationRequestDto requestDto, Pager pager);
 
     /**
      * 更新操作记录状态
@@ -71,7 +71,7 @@ public interface SaaSFileOperationService {
      * @param requestDto 解释记录请求DTO
      * @return SaaSFileInterpretResponseDto 解释记录响应DTO
      */
-    SaaSFileInterpretResponseDto createInterpretRecord(SaaSFileInterpretRequestDto requestDto);
+    FileInterpretResponseDto createInterpretRecord(SaaSFileInterpretRequestDto requestDto);
 
     /**
      * 查询解释记录详情
@@ -79,7 +79,7 @@ public interface SaaSFileOperationService {
      * @param id 解释记录ID
      * @return SaaSFileInterpretResponseDto 解释记录响应DTO
      */
-    SaaSFileInterpretResponseDto getInterpretDetail(long id);
+    FileInterpretResponseDto getInterpretDetail(long id);
 
     /**
      * 分页查询解释记录列表
@@ -88,7 +88,7 @@ public interface SaaSFileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<SaaSFileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager);
+    PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager);
 
     /**
      * 更新解释记录
@@ -114,7 +114,7 @@ public interface SaaSFileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<SaaSFileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager);
+    PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager);
 
     /**
      * 获取解释记录通过业务唯一码
@@ -122,7 +122,7 @@ public interface SaaSFileOperationService {
      * @param businessUniqueCode 业务唯一码
      * @return List<SaaSFileInterpretResponseDto> 解释记录列表
      */
-    List<SaaSFileInterpretResponseDto> getInterpretRecordsByBusinessCode(String businessUniqueCode);
+    List<FileInterpretResponseDto> getInterpretRecordsByBusinessCode(String businessUniqueCode);
 
     /**
      * 删除操作记录
@@ -146,5 +146,5 @@ public interface SaaSFileOperationService {
      * @param requestVo 解释结果分页查询请求VO（包含 businessUniqueCode 与分页参数）
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<SaaSFileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo);
+    PageResult<FileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo);
 }

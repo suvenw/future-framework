@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileFieldResponseDto extends BaseTenantEntity implements Serializable {
+public class FileFieldResponseDto extends BaseTenantEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -91,91 +91,91 @@ public class SaaSFileFieldResponseDto extends BaseTenantEntity implements Serial
     @ApiDesc(value = "状态", required = 0)
     private String status;
 
-    public static SaaSFileFieldResponseDto build() {
-        return new SaaSFileFieldResponseDto();
+    public static FileFieldResponseDto build() {
+        return new FileFieldResponseDto();
     }
 
-    public SaaSFileFieldResponseDto toId(long id) {
+    public FileFieldResponseDto toId(long id) {
         this.id = id;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toOperationRecordId(long operationRecordId) {
+    public FileFieldResponseDto toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toInterpretRecordId(long interpretRecordId) {
+    public FileFieldResponseDto toInterpretRecordId(long interpretRecordId) {
         this.interpretRecordId = interpretRecordId;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toFieldEnglishName(String fieldEnglishName) {
+    public FileFieldResponseDto toFieldEnglishName(String fieldEnglishName) {
         this.fieldEnglishName = fieldEnglishName;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toFieldChineseName(String fieldChineseName) {
+    public FileFieldResponseDto toFieldChineseName(String fieldChineseName) {
         this.fieldChineseName = fieldChineseName;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toSortOrder(int sortOrder) {
+    public FileFieldResponseDto toSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toFieldType(String fieldType) {
+    public FileFieldResponseDto toFieldType(String fieldType) {
         this.fieldType = fieldType;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toIsPrimaryKey(int isPrimaryKey) {
+    public FileFieldResponseDto toIsPrimaryKey(int isPrimaryKey) {
         this.isPrimaryKey = isPrimaryKey;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toIsRequired(int isRequired) {
+    public FileFieldResponseDto toIsRequired(int isRequired) {
         this.isRequired = isRequired;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toDefaultValue(String defaultValue) {
+    public FileFieldResponseDto toDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toFieldDescription(String fieldDescription) {
+    public FileFieldResponseDto toFieldDescription(String fieldDescription) {
         this.fieldDescription = fieldDescription;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toTotalCount(int totalCount) {
+    public FileFieldResponseDto toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toNotNullCount(int notNullCount) {
+    public FileFieldResponseDto toNotNullCount(int notNullCount) {
         this.notNullCount = notNullCount;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toNullCount(int nullCount) {
+    public FileFieldResponseDto toNullCount(int nullCount) {
         this.nullCount = nullCount;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toDuplicateCount(int duplicateCount) {
+    public FileFieldResponseDto toDuplicateCount(int duplicateCount) {
         this.duplicateCount = duplicateCount;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toSampleValue(String sampleValue) {
+    public FileFieldResponseDto toSampleValue(String sampleValue) {
         this.sampleValue = sampleValue;
         return this;
     }
 
-    public SaaSFileFieldResponseDto toStatus(String status) {
+    public FileFieldResponseDto toStatus(String status) {
         this.status = status;
         return this;
     }

@@ -21,7 +21,7 @@ import java.util.List;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileOperationResponseDto extends BaseTenantEntity implements Serializable {
+public class FileOperationResponseDto extends BaseTenantEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -139,162 +139,162 @@ public class SaaSFileOperationResponseDto extends BaseTenantEntity implements Se
 
     /** 字段映射列表 */
     @ApiDesc(value = "字段映射列表", required = 0)
-    private List<SaaSFileFieldResponseDto> fieldMappings;
+    private List<FileFieldResponseDto> fieldMappings;
 
     /** 解释记录列表 */
     @ApiDesc(value = "解释记录列表", required = 0)
-    private List<SaaSFileInterpretResponseDto> interpretRecords;
+    private List<FileInterpretResponseDto> interpretRecords;
 
-    public static SaaSFileOperationResponseDto build() {
-        return new SaaSFileOperationResponseDto();
+    public static FileOperationResponseDto build() {
+        return new FileOperationResponseDto();
     }
 
-    public SaaSFileOperationResponseDto toId(long id) {
+    public FileOperationResponseDto toId(long id) {
         this.id = id;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toCompanyId(String companyId) {
+    public FileOperationResponseDto toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toCompanyName(String companyName) {
+    public FileOperationResponseDto toCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toUploadUserId(long uploadUserId) {
+    public FileOperationResponseDto toUploadUserId(long uploadUserId) {
         this.uploadUserId = uploadUserId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toUploadUserName(String uploadUserName) {
+    public FileOperationResponseDto toUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toAppId(String appId) {
+    public FileOperationResponseDto toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toClientId(String clientId) {
+    public FileOperationResponseDto toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toUseBusinessId(long useBusinessId) {
+    public FileOperationResponseDto toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileProductName(String fileProductName) {
+    public FileOperationResponseDto toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileBusinessName(String fileBusinessName) {
+    public FileOperationResponseDto toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFunctionType(String functionType) {
+    public FileOperationResponseDto toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toPlatformType(String platformType) {
+    public FileOperationResponseDto toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileUploadStorageId(long fileUploadStorageId) {
+    public FileOperationResponseDto toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileSourceName(String fileSourceName) {
+    public FileOperationResponseDto toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileType(String fileType) {
+    public FileOperationResponseDto toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFileSize(long fileSize) {
+    public FileOperationResponseDto toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toStatus(String status) {
+    public FileOperationResponseDto toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toProgressPercent(int progressPercent) {
+    public FileOperationResponseDto toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toTotalCount(int totalCount) {
+    public FileOperationResponseDto toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toSuccessCount(int successCount) {
+    public FileOperationResponseDto toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFailCount(int failCount) {
+    public FileOperationResponseDto toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toMessage(String message) {
+    public FileOperationResponseDto toMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toErrorMessage(String errorMessage) {
+    public FileOperationResponseDto toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toCallbackStatus(String callbackStatus) {
+    public FileOperationResponseDto toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toCallbackFailCount(int callbackFailCount) {
+    public FileOperationResponseDto toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toLastCallbackTime(Date lastCallbackTime) {
+    public FileOperationResponseDto toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toCreateDate(Date createDate) {
+    public FileOperationResponseDto toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toModifyDate(Date modifyDate) {
+    public FileOperationResponseDto toModifyDate(LocalDateTime modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toFieldMappings(List<SaaSFileFieldResponseDto> fieldMappings) {
+    public FileOperationResponseDto toFieldMappings(List<FileFieldResponseDto> fieldMappings) {
         this.fieldMappings = fieldMappings;
         return this;
     }
 
-    public SaaSFileOperationResponseDto toInterpretRecords(List<SaaSFileInterpretResponseDto> interpretRecords) {
+    public FileOperationResponseDto toInterpretRecords(List<FileInterpretResponseDto> interpretRecords) {
         this.interpretRecords = interpretRecords;
         return this;
     }

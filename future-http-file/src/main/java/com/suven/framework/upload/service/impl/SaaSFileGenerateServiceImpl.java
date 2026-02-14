@@ -8,7 +8,6 @@ import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.file.client.FileClient;
-import com.suven.framework.file.config.UpLoadConstant;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
@@ -18,8 +17,8 @@ import com.suven.framework.upload.entity.SaaSCompanyBusinessFunction;
 import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
 import com.suven.framework.upload.entity.SaaSFileFieldMapping;
 import com.suven.framework.upload.mapper.SaaSFileDownloadRecordMapper;
-import com.suven.framework.upload.repository.SaaSCompanyBusinessFunctionRepository;
-import com.suven.framework.upload.repository.SaaSFileDownloadRecordRepository;
+import com.suven.framework.upload.repository.CompanyBusinessFunctionRepository;
+import com.suven.framework.upload.repository.FileDownloadRecordRepository;
 import com.suven.framework.upload.repository.SaaSFileFieldMappingRepository;
 import com.suven.framework.upload.service.SaaSFileGenerateService;
 import com.suven.framework.upload.util.http.OkHttpClients;
@@ -60,13 +59,13 @@ public class SaaSFileGenerateServiceImpl implements SaaSFileGenerateService {
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
-    private SaaSFileDownloadRecordRepository downloadRecordRepository;
+    private FileDownloadRecordRepository downloadRecordRepository;
 
     @Autowired
     private SaaSFileFieldMappingRepository fieldMappingRepository;
 
     @Autowired
-    private SaaSCompanyBusinessFunctionRepository businessFunctionRepository;
+    private CompanyBusinessFunctionRepository businessFunctionRepository;
 
     @Autowired
     private SaaSFileDownloadRecordMapper downloadRecordMapper;

@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "saas_file_operation_record")
-public class SaaSFileOperationRecord extends BaseTenantEntity {
+public class FileOperationRecord extends BaseTenantEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -163,161 +163,161 @@ public class SaaSFileOperationRecord extends BaseTenantEntity {
     @ApiDesc(value = "回调响应结果", required = 0)
     private String callbackResponse;
 
-    public static SaaSFileOperationRecord build() {
-        return new SaaSFileOperationRecord();
+    public static FileOperationRecord build() {
+        return new FileOperationRecord();
     }
 
-    public SaaSFileOperationRecord toCompanyId(String companyId) {
+    public FileOperationRecord toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileOperationRecord toCompanyName(String companyName) {
+    public FileOperationRecord toCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
 
-    public SaaSFileOperationRecord toDeptId(long deptId) {
+    public FileOperationRecord toDeptId(long deptId) {
         this.deptId = deptId;
         return this;
     }
 
-    public SaaSFileOperationRecord toDeptName(String deptName) {
+    public FileOperationRecord toDeptName(String deptName) {
         this.deptName = deptName;
         return this;
     }
 
-    public SaaSFileOperationRecord toUploadUserId(long uploadUserId) {
+    public FileOperationRecord toUploadUserId(long uploadUserId) {
         this.uploadUserId = uploadUserId;
         return this;
     }
 
-    public SaaSFileOperationRecord toUploadUserName(String uploadUserName) {
+    public FileOperationRecord toUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
         return this;
     }
 
-    public SaaSFileOperationRecord toAppId(String appId) {
+    public FileOperationRecord toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileOperationRecord toClientId(String clientId) {
+    public FileOperationRecord toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileOperationRecord toUseBusinessId(long useBusinessId) {
+    public FileOperationRecord toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileProductName(String fileProductName) {
+    public FileOperationRecord toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileBusinessName(String fileBusinessName) {
+    public FileOperationRecord toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileOperationRecord toFunctionType(String functionType) {
+    public FileOperationRecord toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSFileOperationRecord toPlatformType(String platformType) {
+    public FileOperationRecord toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileUploadStorageId(long fileUploadStorageId) {
+    public FileOperationRecord toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileSourceName(String fileSourceName) {
+    public FileOperationRecord toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileType(String fileType) {
+    public FileOperationRecord toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileSize(long fileSize) {
+    public FileOperationRecord toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileOperationRecord toFileMd5(String fileMd5) {
+    public FileOperationRecord toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileOperationRecord toStatus(String status) {
+    public FileOperationRecord toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileOperationRecord toProgressPercent(int progressPercent) {
+    public FileOperationRecord toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileOperationRecord toTotalCount(int totalCount) {
+    public FileOperationRecord toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileOperationRecord toSuccessCount(int successCount) {
+    public FileOperationRecord toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileOperationRecord toFailCount(int failCount) {
+    public FileOperationRecord toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileOperationRecord toMessage(String message) {
+    public FileOperationRecord toMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public SaaSFileOperationRecord toErrorMessage(String errorMessage) {
+    public FileOperationRecord toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileOperationRecord toNeedCallback(int needCallback) {
+    public FileOperationRecord toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
         return this;
     }
 
-    public SaaSFileOperationRecord toCallbackUrl(String callbackUrl) {
+    public FileOperationRecord toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSFileOperationRecord toCallbackStatus(String callbackStatus) {
+    public FileOperationRecord toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileOperationRecord toCallbackFailCount(int callbackFailCount) {
+    public FileOperationRecord toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileOperationRecord toLastCallbackTime(Date lastCallbackTime) {
+    public FileOperationRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileOperationRecord toCallbackResponse(String callbackResponse) {
+    public FileOperationRecord toCallbackResponse(String callbackResponse) {
         this.callbackResponse = callbackResponse;
         return this;
     }
