@@ -4,7 +4,7 @@ import com.suven.framework.upload.AbstractUnitTest;
 import com.suven.framework.upload.dto.response.SaaSFileParseResultDto;
 import com.suven.framework.upload.repository.SaaSFileInterpretRecordRepository;
 import com.suven.framework.upload.repository.SaaSFileUploadRepository;
-import com.suven.framework.upload.service.impl.SaaSFileUploadParseServiceImpl;
+import com.suven.framework.upload.service.impl.FileUploadParseServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.*;
 class SaaSFileUploadParseServiceTest extends AbstractUnitTest {
 
     @InjectMocks
-    private SaaSFileUploadParseServiceImpl fileUploadParseService;
+    private FileUploadParseServiceImpl fileUploadParseService;
 
     @Mock
     private SaaSFileUploadRepository fileUploadRepository;

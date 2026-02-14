@@ -40,7 +40,7 @@ import java.util.List;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
+public class FileOperationServiceImpl implements SaaSFileOperationService {
 
     @Autowired
     private FileOperationRecordRepository operationRecordRepository;

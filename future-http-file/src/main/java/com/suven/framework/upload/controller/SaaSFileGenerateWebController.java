@@ -1,17 +1,16 @@
 package com.suven.framework.upload.controller;
 
 import com.suven.framework.common.enums.SysResultCodeEnum;
-import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.api.DocumentConst;
 import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
-import com.suven.framework.upload.dto.request.SaaSFileDataQueryRequestDto;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
 import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
 import com.suven.framework.upload.entity.SaaSFileFieldMapping;
-import com.suven.framework.upload.service.SaaSFileGenerateService;
+import com.suven.framework.upload.service.FileGenerateService;
 import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -48,7 +47,7 @@ import java.util.Map;
 public class SaaSFileGenerateWebController {
 
     @Autowired
-    private SaaSFileGenerateService fileGenerateService;
+    private FileGenerateService fileGenerateService;
 
     /**
      * URL命令常量接口
@@ -95,13 +94,13 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "申请生成文件",
         description = "异步申请生成文件，返回任务ID用于查询状态",
-        request = SaaSFileDataQueryRequestDto.class,
+        request = FileDataQueryRequestDto.class,
         response = SaaSFileDownloadRecord.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.APPLY_GENERATE)
     public SaaSFileDownloadRecord applyGenerate(
-            @RequestBody SaaSFileDataQueryRequestDto requestDto) {
+            @RequestBody FileDataQueryRequestDto requestDto) {
         
         log.info("申请生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
@@ -124,12 +123,12 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "同步生成文件",
         description = "同步生成文件，直接返回文件下载URL（适用于小数据量）",
-        request = SaaSFileDataQueryRequestDto.class,
+        request = FileDataQueryRequestDto.class,
         response = String.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SYNC_GENERATE)
-    public String syncGenerate(@RequestBody SaaSFileDataQueryRequestDto requestDto) {
+    public String syncGenerate(@RequestBody FileDataQueryRequestDto requestDto) {
         log.info("同步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         if (StringUtils.isBlank(requestDto.getBusinessUniqueCode())) {
@@ -145,13 +144,13 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "异步生成文件",
         description = "异步生成文件，返回任务ID用于查询状态和进度",
-        request = SaaSFileDataQueryRequestDto.class,
+        request = FileDataQueryRequestDto.class,
         response = Long.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.ASYNC_GENERATE)
     public long asyncGenerate(
-            @RequestBody SaaSFileDataQueryRequestDto requestDto,
+            @RequestBody FileDataQueryRequestDto requestDto,
             @RequestParam(required = false) String callbackUrl) {
         
         log.info("异步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());

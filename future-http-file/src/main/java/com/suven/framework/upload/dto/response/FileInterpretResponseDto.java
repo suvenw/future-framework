@@ -199,7 +199,7 @@ public class FileInterpretResponseDto implements Serializable {
         return this;
     }
 
-    public FileInterpretResponseDto toLastCallbackTime(Date lastCallbackTime) {
+    public FileInterpretResponseDto toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
@@ -219,17 +219,17 @@ public class FileInterpretResponseDto implements Serializable {
         return this;
     }
 
-    public FileInterpretResponseDto toBusinessProcessTime(Date businessProcessTime) {
+    public FileInterpretResponseDto toBusinessProcessTime(LocalDateTime businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
 
-    public FileInterpretResponseDto toCreateDate(Date createDate) {
+    public FileInterpretResponseDto toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public FileInterpretResponseDto toModifyDate(Date modifyDate) {
+    public FileInterpretResponseDto toModifyDate(LocalDateTime modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }

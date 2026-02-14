@@ -45,7 +45,7 @@ import java.util.List;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class SaaSFileUploadParseServiceImpl implements SaaSFileUploadParseService {
+public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
     @Autowired
     private SaaSFileParseService fileParseService;

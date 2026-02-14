@@ -78,7 +78,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse getAsync(String url, Map<String, String> params, int timeout);
+	HttpClientResponse getAsync(String url, Map<String, ?> params, int timeout);
 	/**
 	 * GET 请求
 	 *
@@ -93,7 +93,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse getAsync(String url, Map<String, String> params, boolean encode);
+	HttpClientResponse getAsync(String url, Map<String, ?> params, boolean encode);
 
 
 	/**
@@ -110,7 +110,7 @@ public interface HttpAsyncProxy {
 	  *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	  * @return 结果
 	 */
-	HttpClientResponse getAsync(String url, Map<String, String> params,HttpProxyHeader header );
+	HttpClientResponse getAsync(String url, Map<String, ?> params,HttpProxyHeader header );
 
 
 	/**
@@ -126,7 +126,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest);
+	HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest);
 
 
 	/**
@@ -143,7 +143,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse getAsync(String url, Map<String, String> params, HttpProxyHeader header , HttpProxyRequest httpProxyRequest);
+	HttpClientResponse getAsync(String url, Map<String, ?> params, HttpProxyHeader header , HttpProxyRequest httpProxyRequest);
 
 
 	/**
@@ -232,7 +232,7 @@ public interface HttpAsyncProxy {
 	 * @param timeout 是否需要 url encode
 	 * @return 结果
 	 */
-	HttpClientResponse postAsync(String url, Map<String, String> params, int timeout);
+	HttpClientResponse postAsync(String url, Map<String, ?> params, int timeout);
 
 	/**
 	 *  POST 表单 请求 ,获取超时间,单位为毫秒,方法传过来,按方法执行,否则按系统配置默认执行
@@ -242,7 +242,7 @@ public interface HttpAsyncProxy {
 	 * @param encode 是否需要 url encode
 	 * @return 结果
 	 */
-	HttpClientResponse postAsync(String url, Map<String, String> params,  boolean encode);
+	HttpClientResponse postAsync(String url, Map<String, ?> params,  boolean encode);
 
 
 
@@ -260,7 +260,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header);
+	HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header);
 
 	/**
 	 *  POST 表单 请求 ,获取超时间,单位为毫秒,方法传过来,按方法执行,否则按系统配置默认执行
@@ -275,7 +275,7 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyRequest httpProxyRequest);
+	HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyRequest httpProxyRequest);
 
 	/**
 	 *  POST 表单 请求 ,获取超时间,单位为毫秒,方法传过来,按方法执行,否则按系统配置默认执行
@@ -291,5 +291,5 @@ public interface HttpAsyncProxy {
 	 *  proxy 是否使用代理 proxy的值为 true 或 false, 默认为false
 	 * @return 结果
 	 */
-	HttpClientResponse postAsync(String url, Map<String, String> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest);
+	HttpClientResponse postAsync(String url, Map<String, ?> params, HttpProxyHeader header, HttpProxyRequest httpProxyRequest);
 }

@@ -1,10 +1,11 @@
 package com.suven.framework.upload.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.request.SaaSFileDataQueryRequestDto;
-import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
+import com.suven.framework.upload.entity.FileDownloadRecord;
+import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
 
 import java.util.List;
@@ -19,15 +20,15 @@ import java.util.Map;
  * @version v1.0.0
  * @date 创建时间: 2026-02-11
  */
-public interface SaaSFileGenerateService {
+public interface FileGenerateService {
 
     /**
      * 申请生成文件
      * 
      * @param requestDto 数据查询请求DTO
-     * @return SaaSFileDownloadRecord 下载记录
+     * @return FileDownloadRecord 下载记录
      */
-    SaaSFileDownloadRecord applyGenerateFile(SaaSFileDataQueryRequestDto requestDto);
+    FileDownloadRecord applyGenerateFile(FileDataQueryRequestDto requestDto);
 
     /**
      * 同步生成文件（直接返回文件下载URL）
@@ -35,7 +36,7 @@ public interface SaaSFileGenerateService {
      * @param requestDto 数据查询请求DTO
      * @return String 文件下载URL
      */
-    String syncGenerateFile(SaaSFileDataQueryRequestDto requestDto);
+    String syncGenerateFile(FileDataQueryRequestDto requestDto);
 
     /**
      * 异步生成文件（返回任务ID）
@@ -44,15 +45,15 @@ public interface SaaSFileGenerateService {
      * @param callbackUrl 生成完成后的回调URL（可选）
      * @return long 下载记录ID
      */
-    long asyncGenerateFile(SaaSFileDataQueryRequestDto requestDto, String callbackUrl);
+    long asyncGenerateFile(FileDataQueryRequestDto requestDto, String callbackUrl);
 
     /**
      * 获取文件生成状态
      * 
      * @param downloadRecordId 下载记录ID
-     * @return SaaSFileDownloadRecord
+     * @return FileDownloadRecord
      */
-    SaaSFileDownloadRecord getGenerateStatus(long downloadRecordId);
+    FileDownloadRecord getGenerateStatus(long downloadRecordId);
 
     /**
      * 获取文件下载URL
@@ -67,9 +68,9 @@ public interface SaaSFileGenerateService {
      * 
      * @param requestVo 查询请求VO
      * @param pager 分页参数
-     * @return PageResult<SaaSFileDownloadRecord>
+     * @return PageResult<FileDownloadRecord>
      */
-    PageResult<SaaSFileDownloadRecord> pageQueryDownloadRecords(
+    PageResult<FileDownloadRecord> pageQueryDownloadRecords(
             SaaSFileDownloadQueryRequestVo requestVo, Pager pager);
 
     /**
@@ -77,9 +78,9 @@ public interface SaaSFileGenerateService {
      * 
      * @param businessUniqueCode 业务唯一码
      * @param pager 分页参数
-     * @return PageResult<SaaSFileDownloadRecord>
+     * @return PageResult<FileDownloadRecord>
      */
-    PageResult<SaaSFileDownloadRecord> queryByBusinessCode(
+    PageResult<FileDownloadRecord> queryByBusinessCode(
             String businessUniqueCode, Pager pager);
 
     /**
@@ -122,8 +123,8 @@ public interface SaaSFileGenerateService {
      * @return List<Map<String, Object>> 转换后的数据列表（字段为中文）
      */
     List<Map<String, Object>> convertFieldsToChinese(
-            List<Map<String, Object>> dataList,
-            List<SaaSFileFieldMapping> fieldMappings);
+            List<JSONObject> dataList,
+            List<FileFieldMapping> fieldMappings);
 
     /**
      * 生成表头（中文）
@@ -131,7 +132,7 @@ public interface SaaSFileGenerateService {
      * @param fieldMappings 字段映射列表
      * @return List<String> 中文表头列表
      */
-    List<String> generateChineseHeaders(List<SaaSFileFieldMapping> fieldMappings);
+    List<String> generateChineseHeaders(List<FileFieldMapping> fieldMappings);
 
     /**
      * 获取字段映射
@@ -139,5 +140,5 @@ public interface SaaSFileGenerateService {
      * @param businessUniqueCode 业务唯一码
      * @return List<SaaSFileFieldMapping>
      */
-    List<SaaSFileFieldMapping> getFieldMappings(String businessUniqueCode);
+    List<FileFieldMapping> getFieldMappings(String businessUniqueCode);
 }
