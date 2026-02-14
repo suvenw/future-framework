@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileResponseDto extends BaseTenantEntity implements Serializable {
+public class FileResponseDto extends BaseTenantEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 1)
@@ -94,96 +94,96 @@ public class SaaSFileResponseDto extends BaseTenantEntity implements Serializabl
     @ApiDesc(value = "创建时间", required = 1)
     private LocalDateTime createDate;
 
-    public static SaaSFileResponseDto build() {
-        return new SaaSFileResponseDto();
+    public static FileResponseDto build() {
+        return new FileResponseDto();
     }
 
-    public SaaSFileResponseDto toFileUploadStorageId(long fileUploadStorageId) {
+    public FileResponseDto toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileResponseDto toAsyncTaskId(String asyncTaskId) {
+    public FileResponseDto toAsyncTaskId(String asyncTaskId) {
         this.asyncTaskId = asyncTaskId;
         return this;
     }
 
-    public SaaSFileResponseDto toFileProductName(String fileProductName) {
+    public FileResponseDto toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileResponseDto toFileBusinessName(String fileBusinessName) {
+    public FileResponseDto toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileResponseDto toFileSourceName(String fileSourceName) {
+    public FileResponseDto toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileResponseDto toFileType(String fileType) {
+    public FileResponseDto toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileResponseDto toFileSize(long fileSize) {
+    public FileResponseDto toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileResponseDto toFileMd5(String fileMd5) {
+    public FileResponseDto toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileResponseDto toFileAccessUrl(String fileAccessUrl) {
+    public FileResponseDto toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileResponseDto toTempAccessUrl(String tempAccessUrl) {
+    public FileResponseDto toTempAccessUrl(String tempAccessUrl) {
         this.tempAccessUrl = tempAccessUrl;
         return this;
     }
 
-    public SaaSFileResponseDto toTempUrlExpirationTime(Date tempUrlExpirationTime) {
+    public FileResponseDto toTempUrlExpirationTime(LocalDateTime tempUrlExpirationTime) {
         this.tempUrlExpirationTime = tempUrlExpirationTime;
         return this;
     }
 
-    public SaaSFileResponseDto toTempUrlRemainingCount(int tempUrlRemainingCount) {
+    public FileResponseDto toTempUrlRemainingCount(int tempUrlRemainingCount) {
         this.tempUrlRemainingCount = tempUrlRemainingCount;
         return this;
     }
 
-    public SaaSFileResponseDto toGenerateStatus(int generateStatus) {
+    public FileResponseDto toGenerateStatus(int generateStatus) {
         this.generateStatus = generateStatus;
         return this;
     }
 
-    public SaaSFileResponseDto toProgressPercent(int progressPercent) {
+    public FileResponseDto toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileResponseDto toDuplicateUpload(boolean duplicateUpload) {
+    public FileResponseDto toDuplicateUpload(boolean duplicateUpload) {
         this.duplicateUpload = duplicateUpload;
         return this;
     }
 
-    public SaaSFileResponseDto toErrorMessage(String errorMessage) {
+    public FileResponseDto toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileResponseDto toRemark(String remark) {
+    public FileResponseDto toRemark(String remark) {
         this.remark = remark;
         return this;
     }
 
-    public SaaSFileResponseDto toCreateDate(Date createDate) {
+    public FileResponseDto toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }

@@ -2,7 +2,6 @@ package com.suven.framework.upload.service;
 
 import com.suven.framework.upload.AbstractUnitTest;
 import com.suven.framework.upload.dto.response.SaaSFileParseResultDto;
-import com.suven.framework.upload.entity.*;
 import com.suven.framework.upload.repository.SaaSFileInterpretRecordRepository;
 import com.suven.framework.upload.repository.SaaSFileUploadRepository;
 import com.suven.framework.upload.service.impl.SaaSFileUploadParseServiceImpl;

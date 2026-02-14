@@ -1,7 +1,6 @@
 package com.suven.framework.upload.controller;
 
 import com.suven.framework.common.enums.CodeEnum;
-import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.common.enums.SystemMsgCodeEnum;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.file.util.FileMsgEnum;
@@ -12,10 +11,9 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.http.exception.ExceptionFactory;
 import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
-import com.suven.framework.upload.dto.response.SaaSFileResponseDto;
+import com.suven.framework.upload.dto.response.FileResponseDto;
 import com.suven.framework.upload.facade.SaaSFileFacade;
 import com.suven.framework.upload.vo.request.SaaSFileDownloadRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileGenerateRequestVo;
@@ -25,16 +23,13 @@ import com.suven.framework.upload.vo.response.SaaSFileDownloadResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileGenerateResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileUploadResponseVo;
-import jakarta.servlet.http.HttpServletResponse;
- 
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 /**
  * SaaS平台文件上传下载控制器
@@ -98,7 +93,7 @@ public class SaaSFileWebController {
         Pager pager = new Pager(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
         pager.toParamObject(requestDto);
         
-        PageResult<SaaSFileResponseDto> result = saaSFileFacade.getSaaSFileService()
+        PageResult<FileResponseDto> result = saaSFileFacade.getSaaSFileService()
                 .queryFilePage(requestDto, pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
@@ -132,7 +127,7 @@ public class SaaSFileWebController {
             throw ExceptionFactory.sysException(FileMsgEnum.PARAM_IS_INVALID);
         }
         
-        SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
+        FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .getFileDetail(idRequestVo.getId());
         
         if (result == null) {
@@ -170,7 +165,7 @@ public class SaaSFileWebController {
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
-        SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
+        FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .uploadFile(requestDto, file);
         
         SaaSFileUploadResponseVo vo = SaaSFileUploadResponseVo.build()
@@ -201,7 +196,7 @@ public class SaaSFileWebController {
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(downloadRequestVo);
-        SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
+        FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .downloadFile(requestDto);
         
         SaaSFileDownloadResponseVo vo = SaaSFileDownloadResponseVo.build()
@@ -243,7 +238,7 @@ public class SaaSFileWebController {
         }
         
         SaaSFileRequestDto requestDto = convertToRequestDto(generateRequestVo);
-        SaaSFileResponseDto result = saaSFileFacade.getSaaSFileService()
+        FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .generateFile(requestDto);
         
         SaaSFileGenerateResponseVo vo = SaaSFileGenerateResponseVo.build()

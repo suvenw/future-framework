@@ -1,6 +1,6 @@
 package com.suven.framework.upload.mapper;
 
-import com.suven.framework.upload.entity.SaaSFileOperationRecord;
+import com.suven.framework.upload.entity.FileOperationRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  * date 创建时间: 2026-02-09
  */
 @Mapper
-public interface SaaSFileOperationRecordMapper extends BaseMapper<SaaSFileOperationRecord> {
+public interface FileOperationRecordMapper extends BaseMapper<FileOperationRecord> {
 }

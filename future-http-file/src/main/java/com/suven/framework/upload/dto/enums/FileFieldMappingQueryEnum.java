@@ -10,7 +10,7 @@ package com.suven.framework.upload.dto.enums;
  * @version v1.0.0
  * date 创建时间: 2026-02-11
  */
-public enum SaaSFileFieldMappingQueryEnum {
+public enum FileFieldMappingQueryEnum {
 
     /**
      * 根据 operation_record_id 查询，并按 sort_order 升序

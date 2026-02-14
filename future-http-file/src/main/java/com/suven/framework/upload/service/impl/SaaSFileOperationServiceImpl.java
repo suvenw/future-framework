@@ -6,18 +6,18 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
-import com.suven.framework.upload.dto.response.SaaSFileFieldResponseDto;
-import com.suven.framework.upload.dto.response.SaaSFileInterpretResponseDto;
-import com.suven.framework.upload.dto.response.SaaSFileOperationResponseDto;
+import com.suven.framework.upload.dto.response.FileFieldResponseDto;
+import com.suven.framework.upload.dto.response.FileInterpretResponseDto;
+import com.suven.framework.upload.dto.response.FileOperationResponseDto;
 import com.suven.framework.upload.entity.DataSourceModuleName;
 import com.suven.framework.upload.entity.SaaSFileFieldMapping;
 import com.suven.framework.upload.entity.SaaSFileInterpretRecord;
-import com.suven.framework.upload.entity.SaaSFileOperationRecord;
+import com.suven.framework.upload.entity.FileOperationRecord;
 import com.suven.framework.upload.mapper.SaaSFileInterpretRecordMapper;
-import com.suven.framework.upload.mapper.SaaSFileOperationRecordMapper;
+import com.suven.framework.upload.mapper.FileOperationRecordMapper;
 import com.suven.framework.upload.repository.SaaSFileFieldMappingRepository;
 import com.suven.framework.upload.repository.SaaSFileInterpretRecordRepository;
-import com.suven.framework.upload.repository.SaaSFileOperationRecordRepository;
+import com.suven.framework.upload.repository.FileOperationRecordRepository;
 import com.suven.framework.upload.service.SaaSFileOperationService;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
@@ -43,24 +43,24 @@ import java.util.List;
 public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
 
     @Autowired
-    private SaaSFileOperationRecordRepository operationRecordRepository;
+    private FileOperationRecordRepository operationRecordRepository;
 
     @Autowired
     private SaaSFileInterpretRecordRepository interpretRecordRepository;
 
     @Autowired
-    private SaaSFileOperationRecordMapper operationRecordMapper;
+    private FileOperationRecordMapper operationRecordMapper;
 
     @Autowired
     private SaaSFileFieldMappingRepository fieldMappingRepository;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileOperationResponseDto createOperationRecord(SaaSFileOperationRequestDto requestDto) {
+    public FileOperationResponseDto createOperationRecord(SaaSFileOperationRequestDto requestDto) {
         log.info("创建文件操作记录开始, AppId: {}, FileName: {}", requestDto.getAppId(), requestDto.getFileSourceName());
         
         try {
-            SaaSFileOperationRecord record = new SaaSFileOperationRecord();
+            FileOperationRecord record = new FileOperationRecord();
             record.setAppId(requestDto.getAppId());
             record.setClientId(requestDto.getClientId());
             record.setUseBusinessId(requestDto.getUseBusinessId());
@@ -83,14 +83,14 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             record.setCreateDate(LocalDateTime.now());
             record.setModifyDate(LocalDateTime.now());
             
-            SaaSFileOperationRecord savedRecord = operationRecordRepository.saveId(record);
+            FileOperationRecord savedRecord = operationRecordRepository.saveId(record);
             
             // 保存字段映射
             if (ObjectTrue.isNotEmpty(requestDto.getFieldMappings())) {
                 saveFieldMappings(savedRecord.getId(), requestDto.getFieldMappings());
             }
             
-            SaaSFileOperationResponseDto responseDto = buildOperationResponseDto(savedRecord);
+            FileOperationResponseDto responseDto = buildOperationResponseDto(savedRecord);
             log.info("创建文件操作记录成功, ID: {}", savedRecord.getId());
             return responseDto;
         } catch (Exception e) {
@@ -100,15 +100,15 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public SaaSFileOperationResponseDto getOperationDetail(long id) {
+    public FileOperationResponseDto getOperationDetail(long id) {
         log.info("查询操作记录详情, ID: {}", id);
         
-        SaaSFileOperationRecord record = operationRecordRepository.getById(id);
+        FileOperationRecord record = operationRecordRepository.getById(id);
         if (record == null) {
             throw new RuntimeException("操作记录不存在");
         }
         
-        SaaSFileOperationResponseDto responseDto = buildOperationResponseDto(record);
+        FileOperationResponseDto responseDto = buildOperationResponseDto(record);
         
         // 查询字段映射，统一由 Repository 封装查询条件
         List<SaaSFileFieldMapping> fieldMappings = fieldMappingRepository.getByOperationRecordId(id);
@@ -122,37 +122,37 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public PageResult<SaaSFileOperationResponseDto> queryOperationPage(SaaSFileOperationRequestDto requestDto, Pager pager) {
+    public PageResult<FileOperationResponseDto> queryOperationPage(SaaSFileOperationRequestDto requestDto, Pager pager) {
         log.info("分页查询操作记录, AppId: {}, PageNo: {}, PageSize: {}", 
             requestDto.getAppId(), pager.getPageNo(), pager.getPageSize());
         
-        com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<SaaSFileOperationRecord> queryWrapper = 
+        com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<FileOperationRecord> queryWrapper =
             new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<>();
         
         if (ObjectTrue.isNotEmpty(requestDto.getAppId())) {
-            queryWrapper.eq(SaaSFileOperationRecord::getAppId, requestDto.getAppId());
+            queryWrapper.eq(FileOperationRecord::getAppId, requestDto.getAppId());
         }
         if (ObjectTrue.isNotEmpty(requestDto.getClientId())) {
-            queryWrapper.eq(SaaSFileOperationRecord::getClientId, Long.parseLong(requestDto.getClientId()));
+            queryWrapper.eq(FileOperationRecord::getClientId, Long.parseLong(requestDto.getClientId()));
         }
         if (ObjectTrue.isNotEmpty(requestDto.getFileProductName())) {
-            queryWrapper.eq(SaaSFileOperationRecord::getFileProductName, requestDto.getFileProductName());
+            queryWrapper.eq(FileOperationRecord::getFileProductName, requestDto.getFileProductName());
         }
         if (ObjectTrue.isNotEmpty(requestDto.getFileBusinessName())) {
-            queryWrapper.eq(SaaSFileOperationRecord::getFileBusinessName, requestDto.getFileBusinessName());
+            queryWrapper.eq(FileOperationRecord::getFileBusinessName, requestDto.getFileBusinessName());
         }
         if (ObjectTrue.isNotEmpty(requestDto.getStatus())) {
-            queryWrapper.eq(SaaSFileOperationRecord::getStatus, requestDto.getStatus());
+            queryWrapper.eq(FileOperationRecord::getStatus, requestDto.getStatus());
         }
         if (ObjectTrue.isNotEmpty(requestDto.getFileSourceName())) {
-            queryWrapper.like(SaaSFileOperationRecord::getFileSourceName, requestDto.getFileSourceName());
+            queryWrapper.like(FileOperationRecord::getFileSourceName, requestDto.getFileSourceName());
         }
-        queryWrapper.eq(SaaSFileOperationRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileOperationRecord::getId);
+        queryWrapper.eq(FileOperationRecord::getDeleted, 0);
+        queryWrapper.orderByDesc(FileOperationRecord::getId);
         
-        PageResult<SaaSFileOperationRecord> pageResult = operationRecordMapper.selectPage(pager, queryWrapper);
+        PageResult<FileOperationRecord> pageResult = operationRecordMapper.selectPage(pager, queryWrapper);
         
-        PageResult<SaaSFileOperationResponseDto> result = new PageResult<>();
+        PageResult<FileOperationResponseDto> result = new PageResult<>();
         result.setTotal(pageResult.getTotal());
         result.setList(pageResult.getList().stream()
             .map(this::buildOperationResponseDto)
@@ -165,7 +165,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     public boolean updateOperationStatus(long id, String status, int progressPercent, String message) {
         log.info("更新操作记录状态, ID: {}, Status: {}, Progress: {}", id, status, progressPercent);
         
-        SaaSFileOperationRecord record = operationRecordRepository.getById(id);
+        FileOperationRecord record = operationRecordRepository.getById(id);
         if (record == null) {
             return false;
         }
@@ -195,7 +195,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileInterpretResponseDto createInterpretRecord(SaaSFileInterpretRequestDto requestDto) {
+    public FileInterpretResponseDto createInterpretRecord(SaaSFileInterpretRequestDto requestDto) {
         log.info("创建解释记录, OperationId: {}, Key: {}", requestDto.getOperationRecordId(), requestDto.getInterpretKey());
         
         try {
@@ -226,7 +226,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public SaaSFileInterpretResponseDto getInterpretDetail(long id) {
+    public FileInterpretResponseDto getInterpretDetail(long id) {
         log.info("查询解释记录详情, ID: {}", id);
         
         SaaSFileInterpretRecord record = interpretRecordRepository.getById(id);
@@ -238,12 +238,12 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public PageResult<SaaSFileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager) {
+    public PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager) {
         log.info("分页查询解释记录, OperationId: {}", operationId);
         
         List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByOperationRecordId(operationId);
         
-        PageResult<SaaSFileInterpretResponseDto> result = new PageResult<>();
+        PageResult<FileInterpretResponseDto> result = new PageResult<>();
         result.setTotal(records.size());
         result.setList(records.stream()
             .map(this::buildInterpretResponseDto)
@@ -327,13 +327,13 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public PageResult<SaaSFileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager) {
+    public PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager) {
         log.info("查询待处理的解释记录, OperationId: {}, Status: {}", operationId, status);
         
         List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByOperationRecordIdAndStatus(
             operationId, status, pager);
         
-        PageResult<SaaSFileInterpretResponseDto> result = new PageResult<>();
+        PageResult<FileInterpretResponseDto> result = new PageResult<>();
         result.setTotal(pager.getTotal());
         result.setList(records.stream()
             .map(this::buildInterpretResponseDto)
@@ -343,7 +343,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public List<SaaSFileInterpretResponseDto> getInterpretRecordsByBusinessCode(String businessUniqueCode) {
+    public List<FileInterpretResponseDto> getInterpretRecordsByBusinessCode(String businessUniqueCode) {
         log.info("根据业务唯一码查询解释记录, Code: {}", businessUniqueCode);
         
         List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
@@ -354,7 +354,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     }
 
     @Override
-    public PageResult<SaaSFileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo) {
+    public PageResult<FileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo) {
         log.info("按业务唯一码分页查询解释记录, businessUniqueCode: {}, pageNo: {}, pageSize: {}",
                 requestVo.getBusinessUniqueCode(), requestVo.getPageNo(), requestVo.getPageSize());
 
@@ -377,7 +377,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
 
         List<SaaSFileInterpretRecord> pageList = records.subList(fromIndex, toIndex);
 
-        PageResult<SaaSFileInterpretResponseDto> result = new PageResult<>();
+        PageResult<FileInterpretResponseDto> result = new PageResult<>();
         result.setTotal(total);
         result.setList(pageList.stream()
                 .map(this::buildInterpretResponseDto)
@@ -391,7 +391,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
     public boolean deleteOperationRecord(long id) {
         log.info("删除操作记录, ID: {}", id);
         
-        SaaSFileOperationRecord record = operationRecordRepository.getById(id);
+        FileOperationRecord record = operationRecordRepository.getById(id);
         if (record == null) {
             return false;
         }
@@ -459,7 +459,7 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             }
         }
         
-        SaaSFileOperationRecord operationRecord = operationRecordRepository.getById(operationId);
+        FileOperationRecord operationRecord = operationRecordRepository.getById(operationId);
         if (operationRecord != null) {
             operationRecord.setSuccessCount(successCount);
             operationRecord.setFailCount(failCount);
@@ -472,15 +472,15 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
         }
     }
 
-    private SaaSFileOperationResponseDto buildOperationResponseDto(SaaSFileOperationRecord record) {
-        return SaaSFileOperationResponseDto.build().clone(record);
+    private FileOperationResponseDto buildOperationResponseDto(FileOperationRecord record) {
+        return FileOperationResponseDto.build().clone(record);
     }
 
-    private SaaSFileInterpretResponseDto buildInterpretResponseDto(SaaSFileInterpretRecord record) {
-        return SaaSFileInterpretResponseDto.build().clone(record);
+    private FileInterpretResponseDto buildInterpretResponseDto(SaaSFileInterpretRecord record) {
+        return FileInterpretResponseDto.build().clone(record);
     }
 
-    private List<SaaSFileFieldResponseDto> buildFieldResponseList(List<SaaSFileFieldMapping> fieldMappings) {
+    private List<FileFieldResponseDto> buildFieldResponseList(List<SaaSFileFieldMapping> fieldMappings) {
         if (fieldMappings == null) {
             return new ArrayList<>();
         }
@@ -489,11 +489,11 @@ public class SaaSFileOperationServiceImpl implements SaaSFileOperationService {
             .toList();
     }
 
-    private SaaSFileFieldResponseDto buildFieldResponseDto(SaaSFileFieldMapping fieldMapping) {
-        return SaaSFileFieldResponseDto.build().clone(fieldMapping);
+    private FileFieldResponseDto buildFieldResponseDto(SaaSFileFieldMapping fieldMapping) {
+        return FileFieldResponseDto.build().clone(fieldMapping);
     }
 
-    private List<SaaSFileInterpretResponseDto> buildInterpretResponseList(List<SaaSFileInterpretRecord> records) {
+    private List<FileInterpretResponseDto> buildInterpretResponseList(List<SaaSFileInterpretRecord> records) {
         if (records == null) {
             return new ArrayList<>();
         }

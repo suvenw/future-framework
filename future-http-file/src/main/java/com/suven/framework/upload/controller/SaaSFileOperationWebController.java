@@ -13,15 +13,13 @@ import com.suven.framework.http.data.vo.HttpRequestByUserIdPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
-import com.suven.framework.upload.dto.response.SaaSFileInterpretResponseDto;
-import com.suven.framework.upload.dto.response.SaaSFileOperationResponseDto;
+import com.suven.framework.upload.dto.response.FileInterpretResponseDto;
+import com.suven.framework.upload.dto.response.FileOperationResponseDto;
 import com.suven.framework.upload.facade.SaaSFileFacade;
 import com.suven.framework.upload.service.SaaSFileOperationService;
 import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.SaaSFileOperationQueryVo;
 import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
-import com.suven.framework.upload.vo.response.FileUploadAppShowResponseVo;
-import com.suven.framework.upload.vo.response.FileUploadUseBusinessShowResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileInterpretResponseVo;
 import com.suven.framework.upload.vo.response.SaaSFileOperationResponseVo;
  
@@ -30,8 +28,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * SaaS文件业务操作控制器
@@ -100,7 +96,7 @@ public class SaaSFileOperationWebController {
         Pager pager = new Pager(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
         pager.toParamObject(requestDto);
         
-        PageResult<SaaSFileOperationResponseDto> result = fileOperationService.queryOperationPage(requestDto, pager);
+        PageResult<FileOperationResponseDto> result = fileOperationService.queryOperationPage(requestDto, pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
             log.info("SaaS操作记录分页查询完成, 无数据");
@@ -134,7 +130,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        SaaSFileOperationResponseDto result = fileOperationService.getOperationDetail(idRequestVo.getId());
+        FileOperationResponseDto result = fileOperationService.getOperationDetail(idRequestVo.getId());
         
         if (result == null) {
             log.warn("SaaS操作记录不存在, ID: {}", idRequestVo.getId());
@@ -167,8 +163,8 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager<SaaSFileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
-        PageResult<SaaSFileInterpretResponseDto> result = fileOperationService.queryInterpretPage(idRequestVo.getId(), pager);
+        Pager<FileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
+        PageResult<FileInterpretResponseDto> result = fileOperationService.queryInterpretPage(idRequestVo.getId(), pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
             log.info("SaaS解释记录分页查询完成, 无数据");
@@ -202,7 +198,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        SaaSFileInterpretResponseDto result = fileOperationService.getInterpretDetail(idRequestVo.getId());
+        FileInterpretResponseDto result = fileOperationService.getInterpretDetail(idRequestVo.getId());
         
         if (result == null) {
             log.warn("SaaS解释记录不存在, ID: {}", idRequestVo.getId());
@@ -237,8 +233,8 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager<SaaSFileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
-        PageResult<SaaSFileInterpretResponseDto> result = fileOperationService.queryPendingInterpretRecords(
+        Pager<FileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
+        PageResult<FileInterpretResponseDto> result = fileOperationService.queryPendingInterpretRecords(
             idRequestVo.getId(), status, pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
@@ -275,7 +271,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
 
-        PageResult<SaaSFileInterpretResponseDto> result =
+        PageResult<FileInterpretResponseDto> result =
                 fileOperationService.pageQueryInterpretByBusiness(requestVo);
 
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
