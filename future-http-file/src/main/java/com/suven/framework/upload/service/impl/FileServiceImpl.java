@@ -167,7 +167,7 @@ public class FileServiceImpl implements FileService {
      * 分页查询文件列表
      */
     @Override
-    public PageResult<FileResponseDto> queryFilePage(FileRequestDto requestDto, Pager pager) {
+    public PageResult<FileResponseDto> queryFilePage(FileRequestDto requestDto, Pager<FileRequestDto> pager) {
         log.info("SaaS文件分页查询开始, AppID: {}, 页码: {}, 页大小: {}", 
             requestDto.getAppId(), pager.getPageNo(), pager.getPageSize());
         

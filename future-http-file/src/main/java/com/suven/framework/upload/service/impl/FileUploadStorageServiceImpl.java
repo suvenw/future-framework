@@ -273,11 +273,12 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 23:55:18 创建时间
      */
     @Override
-    public List<FileUploadStorageResponseDto> getFileUploadStorageListByPage(FileUploadStorageQueryEnum queryEnum,Pager pager){
+    public List<FileUploadStorageResponseDto> getFileUploadStorageListByPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager) {
 
-        Wrapper<FileUploadStorage> queryWrapper =fileUploadStorageRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
-        List<FileUploadStorage>  list = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
+        Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
+        Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
+        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }
@@ -296,11 +297,12 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 23:55:18 创建时间
      */
     @Override
-    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager) {
 
-        Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
-        List<FileUploadStorage>  list = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
+        Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
+        Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
+        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }
@@ -320,7 +322,7 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 22:49:53 创建时间
      */
     @Override
-    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager ) {
+    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager) {
         return getFileUploadStorageByNextPage(queryEnum,pager,false);
     }
     /**
@@ -332,12 +334,13 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
      * date 2024-04-18 23:55:18 创建时间
      */
     @Override
-    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager, boolean searchCount){
+    public PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager, boolean searchCount) {
 
-        Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum,  pager.getParamObject());;
-        //分页对象        PageHelper
+        Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
         pager.setSearchCount(searchCount);
-        List<FileUploadStorage>  list = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
+        Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
+        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }

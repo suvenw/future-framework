@@ -57,7 +57,7 @@ public interface FileService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileResponseDto> 分页文件列表
      */
-    PageResult<FileResponseDto> queryFilePage(FileRequestDto requestDto, Pager pager);
+    PageResult<FileResponseDto> queryFilePage(FileRequestDto requestDto, Pager<FileRequestDto> pager);
 
     /**
      * 获取文件详情

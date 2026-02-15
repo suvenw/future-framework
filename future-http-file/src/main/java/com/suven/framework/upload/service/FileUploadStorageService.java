@@ -128,7 +128,7 @@ public interface FileUploadStorageService {
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    List<FileUploadStorageResponseDto> getFileUploadStorageListByPage(FileUploadStorageQueryEnum queryEnum,Pager pager);
+    List<FileUploadStorageResponseDto> getFileUploadStorageListByPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadStorageService {
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager);
 
     /**
     * 通过分页获取FileUploadStorage信息列表,实现查找缓存和数据库的方法,并且查询总页数
@@ -149,7 +149,7 @@ public interface FileUploadStorageService {
     * @author suven  作者
     * date 2024-04-18 22:13:59 创建时间
     */
-    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByNextPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager, boolean searchCount);
     /**
      * 通过分页获取FileUploadStorage 信息实现查找缓存和数据库的方法,不查总页数
      * @param pager Pager 分页查询对象
@@ -157,7 +157,7 @@ public interface FileUploadStorageService {
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum , Pager pager);
+    PageResult<FileUploadStorageResponseDto> getFileUploadStorageByQueryPage(FileUploadStorageQueryEnum queryEnum, Pager<FileUploadStorageRequestDto> pager);
 
 
     /**

@@ -279,11 +279,12 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
      * date 2024-04-19 00:20:28 创建时间
      */
     @Override
-    public List<FileDataDetailedResponseDto> getFileDataDetailedListByPage(FileDataDetailedQueryEnum queryEnum,Pager pager){
+    public List<FileDataDetailedResponseDto> getFileDataDetailedListByPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager) {
 
-        Wrapper<FileDataDetailed> queryWrapper =fileDataDetailedRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
-        PageResult<FileDataDetailed> pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
+        Wrapper<FileDataDetailed> queryWrapper = fileDataDetailedRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
+        Pager<FileDataDetailed> page = pager.clonePager(FileDataDetailed.class);
+        PageResult<FileDataDetailed> pageVo = fileDataDetailedRepository.getListByPage(page, queryWrapper);
         if(null == pageVo || null == pageVo.getList() ){
             return new ArrayList<>();
         }
@@ -301,7 +302,7 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
      * date 2024-04-19 00:20:28 创建时间
      */
     @Override
-    public PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager pager){
+    public PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager) {
 
         PageResult<FileDataDetailedResponseDto> resultPage = getFileDataDetailedByNextPage(queryEnum,pager,false);
         return resultPage;
@@ -317,11 +318,12 @@ public class FileDataDetailedServiceImpl  implements FileDataDetailedService {
      * date 2024-04-19 00:20:28 创建时间
      */
     @Override
-    public PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager pager, boolean searchCount){
-        Wrapper<FileDataDetailed> queryWrapper = fileDataDetailedRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
+    public PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager, boolean searchCount) {
+        Wrapper<FileDataDetailed> queryWrapper = fileDataDetailedRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
         pager.setSearchCount(searchCount);
-        PageResult<FileDataDetailed>   pageVo = fileDataDetailedRepository.getListByPage(pager,queryWrapper);
+        Pager<FileDataDetailed> page = pager.clonePager(FileDataDetailed.class);
+        PageResult<FileDataDetailed> pageVo = fileDataDetailedRepository.getListByPage(page, queryWrapper);
         if(null == pageVo || ObjectTrue.isEmpty(pageVo.getList()) ){
            return new PageResult<>();
         }

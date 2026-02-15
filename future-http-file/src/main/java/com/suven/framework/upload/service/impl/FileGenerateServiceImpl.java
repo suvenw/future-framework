@@ -288,7 +288,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      */
     @Override
     public PageResult<FileDownloadRecord> pageQueryDownloadRecords(
-            FileDownloadQueryRequestVo requestVo, Pager pager) {
+            FileDownloadQueryRequestVo requestVo, Pager<FileDownloadQueryRequestVo> pager) {
         log.info("分页查询下载记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
         LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();

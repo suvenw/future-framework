@@ -128,7 +128,7 @@ public interface FileUploadUseBusinessService {
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByPage(FileUploadUseBusinessQueryEnum queryEnum,Pager pager);
+    List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadUseBusinessService {
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager);
 
     /**
      * 通过分页获取FileUploadUseBusiness 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileUploadUseBusinessService {
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager, boolean searchCount);
 
 
 

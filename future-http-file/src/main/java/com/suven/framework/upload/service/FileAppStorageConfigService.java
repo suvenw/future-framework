@@ -128,7 +128,7 @@ public interface FileAppStorageConfigService {
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
      */
-    List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByPage(FileAppStorageConfigQueryEnum queryEnum,Pager pager);
+    List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByPage(FileAppStorageConfigQueryEnum queryEnum, Pager<FileAppStorageConfigRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileAppStorageConfigService {
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
      */
-    PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager);
+    PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager<FileAppStorageConfigRequestDto> pager);
 
     /**
      * 通过分页获取FileAppStorageConfig 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileAppStorageConfigService {
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
      */
-    PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager<FileAppStorageConfigRequestDto> pager, boolean searchCount);
 
 
 

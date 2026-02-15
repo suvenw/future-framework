@@ -2,7 +2,6 @@ package com.suven.framework.upload.service.impl;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
-import com.alibaba.excel.enums.CellExtraTypeEnum;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.upload.dto.response.FileParseResultDto;
@@ -35,47 +34,44 @@ public class XLSFileParser implements FileParseService {
     @Override
     public FileParseResultDto parse(InputStream inputStream, String fileName, String fileType) {
         long startTime = System.currentTimeMillis();
-        FileParseResultDto.FileParseResultDtoBuilder resultBuilder = FileParseResultDto.builder();
-        resultBuilder.fileName(fileName);
-        resultBuilder.fileType(fileType);
+        FileParseResultDto result = FileParseResultDto.build();
+        result.setFileName(fileName);
+        result.setFileType(fileType);
 
         try {
             // 使用EasyExcel读取文件
             List<Map<Integer, String>> allData = readExcelData(inputStream);
             
             if (ObjectTrue.isEmpty(allData)) {
-                return resultBuilder
-                        .success(false)
-                        .errorMessage("文件为空或读取失败")
-                        .message("解析失败")
-                        .parseTimeMs(System.currentTimeMillis() - startTime)
-                        .build();
+                result.setSuccess(false);
+                result.setErrorMessage("文件为空或读取失败");
+                result.setMessage("解析失败");
+                result.setParseTimeMs(System.currentTimeMillis() - startTime);
+                return result;
             }
 
             // 解析每一行数据
             for (Map<Integer, String> row : allData) {
                 Map<String, Object> dataRow = convertRowData(row);
                 if (dataRow != null && !dataRow.isEmpty()) {
-                    resultBuilder.rawDataRows().addDataRow(dataRow);
+                    result.addDataRow(dataRow);
                 } else {
-                    resultBuilder.skipRows(1);
+                    result.skipRow("空行或无效数据");
                 }
             }
 
-            return resultBuilder
-                    .success(true)
-                    .message("解析成功")
-                    .parseTimeMs(System.currentTimeMillis() - startTime)
-                    .build();
+            result.setSuccess(true);
+            result.setMessage("解析成功");
+            result.setParseTimeMs(System.currentTimeMillis() - startTime);
+            return result;
 
         } catch (Exception e) {
             log.error("XLS文件解析失败: {}", fileName, e);
-            return resultBuilder
-                    .success(false)
-                    .errorMessage("解析异常: " + e.getMessage())
-                    .message("解析失败")
-                    .parseTimeMs(System.currentTimeMillis() - startTime)
-                    .build();
+            result.setSuccess(false);
+            result.setErrorMessage("解析异常: " + e.getMessage());
+            result.setMessage("解析失败");
+            result.setParseTimeMs(System.currentTimeMillis() - startTime);
+            return result;
         }
     }
 
@@ -86,9 +82,9 @@ public class XLSFileParser implements FileParseService {
             String fileType, 
             List<FileFieldMapping> fieldMappings) {
         long startTime = System.currentTimeMillis();
-        FileParseResultDto.FileParseResultDtoBuilder resultBuilder = FileParseResultDto.builder();
-        resultBuilder.fileName(fileName);
-        resultBuilder.fileType(fileType);
+        FileParseResultDto result = FileParseResultDto.build();
+        result.setFileName(fileName);
+        result.setFileType(fileType);
 
         if (ObjectTrue.isEmpty(fieldMappings)) {
             return parse(inputStream, fileName, fileType);
@@ -99,23 +95,21 @@ public class XLSFileParser implements FileParseService {
             List<Map<Integer, String>> allData = readExcelData(inputStream);
             
             if (ObjectTrue.isEmpty(allData)) {
-                return resultBuilder
-                        .success(false)
-                        .errorMessage("文件为空或读取失败")
-                        .message("解析失败")
-                        .parseTimeMs(System.currentTimeMillis() - startTime)
-                        .build();
+                result.setSuccess(false);
+                result.setErrorMessage("文件为空或读取失败");
+                result.setMessage("解析失败");
+                result.setParseTimeMs(System.currentTimeMillis() - startTime);
+                return result;
             }
 
             // 跳过表头行
             int skipRows = DEFAULT_SKIP_ROWS;
             if (allData.size() <= skipRows) {
-                return resultBuilder
-                        .success(false)
-                        .errorMessage("文件数据行数不足")
-                        .message("解析失败")
-                        .parseTimeMs(System.currentTimeMillis() - startTime)
-                        .build();
+                result.setSuccess(false);
+                result.setErrorMessage("文件数据行数不足");
+                result.setMessage("解析失败");
+                result.setParseTimeMs(System.currentTimeMillis() - startTime);
+                return result;
             }
 
             // 解析数据行
@@ -127,33 +121,31 @@ public class XLSFileParser implements FileParseService {
                     if (dataRow != null && !dataRow.isEmpty()) {
                         // 验证数据
                         if (validateDataRow(dataRow, fieldMappings)) {
-                            resultBuilder.addDataRow(dataRow);
+                            result.addDataRow(dataRow);
                         } else {
-                            resultBuilder.skipRow("数据验证失败");
+                            result.skipRow("数据验证失败");
                         }
                     } else {
-                        resultBuilder.skipRow("空行或无效数据");
+                        result.skipRow("空行或无效数据");
                     }
                 } catch (Exception e) {
                     log.warn("数据行转换失败，行号: {}, 错误: {}", i + 1, e.getMessage());
-                    resultBuilder.markFailed("数据行转换异常: " + e.getMessage());
+                    result.markFailed("数据行转换异常: " + e.getMessage());
                 }
             }
 
-            return resultBuilder
-                    .success(true)
-                    .message("解析成功，共" + resultBuilder() + "行")
-                    .parseTimeMs(System.currentTimeMillis() - startTime)
-                    .build();
+            result.setSuccess(true);
+            result.setMessage("解析成功");
+            result.setParseTimeMs(System.currentTimeMillis() - startTime);
+            return result;
 
         } catch (Exception e) {
             log.error("XLS文件解析失败: {}", fileName, e);
-            return resultBuilder
-                    .success(false)
-                    .errorMessage("解析异常: " + e.getMessage())
-                    .message("解析失败")
-                    .parseTimeMs(System.currentTimeMillis() - startTime)
-                    .build();
+            result.setSuccess(false);
+            result.setErrorMessage("解析异常: " + e.getMessage());
+            result.setMessage("解析失败");
+            result.setParseTimeMs(System.currentTimeMillis() - startTime);
+            return result;
         }
     }
 
@@ -336,8 +328,6 @@ public class XLSFileParser implements FileParseService {
                     log.error("Excel解析异常", exception);
                 }
             })
-            .extraRead(CellExtraTypeEnum.COMMENT) // 读取批注
-            .extraRead(CellExtraTypeEnum.HYPERLINK) // 读取超链接
             .headRowNumber(0) // 不跳过表头行，在业务层处理
             .sheet()
             .doRead();

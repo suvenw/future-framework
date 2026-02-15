@@ -121,7 +121,7 @@ public class FileOperationServiceImpl implements FileOperationService {
     }
 
     @Override
-    public PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager pager) {
+    public PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager<FileOperationRequestDto> pager) {
         log.info("分页查询操作记录, AppId: {}, PageNo: {}, PageSize: {}", 
             requestDto.getAppId(), pager.getPageNo(), pager.getPageSize());
         
