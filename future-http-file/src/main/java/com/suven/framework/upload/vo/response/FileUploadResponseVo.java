@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileUploadResponseVo extends BaseIdEntity implements Serializable {
+public class FileUploadResponseVo extends BaseIdEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 1)
@@ -58,51 +58,51 @@ public class SaaSFileUploadResponseVo extends BaseIdEntity implements Serializab
     @ApiDesc(value = "创建时间", required = 1)
     private Date createDate;
 
-    public static SaaSFileUploadResponseVo build() {
-        return new SaaSFileUploadResponseVo();
+    public static FileUploadResponseVo build() {
+        return new FileUploadResponseVo();
     }
 
-    public SaaSFileUploadResponseVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileUploadResponseVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toFileSourceName(String fileSourceName) {
+    public FileUploadResponseVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toFileType(String fileType) {
+    public FileUploadResponseVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toFileSize(long fileSize) {
+    public FileUploadResponseVo toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toFileMd5(String fileMd5) {
+    public FileUploadResponseVo toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toFileAccessUrl(String fileAccessUrl) {
+    public FileUploadResponseVo toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toDuplicateUpload(boolean duplicateUpload) {
+    public FileUploadResponseVo toDuplicateUpload(boolean duplicateUpload) {
         this.duplicateUpload = duplicateUpload;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toRemark(String remark) {
+    public FileUploadResponseVo toRemark(String remark) {
         this.remark = remark;
         return this;
     }
 
-    public SaaSFileUploadResponseVo toCreateDate(Date createDate) {
+    public FileUploadResponseVo toCreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }

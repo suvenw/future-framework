@@ -128,7 +128,7 @@ public interface FileUploadAppService {
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      */
-    List<FileUploadAppResponseDto> getFileUploadAppListByPage(FileUploadAppQueryEnum queryEnum,Pager pager);
+    List<FileUploadAppResponseDto> getFileUploadAppListByPage(FileUploadAppQueryEnum queryEnum,Pager<FileUploadAppRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadAppService {
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      */
-    PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager<FileUploadAppRequestDto> pager);
 
     /**
      * 通过分页获取FileUploadApp 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileUploadAppService {
      * @author suven  作者
      * date 2024-04-19 00:21:49 创建时间
      */
-    PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager<FileUploadAppRequestDto> pager, boolean searchCount);
 
 
 

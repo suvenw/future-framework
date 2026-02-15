@@ -228,18 +228,10 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
           if(fileUploadActionWaterRequestDto == null ){
               return null;
           }
-           Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository.builderQueryEnum( queryEnum, fileUploadActionWaterRequestDto);
-            //分页对象        PageHelper
-           Pager<FileUploadActionWater>  pager = Pager.of(0,1);
-           pager.setSearchCount(false);
-           List<FileUploadActionWater>  list = fileUploadActionWaterRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
-                 return null;
-           }
-           FileUploadActionWater fileUploadActionWater = list.getFirst();
-           FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = FileUploadActionWaterResponseDto.build().clone(fileUploadActionWater);
-
-            return fileUploadActionWaterResponseDto ;
+          FileUploadActionWater water = FileUploadActionWater.build().clone(fileUploadActionWaterRequestDto);
+          FileUploadActionWater fileUploadActionWater  = fileUploadActionWaterRepository.getFileUploadActionWaterByOne(queryEnum,water);
+          FileUploadActionWaterResponseDto fileUploadActionWaterResponseDto = FileUploadActionWaterResponseDto.build().clone(fileUploadActionWater);
+          return fileUploadActionWaterResponseDto ;
        }
 
 
@@ -273,11 +265,11 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      * date 2024-04-19 00:14:12 创建时间
      */
     @Override
-    public List<FileUploadActionWaterResponseDto> getFileUploadActionWaterListByPage(FileUploadActionWaterQueryEnum queryEnum,Pager pager){
+    public List<FileUploadActionWaterResponseDto> getFileUploadActionWaterListByPage(FileUploadActionWaterQueryEnum queryEnum,Pager<FileUploadActionWaterRequestDto> pager){
 
         Wrapper<FileUploadActionWater> queryWrapper =fileUploadActionWaterRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
-        List<FileUploadActionWater>  list = fileUploadActionWaterRepository.getListByPage(pager,queryWrapper);
+        List<FileUploadActionWater>  list = fileUploadActionWaterRepository.getListByQuery(queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }
@@ -295,7 +287,7 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      * date 2024-04-19 00:14:12 创建时间
      */
     @Override
-    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager<FileUploadActionWaterRequestDto> pager){
 
         PageResult<FileUploadActionWaterResponseDto> resultPage = getFileUploadActionWaterByNextPage(queryEnum,pager,false);
         return resultPage;
@@ -321,37 +313,18 @@ public class FileUploadActionWaterServiceImpl  implements FileUploadActionWaterS
      */
     @Override
     public PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(
-            FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount) {
-        
+            FileUploadActionWaterQueryEnum queryEnum, Pager<FileUploadActionWaterRequestDto> pager, boolean searchCount) {
+
+        Pager<FileUploadActionWater>  newPage = pager.clonePager(FileUploadActionWater.class);
+        newPage.setSearchCount(searchCount);
         // 构建查询条件
-        Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository
-                .builderQueryEnum(queryEnum, pager.getParamObject());
-        
+        Wrapper<FileUploadActionWater> queryWrapper = fileUploadActionWaterRepository .builderQueryEnum(queryEnum, pager.getParamObject());
         // 设置是否查询总数（必须在调用 getListByPage 之前设置）
-        pager.setSearchCount(searchCount);
-        
         // 执行分页查询
         // 注意：getListByPage 内部会创建 Page<>(pager.getPageNo(), pager.getPageSize())
         // 这个明确的 Page 对象会被 MyBatis-Plus 识别，分页拦截器不会自动添加默认限制
-        List<FileUploadActionWater> entityList = fileUploadActionWaterRepository
-                .getListByPage(pager, queryWrapper);
-        
-        // 安全处理：确保列表不为 null
-        List<FileUploadActionWater> safeList = (entityList != null) 
-                ? entityList 
-                : new ArrayList<>();
-        
-        // 转换为 DTO 列表
-        List<FileUploadActionWaterResponseDto> dtoList = IterableConvert
-                .convertList(safeList, FileUploadActionWaterResponseDto.class);
-        
-        // 判断是否有下一页
-        boolean hasNext = pager.isNextPage(dtoList);
-        
-        // 构建分页结果
-        PageResult<FileUploadActionWaterResponseDto> result = new PageResult<>();
-        result.convertBuild(dtoList, hasNext, pager.getTotal());
-        
+        PageResult<FileUploadActionWater> entityList = fileUploadActionWaterRepository.getListByPage(newPage, queryWrapper);
+        PageResult<FileUploadActionWaterResponseDto> result = entityList.convertBuild(FileUploadActionWaterResponseDto.class);
         return result;
     }
 

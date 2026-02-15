@@ -25,10 +25,6 @@ public class FileOperationResponseDto extends BaseTenantEntity implements Serial
 
     private static final long serialVersionUID = 1L;
 
-    /** 记录ID */
-    @ApiDesc(value = "记录ID", required = 1)
-    private long id;
-
     /** 业务公司id */
     @ApiDesc(value = "业务公司id", required = 0)
     private String companyId;
@@ -149,10 +145,6 @@ public class FileOperationResponseDto extends BaseTenantEntity implements Serial
         return new FileOperationResponseDto();
     }
 
-    public FileOperationResponseDto toId(long id) {
-        this.id = id;
-        return this;
-    }
 
     public FileOperationResponseDto toCompanyId(String companyId) {
         this.companyId = companyId;

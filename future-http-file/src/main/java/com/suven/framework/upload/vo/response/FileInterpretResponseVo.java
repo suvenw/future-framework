@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileInterpretResponseVo extends BaseIdEntity implements Serializable {
+public class FileInterpretResponseVo extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -112,117 +112,109 @@ public class SaaSFileInterpretResponseVo extends BaseIdEntity implements Seriali
     @ApiDesc(value = "修改时间", required = 0)
     private LocalDateTime modifyDate;
 
-    public static SaaSFileInterpretResponseVo build() {
-        return new SaaSFileInterpretResponseVo();
+    public static FileInterpretResponseVo build() {
+        return new FileInterpretResponseVo();
     }
 
-    public SaaSFileInterpretResponseVo toOperationRecordId(long operationRecordId) {
+    public FileInterpretResponseVo toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toInterpretKey(String interpretKey) {
+    public FileInterpretResponseVo toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessUniqueCode(String businessUniqueCode) {
+    public FileInterpretResponseVo toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessType(String businessType) {
+    public FileInterpretResponseVo toBusinessType(String businessType) {
         this.businessType = businessType;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessDescription(String businessDescription) {
+    public FileInterpretResponseVo toBusinessDescription(String businessDescription) {
         this.businessDescription = businessDescription;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toInterpretInfo(String interpretInfo) {
+    public FileInterpretResponseVo toInterpretInfo(String interpretInfo) {
         this.interpretInfo = interpretInfo;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toInterpretStatus(String interpretStatus) {
+    public FileInterpretResponseVo toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toInterpretProgress(int interpretProgress) {
+    public FileInterpretResponseVo toInterpretProgress(int interpretProgress) {
         this.interpretProgress = interpretProgress;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toErrorMessage(String errorMessage) {
+    public FileInterpretResponseVo toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toTotalCount(int totalCount) {
+    public FileInterpretResponseVo toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toSuccessCount(int successCount) {
+    public FileInterpretResponseVo toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toFailCount(int failCount) {
+    public FileInterpretResponseVo toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toSkipCount(int skipCount) {
+    public FileInterpretResponseVo toSkipCount(int skipCount) {
         this.skipCount = skipCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toCallbackStatus(String callbackStatus) {
+    public FileInterpretResponseVo toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toCallbackFailCount(int callbackFailCount) {
+    public FileInterpretResponseVo toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toLastCallbackTime(Date lastCallbackTime) {
+    public FileInterpretResponseVo toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessProcessStatus(String businessProcessStatus) {
+    public FileInterpretResponseVo toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessProcessResult(String businessProcessResult) {
+    public FileInterpretResponseVo toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileInterpretResponseVo toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toBusinessProcessTime(Date businessProcessTime) {
+    public FileInterpretResponseVo toBusinessProcessTime(LocalDateTime businessProcessTime) {
         this.businessProcessTime = businessProcessTime;
         return this;
     }
 
-    public SaaSFileInterpretResponseVo toCreateDate(Date createDate) {
-        this.createDate = createDate;
-        return this;
-    }
 
-    public SaaSFileInterpretResponseVo toModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-        return this;
-    }
 }

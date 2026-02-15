@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileFieldRequestDto implements Serializable {
+public class FileFieldRequestDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -78,76 +78,76 @@ public class SaaSFileFieldRequestDto implements Serializable {
     @ApiDesc(value = "备注", required = 0)
     private String remark;
 
-    public static SaaSFileFieldRequestDto build() {
-        return new SaaSFileFieldRequestDto();
+    public static FileFieldRequestDto build() {
+        return new FileFieldRequestDto();
     }
 
-    public SaaSFileFieldRequestDto toId(long id) {
+    public FileFieldRequestDto toId(long id) {
         this.id = id;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toOperationRecordId(long operationRecordId) {
+    public FileFieldRequestDto toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toInterpretRecordId(long interpretRecordId) {
+    public FileFieldRequestDto toInterpretRecordId(long interpretRecordId) {
         this.interpretRecordId = interpretRecordId;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toFieldEnglishName(String fieldEnglishName) {
+    public FileFieldRequestDto toFieldEnglishName(String fieldEnglishName) {
         this.fieldEnglishName = fieldEnglishName;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toFieldChineseName(String fieldChineseName) {
+    public FileFieldRequestDto toFieldChineseName(String fieldChineseName) {
         this.fieldChineseName = fieldChineseName;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toSortOrder(int sortOrder) {
+    public FileFieldRequestDto toSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toFieldType(String fieldType) {
+    public FileFieldRequestDto toFieldType(String fieldType) {
         this.fieldType = fieldType;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toIsPrimaryKey(int isPrimaryKey) {
+    public FileFieldRequestDto toIsPrimaryKey(int isPrimaryKey) {
         this.isPrimaryKey = isPrimaryKey;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toIsRequired(int isRequired) {
+    public FileFieldRequestDto toIsRequired(int isRequired) {
         this.isRequired = isRequired;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toDefaultValue(String defaultValue) {
+    public FileFieldRequestDto toDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toFieldDescription(String fieldDescription) {
+    public FileFieldRequestDto toFieldDescription(String fieldDescription) {
         this.fieldDescription = fieldDescription;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toValidateRule(String validateRule) {
+    public FileFieldRequestDto toValidateRule(String validateRule) {
         this.validateRule = validateRule;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toTransformRule(String transformRule) {
+    public FileFieldRequestDto toTransformRule(String transformRule) {
         this.transformRule = transformRule;
         return this;
     }
 
-    public SaaSFileFieldRequestDto toRemark(String remark) {
+    public FileFieldRequestDto toRemark(String remark) {
         this.remark = remark;
         return this;
     }

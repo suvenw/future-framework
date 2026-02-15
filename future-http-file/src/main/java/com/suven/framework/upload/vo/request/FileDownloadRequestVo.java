@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileDownloadRequestVo extends HttpRequestByIdPageVo {
+public class FileDownloadRequestVo extends HttpRequestByIdPageVo {
 
     /** 注册应用id */
     @ApiDesc(value = "注册应用id", required = 1)
@@ -39,31 +39,31 @@ public class SaaSFileDownloadRequestVo extends HttpRequestByIdPageVo {
     @ApiDesc(value = "临时URL有效期(秒)", required = 0)
     private int expirationTime;
 
-    public static SaaSFileDownloadRequestVo build() {
-        return new SaaSFileDownloadRequestVo();
+    public static FileDownloadRequestVo build() {
+        return new FileDownloadRequestVo();
     }
 
-    public SaaSFileDownloadRequestVo toAppId(String appId) {
+    public FileDownloadRequestVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileDownloadRequestVo toClientId(String clientId) {
+    public FileDownloadRequestVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileDownloadRequestVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileDownloadRequestVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileDownloadRequestVo toGenerateTempUrl(int generateTempUrl) {
+    public FileDownloadRequestVo toGenerateTempUrl(int generateTempUrl) {
         this.generateTempUrl = generateTempUrl;
         return this;
     }
 
-    public SaaSFileDownloadRequestVo toExpirationTime(int expirationTime) {
+    public FileDownloadRequestVo toExpirationTime(int expirationTime) {
         this.expirationTime = expirationTime;
         return this;
     }

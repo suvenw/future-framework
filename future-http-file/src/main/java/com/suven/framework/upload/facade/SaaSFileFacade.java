@@ -1,6 +1,6 @@
 package com.suven.framework.upload.facade;
 
-import com.suven.framework.upload.service.SaaSFileService;
+import com.suven.framework.upload.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 public class SaaSFileFacade {
 
     @Autowired
-    private SaaSFileService saaSFileService;
+    private FileService saaSFileService;
 
-    public SaaSFileService getSaaSFileService() {
+    public FileService getSaaSFileService() {
         return saaSFileService;
     }
 }

@@ -1,6 +1,8 @@
 package com.suven.framework.http.data.entity;
 
 
+import com.suven.framework.http.api.IBaseApi;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,18 @@ public class Pager<T> implements Serializable {
 	public Pager(){
 		
 	}
+
+	public Pager(int indexId, int pageType, int pageSize, int pageNo, boolean searchCount, long total, boolean isNextPage, int nextPage) {
+		this.indexId = indexId;
+		this.pageType = pageType;
+		this.pageSize = pageSize;
+		this.pageNo = pageNo;
+		this.searchCount = searchCount;
+		this.total = total;
+		this.isNextPage = isNextPage;
+		this.nextPage = nextPage;
+	}
+
 	/**
 	 * 创建对象时,设置页码的是否需要下一次;
 	 * @param isNextPage 默认为false;
@@ -86,7 +100,17 @@ public class Pager<T> implements Serializable {
 		return build.toPageNo(pageNo).toPageSize(pageSize).toParamObject(paramObject);
 	}
 
-	
+	public <V extends IBaseApi> Pager<V> clonePager(Class<V> claxx){
+		Pager<V> newPage = new Pager<>( this.getIndexId(), this.pageType, this.pageSize,
+				this.pageNo, this.searchCount, this.total, this.isNextPage, this.nextPage);
+		try {
+			V instance =  claxx.getDeclaredConstructor().newInstance().clone(this.getParamObject());
+			newPage.setParamObject(instance);
+			return newPage;
+		} catch (Exception e) {
+		}
+		return newPage;
+	}
 	public int getIndexId() {
 		return indexId;
 	}

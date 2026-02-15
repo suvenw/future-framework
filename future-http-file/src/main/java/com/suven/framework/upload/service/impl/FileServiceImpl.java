@@ -3,13 +3,13 @@ package com.suven.framework.upload.service.impl;
 import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
+import com.suven.framework.upload.dto.request.FileRequestDto;
 import com.suven.framework.upload.dto.response.FileResponseDto;
 import com.suven.framework.upload.entity.DataSourceModuleName;
 import com.suven.framework.upload.entity.FileUploadStorage;
 import com.suven.framework.upload.mapper.FileUploadStorageMapper;
 import com.suven.framework.upload.repository.FileUploadStorageRepository;
-import com.suven.framework.upload.service.SaaSFileService;
+import com.suven.framework.upload.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import java.util.List;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class FileServiceImpl implements SaaSFileService {
+public class FileServiceImpl implements FileService {
 
     @Autowired
     private FileUploadStorageRepository fileUploadStorageRepository;
@@ -42,7 +42,7 @@ public class FileServiceImpl implements SaaSFileService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public FileResponseDto uploadFile(SaaSFileRequestDto requestDto, MultipartFile file) {
+    public FileResponseDto uploadFile(FileRequestDto requestDto, MultipartFile file) {
         log.info("SaaS文件上传开始, 文件名: {}, 大小: {}", file.getOriginalFilename(), file.getSize());
         
         try {
@@ -87,7 +87,7 @@ public class FileServiceImpl implements SaaSFileService {
      * 下载文件
      */
     @Override
-    public FileResponseDto downloadFile(SaaSFileRequestDto requestDto) {
+    public FileResponseDto downloadFile(FileRequestDto requestDto) {
         log.info("SaaS文件下载开始, 文件ID: {}", requestDto.getFileUploadStorageId());
         
         FileUploadStorage storage = fileUploadStorageRepository.getById(requestDto.getFileUploadStorageId());
@@ -115,7 +115,7 @@ public class FileServiceImpl implements SaaSFileService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public FileResponseDto generateFile(SaaSFileRequestDto requestDto) {
+    public FileResponseDto generateFile(FileRequestDto requestDto) {
         log.info("SaaS大数据文件生成开始, API地址: {}", requestDto.getThirdPartyApiUrl());
         
         try {
@@ -156,7 +156,7 @@ public class FileServiceImpl implements SaaSFileService {
      * 查询文件列表
      */
     @Override
-    public List<FileResponseDto> queryFileList(SaaSFileRequestDto requestDto) {
+    public List<FileResponseDto> queryFileList(FileRequestDto requestDto) {
         log.info("SaaS文件列表查询开始, AppID: {}", requestDto.getAppId());
         
         // 简化实现,返回空列表
@@ -167,7 +167,7 @@ public class FileServiceImpl implements SaaSFileService {
      * 分页查询文件列表
      */
     @Override
-    public PageResult<FileResponseDto> queryFilePage(SaaSFileRequestDto requestDto, Pager pager) {
+    public PageResult<FileResponseDto> queryFilePage(FileRequestDto requestDto, Pager pager) {
         log.info("SaaS文件分页查询开始, AppID: {}, 页码: {}, 页大小: {}", 
             requestDto.getAppId(), pager.getPageNo(), pager.getPageSize());
         
@@ -239,7 +239,7 @@ public class FileServiceImpl implements SaaSFileService {
     public List<FileResponseDto> getFileListByIdList(List<Long> idList) {
         log.info("SaaS文件列表查询开始, ID数量: {}", idList.size());
         
-        List<FileUploadStorage> storageList = fileUploadStorageMapper.selectBatchIds(idList);
+        List<FileUploadStorage> storageList = fileUploadStorageRepository.getListByIds(idList);
         
         return storageList.stream()
             .map(storage -> {

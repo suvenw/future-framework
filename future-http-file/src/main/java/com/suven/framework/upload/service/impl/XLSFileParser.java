@@ -3,13 +3,11 @@ package com.suven.framework.upload.service.impl;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.enums.CellExtraTypeEnum;
-import com.alibaba.excel.metadata.CellExtra;
-import com.alibaba.excel.metadata.data.ReadCellData;
 import com.alibaba.excel.read.listener.ReadListener;
 import com.suven.framework.core.ObjectTrue;
-import com.suven.framework.upload.dto.response.SaaSFileParseResultDto;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
-import com.suven.framework.upload.service.SaaSFileParseService;
+import com.suven.framework.upload.dto.response.FileParseResultDto;
+import com.suven.framework.upload.entity.FileFieldMapping;
+import com.suven.framework.upload.service.FileParseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -35,9 +33,9 @@ public class XLSFileParser implements FileParseService {
     private static final int DEFAULT_SKIP_ROWS = 1;
 
     @Override
-    public SaaSFileParseResultDto parse(InputStream inputStream, String fileName, String fileType) {
+    public FileParseResultDto parse(InputStream inputStream, String fileName, String fileType) {
         long startTime = System.currentTimeMillis();
-        SaaSFileParseResultDto.SaasFileParseResultDtoBuilder resultBuilder = SaaSFileParseResultDto.builder();
+        FileParseResultDto.FileParseResultDtoBuilder resultBuilder = FileParseResultDto.builder();
         resultBuilder.fileName(fileName);
         resultBuilder.fileType(fileType);
 
@@ -58,9 +56,9 @@ public class XLSFileParser implements FileParseService {
             for (Map<Integer, String> row : allData) {
                 Map<String, Object> dataRow = convertRowData(row);
                 if (dataRow != null && !dataRow.isEmpty()) {
-                    resultBuilder.addDataRow(dataRow);
+                    resultBuilder.rawDataRows().addDataRow(dataRow);
                 } else {
-                    resultBuilder.skipRow("空行或无效数据");
+                    resultBuilder.skipRows(1);
                 }
             }
 
@@ -82,13 +80,13 @@ public class XLSFileParser implements FileParseService {
     }
 
     @Override
-    public SaaSFileParseResultDto parseWithMapping(
+    public FileParseResultDto parseWithMapping(
             InputStream inputStream, 
             String fileName, 
             String fileType, 
-            List<SaaSFileFieldMapping> fieldMappings) {
+            List<FileFieldMapping> fieldMappings) {
         long startTime = System.currentTimeMillis();
-        SaaSFileParseResultDto.SaasFileParseResultDtoBuilder resultBuilder = SaaSFileParseResultDto.builder();
+        FileParseResultDto.FileParseResultDtoBuilder resultBuilder = FileParseResultDto.builder();
         resultBuilder.fileName(fileName);
         resultBuilder.fileType(fileType);
 
@@ -144,7 +142,7 @@ public class XLSFileParser implements FileParseService {
 
             return resultBuilder
                     .success(true)
-                    .message("解析成功，共" + resultBuilder.getTotalRows() + "行")
+                    .message("解析成功，共" + resultBuilder() + "行")
                     .parseTimeMs(System.currentTimeMillis() - startTime)
                     .build();
 
@@ -189,7 +187,7 @@ public class XLSFileParser implements FileParseService {
     @Override
     public Map<String, Object> convertDataRow(
             List<String> rawData, 
-            List<SaaSFileFieldMapping> fieldMappings) {
+            List<FileFieldMapping> fieldMappings) {
         if (ObjectTrue.isEmpty(rawData) || ObjectTrue.isEmpty(fieldMappings)) {
             return new HashMap<>();
         }
@@ -197,7 +195,7 @@ public class XLSFileParser implements FileParseService {
         Map<String, Object> result = new HashMap<>();
         int index = 0;
 
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
+        for (FileFieldMapping mapping : fieldMappings) {
             if (index >= rawData.size()) {
                 break;
             }
@@ -269,12 +267,12 @@ public class XLSFileParser implements FileParseService {
     @Override
     public boolean validateDataRow(
             Map<String, Object> dataRow, 
-            List<SaaSFileFieldMapping> fieldMappings) {
+            List<FileFieldMapping> fieldMappings) {
         if (ObjectTrue.isEmpty(dataRow) || ObjectTrue.isEmpty(fieldMappings)) {
             return false;
         }
 
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
+        for (FileFieldMapping mapping : fieldMappings) {
             String fieldName = mapping.getFieldEnglishName();
             Object value = dataRow.get(fieldName);
 
@@ -379,14 +377,14 @@ public class XLSFileParser implements FileParseService {
      */
     private Map<String, Object> convertDataRowWithMapping(
             Map<Integer, String> row, 
-            List<SaaSFileFieldMapping> fieldMappings) {
+            List<FileFieldMapping> fieldMappings) {
         if (ObjectTrue.isEmpty(row) || ObjectTrue.isEmpty(fieldMappings)) {
             return new HashMap<>();
         }
 
         Map<String, Object> result = new HashMap<>();
         
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
+        for (FileFieldMapping mapping : fieldMappings) {
             int columnIndex = mapping.getSortOrder() - 1; // 排编号从1开始，索引从0开始
             String value = row.get(columnIndex);
             String fieldName = mapping.getFieldEnglishName();

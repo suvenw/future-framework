@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileCallbackRequestVo implements Serializable {
+public class FileCallbackRequestVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,61 +68,61 @@ public class SaaSFileCallbackRequestVo implements Serializable {
     @ApiDesc(value = "回调时间戳", required = 0)
     private long timestamp;
 
-    public static SaaSFileCallbackRequestVo build() {
-        return new SaaSFileCallbackRequestVo();
+    public static FileCallbackRequestVo build() {
+        return new FileCallbackRequestVo();
     }
 
-    public SaaSFileCallbackRequestVo toInterpretRecordId(long interpretRecordId) {
+    public FileCallbackRequestVo toInterpretRecordId(long interpretRecordId) {
         this.interpretRecordId = interpretRecordId;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toBusinessUniqueCode(String businessUniqueCode) {
+    public FileCallbackRequestVo toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toBusinessProcessStatus(String businessProcessStatus) {
+    public FileCallbackRequestVo toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toBusinessProcessResult(String businessProcessResult) {
+    public FileCallbackRequestVo toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileCallbackRequestVo toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toBusinessDataId(String businessDataId) {
+    public FileCallbackRequestVo toBusinessDataId(String businessDataId) {
         this.businessDataId = businessDataId;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toExtField1(String extField1) {
+    public FileCallbackRequestVo toExtField1(String extField1) {
         this.extField1 = extField1;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toExtField2(String extField2) {
+    public FileCallbackRequestVo toExtField2(String extField2) {
         this.extField2 = extField2;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toExtField3(String extField3) {
+    public FileCallbackRequestVo toExtField3(String extField3) {
         this.extField3 = extField3;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toSignature(String signature) {
+    public FileCallbackRequestVo toSignature(String signature) {
         this.signature = signature;
         return this;
     }
 
-    public SaaSFileCallbackRequestVo toTimestamp(long timestamp) {
+    public FileCallbackRequestVo toTimestamp(long timestamp) {
         this.timestamp = timestamp;
         return this;
     }

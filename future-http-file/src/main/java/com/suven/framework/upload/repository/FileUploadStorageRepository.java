@@ -14,6 +14,7 @@ import com.suven.framework.upload.entity.FileUploadStorage;
 import com.suven.framework.upload.mapper.FileUploadStorageMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -124,24 +125,20 @@ public class FileUploadStorageRepository extends AbstractMyBatisRepository<FileU
      * @author suven  作者
      * date 2024-04-18 23:55:18 创建时间
      */
-    public List<FileUploadStorage> getListByPage(Pager<FileUploadStorage> pager, Wrapper<FileUploadStorage> queryWrapper ){
+    public PageResult<FileUploadStorage> getListByPage(Pager<FileUploadStorage> pager, Wrapper<FileUploadStorage> queryWrapper ){
 
-        List<FileUploadStorage> resDtoList = new ArrayList<>();
+        PageResult<FileUploadStorage> pageVo = new PageResult<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadStorage> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
         IPage<FileUploadStorage> page = super.page(iPage, queryWrapper);
-        if(ObjectTrue.isEmpty(page)){
-          return resDtoList;
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+          return pageVo;
         }
-        List<FileUploadStorage>  list = page.getRecords();
-        pager.setTotal(page.getTotal());
-        if(ObjectTrue.isEmpty(list)){
-          return resDtoList;
-        }
-          return list;
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+        return pageVo;
         }
     /**
      * 通过分页获取FileUploadStorage信息实现查找缓存和数据库的方法

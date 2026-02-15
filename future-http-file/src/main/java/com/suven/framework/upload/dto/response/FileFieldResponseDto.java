@@ -23,10 +23,6 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
 
     private static final long serialVersionUID = 1L;
 
-    /** 字段ID */
-    @ApiDesc(value = "字段ID", required = 1)
-    private long id;
-
     /** 操作记录ID */
     @ApiDesc(value = "操作记录ID", required = 1)
     private long operationRecordId;
@@ -95,10 +91,6 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
         return new FileFieldResponseDto();
     }
 
-    public FileFieldResponseDto toId(long id) {
-        this.id = id;
-        return this;
-    }
 
     public FileFieldResponseDto toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;

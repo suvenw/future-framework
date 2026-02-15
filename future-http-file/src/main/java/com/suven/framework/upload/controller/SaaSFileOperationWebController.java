@@ -11,17 +11,17 @@ import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.data.vo.HttpRequestByUserIdPageVo;
 import com.suven.framework.http.exception.SystemRuntimeException;
-import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
-import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
+import com.suven.framework.upload.dto.request.FileInterpretRequestDto;
+import com.suven.framework.upload.dto.request.FileOperationRequestDto;
 import com.suven.framework.upload.dto.response.FileInterpretResponseDto;
 import com.suven.framework.upload.dto.response.FileOperationResponseDto;
 import com.suven.framework.upload.facade.SaaSFileFacade;
-import com.suven.framework.upload.service.SaaSFileOperationService;
-import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
-import com.suven.framework.upload.vo.request.SaaSFileOperationQueryVo;
-import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
-import com.suven.framework.upload.vo.response.SaaSFileInterpretResponseVo;
-import com.suven.framework.upload.vo.response.SaaSFileOperationResponseVo;
+import com.suven.framework.upload.service.FileOperationService;
+import com.suven.framework.upload.vo.request.FileCallbackRequestVo;
+import com.suven.framework.upload.vo.request.FileOperationQueryVo;
+import com.suven.framework.upload.vo.request.FileInterpretPageRequestVo;
+import com.suven.framework.upload.vo.response.FileInterpretResponseVo;
+import com.suven.framework.upload.vo.response.FileOperationResponseVo;
  
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +55,7 @@ import org.springframework.web.bind.annotation.*;
 public class SaaSFileOperationWebController {
 
     @Autowired
-    private SaaSFileOperationService fileOperationService;
+    private FileOperationService fileOperationService;
 
     @Autowired
     private SaaSFileFacade fileFacade;
@@ -82,18 +82,18 @@ public class SaaSFileOperationWebController {
     @ApiDoc(
         value = "分页获取操作记录列表",
         description = "根据条件分页获取SaaS平台文件操作记录",
-        request = SaaSFileOperationQueryVo.class,
-        response = SaaSFileOperationResponseVo.class,
+        request = FileOperationQueryVo.class,
+        response = FileOperationResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_OPERATION_PAGE_LIST)
-    public PageResult<SaaSFileOperationResponseVo> pageList(
-            @Validated  SaaSFileOperationQueryVo queryRequestVo) {
+    public PageResult<FileOperationResponseVo> pageList(
+            @Validated FileOperationQueryVo queryRequestVo) {
         
         log.info("SaaS操作记录分页查询, 参数: {}", queryRequestVo);
         
-        SaaSFileOperationRequestDto requestDto = convertToRequestDto(queryRequestVo);
-        Pager pager = new Pager(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
+        FileOperationRequestDto requestDto = convertToRequestDto(queryRequestVo);
+        Pager<FileOperationRequestDto> pager = new Pager<>(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
         pager.toParamObject(requestDto);
         
         PageResult<FileOperationResponseDto> result = fileOperationService.queryOperationPage(requestDto, pager);
@@ -103,8 +103,8 @@ public class SaaSFileOperationWebController {
             return new PageResult<>();
         }
         
-        PageResult<SaaSFileOperationResponseVo> voResult =
-                result.convertBuild(SaaSFileOperationResponseVo.class);
+        PageResult<FileOperationResponseVo> voResult =
+                result.convertBuild(FileOperationResponseVo.class);
 
         log.info("SaaS操作记录分页查询完成, 总数: {}", result.getTotal());
         return voResult;
@@ -117,11 +117,11 @@ public class SaaSFileOperationWebController {
         value = "获取操作记录详情",
         description = "根据ID获取SaaS平台文件操作记录详情",
         request = HttpRequestByIdVo.class,
-        response = SaaSFileOperationResponseVo.class,
+        response = FileOperationResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_OPERATION_INFO)
-    public SaaSFileOperationResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
+    public FileOperationResponseVo detail(@Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS操作记录详情查询, ID: {}", idRequestVo.getId());
         
@@ -137,7 +137,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL);
         }
         
-        SaaSFileOperationResponseVo vo = SaaSFileOperationResponseVo.build().clone(result);
+        FileOperationResponseVo vo = FileOperationResponseVo.build().clone(result);
         log.info("SaaS操作记录详情查询成功, ID: {}", idRequestVo.getId());
         return vo;
     }
@@ -149,11 +149,11 @@ public class SaaSFileOperationWebController {
         value = "分页获取解释记录列表",
         description = "根据操作记录ID分页获取解释记录",
         request = HttpRequestByIdVo.class,
-        response = SaaSFileInterpretResponseVo.class,
+        response = FileInterpretResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PAGE_LIST)
-    public PageResult<SaaSFileInterpretResponseVo> interpretPageList(
+    public PageResult<FileInterpretResponseVo> interpretPageList(
             @Validated  HttpRequestByUserIdPageVo idRequestVo) {
         
         log.info("SaaS解释记录分页查询, OperationId: {}", idRequestVo.getId());
@@ -170,8 +170,8 @@ public class SaaSFileOperationWebController {
             log.info("SaaS解释记录分页查询完成, 无数据");
             return new PageResult<>();
         }
-        PageResult<SaaSFileInterpretResponseVo> voResult =
-                result.convertBuild(SaaSFileInterpretResponseVo.class);
+        PageResult<FileInterpretResponseVo> voResult =
+                result.convertBuild(FileInterpretResponseVo.class);
 
 
         log.info("SaaS解释记录分页查询完成, 总数: {}", result.getTotal());
@@ -185,11 +185,11 @@ public class SaaSFileOperationWebController {
         value = "获取解释记录详情",
         description = "根据ID获取解释记录详情",
         request = HttpRequestByIdVo.class,
-        response = SaaSFileInterpretResponseVo.class,
+        response = FileInterpretResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_INFO)
-    public SaaSFileInterpretResponseVo interpretDetail( @Validated  HttpRequestByIdVo idRequestVo) {
+    public FileInterpretResponseVo interpretDetail(@Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS解释记录详情查询, ID: {}", idRequestVo.getId());
         
@@ -205,7 +205,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL);
         }
         
-        SaaSFileInterpretResponseVo vo = SaaSFileInterpretResponseVo.build().clone(result);
+        FileInterpretResponseVo vo = FileInterpretResponseVo.build().clone(result);
         log.info("SaaS解释记录详情查询成功, ID: {}", idRequestVo.getId());
         return vo;
     }
@@ -218,11 +218,11 @@ public class SaaSFileOperationWebController {
         value = "分批查询待处理数据",
         description = "分批查询指定操作记录下待处理的解释记录",
         request = HttpRequestByIdVo.class,
-        response = SaaSFileInterpretResponseVo.class,
+        response = FileInterpretResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_INTERPRET_PENDING)
-    public PageResult<SaaSFileInterpretResponseVo> queryPendingInterpretRecords(
+    public PageResult<FileInterpretResponseVo> queryPendingInterpretRecords(
             @Validated HttpRequestByUserIdPageVo idRequestVo,
             @RequestParam(required = false) String status) {
         
@@ -242,8 +242,8 @@ public class SaaSFileOperationWebController {
             return new PageResult<>();
         }
 
-        PageResult<SaaSFileInterpretResponseVo> voResult =
-                result.convertBuild(SaaSFileInterpretResponseVo.class);
+        PageResult<FileInterpretResponseVo> voResult =
+                result.convertBuild(FileInterpretResponseVo.class);
 
         log.info("SaaS待处理解释记录查询完成, 总数: {}", result.getTotal());
         return voResult;
@@ -255,13 +255,13 @@ public class SaaSFileOperationWebController {
     @ApiDoc(
         value = "按业务唯一码分页查询解释记录",
         description = "根据 businessUniqueCode 分页查询解释记录列表",
-        request = SaaSFileInterpretPageRequestVo.class,
-        response = SaaSFileInterpretResponseVo.class,
+        request = FileInterpretPageRequestVo.class,
+        response = FileInterpretResponseVo.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_INTERPRET_BIZ_PAGE_LIST)
-    public PageResult<SaaSFileInterpretResponseVo> interpretBizPageList(
-            @Validated @RequestBody SaaSFileInterpretPageRequestVo requestVo) {
+    public PageResult<FileInterpretResponseVo> interpretBizPageList(
+            @Validated @RequestBody FileInterpretPageRequestVo requestVo) {
 
         log.info("SaaS按业务唯一码分页查询解释记录, businessUniqueCode: {}, pageNo: {}, pageSize: {}",
                 requestVo.getBusinessUniqueCode(), requestVo.getPageNo(), requestVo.getPageSize());
@@ -279,8 +279,8 @@ public class SaaSFileOperationWebController {
             return new PageResult<>();
         }
 
-        PageResult<SaaSFileInterpretResponseVo> voResult =
-                result.convertBuild(SaaSFileInterpretResponseVo.class);
+        PageResult<FileInterpretResponseVo> voResult =
+                result.convertBuild(FileInterpretResponseVo.class);
 
         log.info("SaaS按业务唯一码分页查询解释记录完成, 总数: {}", result.getTotal());
         return voResult;
@@ -293,12 +293,12 @@ public class SaaSFileOperationWebController {
     @ApiDoc(
         value = "业务回调接口",
         description = "业务方回调通知数据已解释完成",
-        request = SaaSFileCallbackRequestVo.class,
+        request = FileCallbackRequestVo.class,
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_CALLBACK)
-    public boolean callback( @Validated@RequestBody SaaSFileCallbackRequestVo callbackRequest) {
+    public boolean callback( @Validated@RequestBody FileCallbackRequestVo callbackRequest) {
         
         log.info("SaaS业务回调开始, InterpretId: {}, Status: {}", 
             callbackRequest.getInterpretRecordId(), callbackRequest.getBusinessProcessStatus());
@@ -326,12 +326,12 @@ public class SaaSFileOperationWebController {
     @ApiDoc(
         value = "回写处理结果",
         description = "回写业务处理结果和异常信息",
-        request = SaaSFileInterpretRequestDto.class,
+        request = FileInterpretRequestDto.class,
         response = Boolean.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_CALLBACK_RESULT)
-    public boolean writeBackResult( @Validated@RequestBody SaaSFileInterpretRequestDto requestDto) {
+    public boolean writeBackResult( @Validated@RequestBody FileInterpretRequestDto requestDto) {
         
         log.info("SaaS回写处理结果开始, InterpretId: {}", requestDto.getId());
         
@@ -431,8 +431,8 @@ public class SaaSFileOperationWebController {
 
     // ==================== 私有方法 ====================
 
-    private SaaSFileOperationRequestDto convertToRequestDto(SaaSFileOperationQueryVo vo) {
-        SaaSFileOperationRequestDto dto = new SaaSFileOperationRequestDto();
+    private FileOperationRequestDto convertToRequestDto(FileOperationQueryVo vo) {
+        FileOperationRequestDto dto = new FileOperationRequestDto();
         dto.setAppId(vo.getAppId());
         dto.setClientId(vo.getClientId());
         dto.setFileProductName(vo.getFileProductName());

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * SaaS文件操作记录查询请求VO
@@ -20,7 +19,7 @@ import java.util.List;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileOperationQueryVo extends HttpRequestByIdPageVo {
+public class FileOperationQueryVo extends HttpRequestByIdPageVo {
 
     /** 业务公司id */
     @ApiDesc(value = "业务公司id", required = 0)
@@ -62,56 +61,56 @@ public class SaaSFileOperationQueryVo extends HttpRequestByIdPageVo {
     @ApiDesc(value = "创建时间-结束", required = 0)
     private LocalDateTime createDateEnd;
 
-    public static SaaSFileOperationQueryVo build() {
-        return new SaaSFileOperationQueryVo();
+    public static FileOperationQueryVo build() {
+        return new FileOperationQueryVo();
     }
 
-    public SaaSFileOperationQueryVo toCompanyId(String companyId) {
+    public FileOperationQueryVo toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toAppId(String appId) {
+    public FileOperationQueryVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toClientId(String clientId) {
+    public FileOperationQueryVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toFileProductName(String fileProductName) {
+    public FileOperationQueryVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toFileBusinessName(String fileBusinessName) {
+    public FileOperationQueryVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toFunctionType(String functionType) {
+    public FileOperationQueryVo toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toStatus(String status) {
+    public FileOperationQueryVo toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toFileSourceName(String fileSourceName) {
+    public FileOperationQueryVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toCreateDateStart(Date createDateStart) {
+    public FileOperationQueryVo toCreateDateStart(LocalDateTime createDateStart) {
         this.createDateStart = createDateStart;
         return this;
     }
 
-    public SaaSFileOperationQueryVo toCreateDateEnd(Date createDateEnd) {
+    public FileOperationQueryVo toCreateDateEnd(LocalDateTime createDateEnd) {
         this.createDateEnd = createDateEnd;
         return this;
     }

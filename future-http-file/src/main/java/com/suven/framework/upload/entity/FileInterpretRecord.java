@@ -301,30 +301,6 @@ public class FileInterpretRecord extends BaseTenantEntity {
         return this;
     }
 
-    public FileInterpretRecord toNeedCallback(int needCallback) {
-        this.needCallback = needCallback;
-        return this;
-    }
-
-    public FileInterpretRecord toCallbackStatus(String callbackStatus) {
-        this.callbackStatus = callbackStatus;
-        return this;
-    }
-
-    public FileInterpretRecord toCallbackFailCount(int callbackFailCount) {
-        this.callbackFailCount = callbackFailCount;
-        return this;
-    }
-
-    public FileInterpretRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
-        this.lastCallbackTime = lastCallbackTime;
-        return this;
-    }
-
-    public FileInterpretRecord toCallbackResponse(String callbackResponse) {
-        this.callbackResponse = callbackResponse;
-        return this;
-    }
 
     public FileInterpretRecord toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;

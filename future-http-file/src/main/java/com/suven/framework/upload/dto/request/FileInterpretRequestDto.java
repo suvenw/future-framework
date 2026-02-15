@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileInterpretRequestDto implements Serializable {
+public class FileInterpretRequestDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -98,101 +98,101 @@ public class SaaSFileInterpretRequestDto implements Serializable {
     @ApiDesc(value = "备注", required = 0)
     private String remark;
 
-    public static SaaSFileInterpretRequestDto build() {
-        return new SaaSFileInterpretRequestDto();
+    public static FileInterpretRequestDto build() {
+        return new FileInterpretRequestDto();
     }
 
-    public SaaSFileInterpretRequestDto toId(long id) {
+    public FileInterpretRequestDto toId(long id) {
         this.id = id;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toOperationRecordId(long operationRecordId) {
+    public FileInterpretRequestDto toOperationRecordId(long operationRecordId) {
         this.operationRecordId = operationRecordId;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toInterpretKey(String interpretKey) {
+    public FileInterpretRequestDto toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessUniqueCode(String businessUniqueCode) {
+    public FileInterpretRequestDto toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessType(String businessType) {
+    public FileInterpretRequestDto toBusinessType(String businessType) {
         this.businessType = businessType;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessDescription(String businessDescription) {
+    public FileInterpretRequestDto toBusinessDescription(String businessDescription) {
         this.businessDescription = businessDescription;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toInterpretInfo(String interpretInfo) {
+    public FileInterpretRequestDto toInterpretInfo(String interpretInfo) {
         this.interpretInfo = interpretInfo;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toInterpretStatus(String interpretStatus) {
+    public FileInterpretRequestDto toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toTotalCount(int totalCount) {
+    public FileInterpretRequestDto toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toNeedCallback(int needCallback) {
+    public FileInterpretRequestDto toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toCallbackUrl(String callbackUrl) {
+    public FileInterpretRequestDto toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toCallbackMethod(String callbackMethod) {
+    public FileInterpretRequestDto toCallbackMethod(String callbackMethod) {
         this.callbackMethod = callbackMethod;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessProcessStatus(String businessProcessStatus) {
+    public FileInterpretRequestDto toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessProcessResult(String businessProcessResult) {
+    public FileInterpretRequestDto toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toBusinessExceptionInfo(String businessExceptionInfo) {
+    public FileInterpretRequestDto toBusinessExceptionInfo(String businessExceptionInfo) {
         this.businessExceptionInfo = businessExceptionInfo;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toExtField1(String extField1) {
+    public FileInterpretRequestDto toExtField1(String extField1) {
         this.extField1 = extField1;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toExtField2(String extField2) {
+    public FileInterpretRequestDto toExtField2(String extField2) {
         this.extField2 = extField2;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toExtField3(String extField3) {
+    public FileInterpretRequestDto toExtField3(String extField3) {
         this.extField3 = extField3;
         return this;
     }
 
-    public SaaSFileInterpretRequestDto toRemark(String remark) {
+    public FileInterpretRequestDto toRemark(String remark) {
         this.remark = remark;
         return this;
     }

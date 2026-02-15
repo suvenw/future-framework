@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileUploadRequestVo extends HttpFromRequestVo {
+public class FileUploadRequestVo extends HttpFromRequestVo {
 
     /** 注册应用id */
     @ApiDesc(value = "注册应用id", required = 1)
@@ -52,41 +52,41 @@ public class SaaSFileUploadRequestVo extends HttpFromRequestVo {
     @ApiDesc(value = "上传文件", required = 1)
     private MultipartFile file;
 
-    public static SaaSFileUploadRequestVo build() {
-        return new SaaSFileUploadRequestVo();
+    public static FileUploadRequestVo build() {
+        return new FileUploadRequestVo();
     }
 
-    public SaaSFileUploadRequestVo toAppId(String appId) {
+    public FileUploadRequestVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toClientId(String clientId) {
+    public FileUploadRequestVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toUseBusinessId(long useBusinessId) {
+    public FileUploadRequestVo toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toFileProductName(String fileProductName) {
+    public FileUploadRequestVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toFileBusinessName(String fileBusinessName) {
+    public FileUploadRequestVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toInterpretData(int interpretData) {
+    public FileUploadRequestVo toInterpretData(int interpretData) {
         this.interpretData = interpretData;
         return this;
     }
 
-    public SaaSFileUploadRequestVo toIdempotent(String idempotent) {
+    public FileUploadRequestVo toIdempotent(String idempotent) {
         this.idempotent = idempotent;
         return this;
     }

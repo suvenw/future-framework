@@ -21,13 +21,10 @@ import java.util.List;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileOperationRequestDto extends BaseTenantEntity implements Serializable {
+public class FileOperationRequestDto extends BaseTenantEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 操作记录ID (查询时使用) */
-    @ApiDesc(value = "操作记录ID", required = 0)
-    private long id;
 
     /** 业务公司id */
     @ApiDesc(value = "业务公司id", required = 0)
@@ -107,113 +104,110 @@ public class SaaSFileOperationRequestDto extends BaseTenantEntity implements Ser
 
     /** 字段映射列表 */
     @ApiDesc(value = "字段映射列表", required = 0)
-    private List<SaaSFileFieldRequestDto> fieldMappings;
+    private List<FileFieldRequestDto> fieldMappings;
 
-    public static SaaSFileOperationRequestDto build() {
-        return new SaaSFileOperationRequestDto();
+    public static FileOperationRequestDto build() {
+        return new FileOperationRequestDto();
     }
 
-    public SaaSFileOperationRequestDto toId(long id) {
-        this.id = id;
-        return this;
-    }
 
-    public SaaSFileOperationRequestDto toCompanyId(String companyId) {
+
+    public FileOperationRequestDto toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toCompanyName(String companyName) {
+    public FileOperationRequestDto toCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toUploadUserId(long uploadUserId) {
+    public FileOperationRequestDto toUploadUserId(long uploadUserId) {
         this.uploadUserId = uploadUserId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toUploadUserName(String uploadUserName) {
+    public FileOperationRequestDto toUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toAppId(String appId) {
+    public FileOperationRequestDto toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toClientId(String clientId) {
+    public FileOperationRequestDto toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toUseBusinessId(long useBusinessId) {
+    public FileOperationRequestDto toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFileProductName(String fileProductName) {
+    public FileOperationRequestDto toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFileBusinessName(String fileBusinessName) {
+    public FileOperationRequestDto toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFunctionType(String functionType) {
+    public FileOperationRequestDto toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toPlatformType(String platformType) {
+    public FileOperationRequestDto toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFileUploadStorageId(long fileUploadStorageId) {
+    public FileOperationRequestDto toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFileSourceName(String fileSourceName) {
+    public FileOperationRequestDto toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFileType(String fileType) {
+    public FileOperationRequestDto toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toStatus(String status) {
+    public FileOperationRequestDto toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toNeedCallback(int needCallback) {
+    public FileOperationRequestDto toNeedCallback(int needCallback) {
         this.needCallback = needCallback;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toCallbackUrl(String callbackUrl) {
+    public FileOperationRequestDto toCallbackUrl(String callbackUrl) {
         this.callbackUrl = callbackUrl;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toCreateDateStart(Date createDateStart) {
+    public FileOperationRequestDto toCreateDateStart(LocalDateTime createDateStart) {
         this.createDateStart = createDateStart;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toCreateDateEnd(Date createDateEnd) {
+    public FileOperationRequestDto toCreateDateEnd(LocalDateTime createDateEnd) {
         this.createDateEnd = createDateEnd;
         return this;
     }
 
-    public SaaSFileOperationRequestDto toFieldMappings(List<SaaSFileFieldRequestDto> fieldMappings) {
+    public FileOperationRequestDto toFieldMappings(List<FileFieldRequestDto> fieldMappings) {
         this.fieldMappings = fieldMappings;
         return this;
     }

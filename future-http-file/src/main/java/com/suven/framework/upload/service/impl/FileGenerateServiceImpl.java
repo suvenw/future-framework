@@ -1,7 +1,6 @@
 package com.suven.framework.upload.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.suven.framework.common.enums.SysResultCodeEnum;
@@ -25,9 +24,8 @@ import com.suven.framework.upload.repository.CompanyBusinessFunctionRepository;
 import com.suven.framework.upload.repository.FileDownloadRecordRepository;
 import com.suven.framework.upload.repository.FileFieldMappingRepository;
 import com.suven.framework.upload.service.FileGenerateService;
-import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileDownloadQueryRequestVo;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -290,7 +288,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      */
     @Override
     public PageResult<FileDownloadRecord> pageQueryDownloadRecords(
-            SaaSFileDownloadQueryRequestVo requestVo, Pager pager) {
+            FileDownloadQueryRequestVo requestVo, Pager pager) {
         log.info("分页查询下载记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
         LambdaQueryWrapper<FileDownloadRecord> queryWrapper = new LambdaQueryWrapper<>();

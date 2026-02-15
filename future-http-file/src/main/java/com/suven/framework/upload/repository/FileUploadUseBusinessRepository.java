@@ -15,6 +15,7 @@ import com.suven.framework.upload.entity.FileUploadUseBusiness;
 import com.suven.framework.upload.mapper.FileUploadUseBusinessMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -122,24 +123,20 @@ public class FileUploadUseBusinessRepository extends AbstractMyBatisRepository<F
      * @author suven  作者
      * date 2024-04-19 00:21:42 创建时间
      */
-    public List<FileUploadUseBusiness> getListByPage(Pager<FileUploadUseBusiness> pager, Wrapper<FileUploadUseBusiness> queryWrapper ){
+    public PageResult<FileUploadUseBusiness> getListByPage(Pager<FileUploadUseBusiness> pager, Wrapper<FileUploadUseBusiness> queryWrapper ){
 
-        List<FileUploadUseBusiness> resDtoList = new ArrayList<>();
+        PageResult<FileUploadUseBusiness> pageVo = new PageResult<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadUseBusiness> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
         IPage<FileUploadUseBusiness> page = super.page(iPage, queryWrapper);
-        if(ObjectTrue.isEmpty(page)){
-          return resDtoList;
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+          return pageVo;
         }
-        List<FileUploadUseBusiness>  list = page.getRecords();
-        pager.setTotal(page.getTotal());
-        if(ObjectTrue.isEmpty(list)){
-          return resDtoList;
-        }
-          return list;
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+        return pageVo;
         }
     /**
      * 通过分页获取FileUploadUseBusiness信息实现查找缓存和数据库的方法

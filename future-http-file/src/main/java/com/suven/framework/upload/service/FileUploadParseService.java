@@ -2,10 +2,10 @@ package com.suven.framework.upload.service;
 
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.response.FileParseResultDto;
 import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.entity.FileInterpretRecord;
 import com.suven.framework.upload.entity.FileUpload;
+import com.suven.framework.upload.vo.request.FileInterpretPageRequestVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -54,7 +54,7 @@ public interface FileUploadParseService {
             MultipartFile file,
             String appId,
             String businessUniqueCode,
-            List<SaaSFileFieldMapping> fieldMappings,
+            List<FileFieldMapping> fieldMappings,
             int needCallback,
             String callbackUrl);
 
@@ -64,9 +64,9 @@ public interface FileUploadParseService {
      * @param fileUploadId 文件上传记录ID
      * @param needCallback 是否需要回调
      * @param callbackUrl 回调URL
-     * @return SaaSFileInterpretRecord 解释记录
+     * @return  FileInterpretRecord 解释记录
      */
-    SaaSFileInterpretRecord parseUploadedFile(
+    FileInterpretRecord parseUploadedFile(
             long fileUploadId,
             int needCallback,
             String callbackUrl);
@@ -81,9 +81,9 @@ public interface FileUploadParseService {
      * @param businessUniqueCode 业务唯一码
      * @param needCallback 是否需要回调
      * @param callbackUrl 回调URL
-     * @return SaaSFileInterpretRecord 解释记录
+     * @return  FileInterpretRecord 解释记录
      */
-    SaaSFileInterpretRecord parseAndSave(
+     FileInterpretRecord parseAndSave(
             InputStream inputStream,
             String fileName,
             String fileType,
@@ -91,7 +91,27 @@ public interface FileUploadParseService {
             String businessUniqueCode,
             int needCallback,
             String callbackUrl);
-
+    /**
+     * 解析输入流并保存记录
+     *
+     * @param inputStream 文件输入流
+     * @param fileName 文件名
+     * @param fileType 文件类型
+     * @param fileUploadId 文件上传记录ID
+     * @param businessUniqueCode 业务唯一码
+     * @param needCallback 是否需要回调
+     * @param callbackUrl 回调URL
+     * @return  FileInterpretRecord 解释记录
+     */
+    FileInterpretRecord parseAndSaveWithMapping(
+            InputStream inputStream,
+            String fileName,
+            String fileType,
+            long fileUploadId,
+            String businessUniqueCode,
+            List<FileFieldMapping> fieldMappings,
+            int needCallback,
+            String callbackUrl);
     /**
      * 获取文件上传记录
      * 
@@ -107,44 +127,32 @@ public interface FileUploadParseService {
      * @param pager 分页参数
      * @return PageResult<FileUpload>
      */
-    PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager pager);
+    PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager<FileInterpretRecord> pager);
 
     /**
      * 获取解释记录
      * 
      * @param id 记录ID
-     * @return SaaSFileInterpretRecord
+     * @return  FileInterpretRecord
      */
-    SaaSFileInterpretRecord getInterpretRecord(long id);
+    FileInterpretRecord getInterpretRecord(long id);
 
     /**
      * 根据文件上传ID获取解释记录列表
      * 
      * @param fileUploadId 文件上传ID
-     * @return List<SaaSFileInterpretRecord>
+     * @return List< FileInterpretRecord>
      */
-    List<SaaSFileInterpretRecord> getInterpretRecordsByFileUploadId(long fileUploadId);
+    List<FileInterpretRecord> getInterpretRecordsByFileUploadId(long fileUploadId);
 
     /**
      * 按业务唯一码分页查询解释记录
      * 
      * @param requestVo 查询请求VO
-     * @return PageResult<SaaSFileInterpretRecord>
+     * @return PageResult< FileInterpretRecord>
      */
-    PageResult<SaaSFileInterpretRecord> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo);
+    PageResult<FileInterpretRecord> pageQueryInterpretByBusiness( FileInterpretPageRequestVo requestVo);
 
-    /**
-     * 批量获取待处理的解释记录
-     * 
-     * @param fileUploadId 文件上传ID
-     * @param status 状态
-     * @param pager 分页参数
-     * @return PageResult<SaaSFileInterpretRecord>
-     */
-    PageResult<SaaSFileInterpretRecord> queryPendingInterpretRecords(
-            long fileUploadId, 
-            String status, 
-            Pager pager);
 
     /**
      * 回写业务处理结果
@@ -162,6 +170,7 @@ public interface FileUploadParseService {
             String processStatus,
             String processResult,
             String exceptionInfo);
+
 
     /**
      * 验证文件是否支持解析

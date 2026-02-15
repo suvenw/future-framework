@@ -8,10 +8,10 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
-import com.suven.framework.upload.entity.SaaSFileDownloadRecord;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
+import com.suven.framework.upload.entity.FileDownloadRecord;
+import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.service.FileGenerateService;
-import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileDownloadQueryRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,11 +95,11 @@ public class SaaSFileGenerateWebController {
         value = "申请生成文件",
         description = "异步申请生成文件，返回任务ID用于查询状态",
         request = FileDataQueryRequestDto.class,
-        response = SaaSFileDownloadRecord.class,
+        response = FileDownloadRecord.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.APPLY_GENERATE)
-    public SaaSFileDownloadRecord applyGenerate(
+    public FileDownloadRecord applyGenerate(
             @RequestBody FileDataQueryRequestDto requestDto) {
         
         log.info("申请生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
@@ -169,18 +169,18 @@ public class SaaSFileGenerateWebController {
         value = "获取生成状态",
         description = "根据任务ID查询文件生成状态",
         request = Long.class,
-        response = SaaSFileDownloadRecord.class,
+        response = FileDownloadRecord.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.GENERATE_STATUS)
-    public SaaSFileDownloadRecord getGenerateStatus(@RequestParam long taskId) {
+    public FileDownloadRecord getGenerateStatus(@RequestParam long taskId) {
         log.info("查询生成状态: taskId={}", taskId);
 
         if (taskId <= 0) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "任务ID无效");
         }
 
-        SaaSFileDownloadRecord record = fileGenerateService.getGenerateStatus(taskId);
+        FileDownloadRecord record = fileGenerateService.getGenerateStatus(taskId);
         if (record == null) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL, "任务记录不存在");
         }
@@ -239,13 +239,13 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "分页查询下载记录",
         description = "根据条件分页查询文件下载记录列表",
-        request = SaaSFileDownloadQueryRequestVo.class,
-        response = SaaSFileDownloadRecord.class,
+        request = FileDownloadQueryRequestVo.class,
+        response = FileDownloadRecord.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.DOWNLOAD_PAGE_LIST)
-    public PageResult<SaaSFileDownloadRecord> pageList(
-            @RequestBody SaaSFileDownloadQueryRequestVo requestVo) {
+    public PageResult<FileDownloadRecord> pageList(
+            @RequestBody FileDownloadQueryRequestVo requestVo) {
         
         log.info("分页查询下载记录: pageNo={}, pageSize={}", requestVo.getPageNo(), requestVo.getPageSize());
 
@@ -260,11 +260,11 @@ public class SaaSFileGenerateWebController {
         value = "根据业务码查询下载记录",
         description = "根据业务唯一码分页查询文件下载记录列表",
         request = String.class,
-        response = SaaSFileDownloadRecord.class,
+        response = FileDownloadRecord.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.DOWNLOAD_BY_BIZ_CODE)
-    public PageResult<SaaSFileDownloadRecord> queryByBusinessCode(
+    public PageResult<FileDownloadRecord> queryByBusinessCode(
             @RequestParam String businessUniqueCode,
             @RequestParam(defaultValue = "1") int pageNo,
             @RequestParam(defaultValue = "20") int pageSize) {
@@ -328,11 +328,11 @@ public class SaaSFileGenerateWebController {
         value = "获取字段映射",
         description = "根据业务唯一码获取英文字段与中文字段的映射关系",
         request = String.class,
-        response = SaaSFileFieldMapping.class,
+        response = FileFieldMapping.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.FIELD_MAPPINGS)
-    public List<SaaSFileFieldMapping> getFieldMappings(@RequestParam String businessUniqueCode) {
+    public List<FileFieldMapping> getFieldMappings(@RequestParam String businessUniqueCode) {
         log.info("获取字段映射: businessUniqueCode={}", businessUniqueCode);
 
         if (StringUtils.isBlank(businessUniqueCode)) {
@@ -360,7 +360,7 @@ public class SaaSFileGenerateWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
 
-        List<SaaSFileFieldMapping> fieldMappings = fileGenerateService.getFieldMappings(businessUniqueCode);
+        List<FileFieldMapping> fieldMappings = fileGenerateService.getFieldMappings(businessUniqueCode);
         return fileGenerateService.generateChineseHeaders(fieldMappings);
     }
 }

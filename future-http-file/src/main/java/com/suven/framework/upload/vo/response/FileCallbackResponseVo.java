@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileCallbackResponseVo extends BaseIdEntity implements Serializable {
+public class FileCallbackResponseVo extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -84,82 +84,74 @@ public class SaaSFileCallbackResponseVo extends BaseIdEntity implements Serializ
     @ApiDesc(value = "修改时间", required = 0)
     private LocalDateTime modifyDate;
 
-    public static SaaSFileCallbackResponseVo build() {
-        return new SaaSFileCallbackResponseVo();
+    public static FileCallbackResponseVo build() {
+        return new FileCallbackResponseVo();
     }
 
-    public SaaSFileCallbackResponseVo toInterpretRecordId(long interpretRecordId) {
+    public FileCallbackResponseVo toInterpretRecordId(long interpretRecordId) {
         this.interpretRecordId = interpretRecordId;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toBusinessUniqueCode(String businessUniqueCode) {
+    public FileCallbackResponseVo toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toInterpretKey(String interpretKey) {
+    public FileCallbackResponseVo toInterpretKey(String interpretKey) {
         this.interpretKey = interpretKey;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toInterpretInfo(String interpretInfo) {
+    public FileCallbackResponseVo toInterpretInfo(String interpretInfo) {
         this.interpretInfo = interpretInfo;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toInterpretStatus(String interpretStatus) {
+    public FileCallbackResponseVo toInterpretStatus(String interpretStatus) {
         this.interpretStatus = interpretStatus;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toTotalCount(int totalCount) {
+    public FileCallbackResponseVo toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toSuccessCount(int successCount) {
+    public FileCallbackResponseVo toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toFailCount(int failCount) {
+    public FileCallbackResponseVo toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toBusinessProcessStatus(String businessProcessStatus) {
+    public FileCallbackResponseVo toBusinessProcessStatus(String businessProcessStatus) {
         this.businessProcessStatus = businessProcessStatus;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toBusinessProcessResult(String businessProcessResult) {
+    public FileCallbackResponseVo toBusinessProcessResult(String businessProcessResult) {
         this.businessProcessResult = businessProcessResult;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toCallbackStatus(String callbackStatus) {
+    public FileCallbackResponseVo toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toCallbackFailCount(int callbackFailCount) {
+    public FileCallbackResponseVo toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toLastCallbackTime(Date lastCallbackTime) {
+    public FileCallbackResponseVo toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileCallbackResponseVo toCreateDate(Date createDate) {
-        this.createDate = createDate;
-        return this;
-    }
 
-    public SaaSFileCallbackResponseVo toModifyDate(Date modifyDate) {
-        this.modifyDate = modifyDate;
-        return this;
-    }
 }

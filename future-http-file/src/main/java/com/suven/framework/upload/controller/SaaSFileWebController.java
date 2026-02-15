@@ -12,17 +12,17 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
 import com.suven.framework.http.exception.ExceptionFactory;
-import com.suven.framework.upload.dto.request.SaaSFileRequestDto;
+import com.suven.framework.upload.dto.request.FileRequestDto;
 import com.suven.framework.upload.dto.response.FileResponseDto;
 import com.suven.framework.upload.facade.SaaSFileFacade;
-import com.suven.framework.upload.vo.request.SaaSFileDownloadRequestVo;
-import com.suven.framework.upload.vo.request.SaaSFileGenerateRequestVo;
-import com.suven.framework.upload.vo.request.SaaSFileQueryRequestVo;
-import com.suven.framework.upload.vo.request.SaaSFileUploadRequestVo;
-import com.suven.framework.upload.vo.response.SaaSFileDownloadResponseVo;
-import com.suven.framework.upload.vo.response.SaaSFileGenerateResponseVo;
-import com.suven.framework.upload.vo.response.SaaSFileShowResponseVo;
-import com.suven.framework.upload.vo.response.SaaSFileUploadResponseVo;
+import com.suven.framework.upload.vo.request.FileDownloadRequestVo;
+import com.suven.framework.upload.vo.request.FileGenerateRequestVo;
+import com.suven.framework.upload.vo.request.FileQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileUploadRequestVo;
+import com.suven.framework.upload.vo.response.FileDownloadResponseVo;
+import com.suven.framework.upload.vo.response.FileGenerateResponseVo;
+import com.suven.framework.upload.vo.response.FileShowResponseVo;
+import com.suven.framework.upload.vo.response.FileUploadResponseVo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -79,18 +79,18 @@ public class SaaSFileWebController {
     @ApiDoc(
         value = "分页获取文件列表",
         description = "根据条件分页获取SaaS平台文件列表",
-        request = SaaSFileQueryRequestVo.class,
-        response = SaaSFileShowResponseVo.class,
+        request = FileQueryRequestVo.class,
+        response = FileShowResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_PAGE_LIST)
-    public PageResult<SaaSFileShowResponseVo> pageList(
-            @Validated  SaaSFileQueryRequestVo queryRequestVo) {
+    public PageResult<FileShowResponseVo> pageList(
+            @Validated FileQueryRequestVo queryRequestVo) {
         
         log.info("SaaS文件分页查询, 参数: {}", queryRequestVo);
         
-        SaaSFileRequestDto requestDto = convertToRequestDto(queryRequestVo);
-        Pager pager = new Pager(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
+        FileRequestDto requestDto = convertToRequestDto(queryRequestVo);
+        Pager<FileRequestDto> pager = new Pager<>(queryRequestVo.getPageNo(), queryRequestVo.getPageSize());
         pager.toParamObject(requestDto);
         
         PageResult<FileResponseDto> result = saaSFileFacade.getSaaSFileService()
@@ -101,8 +101,8 @@ public class SaaSFileWebController {
             return new PageResult<>();
         }
         
-        PageResult<SaaSFileShowResponseVo> voResult = result
-                .convertBuild(SaaSFileShowResponseVo.class);
+        PageResult<FileShowResponseVo> voResult = result
+                .convertBuild(FileShowResponseVo.class);
         log.info("SaaS文件分页查询完成, 总数: {}", result.getTotal());
         return voResult;
     }
@@ -114,17 +114,17 @@ public class SaaSFileWebController {
         value = "获取文件详情",
         description = "根据文件ID获取SaaS平台文件详情",
         request = HttpRequestByIdVo.class,
-        response = SaaSFileShowResponseVo.class,
+        response = FileShowResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_INFO)
-    public SaaSFileShowResponseVo detail( @Validated  HttpRequestByIdVo idRequestVo) {
+    public FileShowResponseVo detail(@Validated  HttpRequestByIdVo idRequestVo) {
         
         log.info("SaaS文件详情查询, ID: {}", idRequestVo.getId());
         
         if (idRequestVo.getId() == null || idRequestVo.getId() <= 0) {
             log.warn("SaaS文件详情查询参数错误, ID: {}", idRequestVo.getId());
-            throw ExceptionFactory.sysException(FileMsgEnum.PARAM_IS_INVALID);
+            throw ExceptionFactory.sysException(FileMsgEnum.UPLOAD_FILE_EXCEPTION_FAIL);
         }
         
         FileResponseDto result = saaSFileFacade.getSaaSFileService()
@@ -135,7 +135,7 @@ public class SaaSFileWebController {
             throw ExceptionFactory.sysException(CodeEnum.DATA_NOT_FOUND);
         }
         
-        SaaSFileShowResponseVo vo = SaaSFileShowResponseVo.build()
+        FileShowResponseVo vo = FileShowResponseVo.build()
                 .clone(result);
         log.info("SaaS文件详情查询成功, ID: {}", idRequestVo.getId());
         return vo;
@@ -147,13 +147,13 @@ public class SaaSFileWebController {
     @ApiDoc(
         value = "上传文件",
         description = "上传文件到SaaS平台存储",
-        request = SaaSFileUploadRequestVo.class,
-        response = SaaSFileUploadResponseVo.class,
+        request = FileUploadRequestVo.class,
+        response = FileUploadResponseVo.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_FILE_UPLOAD)
-    public SaaSFileUploadResponseVo upload(
-            @Validated  SaaSFileUploadRequestVo uploadRequestVo,
+    public FileUploadResponseVo upload(
+            @Validated FileUploadRequestVo uploadRequestVo,
             @RequestParam("file") MultipartFile file) {
         
         log.info("SaaS文件上传开始, 文件名: {}, 大小: {}", 
@@ -164,11 +164,11 @@ public class SaaSFileWebController {
             throw ExceptionFactory.sysException(CodeEnum.FILE_IS_EMPTY);
         }
         
-        SaaSFileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
+        FileRequestDto requestDto = convertToRequestDto(uploadRequestVo);
         FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .uploadFile(requestDto, file);
         
-        SaaSFileUploadResponseVo vo = SaaSFileUploadResponseVo.build()
+        FileUploadResponseVo vo = FileUploadResponseVo.build()
                 .clone(result);
         log.info("SaaS文件上传成功, 文件ID: {}", result.getFileUploadStorageId());
         return vo;
@@ -180,13 +180,13 @@ public class SaaSFileWebController {
     @ApiDoc(
         value = "下载文件",
         description = "获取SaaS平台文件下载信息或临时URL",
-        request = SaaSFileDownloadRequestVo.class,
-        response = SaaSFileDownloadResponseVo.class,
+        request = FileDownloadRequestVo.class,
+        response = FileDownloadResponseVo.class,
         method = RequestMethodEnum.GET
     )
     @GetMapping(value = UrlCommand.SAAS_FILE_DOWNLOAD)
-    public SaaSFileDownloadResponseVo download(
-            @Validated  SaaSFileDownloadRequestVo downloadRequestVo) {
+    public FileDownloadResponseVo download(
+            @Validated FileDownloadRequestVo downloadRequestVo) {
         
         log.info("SaaS文件下载开始, 文件ID: {}", downloadRequestVo.getFileUploadStorageId());
         
@@ -195,11 +195,11 @@ public class SaaSFileWebController {
             throw ExceptionFactory.sysException(SystemMsgCodeEnum.SYS_USER_NEW_PWD_FAIL);
         }
         
-        SaaSFileRequestDto requestDto = convertToRequestDto(downloadRequestVo);
+        FileRequestDto requestDto = convertToRequestDto(downloadRequestVo);
         FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .downloadFile(requestDto);
         
-        SaaSFileDownloadResponseVo vo = SaaSFileDownloadResponseVo.build()
+        FileDownloadResponseVo vo = FileDownloadResponseVo.build()
                 .clone(result);
         
         // 设置临时URL信息
@@ -222,13 +222,13 @@ public class SaaSFileWebController {
     @ApiDoc(
         value = "生成大数据文件",
         description = "调用第三方接口生成大数据文件",
-        request = SaaSFileGenerateRequestVo.class,
-        response = SaaSFileGenerateResponseVo.class,
+        request = FileGenerateRequestVo.class,
+        response = FileGenerateResponseVo.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SAAS_FILE_GENERATE)
-    public SaaSFileGenerateResponseVo generate(
-            @Validated  SaaSFileGenerateRequestVo generateRequestVo) {
+    public FileGenerateResponseVo generate(
+            @Validated FileGenerateRequestVo generateRequestVo) {
         
         log.info("SaaS大数据文件生成开始, API地址: {}", generateRequestVo.getThirdPartyApiUrl());
         
@@ -237,11 +237,11 @@ public class SaaSFileWebController {
             throw ExceptionFactory.sysException(CodeEnum.PARAM_IS_INVALID);
         }
         
-        SaaSFileRequestDto requestDto = convertToRequestDto(generateRequestVo);
+        FileRequestDto requestDto = convertToRequestDto(generateRequestVo);
         FileResponseDto result = saaSFileFacade.getSaaSFileService()
                 .generateFile(requestDto);
         
-        SaaSFileGenerateResponseVo vo = SaaSFileGenerateResponseVo.build()
+        FileGenerateResponseVo vo = FileGenerateResponseVo.build()
                 .clone(result);
         vo.setGenerateStatus(result.getGenerateStatus());
         vo.setProgressPercent(result.getProgressPercent());
@@ -280,8 +280,8 @@ public class SaaSFileWebController {
     /**
      * 转换上传请求VO到DTO
      */
-    private SaaSFileRequestDto convertToRequestDto(SaaSFileUploadRequestVo vo) {
-        SaaSFileRequestDto dto = new SaaSFileRequestDto();
+    private FileRequestDto convertToRequestDto(FileUploadRequestVo vo) {
+        FileRequestDto dto = new FileRequestDto();
         dto.setAppId(vo.getAppId());
         dto.setClientId(vo.getClientId());
         dto.setUseBusinessId(vo.getUseBusinessId());
@@ -295,8 +295,8 @@ public class SaaSFileWebController {
     /**
      * 转换下载请求VO到DTO
      */
-    private SaaSFileRequestDto convertToRequestDto(SaaSFileDownloadRequestVo vo) {
-        SaaSFileRequestDto dto = new SaaSFileRequestDto();
+    private FileRequestDto convertToRequestDto(FileDownloadRequestVo vo) {
+        FileRequestDto dto = new FileRequestDto();
         dto.setAppId(vo.getAppId());
         dto.setClientId(vo.getClientId());
         dto.setFileUploadStorageId(vo.getFileUploadStorageId());
@@ -308,8 +308,8 @@ public class SaaSFileWebController {
     /**
      * 转换生成请求VO到DTO
      */
-    private SaaSFileRequestDto convertToRequestDto(SaaSFileGenerateRequestVo vo) {
-        SaaSFileRequestDto dto = new SaaSFileRequestDto();
+    private FileRequestDto convertToRequestDto(FileGenerateRequestVo vo) {
+        FileRequestDto dto = new FileRequestDto();
         dto.setAppId(vo.getAppId());
         dto.setClientId(vo.getClientId());
         dto.setUseBusinessId(vo.getUseBusinessId());
@@ -329,8 +329,8 @@ public class SaaSFileWebController {
     /**
      * 转换查询请求VO到DTO
      */
-    private SaaSFileRequestDto convertToRequestDto(SaaSFileQueryRequestVo vo) {
-        SaaSFileRequestDto dto = new SaaSFileRequestDto();
+    private FileRequestDto convertToRequestDto(FileQueryRequestVo vo) {
+        FileRequestDto dto = new FileRequestDto();
         dto.setAppId(vo.getAppId());
         dto.setClientId(vo.getClientId());
         dto.setUseBusinessId(vo.getUseBusinessId());

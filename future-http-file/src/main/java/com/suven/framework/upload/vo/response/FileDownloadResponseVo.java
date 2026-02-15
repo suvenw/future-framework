@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileDownloadResponseVo extends BaseIdEntity implements Serializable {
+public class FileDownloadResponseVo extends BaseIdEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 1)
@@ -62,56 +62,56 @@ public class SaaSFileDownloadResponseVo extends BaseIdEntity implements Serializ
     @ApiDesc(value = "创建时间", required = 1)
     private Date createDate;
 
-    public static SaaSFileDownloadResponseVo build() {
-        return new SaaSFileDownloadResponseVo();
+    public static FileDownloadResponseVo build() {
+        return new FileDownloadResponseVo();
     }
 
-    public SaaSFileDownloadResponseVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileDownloadResponseVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toFileSourceName(String fileSourceName) {
+    public FileDownloadResponseVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toFileType(String fileType) {
+    public FileDownloadResponseVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toFileSize(long fileSize) {
+    public FileDownloadResponseVo toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toFileAccessUrl(String fileAccessUrl) {
+    public FileDownloadResponseVo toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toTempAccessUrl(String tempAccessUrl) {
+    public FileDownloadResponseVo toTempAccessUrl(String tempAccessUrl) {
         this.tempAccessUrl = tempAccessUrl;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
+    public FileDownloadResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
         this.tempUrlExpirationTime = tempUrlExpirationTime;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toTempUrlRemainingCount(int tempUrlRemainingCount) {
+    public FileDownloadResponseVo toTempUrlRemainingCount(int tempUrlRemainingCount) {
         this.tempUrlRemainingCount = tempUrlRemainingCount;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toDuplicateUpload(boolean duplicateUpload) {
+    public FileDownloadResponseVo toDuplicateUpload(boolean duplicateUpload) {
         this.duplicateUpload = duplicateUpload;
         return this;
     }
 
-    public SaaSFileDownloadResponseVo toCreateDate(Date createDate) {
+    public FileDownloadResponseVo toCreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }

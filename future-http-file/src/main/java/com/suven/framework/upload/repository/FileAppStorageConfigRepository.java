@@ -10,10 +10,12 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.upload.dto.enums.FileAppStorageConfigQueryEnum;
+import com.suven.framework.upload.dto.request.FileAppStorageConfigRequestDto;
 import com.suven.framework.upload.entity.FileAppStorageConfig;
 import com.suven.framework.upload.mapper.FileAppStorageConfigMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -116,6 +118,25 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisRepository<Fi
     }
 
     /**
+     * 根据过滤条件获取 最新一条或者唯一一条
+     * @param queryEnum 枚举实现过滤条件
+     * @param fileAppStorageConfig 具体的参数对象
+     * @return FileAppStorageConfig 最新一条或者唯一一条
+     */
+    public FileAppStorageConfig getOneFileAppStorageConfig(FileAppStorageConfigQueryEnum queryEnum, FileAppStorageConfig fileAppStorageConfig){
+        Wrapper<FileAppStorageConfig> queryWrapper = this.builderQueryEnum( queryEnum, fileAppStorageConfig);
+        //分页对象        PageHelper
+        Page<FileAppStorageConfig> iPage = new Page<>(0, 1);
+        iPage.setSearchCount(false);
+        IPage<FileAppStorageConfig> page = super.page(iPage, queryWrapper);
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+            return null;
+        }
+        FileAppStorageConfig result = page.getRecords().getFirst();
+        return result;
+    }
+
+    /**
      * 通过分页获取FileAppStorageConfig信息实现查找缓存和数据库的方法
      * @param pager 分页查询对象
      * @param queryWrapper 查询条件对象
@@ -123,24 +144,20 @@ public class FileAppStorageConfigRepository extends AbstractMyBatisRepository<Fi
      * @author suven  作者
      * date 2024-04-19 00:21:54 创建时间
      */
-    public List<FileAppStorageConfig> getListByPage(Pager<FileAppStorageConfig> pager, Wrapper<FileAppStorageConfig> queryWrapper ){
+    public PageResult<FileAppStorageConfig> getListByPage(Pager<FileAppStorageConfig> pager, Wrapper<FileAppStorageConfig> queryWrapper ){
 
-        List<FileAppStorageConfig> resDtoList = new ArrayList<>();
+        PageResult<FileAppStorageConfig> pageVo = new PageResult<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }
         Page<FileAppStorageConfig> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
         IPage<FileAppStorageConfig> page = super.page(iPage, queryWrapper);
-        if(ObjectTrue.isEmpty(page)){
-          return resDtoList;
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+          return pageVo;
         }
-        List<FileAppStorageConfig>  list = page.getRecords();
-        pager.setTotal(page.getTotal());
-        if(ObjectTrue.isEmpty(list)){
-          return resDtoList;
-        }
-          return list;
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+        return pageVo;
         }
     /**
      * 通过分页获取FileAppStorageConfig信息实现查找缓存和数据库的方法

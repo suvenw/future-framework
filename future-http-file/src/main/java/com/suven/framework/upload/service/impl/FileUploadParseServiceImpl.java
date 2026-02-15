@@ -10,17 +10,19 @@ import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
+import com.suven.framework.upload.dto.response.FileParseResultDto;
 import com.suven.framework.upload.entity.DataSourceModuleName;
-import com.suven.framework.upload.entity.SaaSFileFieldMapping;
-import com.suven.framework.upload.entity.SaaSFileInterpretRecord;
-import com.suven.framework.upload.entity.SaaSFileUpload;
-import com.suven.framework.upload.mapper.SaaSFileUploadMapper;
-import com.suven.framework.upload.repository.SaaSFileFieldMappingRepository;
-import com.suven.framework.upload.repository.SaaSFileInterpretRecordRepository;
-import com.suven.framework.upload.repository.SaaSFileUploadRepository;
-import com.suven.framework.upload.service.SaaSFileParseService;
-import com.suven.framework.upload.service.SaaSFileUploadParseService;
-import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
+
+import com.suven.framework.upload.entity.FileFieldMapping;
+import com.suven.framework.upload.entity.FileInterpretRecord;
+import com.suven.framework.upload.entity.FileUpload;
+import com.suven.framework.upload.mapper.FileUploadMapper;
+import com.suven.framework.upload.repository.FileFieldMappingRepository;
+import com.suven.framework.upload.repository.FileInterpretRecordRepository;
+import com.suven.framework.upload.repository.FileUploadRepository;
+import com.suven.framework.upload.service.FileParseService;
+import com.suven.framework.upload.service.FileUploadParseService;
+import com.suven.framework.upload.vo.request.FileInterpretPageRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +34,10 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
- * SaaS文件上传与解析服务实现
+ *  文件上传与解析服务实现
  * 
  * 功能：实现文件上传、解析、保存的完整业务流程
  * 
@@ -45,28 +48,28 @@ import java.util.List;
 @Slf4j
 @Service
 @DS(DataSourceModuleName.module_name_file)
-public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
+public class FileUploadParseServiceImpl implements FileUploadParseService {
 
     @Autowired
-    private SaaSFileParseService fileParseService;
+    private FileParseService fileParseService;
 
     @Autowired
-    private SaaSFileUploadRepository fileUploadRepository;
+    private FileUploadRepository fileUploadRepository;
 
     @Autowired
-    private SaaSFileInterpretRecordRepository interpretRecordRepository;
+    private FileInterpretRecordRepository interpretRecordRepository;
 
     @Autowired
-    private SaaSFileFieldMappingRepository fieldMappingRepository;
+    private FileFieldMappingRepository fieldMappingRepository;
 
     @Autowired
-    private SaaSFileUploadMapper fileUploadMapper;
+    private FileUploadMapper fileUploadMapper;
 
     private static final String UPLOAD_BATCH_NO_PREFIX = "UPLOAD_";
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileUpload uploadAndParse(
+    public FileUpload uploadAndParse(
             MultipartFile file,
             String appId,
             String businessUniqueCode,
@@ -82,7 +85,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
         try {
             // 保存文件上传记录
-            SaaSFileUpload fileUpload = createFileUploadRecord(
+            FileUpload fileUpload = createFileUploadRecord(
                     file, appId, businessUniqueCode, needCallback, callbackUrl);
 
             // 解析文件
@@ -90,15 +93,13 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             String fileName = file.getOriginalFilename();
             String fileType = getFileExtension(fileName);
 
-            SaaSFileInterpretRecord interpretRecord = parseAndSave(
+             FileInterpretRecord interpretRecord = parseAndSave(
                     inputStream, fileName, fileType,
                     fileUpload.getId(), businessUniqueCode,
                     needCallback, callbackUrl);
 
             if (interpretRecord != null) {
                 fileUpload.setInterpretFlag(1);
-                fileUpload.setInterpretKey(interpretRecord.getInterpretKey());
-                fileUpload.setInterpretStatus(interpretRecord.getInterpretStatus());
                 fileUploadRepository.updateById(fileUpload);
             }
 
@@ -113,11 +114,11 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileUpload uploadAndParseWithMapping(
+    public FileUpload uploadAndParseWithMapping(
             MultipartFile file,
             String appId,
             String businessUniqueCode,
-            List<SaaSFileFieldMapping> fieldMappings,
+            List<FileFieldMapping> fieldMappings,
             int needCallback,
             String callbackUrl) {
         log.info("开始上传并解析文件(带字段映射): fileName={}, appId={}, fieldMappings={}", 
@@ -131,7 +132,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
         try {
             // 保存文件上传记录
-            SaaSFileUpload fileUpload = createFileUploadRecord(
+            FileUpload fileUpload = createFileUploadRecord(
                     file, appId, businessUniqueCode, needCallback, callbackUrl);
 
             // 解析文件（带字段映射）
@@ -145,15 +146,13 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             }
 
             // 解析并保存
-            SaaSFileInterpretRecord interpretRecord = parseAndSaveWithMapping(
+             FileInterpretRecord interpretRecord = parseAndSaveWithMapping(
                     inputStream, fileName, fileType,
                     fileUpload.getId(), businessUniqueCode,
                     fieldMappings, needCallback, callbackUrl);
 
             if (interpretRecord != null) {
                 fileUpload.setInterpretFlag(1);
-                fileUpload.setInterpretKey(interpretRecord.getInterpretKey());
-                fileUpload.setInterpretStatus(interpretRecord.getInterpretStatus());
                 fileUploadRepository.updateById(fileUpload);
             }
 
@@ -167,10 +166,10 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
     }
 
     @Override
-    public SaaSFileInterpretRecord parseUploadedFile(long fileUploadId, int needCallback, String callbackUrl) {
+    public  FileInterpretRecord parseUploadedFile(long fileUploadId, int needCallback, String callbackUrl) {
         log.info("解析已上传的文件: fileUploadId={}", fileUploadId);
 
-        SaaSFileUpload fileUpload = fileUploadRepository.getById(fileUploadId);
+        FileUpload fileUpload = fileUploadRepository.getById(fileUploadId);
         if (fileUpload == null) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_RESULT_IS_NULL, "文件上传记录不存在");
         }
@@ -180,7 +179,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileInterpretRecord parseAndSave(
+    public  FileInterpretRecord parseAndSave(
             InputStream inputStream,
             String fileName,
             String fileType,
@@ -192,7 +191,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
         try {
             // 解析文件
-            SaaSFileParseResultDto parseResult = fileParseService.parse(inputStream, fileName, fileType);
+             FileParseResultDto parseResult = fileParseService.parse(inputStream, fileName, fileType);
             if (!parseResult.isSuccess()) {
                 log.error("文件解析失败: {}", parseResult.getErrorMessage());
                 return null;
@@ -202,7 +201,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             String interpretKey = generateInterpretKey(fileUploadId);
 
             // 保存解释记录
-            SaaSFileInterpretRecord interpretRecord = saveInterpretRecord(
+             FileInterpretRecord interpretRecord = saveInterpretRecord(
                     fileUploadId, interpretKey, businessUniqueCode, parseResult, needCallback, callbackUrl);
 
             // 批量保存解释明细
@@ -220,20 +219,20 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SaaSFileInterpretRecord parseAndSaveWithMapping(
+    public  FileInterpretRecord parseAndSaveWithMapping(
             InputStream inputStream,
             String fileName,
             String fileType,
             long fileUploadId,
             String businessUniqueCode,
-            List<SaaSFileFieldMapping> fieldMappings,
+            List<FileFieldMapping> fieldMappings,
             int needCallback,
             String callbackUrl) {
         log.info("解析并保存记录(带字段映射): fileName={}, fileUploadId={}", fileName, fileUploadId);
 
         try {
             // 解析文件（带字段映射）
-            SaaSFileParseResultDto parseResult = fileParseService.parseWithMapping(
+             FileParseResultDto parseResult = fileParseService.parseWithMapping(
                     inputStream, fileName, fileType, fieldMappings);
             if (!parseResult.isSuccess()) {
                 log.error("文件解析失败: {}", parseResult.getErrorMessage());
@@ -244,7 +243,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             String interpretKey = generateInterpretKey(fileUploadId);
 
             // 保存解释记录
-            SaaSFileInterpretRecord interpretRecord = saveInterpretRecord(
+             FileInterpretRecord interpretRecord = saveInterpretRecord(
                     fileUploadId, interpretKey, businessUniqueCode, parseResult, needCallback, callbackUrl);
 
             // 批量保存解释明细
@@ -261,34 +260,34 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
     }
 
     @Override
-    public SaaSFileUpload getFileUpload(long id) {
+    public FileUpload getFileUpload(long id) {
         return fileUploadRepository.getById(id);
     }
 
     @Override
-    public PageResult<SaaSFileUpload> pageQueryFileUpload(SaaSFileUpload requestDto, Pager pager) {
+    public PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager pager) {
         log.info("分页查询文件上传记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
-        LambdaQueryWrapper<SaaSFileUpload> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<FileUpload> queryWrapper = new LambdaQueryWrapper<>();
 
         if (StringUtils.isNotBlank(requestDto.getBusinessUniqueCode())) {
-            queryWrapper.eq(SaaSFileUpload::getBusinessUniqueCode, requestDto.getBusinessUniqueCode());
+            queryWrapper.eq(FileUpload::getBusinessUniqueCode, requestDto.getBusinessUniqueCode());
         }
         if (StringUtils.isNotBlank(requestDto.getStatus())) {
-            queryWrapper.eq(SaaSFileUpload::getStatus, requestDto.getStatus());
+            queryWrapper.eq(FileUpload::getStatus, requestDto.getStatus());
         }
         if (StringUtils.isNotBlank(requestDto.getFileSourceName())) {
-            queryWrapper.like(SaaSFileUpload::getFileSourceName, requestDto.getFileSourceName());
+            queryWrapper.like(FileUpload::getFileSourceName, requestDto.getFileSourceName());
         }
-        queryWrapper.eq(SaaSFileUpload::getDeleted, 0);
-        queryWrapper.orderByDesc(SaaSFileUpload::getId);
+        queryWrapper.eq(FileUpload::getDeleted, 0);
+        queryWrapper.orderByDesc(FileUpload::getId);
 
-        Page<SaaSFileUpload> page = new Page<>(pager.getPageNo(), pager.getPageSize());
+        Page<FileUpload> page = new Page<>(pager.getPageNo(), pager.getPageSize());
         page.setSearchCount(pager.isSearchCount());
-        IPage<SaaSFileUpload> pageResult = fileUploadMapper.selectPage(page, queryWrapper);
+        IPage<FileUpload> pageResult = fileUploadMapper.selectPage(page, queryWrapper);
         pager.setTotal(pageResult.getTotal());
 
-        PageResult<SaaSFileUpload> result = new PageResult<>();
+        PageResult<FileUpload> result = new PageResult<>();
         result.setTotal(pageResult.getTotal());
         result.setList(pageResult.getRecords());
 
@@ -296,17 +295,17 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
     }
 
     @Override
-    public SaaSFileInterpretRecord getInterpretRecord(long id) {
+    public  FileInterpretRecord getInterpretRecord(long id) {
         return interpretRecordRepository.getById(id);
     }
 
     @Override
-    public List<SaaSFileInterpretRecord> getInterpretRecordsByFileUploadId(long fileUploadId) {
+    public List< FileInterpretRecord> getInterpretRecordsByFileUploadId(long fileUploadId) {
         return interpretRecordRepository.getByFileUploadId(fileUploadId);
     }
 
     @Override
-    public PageResult<SaaSFileInterpretRecord> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo) {
+    public PageResult< FileInterpretRecord> pageQueryInterpretByBusiness(FileInterpretPageRequestVo requestVo) {
         log.info("按业务唯一码分页查询解释记录: businessUniqueCode={}", requestVo.getBusinessUniqueCode());
 
         String businessUniqueCode = requestVo.getBusinessUniqueCode();
@@ -314,9 +313,9 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
 
-        List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
+        List< FileInterpretRecord> records = interpretRecordRepository.getByBusinessUniqueCode(businessUniqueCode);
 
-        PageResult<SaaSFileInterpretRecord> result = new PageResult<>();
+        PageResult< FileInterpretRecord> result = new PageResult<>();
         result.setTotal(records.size());
 
         int pageNo = requestVo.getPageNo() <= 0 ? 1 : requestVo.getPageNo();
@@ -333,19 +332,6 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
         return result;
     }
 
-    @Override
-    public PageResult<SaaSFileInterpretRecord> queryPendingInterpretRecords(long fileUploadId, String status, Pager pager) {
-        log.info("查询待处理的解释记录: fileUploadId={}, status={}", fileUploadId, status);
-
-        List<SaaSFileInterpretRecord> records = interpretRecordRepository.getByFileUploadIdAndStatus(
-                fileUploadId, status, pager);
-
-        PageResult<SaaSFileInterpretRecord> result = new PageResult<>();
-        result.setTotal(pager.getTotal());
-        result.setList(records);
-
-        return result;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -357,7 +343,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             String exceptionInfo) {
         log.info("回写处理结果: interpretRecordId={}, processStatus={}", interpretRecordId, processStatus);
 
-        SaaSFileInterpretRecord record = interpretRecordRepository.getById(interpretRecordId);
+         FileInterpretRecord record = interpretRecordRepository.getById(interpretRecordId);
         if (record == null) {
             log.warn("解释记录不存在: interpretRecordId={}", interpretRecordId);
             return false;
@@ -369,9 +355,9 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
             return false;
         }
 
-        record.setBusinessProcessStatus(processStatus);
-        record.setBusinessProcessResult(processResult);
-        record.setBusinessExceptionInfo(exceptionInfo);
+//        record.setBusinessProcessStatus(processStatus);
+//        record.setBusinessProcessResult(processResult);
+//        record.setBusinessExceptionInfo(exceptionInfo);
         record.setBusinessProcessTime(LocalDateTime.now());
         record.setModifyDate(LocalDateTime.now());
 
@@ -388,7 +374,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
     /**
      * 创建文件上传记录
      */
-    private SaaSFileUpload createFileUploadRecord(
+    private FileUpload createFileUploadRecord(
             MultipartFile file,
             String appId,
             String businessUniqueCode,
@@ -398,7 +384,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
         String fileName = file.getOriginalFilename();
         String fileType = getFileExtension(fileName);
 
-        SaaSFileUpload fileUpload = new SaaSFileUpload();
+        FileUpload fileUpload = new FileUpload();
         fileUpload.setBusinessUniqueCode(businessUniqueCode);
         fileUpload.setUploadBatchNo(UPLOAD_BATCH_NO_PREFIX + System.currentTimeMillis());
         fileUpload.setAppId(appId);
@@ -415,17 +401,17 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
         fileUpload.setBusinessProcessStatus("PENDING");
         fileUpload.setCreateDate(LocalDateTime.now());
         fileUpload.setModifyDate(LocalDateTime.now());
-
-        return fileUploadRepository.saveId(fileUpload);
+        fileUploadRepository.save(fileUpload);
+        return fileUpload;
     }
 
     /**
      * 保存字段映射
      */
-    private void saveFieldMappings(long fileUploadId, List<SaaSFileFieldMapping> fieldMappings) {
+    private void saveFieldMappings(long fileUploadId, List< FileFieldMapping> fieldMappings) {
         int sortOrder = 1;
-        for (SaaSFileFieldMapping mapping : fieldMappings) {
-            SaaSFileFieldMapping newMapping = new SaaSFileFieldMapping();
+        for ( FileFieldMapping mapping : fieldMappings) {
+             FileFieldMapping newMapping = new  FileFieldMapping();
             newMapping.setBusinessFunctionId(fileUploadId);
             newMapping.setFieldEnglishName(mapping.getFieldEnglishName());
             newMapping.setFieldChineseName(mapping.getFieldChineseName());
@@ -455,32 +441,32 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
     /**
      * 保存解释记录
      */
-    private SaaSFileInterpretRecord saveInterpretRecord(
+    private  FileInterpretRecord saveInterpretRecord(
             long fileUploadId,
             String interpretKey,
             String businessUniqueCode,
-            SaaSFileParseResultDto parseResult,
+             FileParseResultDto parseResult,
             int needCallback,
             String callbackUrl) {
 
-        SaaSFileInterpretRecord record = new SaaSFileInterpretRecord();
+         FileInterpretRecord record = new  FileInterpretRecord();
         record.setFileUploadId(fileUploadId);
-        record.setInterpretKey(interpretKey);
         record.setBusinessUniqueCode(businessUniqueCode);
-        record.setInterpretStatus(parseResult.isSuccess() ? "COMPLETED" : "FAILED");
-        record.setInterpretProgress(100);
-        record.setTotalCount(parseResult.getTotalRows());
-        record.setSuccessCount(parseResult.getSuccessRows());
-        record.setFailCount(parseResult.getFailRows());
-        record.setSkipCount(parseResult.getSkipRows());
-        record.setNeedCallback(needCallback);
-        record.setCallbackUrl(callbackUrl);
-        record.setCallbackStatus(needCallback == 1 ? "PENDING" : null);
-        record.setBusinessProcessStatus("PENDING");
+//        record.setInterpretKey(interpretKey);
+//        record.setInterpretStatus(parseResult.isSuccess() ? "COMPLETED" : "FAILED");
+//        record.setInterpretProgress(100);
+//        record.setTotalCount(parseResult.getTotalRows());
+//        record.setSuccessCount(parseResult.getSuccessRows());
+//        record.setFailCount(parseResult.getFailRows());
+//        record.setSkipCount(parseResult.getSkipRows());
+//        record.setNeedCallback(needCallback);
+//        record.setCallbackUrl(callbackUrl);
+//        record.setCallbackStatus(needCallback == 1 ? "PENDING" : null);
+//        record.setBusinessProcessStatus("PENDING");
         record.setCreateDate(LocalDateTime.now());
         record.setModifyDate(LocalDateTime.now());
-
-        return interpretRecordRepository.saveId(record);
+        interpretRecordRepository.save(record);
+        return record;
     }
 
     /**
@@ -488,7 +474,7 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
      */
     private int batchSaveInterpretDetails(
             long fileUploadId,
-            SaaSFileParseResultDto parseResult,
+             FileParseResultDto parseResult,
             String interpretKey,
             String businessUniqueCode) {
 
@@ -500,18 +486,19 @@ public class FileUploadParseServiceImpl implements SaaSFileUploadParseService {
                 Map<String, Object> rowData = dataRows.get(i);
                 String interpretInfo = JSON.toJSONString(rowData);
 
-                SaaSFileInterpretRecord detailRecord = new SaaSFileInterpretRecord();
+                 FileInterpretRecord detailRecord = new  FileInterpretRecord();
                 detailRecord.setFileUploadId(fileUploadId);
-                detailRecord.setInterpretKey(interpretKey);
+
                 detailRecord.setBusinessUniqueCode(businessUniqueCode);
-                detailRecord.setInterpretInfo(interpretInfo);
-                detailRecord.setInterpretStatus("COMPLETED");
-                detailRecord.setSuccessCount(1);
-                detailRecord.setNeedCallback(0);
+//                detailRecord.setInterpretKey(interpretKey);
+//                detailRecord.setInterpretInfo(interpretInfo);
+//                detailRecord.setInterpretStatus("COMPLETED");
+//                detailRecord.setSuccessCount(1);
+//                detailRecord.setNeedCallback(0);
                 detailRecord.setCreateDate(LocalDateTime.now());
                 detailRecord.setModifyDate(LocalDateTime.now());
 
-                interpretRecordRepository.saveId(detailRecord);
+                interpretRecordRepository.save(detailRecord);
                 savedCount++;
 
             } catch (Exception e) {

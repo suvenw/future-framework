@@ -6,7 +6,7 @@ import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
 import com.suven.framework.upload.entity.FileDownloadRecord;
 import com.suven.framework.upload.entity.FileFieldMapping;
-import com.suven.framework.upload.vo.request.SaaSFileDownloadQueryRequestVo;
+import com.suven.framework.upload.vo.request.FileDownloadQueryRequestVo;
 
 import java.util.List;
 import java.util.Map;
@@ -71,7 +71,7 @@ public interface FileGenerateService {
      * @return PageResult<FileDownloadRecord>
      */
     PageResult<FileDownloadRecord> pageQueryDownloadRecords(
-            SaaSFileDownloadQueryRequestVo requestVo, Pager pager);
+            FileDownloadQueryRequestVo requestVo, Pager pager);
 
     /**
      * 根据业务唯一码查询下载记录

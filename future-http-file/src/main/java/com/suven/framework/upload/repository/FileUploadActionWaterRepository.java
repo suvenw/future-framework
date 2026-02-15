@@ -11,10 +11,13 @@ import com.suven.framework.core.IterableConvert;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
 import com.suven.framework.upload.dto.enums.FileUploadActionWaterQueryEnum;
+import com.suven.framework.upload.dto.request.FileUploadActionWaterRequestDto;
+import com.suven.framework.upload.dto.response.FileUploadActionWaterResponseDto;
 import com.suven.framework.upload.entity.FileUploadActionWater;
 import com.suven.framework.upload.mapper.FileUploadActionWaterMapper;
 import com.suven.framework.http.api.IBaseExcelData;
 import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import org.springframework.stereotype.Repository;
 
@@ -118,6 +121,27 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisRepository<F
     }
 
     /**
+     * 通过参数limit0,1获取对象的查询方法
+     * @param  queryEnum 查询条件枚举
+     * @return 查询表对象
+     */
+    public FileUploadActionWater getFileUploadActionWaterByOne(FileUploadActionWaterQueryEnum queryEnum, FileUploadActionWater fileUploadActionWater){
+        if(fileUploadActionWater == null ){
+            return null;
+        }
+        Wrapper<FileUploadActionWater> queryWrapper = this.builderQueryEnum( queryEnum, fileUploadActionWater);
+        //分页对象        PageHelper
+        Page<FileUploadActionWater> iPage = new Page<>(0, 1);
+        iPage.setSearchCount(false);
+        IPage<FileUploadActionWater> page = super.page(iPage, queryWrapper);
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+            return null;
+        }
+        FileUploadActionWater result = page.getRecords().getFirst();
+        return result ;
+    }
+
+    /**
      * 通过分页获取FileUploadActionWater信息实现查找缓存和数据库的方法
      * @param pager 分页查询对象
      * @param queryWrapper 查询条件对象
@@ -125,24 +149,20 @@ public class FileUploadActionWaterRepository extends AbstractMyBatisRepository<F
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    public List<FileUploadActionWater> getListByPage(Pager<FileUploadActionWater> pager, Wrapper<FileUploadActionWater> queryWrapper ){
+    public PageResult<FileUploadActionWater> getListByPage(Pager<FileUploadActionWater> pager, Wrapper<FileUploadActionWater> queryWrapper ){
 
-        List<FileUploadActionWater> resDtoList = new ArrayList<>();
+        PageResult<FileUploadActionWater> pageVo = new PageResult<>();
         if(queryWrapper == null){
             queryWrapper = new QueryWrapper<>();
         }
         Page<FileUploadActionWater> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
         iPage.setSearchCount(pager.isSearchCount());
         IPage<FileUploadActionWater> page = super.page(iPage, queryWrapper);
-        if(ObjectTrue.isEmpty(page)){
-          return resDtoList;
+        if(ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())){
+          return pageVo;
         }
-        List<FileUploadActionWater>  list = page.getRecords();
-        pager.setTotal(page.getTotal());
-        if(ObjectTrue.isEmpty(list)){
-          return resDtoList;
-        }
-          return list;
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+        return pageVo;
         }
     /**
      * 通过分页获取FileUploadActionWater信息实现查找缓存和数据库的方法
