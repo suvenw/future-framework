@@ -2,12 +2,12 @@ package com.suven.framework.upload.service;
 
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.request.SaaSFileInterpretRequestDto;
-import com.suven.framework.upload.dto.request.SaaSFileOperationRequestDto;
+import com.suven.framework.upload.dto.request.FileInterpretRequestDto;
+import com.suven.framework.upload.dto.request.FileOperationRequestDto;
 import com.suven.framework.upload.dto.response.FileInterpretResponseDto;
 import com.suven.framework.upload.dto.response.FileOperationResponseDto;
-import com.suven.framework.upload.vo.request.SaaSFileCallbackRequestVo;
-import com.suven.framework.upload.vo.request.SaaSFileInterpretPageRequestVo;
+import com.suven.framework.upload.vo.request.FileCallbackRequestVo;
+import com.suven.framework.upload.vo.request.FileInterpretPageRequestVo;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @version v1.0.0
  * date 创建时间: 2026-02-09
  */
-public interface SaaSFileOperationService {
+public interface FileOperationService {
 
     /**
      * 创建文件操作记录
@@ -26,7 +26,7 @@ public interface SaaSFileOperationService {
      * @param requestDto 操作记录请求DTO
      * @return SaaSFileOperationResponseDto 操作记录响应DTO
      */
-    FileOperationResponseDto createOperationRecord(SaaSFileOperationRequestDto requestDto);
+    FileOperationResponseDto createOperationRecord(FileOperationRequestDto requestDto);
 
     /**
      * 查询操作记录详情
@@ -43,7 +43,7 @@ public interface SaaSFileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileOperationResponseDto> 分页结果
      */
-    PageResult<FileOperationResponseDto> queryOperationPage(SaaSFileOperationRequestDto requestDto, Pager pager);
+    PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager pager);
 
     /**
      * 更新操作记录状态
@@ -63,7 +63,7 @@ public interface SaaSFileOperationService {
      * @param fieldMappings 字段映射列表
      * @return boolean 是否成功
      */
-    boolean addFieldMappings(long operationId, List<SaaSFileInterpretRequestDto> fieldMappings);
+    boolean addFieldMappings(long operationId, List<FileInterpretRequestDto> fieldMappings);
 
     /**
      * 创建解释记录
@@ -71,7 +71,7 @@ public interface SaaSFileOperationService {
      * @param requestDto 解释记录请求DTO
      * @return SaaSFileInterpretResponseDto 解释记录响应DTO
      */
-    FileInterpretResponseDto createInterpretRecord(SaaSFileInterpretRequestDto requestDto);
+    FileInterpretResponseDto createInterpretRecord(FileInterpretRequestDto requestDto);
 
     /**
      * 查询解释记录详情
@@ -96,7 +96,7 @@ public interface SaaSFileOperationService {
      * @param requestDto 解释记录请求DTO
      * @return boolean 是否成功
      */
-    boolean updateInterpretRecord(SaaSFileInterpretRequestDto requestDto);
+    boolean updateInterpretRecord(FileInterpretRequestDto requestDto);
 
     /**
      * 业务回调-处理结果回写
@@ -104,7 +104,7 @@ public interface SaaSFileOperationService {
      * @param callbackRequestVo 回调请求VO
      * @return boolean 是否成功
      */
-    boolean handleBusinessCallback(SaaSFileCallbackRequestVo callbackRequestVo);
+    boolean handleBusinessCallback(FileCallbackRequestVo callbackRequestVo);
 
     /**
      * 查询待处理的解释记录（用于业务方分批获取）
@@ -146,5 +146,5 @@ public interface SaaSFileOperationService {
      * @param requestVo 解释结果分页查询请求VO（包含 businessUniqueCode 与分页参数）
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<FileInterpretResponseDto> pageQueryInterpretByBusiness(SaaSFileInterpretPageRequestVo requestVo);
+    PageResult<FileInterpretResponseDto> pageQueryInterpretByBusiness(FileInterpretPageRequestVo requestVo);
 }

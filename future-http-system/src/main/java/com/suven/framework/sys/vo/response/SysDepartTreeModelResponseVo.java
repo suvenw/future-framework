@@ -295,7 +295,7 @@ public class SysDepartTreeModelResponseVo implements Serializable{
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
 

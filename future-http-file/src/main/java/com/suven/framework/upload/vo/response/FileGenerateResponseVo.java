@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileGenerateResponseVo extends BaseIdEntity implements Serializable {
+public class FileGenerateResponseVo extends BaseIdEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 1)
@@ -70,66 +70,66 @@ public class SaaSFileGenerateResponseVo extends BaseIdEntity implements Serializ
     @ApiDesc(value = "创建时间", required = 1)
     private Date createDate;
 
-    public static SaaSFileGenerateResponseVo build() {
-        return new SaaSFileGenerateResponseVo();
+    public static FileGenerateResponseVo build() {
+        return new FileGenerateResponseVo();
     }
 
-    public SaaSFileGenerateResponseVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileGenerateResponseVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toAsyncTaskId(String asyncTaskId) {
+    public FileGenerateResponseVo toAsyncTaskId(String asyncTaskId) {
         this.asyncTaskId = asyncTaskId;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toFileSourceName(String fileSourceName) {
+    public FileGenerateResponseVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toFileType(String fileType) {
+    public FileGenerateResponseVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toFileSize(long fileSize) {
+    public FileGenerateResponseVo toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toFileAccessUrl(String fileAccessUrl) {
+    public FileGenerateResponseVo toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toTempAccessUrl(String tempAccessUrl) {
+    public FileGenerateResponseVo toTempAccessUrl(String tempAccessUrl) {
         this.tempAccessUrl = tempAccessUrl;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
+    public FileGenerateResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
         this.tempUrlExpirationTime = tempUrlExpirationTime;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toGenerateStatus(int generateStatus) {
+    public FileGenerateResponseVo toGenerateStatus(int generateStatus) {
         this.generateStatus = generateStatus;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toProgressPercent(int progressPercent) {
+    public FileGenerateResponseVo toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toErrorMessage(String errorMessage) {
+    public FileGenerateResponseVo toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileGenerateResponseVo toCreateDate(Date createDate) {
+    public FileGenerateResponseVo toCreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }

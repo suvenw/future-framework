@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * SaaS平台文件上传下载请求DTO
@@ -22,7 +21,7 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileRequestDto extends BaseTenantEntity implements Serializable {
+public class FileRequestDto extends BaseTenantEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 0)
@@ -116,121 +115,121 @@ public class SaaSFileRequestDto extends BaseTenantEntity implements Serializable
     @ApiDesc(value = "创建时间-结束", required = 0)
     private LocalDateTime createDateEnd;
 
-    public static SaaSFileRequestDto build() {
-        return new SaaSFileRequestDto();
+    public static FileRequestDto build() {
+        return new FileRequestDto();
     }
 
-    public SaaSFileRequestDto toFileUploadStorageId(long fileUploadStorageId) {
+    public FileRequestDto toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileRequestDto toAppId(String appId) {
+    public FileRequestDto toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileRequestDto toClientId(String clientId) {
+    public FileRequestDto toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileRequestDto toUseBusinessId(long useBusinessId) {
+    public FileRequestDto toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileRequestDto toFileProductName(String fileProductName) {
+    public FileRequestDto toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileRequestDto toFileBusinessName(String fileBusinessName) {
+    public FileRequestDto toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileRequestDto toIdempotent(String idempotent) {
+    public FileRequestDto toIdempotent(String idempotent) {
         this.idempotent = idempotent;
         return this;
     }
 
-    public SaaSFileRequestDto toFileSourceName(String fileSourceName) {
+    public FileRequestDto toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileRequestDto toFileType(String fileType) {
+    public FileRequestDto toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileRequestDto toFileSize(long fileSize) {
+    public FileRequestDto toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileRequestDto toFileMd5(String fileMd5) {
+    public FileRequestDto toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileRequestDto toInterpretData(int interpretData) {
+    public FileRequestDto toInterpretData(int interpretData) {
         this.interpretData = interpretData;
         return this;
     }
 
-    public SaaSFileRequestDto toThirdPartyApiUrl(String thirdPartyApiUrl) {
+    public FileRequestDto toThirdPartyApiUrl(String thirdPartyApiUrl) {
         this.thirdPartyApiUrl = thirdPartyApiUrl;
         return this;
     }
 
-    public SaaSFileRequestDto toThirdPartyApiMethod(String thirdPartyApiMethod) {
+    public FileRequestDto toThirdPartyApiMethod(String thirdPartyApiMethod) {
         this.thirdPartyApiMethod = thirdPartyApiMethod;
         return this;
     }
 
-    public SaaSFileRequestDto toThirdPartyApiHeaders(String thirdPartyApiHeaders) {
+    public FileRequestDto toThirdPartyApiHeaders(String thirdPartyApiHeaders) {
         this.thirdPartyApiHeaders = thirdPartyApiHeaders;
         return this;
     }
 
-    public SaaSFileRequestDto toThirdPartyApiParams(String thirdPartyApiParams) {
+    public FileRequestDto toThirdPartyApiParams(String thirdPartyApiParams) {
         this.thirdPartyApiParams = thirdPartyApiParams;
         return this;
     }
 
-    public SaaSFileRequestDto toFileTypeForGenerate(String fileTypeForGenerate) {
+    public FileRequestDto toFileTypeForGenerate(String fileTypeForGenerate) {
         this.fileTypeForGenerate = fileTypeForGenerate;
         return this;
     }
 
-    public SaaSFileRequestDto toFileNamePrefix(String fileNamePrefix) {
+    public FileRequestDto toFileNamePrefix(String fileNamePrefix) {
         this.fileNamePrefix = fileNamePrefix;
         return this;
     }
 
-    public SaaSFileRequestDto toTimeout(int timeout) {
+    public FileRequestDto toTimeout(int timeout) {
         this.timeout = timeout;
         return this;
     }
 
-    public SaaSFileRequestDto toGenerateTempUrl(int generateTempUrl) {
+    public FileRequestDto toGenerateTempUrl(int generateTempUrl) {
         this.generateTempUrl = generateTempUrl;
         return this;
     }
 
-    public SaaSFileRequestDto toExpirationTime(int expirationTime) {
+    public FileRequestDto toExpirationTime(int expirationTime) {
         this.expirationTime = expirationTime;
         return this;
     }
 
-    public SaaSFileRequestDto toCreateDateStart(LocalDateTime createDateStart) {
+    public FileRequestDto toCreateDateStart(LocalDateTime createDateStart) {
         this.createDateStart = createDateStart;
         return this;
     }
 
-    public SaaSFileRequestDto toCreateDateEnd(LocalDateTime createDateEnd) {
+    public FileRequestDto toCreateDateEnd(LocalDateTime createDateEnd) {
         this.createDateEnd = createDateEnd;
         return this;
     }

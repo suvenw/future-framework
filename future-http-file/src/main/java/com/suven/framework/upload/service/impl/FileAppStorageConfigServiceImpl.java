@@ -233,16 +233,9 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
           if(fileAppStorageConfigRequestDto == null ){
               return null;
           }
-           Wrapper<FileAppStorageConfig> queryWrapper = fileAppStorageConfigRepository.builderQueryEnum( queryEnum, fileAppStorageConfigRequestDto);
-            //分页对象        PageHelper
-           Pager<FileAppStorageConfig>   pager = Pager.of(0,1);
-           pager.setSearchCount(false);
-           List<FileAppStorageConfig>  list = fileAppStorageConfigRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
-                 return null;
-           }
-           FileAppStorageConfig fileAppStorageConfig = list.get(0);
-           FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = FileAppStorageConfigResponseDto.build().clone(fileAppStorageConfig);
+         FileAppStorageConfig fileAppStorageConfig = fileAppStorageConfigRepository.getOneFileAppStorageConfig( queryEnum,
+                 FileAppStorageConfig.build().clone(fileAppStorageConfigRequestDto));
+          FileAppStorageConfigResponseDto fileAppStorageConfigResponseDto = FileAppStorageConfigResponseDto.build().clone(fileAppStorageConfig);
 
             return fileAppStorageConfigResponseDto ;
        }

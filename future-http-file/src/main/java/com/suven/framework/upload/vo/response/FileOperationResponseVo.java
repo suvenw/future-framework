@@ -2,6 +2,7 @@ package com.suven.framework.upload.vo.response;
 
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.data.entity.BaseIdEntity;
+import com.suven.framework.upload.entity.FileFieldMapping;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import java.util.List;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileOperationResponseVo extends BaseIdEntity implements Serializable {
+public class FileOperationResponseVo extends BaseIdEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -135,157 +136,157 @@ public class SaaSFileOperationResponseVo extends BaseIdEntity implements Seriali
 
     /** 字段映射列表 */
     @ApiDesc(value = "字段映射列表", required = 0)
-    private List<SaaSFileFieldResponseVo> fieldMappings;
+    private List<FileFieldMappingResponseVo> fieldMappings;
 
     /** 解释记录列表 */
     @ApiDesc(value = "解释记录列表", required = 0)
-    private List<SaaSFileInterpretResponseVo> interpretRecords;
+    private List<FileInterpretResponseVo> interpretRecords;
 
-    public static SaaSFileOperationResponseVo build() {
-        return new SaaSFileOperationResponseVo();
+    public static FileOperationResponseVo build() {
+        return new FileOperationResponseVo();
     }
 
-    public SaaSFileOperationResponseVo toCompanyId(String companyId) {
+    public FileOperationResponseVo toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toCompanyName(String companyName) {
+    public FileOperationResponseVo toCompanyName(String companyName) {
         this.companyName = companyName;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toUploadUserId(long uploadUserId) {
+    public FileOperationResponseVo toUploadUserId(long uploadUserId) {
         this.uploadUserId = uploadUserId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toUploadUserName(String uploadUserName) {
+    public FileOperationResponseVo toUploadUserName(String uploadUserName) {
         this.uploadUserName = uploadUserName;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toAppId(String appId) {
+    public FileOperationResponseVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toClientId(String clientId) {
+    public FileOperationResponseVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toUseBusinessId(long useBusinessId) {
+    public FileOperationResponseVo toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileProductName(String fileProductName) {
+    public FileOperationResponseVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileBusinessName(String fileBusinessName) {
+    public FileOperationResponseVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFunctionType(String functionType) {
+    public FileOperationResponseVo toFunctionType(String functionType) {
         this.functionType = functionType;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toPlatformType(String platformType) {
+    public FileOperationResponseVo toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileOperationResponseVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileSourceName(String fileSourceName) {
+    public FileOperationResponseVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileType(String fileType) {
+    public FileOperationResponseVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFileSize(long fileSize) {
+    public FileOperationResponseVo toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toStatus(String status) {
+    public FileOperationResponseVo toStatus(String status) {
         this.status = status;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toProgressPercent(int progressPercent) {
+    public FileOperationResponseVo toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toTotalCount(int totalCount) {
+    public FileOperationResponseVo toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toSuccessCount(int successCount) {
+    public FileOperationResponseVo toSuccessCount(int successCount) {
         this.successCount = successCount;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFailCount(int failCount) {
+    public FileOperationResponseVo toFailCount(int failCount) {
         this.failCount = failCount;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toMessage(String message) {
+    public FileOperationResponseVo toMessage(String message) {
         this.message = message;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toErrorMessage(String errorMessage) {
+    public FileOperationResponseVo toErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toCallbackStatus(String callbackStatus) {
+    public FileOperationResponseVo toCallbackStatus(String callbackStatus) {
         this.callbackStatus = callbackStatus;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toCallbackFailCount(int callbackFailCount) {
+    public FileOperationResponseVo toCallbackFailCount(int callbackFailCount) {
         this.callbackFailCount = callbackFailCount;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toLastCallbackTime(Date lastCallbackTime) {
+    public FileOperationResponseVo toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toCreateDate(Date createDate) {
+    public FileOperationResponseVo toCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toModifyDate(Date modifyDate) {
+    public FileOperationResponseVo toModifyDate(LocalDateTime modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toFieldMappings(List<SaaSFileFieldResponseVo> fieldMappings) {
+    public FileOperationResponseVo toFieldMappings(List<FileFieldMappingResponseVo> fieldMappings) {
         this.fieldMappings = fieldMappings;
         return this;
     }
 
-    public SaaSFileOperationResponseVo toInterpretRecords(List<SaaSFileInterpretResponseVo> interpretRecords) {
+    public FileOperationResponseVo toInterpretRecords(List<FileInterpretResponseVo> interpretRecords) {
         this.interpretRecords = interpretRecords;
         return this;
     }

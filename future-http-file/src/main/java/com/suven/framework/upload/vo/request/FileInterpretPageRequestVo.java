@@ -23,7 +23,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileInterpretPageRequestVo extends HttpRequestByIdPageVo {
+public class FileInterpretPageRequestVo extends HttpRequestByIdPageVo {
 
     /** 业务申请唯一码，用于关联业务功能配置与解释记录 */
     @ApiDesc(value = "业务申请唯一码", required = 1)
@@ -41,26 +41,26 @@ public class SaaSFileInterpretPageRequestVo extends HttpRequestByIdPageVo {
     @ApiDesc(value = "平台类型", required = 0)
     private String platformType;
 
-    public static SaaSFileInterpretPageRequestVo build() {
-        return new SaaSFileInterpretPageRequestVo();
+    public static FileInterpretPageRequestVo build() {
+        return new FileInterpretPageRequestVo();
     }
 
-    public SaaSFileInterpretPageRequestVo toBusinessUniqueCode(String businessUniqueCode) {
+    public FileInterpretPageRequestVo toBusinessUniqueCode(String businessUniqueCode) {
         this.businessUniqueCode = businessUniqueCode;
         return this;
     }
 
-    public SaaSFileInterpretPageRequestVo toCallbackBatchId(String callbackBatchId) {
+    public FileInterpretPageRequestVo toCallbackBatchId(String callbackBatchId) {
         this.callbackBatchId = callbackBatchId;
         return this;
     }
 
-    public SaaSFileInterpretPageRequestVo toCompanyId(String companyId) {
+    public FileInterpretPageRequestVo toCompanyId(String companyId) {
         this.companyId = companyId;
         return this;
     }
 
-    public SaaSFileInterpretPageRequestVo toPlatformType(String platformType) {
+    public FileInterpretPageRequestVo toPlatformType(String platformType) {
         this.platformType = platformType;
         return this;
     }

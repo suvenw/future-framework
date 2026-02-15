@@ -66,7 +66,7 @@ class LuckysheetPreviewServiceTest {
     @DisplayName("测试：创建带样式的单元格")
     void testCreateCellDataWithStyle() {
         // given
-        LuckysheetCellStyle style = LuckysheetCellStyle.builder()
+        LuckySheetCellStyle style = LuckySheetCellStyle.builder()
                 .bg("#FF0000")
                 .fc("#FFFFFF")
                 .fs(14)

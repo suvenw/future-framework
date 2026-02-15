@@ -61,7 +61,7 @@ public class FileParseServiceImpl implements FileParseService {
     public FileParseResultDto parse(InputStream inputStream, String fileName, String fileType) {
         log.info("开始解析文件: {}, 类型: {}", fileName, fileType);
         
-        SaaSFileParseService parser = getParser(fileName, fileType);
+        FileParseService parser = getParser(fileName, fileType);
         if (parser == null) {
             log.error("不支持的文件类型: {}", fileType);
             return FileParseResultDto.fail(fileType, fileName, "不支持的文件类型: " + fileType);
@@ -88,7 +88,7 @@ public class FileParseServiceImpl implements FileParseService {
         log.info("开始解析文件(带字段映射): {}, 类型: {}, 字段数: {}", 
                 fileName, fileType, ObjectTrue.isEmpty(fieldMappings) ? 0 : fieldMappings.size());
         
-        SaaSFileParseService parser = getParser(fileName, fileType);
+        FileParseService parser = getParser(fileName, fileType);
         if (parser == null) {
             log.error("不支持的文件类型: {}", fileType);
             return FileParseResultDto.fail(fileType, fileName, "不支持的文件类型: " + fileType);
@@ -189,16 +189,17 @@ public class FileParseServiceImpl implements FileParseService {
 
                 FileInterpretRecord detailRecord = new FileInterpretRecord();
                 detailRecord.setFileUploadId(fileUploadId);
-                detailRecord.setInterpretKey(interpretKey);
+
                 detailRecord.setBusinessUniqueCode(businessUniqueCode);
-                detailRecord.setInterpretInfo(interpretInfo);
-                detailRecord.setInterpretStatus("COMPLETED");
-                detailRecord.setSuccessCount(1);
-                detailRecord.setNeedCallback(0);
+//                detailRecord.setInterpretKey(interpretKey);
+//                detailRecord.setInterpretInfo(interpretInfo);
+//                detailRecord.setInterpretStatus("COMPLETED");
+//                detailRecord.setSuccessCount(1);
+//                detailRecord.setNeedCallback(0);
                 detailRecord.setCreateDate(LocalDateTime.now());
                 detailRecord.setModifyDate(LocalDateTime.now());
 
-                interpretRecordRepository.saveId(detailRecord);
+                interpretRecordRepository.save(detailRecord);
                 savedCount++;
 
             } catch (Exception e) {
@@ -257,7 +258,7 @@ public class FileParseServiceImpl implements FileParseService {
      * @param fileType 文件类型
      * @return 解析器实例
      */
-    private SaaSFileParseService getParser(String fileName, String fileType) {
+    private FileParseService getParser(String fileName, String fileType) {
         if (xlsFileParser.isSupported(fileName, fileType)) {
             return xlsFileParser;
         }
@@ -317,22 +318,22 @@ public class FileParseServiceImpl implements FileParseService {
         
         FileInterpretRecord record = new FileInterpretRecord();
         record.setFileUploadId(fileUploadId);
-        record.setInterpretKey(interpretKey);
         record.setBusinessUniqueCode(businessUniqueCode);
-        record.setInterpretStatus("COMPLETED");
-        record.setInterpretProgress(100);
-        record.setTotalCount(parseResult.getTotalRows());
-        record.setSuccessCount(parseResult.getSuccessRows());
-        record.setFailCount(parseResult.getFailRows());
-        record.setSkipCount(parseResult.getSkipRows());
-        record.setNeedCallback(needCallback);
-        record.setCallbackUrl(callbackUrl);
-        record.setCallbackStatus(needCallback == 1 ? "PENDING" : null);
-        record.setBusinessProcessStatus("PENDING");
+//        record.setInterpretKey(interpretKey);
+//        record.setInterpretStatus("COMPLETED");
+//        record.setInterpretProgress(100);
+//        record.setTotalCount(parseResult.getTotalRows());
+//        record.setSuccessCount(parseResult.getSuccessRows());
+//        record.setFailCount(parseResult.getFailRows());
+//        record.setSkipCount(parseResult.getSkipRows());
+//        record.setNeedCallback(needCallback);
+//        record.setCallbackUrl(callbackUrl);
+//        record.setCallbackStatus(needCallback == 1 ? "PENDING" : null);
+//        record.setBusinessProcessStatus("PENDING");
         record.setCreateDate(LocalDateTime.now());
         record.setModifyDate(LocalDateTime.now());
-
-        return interpretRecordRepository.saveId(record);
+        interpretRecordRepository.save(record);
+        return record;
     }
 
     /**

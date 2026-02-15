@@ -5,18 +5,20 @@ import com.suven.framework.http.api.ApiDesc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 /**
  * Luckysheet 单元格样式
  */
-@Data
+@Setter@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckysheetCellStyle implements Serializable {
+public class LuckySheetCellStyle implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileQueryRequestVo extends HttpRequestByIdPageVo {
+public class FileQueryRequestVo extends HttpRequestByIdPageVo {
 
     /** 注册应用id */
     @ApiDesc(value = "注册应用id", required = 1)
@@ -62,56 +62,56 @@ public class SaaSFileQueryRequestVo extends HttpRequestByIdPageVo {
     @ApiDesc(value = "创建时间-结束", required = 0)
     private LocalDateTime createDateEnd;
 
-    public static SaaSFileQueryRequestVo build() {
-        return new SaaSFileQueryRequestVo();
+    public static FileQueryRequestVo build() {
+        return new FileQueryRequestVo();
     }
 
-    public SaaSFileQueryRequestVo toAppId(String appId) {
+    public FileQueryRequestVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toClientId(String clientId) {
+    public FileQueryRequestVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toUseBusinessId(long useBusinessId) {
+    public FileQueryRequestVo toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toFileProductName(String fileProductName) {
+    public FileQueryRequestVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toFileBusinessName(String fileBusinessName) {
+    public FileQueryRequestVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toFileSourceName(String fileSourceName) {
+    public FileQueryRequestVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toFileType(String fileType) {
+    public FileQueryRequestVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toFileMd5(String fileMd5) {
+    public FileQueryRequestVo toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toCreateDateStart(Date createDateStart) {
+    public FileQueryRequestVo toCreateDateStart(LocalDateTime createDateStart) {
         this.createDateStart = createDateStart;
         return this;
     }
 
-    public SaaSFileQueryRequestVo toCreateDateEnd(Date createDateEnd) {
+    public FileQueryRequestVo toCreateDateEnd(LocalDateTime createDateEnd) {
         this.createDateEnd = createDateEnd;
         return this;
     }

@@ -1,24 +1,25 @@
 package com.suven.framework.file.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.file.client.FileClient;
 import com.suven.framework.file.dto.luckysheet.*;
 import com.suven.framework.file.service.LuckysheetPreviewService;
-import com.suven.framework.file.util.http.OkHttpClients;
+
 import com.suven.framework.http.exception.SystemRuntimeException;
+import com.suven.framework.util.http.OkHttpClients;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.usermodel.HSSFColor;
+
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 
 /**
@@ -434,7 +435,7 @@ public class LuckysheetPreviewServiceImpl implements LuckysheetPreviewService {
         
         // 处理样式
         if (includeStyle) {
-            LuckysheetCellStyle style = parseCellStyle(cell.getCellStyle());
+            LuckySheetCellStyle style = parseCellStyle(cell.getCellStyle());
             if (style != null) {
                 builder.style(style);
             }
@@ -466,12 +467,12 @@ public class LuckysheetPreviewServiceImpl implements LuckysheetPreviewService {
     /**
      * 解析单元格样式
      */
-    private LuckysheetCellStyle parseCellStyle(CellStyle cellStyle) {
+    private LuckySheetCellStyle parseCellStyle(CellStyle cellStyle) {
         if (cellStyle == null) {
             return null;
         }
         
-        LuckysheetCellStyle.LuckysheetCellStyleBuilder builder = LuckysheetCellStyle.builder();
+        LuckySheetCellStyle.LuckySheetCellStyleBuilder builder = LuckySheetCellStyle.builder();
         
         // 背景颜色
         short bgColor = cellStyle.getFillForegroundColor();
@@ -480,11 +481,11 @@ public class LuckysheetPreviewServiceImpl implements LuckysheetPreviewService {
         }
         
         // 字体颜色
-        Font font = cellStyle.getFont(null);
+        Font font = new XSSFFont();
         if (font != null) {
             short fontColor = font.getColor();
             builder.fc(getColorString(fontColor, null));
-            builder.fs(font.getFontHeightInPoints());
+            builder.fs((int)font.getFontHeightInPoints());
             builder.ff(font.getFontName());
             
             // 粗体
@@ -502,12 +503,12 @@ public class LuckysheetPreviewServiceImpl implements LuckysheetPreviewService {
                 builder.un(1);
             }
         }
-        
+        cellStyle.setFont(font);
         // 边框
-        short borderColor = cellStyle.getBorderBottomColor();
+        short borderColor = cellStyle.getBottomBorderColor();
         if (borderColor > 0) {
             builder.bc(getColorString(borderColor, null));
-            builder.bw((int) cellStyle.getBorderBottom());
+            builder.bw((int) cellStyle.getBorderBottom().getCode());
         }
         
         // 对齐方式

@@ -21,7 +21,7 @@ import java.util.Date;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileShowResponseVo extends BaseIdEntity implements Serializable {
+public class FileShowResponseVo extends BaseIdEntity implements Serializable {
 
     /** 文件存储信息id */
     @ApiDesc(value = "文件存储信息id", required = 1)
@@ -91,91 +91,91 @@ public class SaaSFileShowResponseVo extends BaseIdEntity implements Serializable
     @ApiDesc(value = "修改时间", required = 0)
     private Date modifyDate;
 
-    public static SaaSFileShowResponseVo build() {
-        return new SaaSFileShowResponseVo();
+    public static FileShowResponseVo build() {
+        return new FileShowResponseVo();
     }
 
-    public SaaSFileShowResponseVo toFileUploadStorageId(long fileUploadStorageId) {
+    public FileShowResponseVo toFileUploadStorageId(long fileUploadStorageId) {
         this.fileUploadStorageId = fileUploadStorageId;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileProductName(String fileProductName) {
+    public FileShowResponseVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileBusinessName(String fileBusinessName) {
+    public FileShowResponseVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileSourceName(String fileSourceName) {
+    public FileShowResponseVo toFileSourceName(String fileSourceName) {
         this.fileSourceName = fileSourceName;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileType(String fileType) {
+    public FileShowResponseVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileSize(long fileSize) {
+    public FileShowResponseVo toFileSize(long fileSize) {
         this.fileSize = fileSize;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileMd5(String fileMd5) {
+    public FileShowResponseVo toFileMd5(String fileMd5) {
         this.fileMd5 = fileMd5;
         return this;
     }
 
-    public SaaSFileShowResponseVo toFileAccessUrl(String fileAccessUrl) {
+    public FileShowResponseVo toFileAccessUrl(String fileAccessUrl) {
         this.fileAccessUrl = fileAccessUrl;
         return this;
     }
 
-    public SaaSFileShowResponseVo toTempAccessUrl(String tempAccessUrl) {
+    public FileShowResponseVo toTempAccessUrl(String tempAccessUrl) {
         this.tempAccessUrl = tempAccessUrl;
         return this;
     }
 
-    public SaaSFileShowResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
+    public FileShowResponseVo toTempUrlExpirationTime(Date tempUrlExpirationTime) {
         this.tempUrlExpirationTime = tempUrlExpirationTime;
         return this;
     }
 
-    public SaaSFileShowResponseVo toGenerateStatus(int generateStatus) {
+    public FileShowResponseVo toGenerateStatus(int generateStatus) {
         this.generateStatus = generateStatus;
         return this;
     }
 
-    public SaaSFileShowResponseVo toProgressPercent(int progressPercent) {
+    public FileShowResponseVo toProgressPercent(int progressPercent) {
         this.progressPercent = progressPercent;
         return this;
     }
 
-    public SaaSFileShowResponseVo toInterpretData(int interpretData) {
+    public FileShowResponseVo toInterpretData(int interpretData) {
         this.interpretData = interpretData;
         return this;
     }
 
-    public SaaSFileShowResponseVo toInterpretDataTotal(int interpretDataTotal) {
+    public FileShowResponseVo toInterpretDataTotal(int interpretDataTotal) {
         this.interpretDataTotal = interpretDataTotal;
         return this;
     }
 
-    public SaaSFileShowResponseVo toRemark(String remark) {
+    public FileShowResponseVo toRemark(String remark) {
         this.remark = remark;
         return this;
     }
 
-    public SaaSFileShowResponseVo toCreateDate(Date createDate) {
+    public FileShowResponseVo toCreateDate(Date createDate) {
         this.createDate = createDate;
         return this;
     }
 
-    public SaaSFileShowResponseVo toModifyDate(Date modifyDate) {
+    public FileShowResponseVo toModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
         return this;
     }

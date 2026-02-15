@@ -73,6 +73,7 @@ public class BaseByDateEntity  implements IBaseApi, IBeanClone, Serializable {
         this.id = id;
     }
 
+    @SuppressWarnings("ID")
     public  <T extends IBaseApi > T toId(Long id) {
         this.id = id;
         return(T) this;

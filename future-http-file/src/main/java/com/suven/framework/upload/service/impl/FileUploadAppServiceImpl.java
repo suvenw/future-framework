@@ -1,8 +1,7 @@
 package com.suven.framework.upload.service.impl;
 
-
+import com.suven.framework.core.ObjectTrue;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
 import java.util.ArrayList;
@@ -10,15 +9,12 @@ import java.util.Collection;
 import java.util.List;
 import java.io.InputStream;
 
-
 import com.suven.framework.upload.entity.FileUploadApp;
 import com.suven.framework.upload.repository.FileUploadAppRepository;
 import com.suven.framework.upload.service.FileUploadAppService;
 import com.suven.framework.upload.dto.request.FileUploadAppRequestDto;
 import com.suven.framework.upload.dto.response.FileUploadAppResponseDto;
 import com.suven.framework.upload.dto.enums.FileUploadAppQueryEnum;
-
-
 
 import com.suven.framework.core.IterableConvert;
 import com.suven.framework.common.enums.ResultEnum;
@@ -52,11 +48,13 @@ import com.suven.framework.util.excel.ExcelUtils;
  **/
 
 @Service
-public class FileUploadAppServiceImpl  implements FileUploadAppService {
+public class FileUploadAppServiceImpl implements FileUploadAppService {
 
+    private final FileUploadAppRepository fileUploadAppRepository;
 
-    @Autowired
-    private FileUploadAppRepository  fileUploadAppRepository;
+    public FileUploadAppServiceImpl(FileUploadAppRepository fileUploadAppRepository) {
+        this.fileUploadAppRepository = fileUploadAppRepository;
+    }
 
 
 
@@ -66,19 +64,16 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @return 返回表对象
      */
     @Override
-    public FileUploadAppResponseDto saveFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto){
-        if(fileUploadAppRequestDto== null){
+    public FileUploadAppResponseDto saveFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto) {
+        if (fileUploadAppRequestDto == null) {
             return null;
         }
         FileUploadApp fileUploadApp = FileUploadApp.build().clone(fileUploadAppRequestDto);
         boolean result = fileUploadAppRepository.save(fileUploadApp);
-        if(!result){
+        if (!result) {
             return null;
         }
-        FileUploadAppResponseDto fileUploadAppResponseDto = FileUploadAppResponseDto.build().clone(fileUploadApp);
-        return fileUploadAppResponseDto;
-
-
+        return FileUploadAppResponseDto.build().clone(fileUploadApp);
     }
 
     /**
@@ -87,19 +82,16 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @return 返回表对象
      */
     @Override
-    public FileUploadAppResponseDto saveIdFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto){
-        if(fileUploadAppRequestDto== null){
+    public FileUploadAppResponseDto saveIdFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto) {
+        if (fileUploadAppRequestDto == null) {
             return null;
         }
         FileUploadApp fileUploadApp = FileUploadApp.build().clone(fileUploadAppRequestDto);
         fileUploadApp = fileUploadAppRepository.saveId(fileUploadApp);
-        if(null == fileUploadApp){
+        if (fileUploadApp == null) {
             return null;
         }
-        FileUploadAppResponseDto fileUploadAppResponseDto = FileUploadAppResponseDto.build().clone(fileUploadApp);
-        return fileUploadAppResponseDto;
-
-
+        return FileUploadAppResponseDto.build().clone(fileUploadApp);
     }
     /**
      * 保存同时更新数据库和缓存的实现方法,同时保存Id主键到对象中
@@ -122,12 +114,11 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      */
     @Override
     public boolean saveBatchFileUploadApp(Collection<FileUploadAppRequestDto> entityList, int batchSize) {
-        if(null == entityList || batchSize <= 0){
+        if (entityList == null || batchSize <= 0) {
             return false;
         }
-        List<FileUploadApp> list = IterableConvert.convertList(entityList,FileUploadApp.class);
-        boolean result = fileUploadAppRepository.saveBatch(list,batchSize);
-        return result;
+        List<FileUploadApp> list = IterableConvert.convertList(entityList, FileUploadApp.class);
+        return fileUploadAppRepository.saveBatch(list, batchSize);
     }
     /**
      * 批量保存或更新同时更新数据库和缓存的实现方法
@@ -136,12 +127,11 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      */
     @Override
     public boolean saveOrUpdateBatchFileUploadApp(Collection<FileUploadAppRequestDto> entityList, int batchSize) {
-        if(null == entityList || batchSize <= 0){
+        if (entityList == null || batchSize <= 0) {
             return false;
         }
-        List<FileUploadApp> list = IterableConvert.convertList(entityList,FileUploadApp.class);
-        boolean result = fileUploadAppRepository.saveOrUpdateBatch(list,batchSize);
-        return result;
+        List<FileUploadApp> list = IterableConvert.convertList(entityList, FileUploadApp.class);
+        return fileUploadAppRepository.saveOrUpdateBatch(list, batchSize);
     }
 
     /**
@@ -151,13 +141,11 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      */
     @Override
     public boolean updateBatchById(Collection<FileUploadAppRequestDto> entityList, int batchSize) {
-        if(null == entityList || batchSize <= 0 ){
+        if (entityList == null || batchSize <= 0) {
             return false;
         }
-
-        List<FileUploadApp> list = IterableConvert.convertList(entityList,FileUploadApp.class);
-        boolean result =  fileUploadAppRepository.updateBatchById(list,batchSize);
-        return result;
+        List<FileUploadApp> list = IterableConvert.convertList(entityList, FileUploadApp.class);
+        return fileUploadAppRepository.updateBatchById(list, batchSize);
     }
 
     /**
@@ -166,14 +154,11 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @return true/ false
      */
     @Override
-    public boolean updateFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto){
-
-          if(null ==  fileUploadAppRequestDto){
-              return false;
-          }
-
+    public boolean updateFileUploadApp(FileUploadAppRequestDto fileUploadAppRequestDto) {
+        if (fileUploadAppRequestDto == null) {
+            return false;
+        }
         FileUploadApp fileUploadApp = FileUploadApp.build().clone(fileUploadAppRequestDto);
-
         return fileUploadAppRepository.updateById(fileUploadApp);
     }
 
@@ -185,21 +170,17 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @return 0/1
      */
     @Override
-    public int delFileUploadAppByIds(List<Long> idList){
-        boolean result = false;
-        if(null == idList){
+    public int delFileUploadAppByIds(List<Long> idList) {
+        if (idList == null) {
             return ResultEnum.FAIL.id();
         }
-        if( idList.size() == 1) {
+        boolean result;
+        if (idList.size() == 1) {
             result = fileUploadAppRepository.removeById(idList.get(0));
-        }else {
-            result =  fileUploadAppRepository.removeByIds(idList);
+        } else {
+            result = fileUploadAppRepository.removeByIds(idList);
         }
-        if(result){
-            return ResultEnum.SUCCESS.id();
-        }
-        return ResultEnum.FAIL.id();
-
+        return result ? ResultEnum.SUCCESS.id() : ResultEnum.FAIL.id();
     }
 
 
@@ -209,18 +190,15 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @return 查询表对象
      */
     @Override
-    public FileUploadAppResponseDto getFileUploadAppById(long fileUploadAppId){
-        if(fileUploadAppId < 0 ){
+    public FileUploadAppResponseDto getFileUploadAppById(long fileUploadAppId) {
+        if (fileUploadAppId < 0) {
             return null;
         }
-        FileUploadApp fileUploadApp =  fileUploadAppRepository.getById(fileUploadAppId);
-        if(fileUploadApp == null){
+        FileUploadApp fileUploadApp = fileUploadAppRepository.getById(fileUploadAppId);
+        if (fileUploadApp == null) {
             return null;
         }
-        FileUploadAppResponseDto fileUploadAppResponseDto = FileUploadAppResponseDto.build().clone(fileUploadApp);
-
-        return fileUploadAppResponseDto ;
-
+        return FileUploadAppResponseDto.build().clone(fileUploadApp);
     }
 
     /**
@@ -228,24 +206,21 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * @param  queryEnum 查询条件枚举
      * @return 查询表对象
      */
-     @Override
-     public   FileUploadAppResponseDto getFileUploadAppByOne( FileUploadAppQueryEnum queryEnum,FileUploadAppRequestDto fileUploadAppRequestDto){
-          if(fileUploadAppRequestDto == null ){
-              return null;
-          }
-           Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum( queryEnum, fileUploadAppRequestDto);
-            //分页对象        PageHelper
-           Pager<FileUploadApp>   pager = Pager.of(0,1);
-           pager.setSearchCount(false);
-           List<FileUploadApp>  list = fileUploadAppRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
-                 return null;
-           }
-           FileUploadApp fileUploadApp = list.get(0);
-           FileUploadAppResponseDto fileUploadAppResponseDto = FileUploadAppResponseDto.build().clone(fileUploadApp);
-
-            return fileUploadAppResponseDto ;
-       }
+    @Override
+    public FileUploadAppResponseDto getFileUploadAppByOne(FileUploadAppQueryEnum queryEnum, FileUploadAppRequestDto fileUploadAppRequestDto) {
+        if (fileUploadAppRequestDto == null) {
+            return null;
+        }
+        Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum, fileUploadAppRequestDto);
+        //分页对象 PageHelper
+        Pager<FileUploadApp> pager = Pager.of(0, 1);
+        pager.setSearchCount(false);
+        PageResult<FileUploadApp> pageResult = fileUploadAppRepository.getListByPage(pager, queryWrapper);
+        if (ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())) {
+            return null;
+        }
+        return FileUploadAppResponseDto.build().clone(pageResult.getList().getFirst());
+    }
 
 
      /**
@@ -255,19 +230,15 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
        * @author suven
        * date 2024-04-19 00:21:49
        */
-      @Override
-      public List<FileUploadAppResponseDto> getFileUploadAppListByQuery(FileUploadAppQueryEnum queryEnum, Object  paramObject ){
-
-          Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum( queryEnum, paramObject);
-
-          List<FileUploadApp>  list = fileUploadAppRepository.getListByQuery(queryWrapper);
-          if(null == list ){
-              list = new ArrayList<>();
-          }
-          List<FileUploadAppResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadAppResponseDto.class);
-          return resDtoList;
-
-      }
+    @Override
+    public List<FileUploadAppResponseDto> getFileUploadAppListByQuery(FileUploadAppQueryEnum queryEnum, Object paramObject) {
+        Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum, paramObject);
+        List<FileUploadApp> list = fileUploadAppRepository.getListByQuery(queryWrapper);
+        if (list == null) {
+            return new ArrayList<>();
+        }
+        return IterableConvert.convertList(list, FileUploadAppResponseDto.class);
+    }
 
 
     /**
@@ -278,17 +249,15 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public List<FileUploadAppResponseDto> getFileUploadAppListByPage(FileUploadAppQueryEnum queryEnum,Pager pager){
-
-        Wrapper<FileUploadApp> queryWrapper =fileUploadAppRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
-        List<FileUploadApp>  list = fileUploadAppRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+    public List<FileUploadAppResponseDto> getFileUploadAppListByPage(FileUploadAppQueryEnum queryEnum, Pager<FileUploadAppRequestDto> pager) {
+        Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        Pager<FileUploadApp> newPager = pager.clonePager(FileUploadApp.class);
+        //分页对象 PageHelper
+        PageResult<FileUploadApp> pageResult = fileUploadAppRepository.getListByPage(newPager, queryWrapper);
+        if (ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())) {
+            return new ArrayList<>();
         }
-        List<FileUploadAppResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadAppResponseDto.class);
-        return resDtoList;
-
+        return IterableConvert.convertList(pageResult.getList(), FileUploadAppResponseDto.class);
     }
 
     /**
@@ -300,10 +269,8 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager){
-
-        PageResult<FileUploadAppResponseDto> resultPage = getFileUploadAppByNextPage(queryEnum,pager,false);
-        return resultPage;
+    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager<FileUploadAppRequestDto> pager) {
+        return getFileUploadAppByNextPage(queryEnum, pager, false);
     }
 
     /**
@@ -316,21 +283,16 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2024-04-19 00:21:49 创建时间
      */
     @Override
-    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager pager, boolean searchCount){
-        PageResult<FileUploadAppResponseDto> resultPage = new PageResult<>();
-        Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
+    public PageResult<FileUploadAppResponseDto> getFileUploadAppByNextPage(FileUploadAppQueryEnum queryEnum, Pager<FileUploadAppRequestDto> pager, boolean searchCount) {
+        Wrapper<FileUploadApp> queryWrapper = fileUploadAppRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
         pager.setSearchCount(searchCount);
-        List<FileUploadApp>  list = fileUploadAppRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        Pager<FileUploadApp> iPage = pager.clonePager(FileUploadApp.class);
+        PageResult<FileUploadApp> pageResult = fileUploadAppRepository.getListByPage(iPage, queryWrapper);
+        if (ObjectTrue.isEmpty(pageResult)) {
+            return new PageResult<>();
         }
-        List<FileUploadAppResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadAppResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileUploadAppResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
-
-        return resultList;
-
+        return pageResult.convertBuild(FileUploadAppResponseDto.class);
     }
 
      /**
@@ -341,11 +303,9 @@ public class FileUploadAppServiceImpl  implements FileUploadAppService {
      * date 2022-02-28 16:13:31
      */
     @Override
-    public List<FileUploadAppResponseDto> getFileUploadAppByIdList(Collection<Long> idList){
-
-        Collection<FileUploadApp> dbList =  this.fileUploadAppRepository.listByIds(idList);
-        List<FileUploadAppResponseDto>  responseDtoList = IterableConvert.convertList(dbList,FileUploadAppResponseDto.class);
-        return responseDtoList;
+    public List<FileUploadAppResponseDto> getFileUploadAppByIdList(Collection<Long> idList) {
+        Collection<FileUploadApp> dbList = this.fileUploadAppRepository.listByIds(idList);
+        return IterableConvert.convertList(dbList, FileUploadAppResponseDto.class);
     }
 
 

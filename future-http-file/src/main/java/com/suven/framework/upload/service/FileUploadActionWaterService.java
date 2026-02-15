@@ -128,7 +128,7 @@ public interface FileUploadActionWaterService {
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    List<FileUploadActionWaterResponseDto> getFileUploadActionWaterListByPage(FileUploadActionWaterQueryEnum queryEnum,Pager pager);
+    List<FileUploadActionWaterResponseDto> getFileUploadActionWaterListByPage(FileUploadActionWaterQueryEnum queryEnum,Pager<FileUploadActionWaterRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileUploadActionWaterService {
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager);
+    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager<FileUploadActionWaterRequestDto> pager);
 
     /**
      * 通过分页获取FileUploadActionWater 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileUploadActionWaterService {
      * @author suven  作者
      * date 2024-04-19 00:14:12 创建时间
      */
-    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileUploadActionWaterResponseDto> getFileUploadActionWaterByNextPage(FileUploadActionWaterQueryEnum queryEnum, Pager<FileUploadActionWaterRequestDto> pager, boolean searchCount);
 
 
 

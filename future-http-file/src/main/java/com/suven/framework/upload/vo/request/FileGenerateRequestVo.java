@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Setter@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaaSFileGenerateRequestVo extends HttpFromRequestVo {
+public class FileGenerateRequestVo extends HttpFromRequestVo {
 
     /** 注册应用id */
     @ApiDesc(value = "注册应用id", required = 1)
@@ -72,71 +72,71 @@ public class SaaSFileGenerateRequestVo extends HttpFromRequestVo {
     @ApiDesc(value = "超时时间(秒)", required = 0)
     private int timeout;
 
-    public static SaaSFileGenerateRequestVo build() {
-        return new SaaSFileGenerateRequestVo();
+    public static FileGenerateRequestVo build() {
+        return new FileGenerateRequestVo();
     }
 
-    public SaaSFileGenerateRequestVo toAppId(String appId) {
+    public FileGenerateRequestVo toAppId(String appId) {
         this.appId = appId;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toClientId(String clientId) {
+    public FileGenerateRequestVo toClientId(String clientId) {
         this.clientId = clientId;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toUseBusinessId(long useBusinessId) {
+    public FileGenerateRequestVo toUseBusinessId(long useBusinessId) {
         this.useBusinessId = useBusinessId;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toFileProductName(String fileProductName) {
+    public FileGenerateRequestVo toFileProductName(String fileProductName) {
         this.fileProductName = fileProductName;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toFileBusinessName(String fileBusinessName) {
+    public FileGenerateRequestVo toFileBusinessName(String fileBusinessName) {
         this.fileBusinessName = fileBusinessName;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toThirdPartyApiUrl(String thirdPartyApiUrl) {
+    public FileGenerateRequestVo toThirdPartyApiUrl(String thirdPartyApiUrl) {
         this.thirdPartyApiUrl = thirdPartyApiUrl;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toThirdPartyApiMethod(String thirdPartyApiMethod) {
+    public FileGenerateRequestVo toThirdPartyApiMethod(String thirdPartyApiMethod) {
         this.thirdPartyApiMethod = thirdPartyApiMethod;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toThirdPartyApiHeaders(String thirdPartyApiHeaders) {
+    public FileGenerateRequestVo toThirdPartyApiHeaders(String thirdPartyApiHeaders) {
         this.thirdPartyApiHeaders = thirdPartyApiHeaders;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toThirdPartyApiParams(String thirdPartyApiParams) {
+    public FileGenerateRequestVo toThirdPartyApiParams(String thirdPartyApiParams) {
         this.thirdPartyApiParams = thirdPartyApiParams;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toFileType(String fileType) {
+    public FileGenerateRequestVo toFileType(String fileType) {
         this.fileType = fileType;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toFileNamePrefix(String fileNamePrefix) {
+    public FileGenerateRequestVo toFileNamePrefix(String fileNamePrefix) {
         this.fileNamePrefix = fileNamePrefix;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toInterpretData(int interpretData) {
+    public FileGenerateRequestVo toInterpretData(int interpretData) {
         this.interpretData = interpretData;
         return this;
     }
 
-    public SaaSFileGenerateRequestVo toTimeout(int timeout) {
+    public FileGenerateRequestVo toTimeout(int timeout) {
         this.timeout = timeout;
         return this;
     }

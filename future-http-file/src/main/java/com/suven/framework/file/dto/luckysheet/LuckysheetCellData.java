@@ -1,7 +1,5 @@
 package com.suven.framework.file.dto.luckysheet;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.http.api.ApiDesc;
 import lombok.AllArgsConstructor;
@@ -10,8 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Luckysheet 单元格数据
@@ -46,7 +42,7 @@ public class LuckysheetCellData implements Serializable {
      * 单元格样式
      */
     @ApiDesc(value = "单元格样式", required = 0)
-    private LuckysheetCellStyle style;
+    private LuckySheetCellStyle style;
 
     /**
      * 公式

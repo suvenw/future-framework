@@ -2,10 +2,14 @@ package com.suven.framework.upload.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.AssertEx;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.mybatis.AbstractMyBatisRepository;
+import com.suven.framework.http.data.entity.Pager;
+import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.upload.dto.enums.FileFieldMappingQueryEnum;
 import com.suven.framework.upload.entity.FileFieldMapping;
@@ -18,7 +22,7 @@ import java.util.List;
 /**
  *  文件字段映射 Repository
  *
- * 统一封装对 _file_field_mapping 表的查询逻辑，
+ * 统一封装对 saas_file_field_mapping 表的查询逻辑，
  * 避免在 Service 中直接拼装 MyBatis 查询条件。
  *
  * @author suven
@@ -42,7 +46,51 @@ public class FileFieldMappingRepository extends AbstractMyBatisRepository<FileFi
                 FileFieldMappingQueryEnum.BY_OPERATION_ID_ORDER_BY_SORT,
                 FileFieldMapping.build().toBusinessFunctionId(businessFunctionId)
         );
-        return this.list(wrapper);
+        return this.getListByQuery(wrapper);
+    }
+
+    /**
+     * 通过分页获取FileFieldMapping信息实现查找缓存和数据库的方法
+     * 
+     * @param pager 分页查询对象
+     * @param queryWrapper 查询条件对象
+     * @return 返回表对象列表
+     * @author suven  作者
+     * date 2026-02-11 创建时间
+     */
+    public PageResult<FileFieldMapping> getListByPage(Pager<FileFieldMapping> pager, Wrapper<FileFieldMapping> queryWrapper) {
+        PageResult<FileFieldMapping> pageVo = new PageResult<>();
+        if (queryWrapper == null) {
+            queryWrapper = new QueryWrapper<>();
+        }
+        Page<FileFieldMapping> iPage = new Page<>(pager.getPageNo(), pager.getPageSize());
+        iPage.setSearchCount(pager.isSearchCount());
+        IPage<FileFieldMapping> page = super.page(iPage, queryWrapper);
+        if (ObjectTrue.isEmpty(page) || ObjectTrue.isEmpty(page.getRecords())) {
+            return pageVo;
+        }
+        pageVo.of(page.getRecords(), pager.getPageSize(), page.getTotal());
+        return pageVo;
+    }
+
+    /**
+     * 通过分页获取FileFieldMapping信息实现查找缓存和数据库的方法
+     * 
+     * @param queryWrapper QueryWrapper 表查询条件信息
+     * @return 返回列表对象
+     * @author suven  作者
+     * date 2026-02-11 创建时间
+     */
+    public List<FileFieldMapping> getListByQuery(Wrapper<FileFieldMapping> queryWrapper) {
+        List<FileFieldMapping> resDtoList = new ArrayList<>();
+        if (ObjectTrue.isEmpty(queryWrapper)) {
+            queryWrapper = new QueryWrapper<>();
+        }
+        List<FileFieldMapping> list = super.list(queryWrapper);
+        if (ObjectTrue.isEmpty(list)) {
+            return resDtoList;
+        }
+        return list;
     }
 
     /**

@@ -1,10 +1,13 @@
 package com.suven.framework.upload.vo.request;
 
 import com.suven.framework.http.api.ApiDesc;
+import com.suven.framework.http.data.vo.HttpRequestByIdPageVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * SaaS文件下载查询请求VO
@@ -13,11 +16,11 @@ import lombok.NoArgsConstructor;
  * @version v1.0.0
  * @date 创建时间: 2026-02-11
  */
-@Data
+@Setter@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaaSFileDownloadQueryRequestVo {
+public class FileDownloadQueryRequestVo extends HttpRequestByIdPageVo {
 
     /** 业务唯一码 */
     @ApiDesc(value = "业务唯一码", required = 0)
@@ -47,11 +50,5 @@ public class SaaSFileDownloadQueryRequestVo {
     @ApiDesc(value = "结束时间", required = 0)
     private String endTime;
 
-    /** 页码 */
-    @ApiDesc(value = "页码", required = 0)
-    private int pageNo = 1;
 
-    /** 每页数量 */
-    @ApiDesc(value = "每页数量", required = 0)
-    private int pageSize = 20;
 }
