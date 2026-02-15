@@ -265,7 +265,7 @@ public class FileUploadParseServiceImpl implements FileUploadParseService {
     }
 
     @Override
-    public PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager pager) {
+    public PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager<FileUpload> pager) {
         log.info("分页查询文件上传记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
         LambdaQueryWrapper<FileUpload> queryWrapper = new LambdaQueryWrapper<>();

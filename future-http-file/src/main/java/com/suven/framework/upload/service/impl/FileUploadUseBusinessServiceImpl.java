@@ -278,11 +278,12 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * date 2024-04-19 00:21:42 创建时间
      */
     @Override
-    public List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByPage(FileUploadUseBusinessQueryEnum queryEnum,Pager pager){
+    public List<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessListByPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager) {
 
-        Wrapper<FileUploadUseBusiness> queryWrapper =fileUploadUseBusinessRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
-        List<FileUploadUseBusiness>  list = fileUploadUseBusinessRepository.getListByPage(pager,queryWrapper);
+        Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
+        Pager<FileUploadUseBusiness> page = pager.clonePager(FileUploadUseBusiness.class);
+        List<FileUploadUseBusiness> list = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }
@@ -300,7 +301,7 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * date 2024-04-19 00:21:42 创建时间
      */
     @Override
-    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager){
+    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager) {
 
         PageResult<FileUploadUseBusinessResponseDto> resultPage = getFileUploadUseBusinessByNextPage(queryEnum,pager,false);
         return resultPage;
@@ -316,11 +317,12 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
      * date 2024-04-19 00:21:42 创建时间
      */
     @Override
-    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager pager, boolean searchCount){
-        Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
-        //分页对象        PageHelper
+    public PageResult<FileUploadUseBusinessResponseDto> getFileUploadUseBusinessByNextPage(FileUploadUseBusinessQueryEnum queryEnum, Pager<FileUploadUseBusinessRequestDto> pager, boolean searchCount) {
+        Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum, pager.getParamObject());
+        //分页对象 PageHelper
         pager.setSearchCount(searchCount);
-        List<FileUploadUseBusiness>  list = fileUploadUseBusinessRepository.getListByPage(pager,queryWrapper);
+        Pager<FileUploadUseBusiness> page = pager.clonePager(FileUploadUseBusiness.class);
+        List<FileUploadUseBusiness> list = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
         if(null == list ){
             list = new ArrayList<>();
         }

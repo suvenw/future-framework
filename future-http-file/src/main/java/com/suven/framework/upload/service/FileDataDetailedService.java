@@ -128,7 +128,7 @@ public interface FileDataDetailedService {
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      */
-    List<FileDataDetailedResponseDto> getFileDataDetailedListByPage(FileDataDetailedQueryEnum queryEnum,Pager pager);
+    List<FileDataDetailedResponseDto> getFileDataDetailedListByPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager);
 
 
 
@@ -140,7 +140,7 @@ public interface FileDataDetailedService {
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      */
-    PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager pager);
+    PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager);
 
     /**
      * 通过分页获取FileDataDetailed 信息实现查找缓存和数据库的方法,不查总页数
@@ -151,7 +151,7 @@ public interface FileDataDetailedService {
      * @author suven  作者
      * date 2024-04-19 00:20:28 创建时间
      */
-    PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager pager, boolean searchCount);
+    PageResult<FileDataDetailedResponseDto> getFileDataDetailedByNextPage(FileDataDetailedQueryEnum queryEnum, Pager<FileDataDetailedRequestDto> pager, boolean searchCount);
 
 
 

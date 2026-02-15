@@ -1,6 +1,7 @@
 package com.suven.framework.upload.service.impl;
 
 
+import com.suven.framework.core.ObjectTrue;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -271,15 +272,16 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * date 2024-04-19 00:21:54 创建时间
      */
     @Override
-    public List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByPage(FileAppStorageConfigQueryEnum queryEnum,Pager pager){
+    public List<FileAppStorageConfigResponseDto> getFileAppStorageConfigListByPage(FileAppStorageConfigQueryEnum queryEnum,Pager<FileAppStorageConfigRequestDto> pager){
 
         Wrapper<FileAppStorageConfig> queryWrapper =fileAppStorageConfigRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
-        List<FileAppStorageConfig>  list = fileAppStorageConfigRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        Pager<FileAppStorageConfig> page =  pager.clonePager(FileAppStorageConfig.class);
+        PageResult<FileAppStorageConfig>  result = fileAppStorageConfigRepository.getListByPage(page,queryWrapper);
+        if(null == result || ObjectTrue.isEmpty(result.getList())){
+            return new ArrayList<>();
         }
-        List<FileAppStorageConfigResponseDto>  resDtoList =  IterableConvert.convertList(list,FileAppStorageConfigResponseDto.class);
+        List<FileAppStorageConfigResponseDto>  resDtoList =  IterableConvert.convertList(result.getList(),FileAppStorageConfigResponseDto.class);
         return resDtoList;
 
     }
@@ -293,7 +295,7 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * date 2024-04-19 00:21:54 创建时间
      */
     @Override
-    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager){
+    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager<FileAppStorageConfigRequestDto> pager) {
 
         PageResult<FileAppStorageConfigResponseDto> resultPage = getFileAppStorageConfigByNextPage(queryEnum,pager,false);
         return resultPage;
@@ -309,20 +311,16 @@ public class FileAppStorageConfigServiceImpl  implements FileAppStorageConfigSer
      * date 2024-04-19 00:21:54 创建时间
      */
     @Override
-    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager pager, boolean searchCount){
-        PageResult<FileAppStorageConfigResponseDto> resultPage = new PageResult<>();
+    public PageResult<FileAppStorageConfigResponseDto> getFileAppStorageConfigByNextPage(FileAppStorageConfigQueryEnum queryEnum, Pager<FileAppStorageConfigRequestDto> pager, boolean searchCount) {
         Wrapper<FileAppStorageConfig> queryWrapper = fileAppStorageConfigRepository.builderQueryEnum(queryEnum,  pager.getParamObject());
         //分页对象        PageHelper
         pager.setSearchCount(searchCount);
-        List<FileAppStorageConfig>  list = fileAppStorageConfigRepository.getListByPage(pager,queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        Pager<FileAppStorageConfig> page = pager.clonePager(FileAppStorageConfig.class);
+        PageResult<FileAppStorageConfig>  pageResult = fileAppStorageConfigRepository.getListByPage(page,queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList()) ){
+           return  new PageResult<>();
         }
-        List<FileAppStorageConfigResponseDto>  resDtoList =  IterableConvert.convertList(list,FileAppStorageConfigResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileAppStorageConfigResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
-
-        return resultList;
+        return pageResult.convertBuild(FileAppStorageConfigResponseDto.class);
 
     }
 

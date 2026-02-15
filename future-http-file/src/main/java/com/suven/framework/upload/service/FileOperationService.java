@@ -43,7 +43,7 @@ public interface FileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileOperationResponseDto> 分页结果
      */
-    PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager pager);
+    PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager<FileOperationRequestDto> pager);
 
     /**
      * 更新操作记录状态

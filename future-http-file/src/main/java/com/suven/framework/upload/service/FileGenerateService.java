@@ -71,7 +71,7 @@ public interface FileGenerateService {
      * @return PageResult<FileDownloadRecord>
      */
     PageResult<FileDownloadRecord> pageQueryDownloadRecords(
-            FileDownloadQueryRequestVo requestVo, Pager pager);
+            FileDownloadQueryRequestVo requestVo, Pager<FileDownloadQueryRequestVo> pager);
 
     /**
      * 根据业务唯一码查询下载记录
