@@ -1,9 +1,12 @@
 package com.suven.framework.upload.dto.request;
 
+import com.suven.framework.http.data.vo.HttpRequestByIdPageVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -17,11 +20,10 @@ import java.util.Map;
  * @version v1.0.0
  * @date 创建时间: 2026-02-11
  */
-@Data
-@Builder
+@Setter@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileDataQueryRequestDto implements Serializable {
+public class FileDataQueryRequestVo extends HttpRequestByIdPageVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -45,10 +47,7 @@ public class FileDataQueryRequestDto implements Serializable {
      */
     private Map<String, Object> queryParams;
 
-    /**
-     * 分页大小
-     */
-    private int pageSize;
+
 
     /**
      * 超时时间（毫秒）
@@ -99,17 +98,17 @@ public class FileDataQueryRequestDto implements Serializable {
      * 创建查询请求
      * 
      * @param businessUniqueCode 业务唯一码
-     * @return SaaSFileDataQueryRequestDto
+     * @return FileDataQueryRequestVo
      */
-    public static FileDataQueryRequestDto create(String businessUniqueCode) {
-        return FileDataQueryRequestDto.builder()
-                .businessUniqueCode(businessUniqueCode)
-                .httpMethod("POST")
-                .pageSize(1000)
-                .timeoutMs(30000)
-                .asyncGenerate(true)
-                .fileType("XLSX")
-                .build();
+    public static FileDataQueryRequestVo create(String businessUniqueCode) {
+        FileDataQueryRequestVo vo = new FileDataQueryRequestVo();
+        vo.setBusinessUniqueCode(businessUniqueCode);
+        vo.setHttpMethod("POST");
+        vo.setPageSize(1000);
+        vo.setTimeoutMs(30000);
+        vo.setAsyncGenerate(true);
+        vo.setFileType("XLSX");
+        return vo;
     }
 
     /**
@@ -119,7 +118,7 @@ public class FileDataQueryRequestDto implements Serializable {
      * @param value 值
      * @return this
      */
-    public FileDataQueryRequestDto addQueryParam(String key, Object value) {
+    public FileDataQueryRequestVo addQueryParam(String key, Object value) {
         if (this.queryParams == null) {
             this.queryParams = new java.util.HashMap<>();
         }
@@ -134,7 +133,7 @@ public class FileDataQueryRequestDto implements Serializable {
      * @param value 值
      * @return this
      */
-    public FileDataQueryRequestDto addHeader(String key, String value) {
+    public FileDataQueryRequestVo addHeader(String key, String value) {
         if (this.headers == null) {
             this.headers = new java.util.HashMap<>();
         }

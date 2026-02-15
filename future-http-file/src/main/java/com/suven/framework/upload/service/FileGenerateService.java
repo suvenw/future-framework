@@ -3,7 +3,7 @@ package com.suven.framework.upload.service;
 import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
-import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestVo;
 import com.suven.framework.upload.entity.FileDownloadRecord;
 import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.vo.request.FileDownloadQueryRequestVo;
@@ -28,15 +28,15 @@ public interface FileGenerateService {
      * @param requestDto 数据查询请求DTO
      * @return FileDownloadRecord 下载记录
      */
-    FileDownloadRecord applyGenerateFile(FileDataQueryRequestDto requestDto);
+    FileDownloadRecord applyGenerateFile(FileDataQueryRequestVo requestDto);
 
     /**
      * 同步生成文件（直接返回文件下载URL）
      * 
-     * @param requestDto 数据查询请求DTO
+     * @param requestVo 数据查询请求DTO
      * @return String 文件下载URL
      */
-    String syncGenerateFile(FileDataQueryRequestDto requestDto);
+    String syncGenerateFile(FileDataQueryRequestVo requestVo);
 
     /**
      * 异步生成文件（返回任务ID）
@@ -45,7 +45,7 @@ public interface FileGenerateService {
      * @param callbackUrl 生成完成后的回调URL（可选）
      * @return long 下载记录ID
      */
-    long asyncGenerateFile(FileDataQueryRequestDto requestDto, String callbackUrl);
+    long asyncGenerateFile(FileDataQueryRequestVo requestDto, String callbackUrl);
 
     /**
      * 获取文件生成状态
@@ -81,7 +81,7 @@ public interface FileGenerateService {
      * @return PageResult<FileDownloadRecord>
      */
     PageResult<FileDownloadRecord> queryByBusinessCode(
-            String businessUniqueCode, Pager pager);
+            String businessUniqueCode, Pager<FileDownloadQueryRequestVo> pager);
 
     /**
      * 获取文件生成进度

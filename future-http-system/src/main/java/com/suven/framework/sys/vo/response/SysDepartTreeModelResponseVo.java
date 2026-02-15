@@ -4,6 +4,7 @@ package com.suven.framework.sys.vo.response;
 import com.suven.framework.sys.dto.response.SysDepartResponseDto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -295,7 +296,7 @@ public class SysDepartTreeModelResponseVo implements Serializable{
         return createTime;
     }
 
-    public void setCreateTime(LocalDateTime createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

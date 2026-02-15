@@ -51,5 +51,10 @@ public enum FileOperationRecordQueryEnum {
      * 根据 callback_status 查询，按 ID 降序
      */
     BY_CALLBACK_STATUS_DESC,
+
+    /**
+     * 根据 callback_status 查询，按 ID 降序
+     */
+    BY_QUERY_CALLBACK_STATUS_DESC,
     ;
 }

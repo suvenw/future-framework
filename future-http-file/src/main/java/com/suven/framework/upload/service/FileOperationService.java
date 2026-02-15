@@ -88,7 +88,7 @@ public interface FileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager);
+    PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager<FileInterpretPageRequestVo> pager);
 
     /**
      * 更新解释记录
@@ -114,7 +114,7 @@ public interface FileOperationService {
      * @param pager 分页参数
      * @return PageResult<SaaSFileInterpretResponseDto> 分页结果
      */
-    PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager);
+    PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager<FileInterpretPageRequestVo> pager);
 
     /**
      * 获取解释记录通过业务唯一码

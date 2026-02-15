@@ -4,6 +4,7 @@ package com.suven.framework.upload.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.suven.framework.common.enums.ResultEnum;
 import com.suven.framework.core.IterableConvert;
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.upload.dto.enums.FileUploadStorageQueryEnum;
 import com.suven.framework.upload.dto.request.FileUploadStorageRequestDto;
 import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
@@ -232,13 +233,12 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
             //分页对象        PageHelper
            Pager<FileUploadStorage>  pager = Pager.of(0,1);
            pager.setSearchCount(false);
-           List<FileUploadStorage>  list = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
+           PageResult<FileUploadStorage> pageResult = fileUploadStorageRepository.getListByPage(pager,queryWrapper);
+           if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
                  return null;
            }
-           FileUploadStorage fileUploadStorage = list.get(0);
+           FileUploadStorage fileUploadStorage = pageResult.getList().getFirst();
            FileUploadStorageResponseDto fileUploadStorageResponseDto = FileUploadStorageResponseDto.build().clone(fileUploadStorage);
-
             return fileUploadStorageResponseDto ;
        }
 
@@ -278,11 +278,11 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
         Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum, pager.getParamObject());
         //分页对象 PageHelper
         Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
-        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<FileUploadStorage> pageResult = fileUploadStorageRepository.getListByPage(page, queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
+            return new ArrayList<>();
         }
-        List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadStorageResponseDto.class);
+        List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(pageResult.getList(),FileUploadStorageResponseDto.class);
         return resDtoList;
 
     }
@@ -302,14 +302,11 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
         Wrapper<FileUploadStorage> queryWrapper = fileUploadStorageRepository.builderQueryEnum(queryEnum, pager.getParamObject());
         //分页对象 PageHelper
         Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
-        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<FileUploadStorage> pageResult = fileUploadStorageRepository.getListByPage(page, queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
+            return new PageResult<>();
         }
-        List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadStorageResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileUploadStorageResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
-        return resultList;
+        return pageResult.convertBuild(FileUploadStorageResponseDto.class);
     }
 
     /**
@@ -340,13 +337,11 @@ public class FileUploadStorageServiceImpl  implements FileUploadStorageService {
         //分页对象 PageHelper
         pager.setSearchCount(searchCount);
         Pager<FileUploadStorage> page = pager.clonePager(FileUploadStorage.class);
-        List<FileUploadStorage> list = fileUploadStorageRepository.getListByPage(page, queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<FileUploadStorage> pageResult = fileUploadStorageRepository.getListByPage(page, queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
+            return new PageResult<>();
         }
-        List<FileUploadStorageResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadStorageResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileUploadStorageResponseDto> resultList = new PageResult().convertBuild(resDtoList,isNext,pager.getTotal());
+        PageResult<FileUploadStorageResponseDto> resultList = pageResult.convertBuild(FileUploadStorageResponseDto.class);
 
         return resultList;
 
