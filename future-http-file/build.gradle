@@ -61,6 +61,10 @@ dependencies {
     implementation 'org.apache.curator:curator-framework:2.12.0'
     implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
 
+    // 测试依赖
+    testImplementation libraries."junit"
+    testImplementation libraries."spring-boot-starter-test"
+    testImplementation libraries."mockito-core"
 }
 
 

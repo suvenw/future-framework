@@ -8,6 +8,7 @@ import com.suven.framework.upload.dto.response.FileParseResultDto;
 import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.service.FileParseService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -24,6 +25,7 @@ import java.util.*;
  */
 @Slf4j
 @Service("xlsFileParser")
+@Primary
 public class XLSFileParser implements FileParseService {
 
     /**

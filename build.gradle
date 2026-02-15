@@ -45,10 +45,10 @@ allprojects {
     version = rootProject.version
 
     repositories {
+        mavenCentral()
         maven { url "${mavenUrl}/repository/maven-public/"
             allowInsecureProtocol = true // 显式允许不安全协议
         }
-        mavenCentral()
     }
     // 为所有项目添加详细的构建日志输出
     tasks.withType(JavaCompile) {

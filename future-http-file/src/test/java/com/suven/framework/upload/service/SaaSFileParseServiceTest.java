@@ -42,7 +42,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * @since 2024-01-01
  */
 @ExtendWith(MockitoExtension.class)
-class FileParseServiceTest extends AbstractUnitTest {
+class SaaSFileParseServiceTest extends AbstractUnitTest {
 
     @InjectMocks
     @Spy
