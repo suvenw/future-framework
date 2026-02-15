@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.suven.framework.fileinter.mapper.FileUploadAppMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.suven.framework.fileinter.entity.FileUploadApp" id="fileUploadAppMap">
+        <result property="id" column="id"/>
+        <result property="appId" column="app_id"/>
+        <result property="appName" column="app_name"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="clientSalt" column="client_salt"/>
+        <result property="pathName" column="path_name"/>
+        <result property="clientUrl" column="client_url"/>
+        <result property="accessExpirationTime" column="access_expiration_time"/>
+        <result property="accessCount" column="access_count"/>
+        <result property="accessUrlFormat" column="access_url_format"/>
+        <result property="accessUrl" column="access_url"/>
+        <result property="fileAppStorageConfigId" column="file_app_storage_config_id"/>
+        <result property="endpoint" column="endpoint"/>
+        <result property="bucket" column="bucket"/>
+        <result property="accessKey" column="access_key"/>
+        <result property="accessSecret" column="access_secret"/>
+        <result property="createDate" column="create_date"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+
+    <!-- 批量插入,并返回指定主键字段值; -->
+    <insert id="saveBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO
+            file_upload_app ( app_id, app_name, client_id, client_secret, client_salt, path_name, client_url, access_expiration_time, access_count, access_url_format, access_url, file_app_storage_config_id, endpoint, bucket, access_key, access_secret, create_date, modify_date, tenant_id, deleted )
+        VALUES
+        <foreach collection="list" item="fileUploadApp" index="index" separator=",">
+            (  #{fileUploadApp.appId},  #{fileUploadApp.appName},  #{fileUploadApp.clientId},  #{fileUploadApp.clientSecret},  #{fileUploadApp.clientSalt},  #{fileUploadApp.pathName},  #{fileUploadApp.clientUrl},  #{fileUploadApp.accessExpirationTime},  #{fileUploadApp.accessCount},  #{fileUploadApp.accessUrlFormat},  #{fileUploadApp.accessUrl},  #{fileUploadApp.fileAppStorageConfigId},  #{fileUploadApp.endpoint},  #{fileUploadApp.bucket},  #{fileUploadApp.accessKey},  #{fileUploadApp.accessSecret},  #{fileUploadApp.createDate},  #{fileUploadApp.modifyDate},  #{fileUploadApp.tenantId},  #{fileUploadApp.deleted} )
+        </foreach>
+    </insert>
+
+
+</mapper>
