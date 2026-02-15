@@ -1,6 +1,9 @@
 package com.suven.framework.upload.service.impl;
 
 
+import com.suven.framework.core.ObjectTrue;
+import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
+import com.suven.framework.upload.entity.FileUploadStorage;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -237,12 +240,12 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
             //分页对象        PageHelper
            Pager<FileUploadUseBusiness>   pager = Pager.of(0,1);
            pager.setSearchCount(false);
-           List<FileUploadUseBusiness>  list = fileUploadUseBusinessRepository.getListByPage(pager,queryWrapper);
-           if(null == list || list.isEmpty()){
+           PageResult<FileUploadUseBusiness> pageResult = fileUploadUseBusinessRepository.getListByPage(pager, queryWrapper);
+           if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
                  return null;
            }
-           FileUploadUseBusiness fileUploadUseBusiness = list.get(0);
-           FileUploadUseBusinessResponseDto fileUploadUseBusinessResponseDto = FileUploadUseBusinessResponseDto.build().clone(fileUploadUseBusiness);
+         FileUploadUseBusiness fileUploadUseBusiness = pageResult.getList().getFirst();
+         FileUploadUseBusinessResponseDto fileUploadUseBusinessResponseDto = FileUploadUseBusinessResponseDto.build().clone(fileUploadUseBusiness);
 
             return fileUploadUseBusinessResponseDto ;
        }
@@ -283,11 +286,11 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
         Wrapper<FileUploadUseBusiness> queryWrapper = fileUploadUseBusinessRepository.builderQueryEnum(queryEnum, pager.getParamObject());
         //分页对象 PageHelper
         Pager<FileUploadUseBusiness> page = pager.clonePager(FileUploadUseBusiness.class);
-        List<FileUploadUseBusiness> list = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<FileUploadUseBusiness>  pageResult = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList()) ){
+            return new ArrayList<>();
         }
-        List<FileUploadUseBusinessResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadUseBusinessResponseDto.class);
+        List<FileUploadUseBusinessResponseDto>  resDtoList =  IterableConvert.convertList(pageResult.getList(),FileUploadUseBusinessResponseDto.class);
         return resDtoList;
 
     }
@@ -322,14 +325,11 @@ public class FileUploadUseBusinessServiceImpl  implements FileUploadUseBusinessS
         //分页对象 PageHelper
         pager.setSearchCount(searchCount);
         Pager<FileUploadUseBusiness> page = pager.clonePager(FileUploadUseBusiness.class);
-        List<FileUploadUseBusiness> list = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
-        if(null == list ){
-            list = new ArrayList<>();
+        PageResult<FileUploadUseBusiness> pageResult = fileUploadUseBusinessRepository.getListByPage(page, queryWrapper);
+        if(ObjectTrue.isEmpty(pageResult) || ObjectTrue.isEmpty(pageResult.getList())){
+            return new PageResult<>();
         }
-        List<FileUploadUseBusinessResponseDto>  resDtoList =  IterableConvert.convertList(list,FileUploadUseBusinessResponseDto.class);
-        boolean isNext =  pager.isNextPage(resDtoList);
-        PageResult<FileUploadUseBusinessResponseDto> resultList = new PageResult<>();
-        resultList.convertBuild(resDtoList,isNext,pager.getTotal());
+        PageResult<FileUploadUseBusinessResponseDto> resultList = pageResult.convertBuild(FileUploadUseBusinessResponseDto.class);
 
         return resultList;
 

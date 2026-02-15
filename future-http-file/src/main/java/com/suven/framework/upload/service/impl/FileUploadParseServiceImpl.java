@@ -264,8 +264,16 @@ public class FileUploadParseServiceImpl implements FileUploadParseService {
         return fileUploadRepository.getById(id);
     }
 
+    /**
+     * 分页查询文件上传记录
+     *
+     * @param requestDto 查询条件
+     * @param pager      分页参数
+     * @return PageResult<FileUpload>
+     */
+
     @Override
-    public PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager<FileUpload> pager) {
+    public PageResult<FileUpload> pageQueryFileUpload(FileUpload requestDto, Pager<FileInterpretRecord> pager) {
         log.info("分页查询文件上传记录: pageNo={}, pageSize={}", pager.getPageNo(), pager.getPageSize());
 
         LambdaQueryWrapper<FileUpload> queryWrapper = new LambdaQueryWrapper<>();

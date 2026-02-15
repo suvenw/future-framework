@@ -7,7 +7,7 @@ import com.suven.framework.http.api.RequestMethodEnum;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.exception.SystemRuntimeException;
-import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestVo;
 import com.suven.framework.upload.entity.FileDownloadRecord;
 import com.suven.framework.upload.entity.FileFieldMapping;
 import com.suven.framework.upload.service.FileGenerateService;
@@ -94,13 +94,13 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "申请生成文件",
         description = "异步申请生成文件，返回任务ID用于查询状态",
-        request = FileDataQueryRequestDto.class,
+        request = FileDataQueryRequestVo.class,
         response = FileDownloadRecord.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.APPLY_GENERATE)
     public FileDownloadRecord applyGenerate(
-            @RequestBody FileDataQueryRequestDto requestDto) {
+            @RequestBody FileDataQueryRequestVo requestDto) {
         
         log.info("申请生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
@@ -123,19 +123,19 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "同步生成文件",
         description = "同步生成文件，直接返回文件下载URL（适用于小数据量）",
-        request = FileDataQueryRequestDto.class,
+        request = FileDataQueryRequestVo.class,
         response = String.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.SYNC_GENERATE)
-    public String syncGenerate(@RequestBody FileDataQueryRequestDto requestDto) {
-        log.info("同步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
+    public String syncGenerate(@RequestBody FileDataQueryRequestVo requestVo) {
+        log.info("同步生成文件: businessUniqueCode={}", requestVo.getBusinessUniqueCode());
 
-        if (StringUtils.isBlank(requestDto.getBusinessUniqueCode())) {
+        if (StringUtils.isBlank(requestVo.getBusinessUniqueCode())) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
 
-        return fileGenerateService.syncGenerateFile(requestDto);
+        return fileGenerateService.syncGenerateFile(requestVo);
     }
 
     /**
@@ -144,13 +144,13 @@ public class SaaSFileGenerateWebController {
     @ApiDoc(
         value = "异步生成文件",
         description = "异步生成文件，返回任务ID用于查询状态和进度",
-        request = FileDataQueryRequestDto.class,
+        request = FileDataQueryRequestVo.class,
         response = Long.class,
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.ASYNC_GENERATE)
     public long asyncGenerate(
-            @RequestBody FileDataQueryRequestDto requestDto,
+            @RequestBody FileDataQueryRequestVo requestDto,
             @RequestParam(required = false) String callbackUrl) {
         
         log.info("异步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
@@ -249,7 +249,7 @@ public class SaaSFileGenerateWebController {
         
         log.info("分页查询下载记录: pageNo={}, pageSize={}", requestVo.getPageNo(), requestVo.getPageSize());
 
-        Pager pager = new Pager(requestVo.getPageNo(), requestVo.getPageSize());
+        Pager<FileDownloadQueryRequestVo> pager = new Pager<>(requestVo.getPageNo(), requestVo.getPageSize());
         return fileGenerateService.pageQueryDownloadRecords(requestVo, pager);
     }
 
@@ -275,7 +275,7 @@ public class SaaSFileGenerateWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
 
-        Pager pager = new Pager(pageNo, pageSize);
+        Pager<FileDownloadQueryRequestVo> pager = new Pager<>(pageNo, pageSize);
         return fileGenerateService.queryByBusinessCode(businessUniqueCode, pager);
     }
 

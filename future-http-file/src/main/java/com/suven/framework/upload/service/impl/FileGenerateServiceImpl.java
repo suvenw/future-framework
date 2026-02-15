@@ -14,7 +14,7 @@ import com.suven.framework.http.exception.SystemRuntimeException;
 import com.suven.framework.http.proxy.HttpClientResponse;
 import com.suven.framework.http.proxy.HttpProxyDefaultRequest;
 import com.suven.framework.http.proxy.HttpProxyRequest;
-import com.suven.framework.upload.dto.request.FileDataQueryRequestDto;
+import com.suven.framework.upload.dto.request.FileDataQueryRequestVo;
 import com.suven.framework.upload.entity.CompanyBusinessFunction;
 import com.suven.framework.upload.entity.DataSourceModuleName;
 import com.suven.framework.upload.entity.FileDownloadRecord;
@@ -27,7 +27,7 @@ import com.suven.framework.upload.service.FileGenerateService;
 import com.suven.framework.upload.vo.request.FileDownloadQueryRequestVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -59,21 +59,13 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     private static final DateTimeFormatter FILE_NAME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private static final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @Autowired
-    private FileDownloadRecordRepository downloadRecordRepository;
-
-    @Autowired
-    private FileFieldMappingRepository fieldMappingRepository;
-
-    @Autowired
-    private CompanyBusinessFunctionRepository businessFunctionRepository;
-
-    @Autowired
-    private FileDownloadRecordMapper downloadRecordMapper;
+    private final FileDownloadRecordRepository downloadRecordRepository;
+    private final FileFieldMappingRepository fieldMappingRepository;
+    private final CompanyBusinessFunctionRepository businessFunctionRepository;
+    private final FileDownloadRecordMapper downloadRecordMapper;
 
     /** 文件存储客户端 */
-    @Autowired(required = false)
-    private FileClient fileClient;
+    private final FileClient fileClient;
 
     /** 文件存储域名 */
     @Value("${file.storage.domain:https://file.example.com}")
@@ -83,12 +75,24 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     @Value("${file.storage.basePath:saas/export}")
     private String storageBasePath;
 
+    public FileGenerateServiceImpl(FileDownloadRecordRepository downloadRecordRepository,
+                                   FileFieldMappingRepository fieldMappingRepository,
+                                   CompanyBusinessFunctionRepository businessFunctionRepository,
+                                   FileDownloadRecordMapper downloadRecordMapper,
+                                   @org.springframework.lang.Nullable FileClient fileClient) {
+        this.downloadRecordRepository = downloadRecordRepository;
+        this.fieldMappingRepository = fieldMappingRepository;
+        this.businessFunctionRepository = businessFunctionRepository;
+        this.downloadRecordMapper = downloadRecordMapper;
+        this.fileClient = fileClient;
+    }
+
     /**
      * 申请生成文件
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public FileDownloadRecord applyGenerateFile(FileDataQueryRequestDto requestDto) {
+    public FileDownloadRecord applyGenerateFile(FileDataQueryRequestVo requestDto) {
         log.info("申请生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         // 验证参数
@@ -107,18 +111,18 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      * 同步生成文件
      */
     @Override
-    public String syncGenerateFile(FileDataQueryRequestDto requestDto) {
-        log.info("同步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
+    public String syncGenerateFile(FileDataQueryRequestVo requestVo) {
+        log.info("同步生成文件: businessUniqueCode={}", requestVo.getBusinessUniqueCode());
 
         // 验证参数
-        validateRequestDto(requestDto);
+        validateRequestDto(requestVo);
 
         // 创建下载记录
-        FileDownloadRecord record = createDownloadRecord(requestDto);
+        FileDownloadRecord record = createDownloadRecord(requestVo);
 
         try {
             // 执行生成
-            executeGenerate(record.getId(), requestDto);
+            executeGenerate(record.getId(), requestVo);
 
             // 返回下载URL
             return getDownloadUrl(record.getId());
@@ -134,7 +138,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      * 异步生成文件
      */
     @Override
-    public long asyncGenerateFile(FileDataQueryRequestDto requestDto, String callbackUrl) {
+    public long asyncGenerateFile(FileDataQueryRequestVo requestDto, String callbackUrl) {
         log.info("异步生成文件: businessUniqueCode={}", requestDto.getBusinessUniqueCode());
 
         // 验证参数
@@ -154,7 +158,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      */
     @Async("fileGenerateExecutor")
     public CompletableFuture<Void> asyncGenerateFileInternal(long downloadRecordId, 
-                                                            FileDataQueryRequestDto requestDto) {
+                                                            FileDataQueryRequestVo requestDto) {
         try {
             executeGenerate(downloadRecordId, requestDto);
         } catch (Exception e) {
@@ -167,7 +171,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     /**
      * 执行文件生成
      */
-    private void executeGenerate(long downloadRecordId, FileDataQueryRequestDto requestDto) {
+    private void executeGenerate(long downloadRecordId, FileDataQueryRequestVo requestDto) {
         log.info("执行文件生成: downloadRecordId={}", downloadRecordId);
 
         FileDownloadRecord record = downloadRecordRepository.getById(downloadRecordId);
@@ -325,7 +329,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
      * 根据业务唯一码查询下载记录
      */
     @Override
-    public PageResult<FileDownloadRecord> queryByBusinessCode(String businessUniqueCode, Pager pager) {
+    public PageResult<FileDownloadRecord> queryByBusinessCode(String businessUniqueCode, Pager<FileDownloadQueryRequestVo> pager) {
         log.info("根据业务唯一码查询下载记录: businessUniqueCode={}", businessUniqueCode);
 
         if (StringUtils.isBlank(businessUniqueCode)) {
@@ -507,7 +511,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     /**
      * 验证请求参数
      */
-    private void validateRequestDto(FileDataQueryRequestDto requestDto) {
+    private void validateRequestDto(FileDataQueryRequestVo requestDto) {
         if (StringUtils.isBlank(requestDto.getBusinessUniqueCode())) {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR, "业务唯一码不能为空");
         }
@@ -519,7 +523,7 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     /**
      * 创建下载记录
      */
-    private FileDownloadRecord createDownloadRecord(FileDataQueryRequestDto requestDto) {
+    private FileDownloadRecord createDownloadRecord(FileDataQueryRequestVo requestDto) {
         FileDownloadRecord record = new FileDownloadRecord();
         record.setBusinessUniqueCode(requestDto.getBusinessUniqueCode());
         record.setDownloadUserId(requestDto.getDownloadUserId());
@@ -556,41 +560,43 @@ public class FileGenerateServiceImpl implements FileGenerateService {
     /**
      * 分页查询数据
      */
-    private List<JSONObject> queryDataByPages(FileDataQueryRequestDto requestDto) {
+    private List<JSONObject> queryDataByPages(FileDataQueryRequestVo requestVo) {
         List<JSONObject> allData = new ArrayList<>();
-        int pageNo = 1;
-        int pageSize = requestDto.getPageSize() > 0 ? requestDto.getPageSize() : 1000;
-        int timeoutMs = requestDto.getTimeoutMs() > 0 ? requestDto.getTimeoutMs() : 30000;
+
+        int timeoutMs = requestVo.getTimeoutMs() > 0 ? requestVo.getTimeoutMs() : 30000;
+        int pageNo = requestVo.getPageNo() > 0 ? requestVo.getPageNo() : 1;
+        int pageSize = requestVo.getPageSize() > 0 ? requestVo.getPageSize() : 1000;
 
         while (true) {
             try {
                 // 构建请求参数
                 Map<String, Object> params = new HashMap<>();
-                if (requestDto.getQueryParams() != null) {
-                    params.putAll(requestDto.getQueryParams());
+                if (requestVo.getQueryParams() != null) {
+                    params.putAll(requestVo.getQueryParams());
                 }
                 params.put("pageNo", pageNo);
                 params.put("pageSize", pageSize);
 
                 // 调用业务接口
-//                String jsonResult = httpPost(requestDto.getDataQueryUrl(), params, timeoutMs);
                 HttpProxyRequest proxyRequest = new HttpProxyDefaultRequest();
-                proxyRequest.getTimeout(timeoutMs);
-                HttpClientResponse jsonResponse = HttpClientUtil.post(requestDto.getDataQueryUrl(),params,proxyRequest);
-                if (Objects.isNull(jsonResponse) || !ObjectTrue.isTrue(jsonResponse.isSuccess() )) {
-                    log.warn("查询接口返回空数据: url={}, pageNo={}", requestDto.getDataQueryUrl(), pageNo);
+                HttpClientResponse jsonResponse = HttpClientUtil.post(requestVo.getDataQueryUrl(), params, proxyRequest);
+                if (Objects.isNull(jsonResponse) || !jsonResponse.isSuccess()) {
+                    log.warn("查询接口返回空数据: url={}, pageNo={}", requestVo.getDataQueryUrl(), pageNo);
                     break;
                 }
-                PageResult<JSONObject> pageResult =   jsonResponse.parseBody(PageResult.class);
+                String body = jsonResponse.getBody();
+                if (StringUtils.isBlank(body)) {
+                    break;
+                }
+                PageResult pageResult = JSON.parseObject(body, PageResult.class);
                 // 解析返回数据
-                if (ObjectTrue.isEmpty(pageResult)  || ObjectTrue.isEmpty(pageResult.getList())) {
+                if (pageResult == null || ObjectTrue.isEmpty(pageResult.getList())) {
                     break;
                 }
-                allData.addAll(pageResult.getList());
+                List<JSONObject> list = JSON.parseArray(JSON.toJSONString(pageResult.getList()), JSONObject.class);
+                allData.addAll(list);
                 // 检查是否还有更多数据
-                int total = pageResult.getIsNextPage();
-                if ( total <= 0) {
-                    // 如果没有分页信息，假设只有一页
+                if (pageResult.getIsNextPage() <= 0) {
                     break;
                 }
                 pageNo++;

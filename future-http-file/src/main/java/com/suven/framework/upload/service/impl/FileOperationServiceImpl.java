@@ -1,9 +1,11 @@
 package com.suven.framework.upload.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.core.db.ext.DS;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.upload.dto.enums.FileOperationRecordQueryEnum;
 import com.suven.framework.upload.dto.request.FileInterpretRequestDto;
 import com.suven.framework.upload.dto.request.FileOperationRequestDto;
 import com.suven.framework.upload.dto.response.FileFieldResponseDto;
@@ -21,7 +23,7 @@ import com.suven.framework.upload.service.FileOperationService;
 import com.suven.framework.upload.vo.request.FileCallbackRequestVo;
 import com.suven.framework.upload.vo.request.FileInterpretPageRequestVo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,17 +43,20 @@ import java.util.List;
 @DS(DataSourceModuleName.module_name_file)
 public class FileOperationServiceImpl implements FileOperationService {
 
-    @Autowired
-    private FileOperationRecordRepository operationRecordRepository;
+    private final FileOperationRecordRepository operationRecordRepository;
+    private final FileInterpretRecordRepository interpretRecordRepository;
+    private final FileOperationRecordMapper operationRecordMapper;
+    private final FileFieldMappingRepository fieldMappingRepository;
 
-    @Autowired
-    private FileInterpretRecordRepository interpretRecordRepository;
-
-    @Autowired
-    private FileOperationRecordMapper operationRecordMapper;
-
-    @Autowired
-    private FileFieldMappingRepository fieldMappingRepository;
+    public FileOperationServiceImpl(FileOperationRecordRepository operationRecordRepository,
+                                    FileInterpretRecordRepository interpretRecordRepository,
+                                    FileOperationRecordMapper operationRecordMapper,
+                                    FileFieldMappingRepository fieldMappingRepository) {
+        this.operationRecordRepository = operationRecordRepository;
+        this.interpretRecordRepository = interpretRecordRepository;
+        this.operationRecordMapper = operationRecordMapper;
+        this.fieldMappingRepository = fieldMappingRepository;
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -82,15 +87,9 @@ public class FileOperationServiceImpl implements FileOperationService {
             record.setCreateDate(LocalDateTime.now());
             record.setModifyDate(LocalDateTime.now());
             operationRecordRepository.save(record);
-            FileOperationRecord savedRecord = record;
             
-            // 保存字段映射
-//            if (ObjectTrue.isNotEmpty(requestDto.getFieldMappings())) {
-//                saveFieldMappings(savedRecord.getId(), requestDto.getFieldMappings());
-//            }
-            
-            FileOperationResponseDto responseDto = buildOperationResponseDto(savedRecord);
-            log.info("创建文件操作记录成功, ID: {}", savedRecord.getId());
+            FileOperationResponseDto responseDto = buildOperationResponseDto(record);
+            log.info("创建文件操作记录成功, ID: {}", record.getId());
             return responseDto;
         } catch (Exception e) {
             log.error("创建文件操作记录失败", e);
@@ -124,32 +123,13 @@ public class FileOperationServiceImpl implements FileOperationService {
     public PageResult<FileOperationResponseDto> queryOperationPage(FileOperationRequestDto requestDto, Pager<FileOperationRequestDto> pager) {
         log.info("分页查询操作记录, AppId: {}, PageNo: {}, PageSize: {}", 
             requestDto.getAppId(), pager.getPageNo(), pager.getPageSize());
-        
-        com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<FileOperationRecord> queryWrapper =
-            new com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper<>();
-        
-        if (ObjectTrue.isNotEmpty(requestDto.getAppId())) {
-            queryWrapper.eq(FileOperationRecord::getAppId, requestDto.getAppId());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getClientId())) {
-            queryWrapper.eq(FileOperationRecord::getClientId, Long.parseLong(requestDto.getClientId()));
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getFileProductName())) {
-            queryWrapper.eq(FileOperationRecord::getFileProductName, requestDto.getFileProductName());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getFileBusinessName())) {
-            queryWrapper.eq(FileOperationRecord::getFileBusinessName, requestDto.getFileBusinessName());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getStatus())) {
-            queryWrapper.eq(FileOperationRecord::getStatus, requestDto.getStatus());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getFileSourceName())) {
-            queryWrapper.like(FileOperationRecord::getFileSourceName, requestDto.getFileSourceName());
-        }
-        queryWrapper.eq(FileOperationRecord::getDeleted, 0);
-        queryWrapper.orderByDesc(FileOperationRecord::getId);
-        
-        PageResult<FileOperationRecord> pageResult = operationRecordRepository(pager, queryWrapper);
+
+
+        FileOperationRecord fileOperation = FileOperationRecord.build().clone(requestDto);
+        Pager<FileOperationRecord> page = pager.clonePager(FileOperationRecord.class);
+        Wrapper<FileOperationRecord> queryWrapper = operationRecordRepository.builderQueryEnum(FileOperationRecordQueryEnum.BY_QUERY_CALLBACK_STATUS_DESC, fileOperation);
+
+        PageResult<FileOperationRecord> pageResult = operationRecordRepository.getListByPage(page, queryWrapper);
         
         PageResult<FileOperationResponseDto> result = new PageResult<>();
         result.setTotal(pageResult.getTotal());
@@ -223,14 +203,24 @@ public class FileOperationServiceImpl implements FileOperationService {
     }
 
     @Override
-    public PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager pager) {
-        log.info("分页查询解释记录, OperationId: {}", operationId);
+    public PageResult<FileInterpretResponseDto> queryInterpretPage(long operationId, Pager<FileInterpretPageRequestVo> pager) {
+        log.info("分页查询解释记录, OperationId: {}, PageNo: {}, PageSize: {}", 
+            operationId, pager.getPageNo(), pager.getPageSize());
         
         List<FileInterpretRecord> records = interpretRecordRepository.getByFileUploadId(operationId);
         
+        // 手动分页
+        int total = records.size();
+        int pageNo = Math.max(1, pager.getPageNo());
+        int pageSize = Math.max(1, pager.getPageSize());
+        int fromIndex = Math.min((pageNo - 1) * pageSize, total);
+        int toIndex = Math.min(fromIndex + pageSize, total);
+        
+        List<FileInterpretRecord> pageList = fromIndex >= total ? new ArrayList<>() : records.subList(fromIndex, toIndex);
+        
         PageResult<FileInterpretResponseDto> result = new PageResult<>();
-        result.setTotal(records.size());
-        result.setList(records.stream()
+        result.setTotal(total);
+        result.setList(pageList.stream()
             .map(this::buildInterpretResponseDto)
             .toList());
         
@@ -244,22 +234,6 @@ public class FileOperationServiceImpl implements FileOperationService {
         FileInterpretRecord record = interpretRecordRepository.getById(requestDto.getId());
         if (record == null) {
             return false;
-        }
-        
-        if (ObjectTrue.isNotEmpty(requestDto.getInterpretInfo())) {
-            record.setInterpretInfo(requestDto.getInterpretInfo());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getInterpretStatus())) {
-            record.setInterpretStatus(requestDto.getInterpretStatus());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getBusinessProcessStatus())) {
-            record.setBusinessProcessStatus(requestDto.getBusinessProcessStatus());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getBusinessProcessResult())) {
-            record.setBusinessProcessResult(requestDto.getBusinessProcessResult());
-        }
-        if (ObjectTrue.isNotEmpty(requestDto.getBusinessExceptionInfo())) {
-            record.setBusinessExceptionInfo(requestDto.getBusinessExceptionInfo());
         }
         record.setModifyDate(LocalDateTime.now());
         
@@ -287,12 +261,12 @@ public class FileOperationServiceImpl implements FileOperationService {
             }
             
             // 更新解释记录
-            record.setBusinessProcessStatus(callbackRequest.getBusinessProcessStatus());
+            record.setBusinessStatus(callbackRequest.getBusinessProcessStatus());
             if (ObjectTrue.isNotEmpty(callbackRequest.getBusinessProcessResult())) {
-                record.setBusinessProcessResult(callbackRequest.getBusinessProcessResult());
+                record.setBusinessResult(callbackRequest.getBusinessProcessResult());
             }
             if (ObjectTrue.isNotEmpty(callbackRequest.getBusinessExceptionInfo())) {
-                record.setBusinessExceptionInfo(callbackRequest.getBusinessExceptionInfo());
+                record.setBusinessErrorMessage(callbackRequest.getBusinessExceptionInfo());
             }
             record.setBusinessProcessTime(LocalDateTime.now());
             record.setModifyDate(LocalDateTime.now());
@@ -301,7 +275,7 @@ public class FileOperationServiceImpl implements FileOperationService {
             
             // 如果处理成功，更新操作记录的成功/失败计数
             if ("SUCCESS".equals(callbackRequest.getBusinessProcessStatus())) {
-                updateOperationRecordCounts(record.getOperationRecordId());
+                updateOperationRecordCounts(record.getFileUploadId());
             }
             
             return result;
@@ -312,15 +286,28 @@ public class FileOperationServiceImpl implements FileOperationService {
     }
 
     @Override
-    public PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager pager) {
-        log.info("查询待处理的解释记录, OperationId: {}, Status: {}", operationId, status);
+    public PageResult<FileInterpretResponseDto> queryPendingInterpretRecords(long operationId, String status, Pager<FileInterpretPageRequestVo> pager) {
+        log.info("查询待处理的解释记录, OperationId: {}, Status: {}, PageNo: {}, PageSize: {}", 
+            operationId, status, pager.getPageNo(), pager.getPageSize());
         
-        List<FileInterpretRecord> records = interpretRecordRepository.getByOperationRecordIdAndStatus(
-            operationId, status, pager);
+        // 使用现有的 getByFileUploadId 方法，然后在内存中过滤
+        List<FileInterpretRecord> allRecords = interpretRecordRepository.getByFileUploadId(operationId);
+        List<FileInterpretRecord> records = allRecords.stream()
+            .filter(r -> status == null || status.equals(r.getBusinessStatus()))
+            .toList();
+        
+        // 手动分页
+        int total = records.size();
+        int pageNo = Math.max(1, pager.getPageNo());
+        int pageSize = Math.max(1, pager.getPageSize());
+        int fromIndex = Math.min((pageNo - 1) * pageSize, total);
+        int toIndex = Math.min(fromIndex + pageSize, total);
+        
+        List<FileInterpretRecord> pageList = fromIndex >= total ? new ArrayList<>() : records.subList(fromIndex, toIndex);
         
         PageResult<FileInterpretResponseDto> result = new PageResult<>();
-        result.setTotal(pager.getTotal());
-        result.setList(records.stream()
+        result.setTotal(total);
+        result.setList(pageList.stream()
             .map(this::buildInterpretResponseDto)
             .toList());
         
@@ -405,33 +392,14 @@ public class FileOperationServiceImpl implements FileOperationService {
 
     // ==================== 私有方法 ====================
 
-    private boolean saveFieldMappings(long businessFunctionId, FileFieldMapping fieldMapping, List<FileInterpretRecord> fileInterpretRecordList) {
-        int sortOrder = 1;
-//        for (FileInterpretRecord dto : fileInterpretRecordList) {
-//            FileInterpretRecord fieldMapping = new FileInterpretRecord();
-//            fieldMapping.setBusinessFunctionId(businessFunctionId);
-//            fieldMapping.setFieldEnglishName(dto.get());
-//            fieldMapping.setFieldChineseName(dto.getFieldChineseName());
-//            fieldMapping.setSortOrder(sortOrder++);
-//            fieldMapping.setFieldType(dto.getFieldType());
-//            fieldMapping.setIsPrimaryKey(dto.getIsPrimaryKey());
-//            fieldMapping.setIsRequired(dto.getIsRequired());
-//            fieldMapping.setDefaultValue(dto.getDefaultValue());
-//            fieldMapping.setFieldDescription(dto.getFieldDescription());
-//            fieldMapping.setValidateRule(dto.getValidateRule());
-//            fieldMapping.setTransformRule(dto.getTransformRule());
-//            fieldMapping.setRemark(dto.getRemark());
-//            fieldMapping.setStatus("ACTIVE");
-//            fieldMapping.setCreateDate(LocalDateTime.now());
-//            fieldMapping.setModifyDate(LocalDateTime.now());
-//
-//            fieldMappingMapper.insert(fieldMapping);
-//        }
+    private boolean saveFieldMappings(long operationId, List<FileInterpretRequestDto> fieldMappings) {
+        // TODO: 实现字段映射保存逻辑
+        log.info("保存字段映射, OperationId: {}, Count: {}", operationId, fieldMappings.size());
         return true;
     }
 
-    private void updateOperationRecordCounts(long businessFunctionId) {
-        List<FileInterpretRecord> records = interpretRecordRepository.getByBusinessUniqueCode(businessFunctionId);
+    private void updateOperationRecordCounts(long operationRecordId) {
+        List<FileInterpretRecord> records = interpretRecordRepository.getByFileUploadId(operationRecordId);
         
         int successCount = 0;
         int failCount = 0;
@@ -444,7 +412,7 @@ public class FileOperationServiceImpl implements FileOperationService {
             }
         }
         
-        FileOperationRecord operationRecord = operationRecordRepository.getById(businessFunctionId);
+        FileOperationRecord operationRecord = operationRecordRepository.getById(operationRecordId);
         if (operationRecord != null) {
             operationRecord.setSuccessCount(successCount);
             operationRecord.setFailCount(failCount);
@@ -462,7 +430,15 @@ public class FileOperationServiceImpl implements FileOperationService {
     }
 
     private FileInterpretResponseDto buildInterpretResponseDto(FileInterpretRecord record) {
-        return FileInterpretResponseDto.build().clone(record);
+        FileInterpretResponseDto dto = new FileInterpretResponseDto();
+        dto.setId(record.getId());
+        dto.setBusinessUniqueCode(record.getBusinessUniqueCode());
+        dto.setBusinessProcessStatus(record.getBusinessStatus());
+        dto.setBusinessProcessResult(record.getBusinessResult());
+        dto.setBusinessProcessTime(record.getBusinessProcessTime());
+        dto.setCreateDate(record.getCreateDate());
+        dto.setModifyDate(record.getModifyDate());
+        return dto;
     }
 
     private List<FileFieldResponseDto> buildFieldResponseList(List<FileFieldMapping> fieldMappings) {

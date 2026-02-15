@@ -1,6 +1,7 @@
 package com.suven.framework.upload.repository;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -218,7 +219,7 @@ public class FileOperationRecordRepository extends AbstractMyBatisRepository<Fil
      * @author suven  作者
      * date 2026-02-11 创建时间
      */
-    public Wrapper<FileOperationRecord> builderQueryEnum(FileOperationRecordQueryEnum queryEnum, Object queryObject) {
+    public Wrapper<FileOperationRecord> builderQueryEnum(FileOperationRecordQueryEnum queryEnum, FileOperationRecord queryObject) {
         QueryWrapper<FileOperationRecord> queryWrapper = new QueryWrapper<>();
         if (ObjectTrue.isEmpty(queryEnum)) {
             AssertEx.error(new SystemRuntimeException(SysResultCodeEnum.SYS_RESPONSE_QUERY_IS_NULL));
@@ -282,6 +283,28 @@ public class FileOperationRecordRepository extends AbstractMyBatisRepository<Fil
                         .orderByDesc(FileOperationRecord::getId);
                 break;
             }
+            case BY_QUERY_CALLBACK_STATUS_DESC:
+                LambdaQueryWrapper<FileOperationRecord> query= queryWrapper.lambda();
+                if (ObjectTrue.isNotEmpty(queryObject.getAppId())) {
+                    query.eq(FileOperationRecord::getAppId, queryObject.getAppId());
+                }
+                if (ObjectTrue.isNotEmpty(queryObject.getClientId())) {
+                    query.eq(FileOperationRecord::getClientId, Long.parseLong(queryObject.getClientId()));
+                }
+                if (ObjectTrue.isNotEmpty(queryObject.getFileProductName())) {
+                    query.eq(FileOperationRecord::getFileProductName, queryObject.getFileProductName());
+                }
+                if (ObjectTrue.isNotEmpty(queryObject.getFileBusinessName())) {
+                    query.eq(FileOperationRecord::getFileBusinessName, queryObject.getFileBusinessName());
+                }
+                if (ObjectTrue.isNotEmpty(queryObject.getStatus())) {
+                    query.eq(FileOperationRecord::getStatus, queryObject.getStatus());
+                }
+                if (ObjectTrue.isNotEmpty(queryObject.getFileSourceName())) {
+                    query.like(FileOperationRecord::getFileSourceName, queryObject.getFileSourceName());
+                }
+                query.eq(FileOperationRecord::getDeleted, 0);
+                query.orderByDesc(FileOperationRecord::getId);
             default:
                 break;
         }

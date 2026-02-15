@@ -163,7 +163,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager<FileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
+        Pager<FileInterpretPageRequestVo> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
         PageResult<FileInterpretResponseDto> result = fileOperationService.queryInterpretPage(idRequestVo.getId(), pager);
         
         if (ObjectTrue.isEmpty(result) || ObjectTrue.isEmpty(result.getList())) {
@@ -233,7 +233,7 @@ public class SaaSFileOperationWebController {
             throw new SystemRuntimeException(SysResultCodeEnum.SYS_PARAM_ERROR);
         }
         
-        Pager<FileInterpretResponseDto> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
+        Pager<FileInterpretPageRequestVo> pager = new Pager<>(idRequestVo.getPageNo(), idRequestVo.getPageSize());
         PageResult<FileInterpretResponseDto> result = fileOperationService.queryPendingInterpretRecords(
             idRequestVo.getId(), status, pager);
         

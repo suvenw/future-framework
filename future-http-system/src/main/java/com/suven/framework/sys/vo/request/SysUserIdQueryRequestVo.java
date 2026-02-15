@@ -89,7 +89,7 @@ public class SysUserIdQueryRequestVo extends HttpRequestByIdPageVo{
  		public Date getCreateTime(){
  		 		return this.createTime;
  		}
- 		public SysUserIdQueryRequestVo toCreateTime(LocalDateTime createTime){
+ 		public SysUserIdQueryRequestVo toCreateTime(Date createTime){
  		 		this.createTime = createTime ; 
  		 		 return this ;
  		}
@@ -101,7 +101,7 @@ public class SysUserIdQueryRequestVo extends HttpRequestByIdPageVo{
  		public Date getUpdateTime(){
  		 		return this.updateTime;
  		}
- 		public SysUserIdQueryRequestVo toUpdateTime(LocalDateTime updateTime){
+ 		public SysUserIdQueryRequestVo toUpdateTime(Date updateTime){
  		 		this.updateTime = updateTime ; 
  		 		 return this ;
  		}
