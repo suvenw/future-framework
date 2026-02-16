@@ -6,22 +6,22 @@ spring:
       name: file
       target: true
       master:
-        url: jdbc:mysql://127.0.0.1:3306/api_file?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://192.168.3.100:3306/api_file?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
         username: dev
         password: dev123456
       slave[0]:
-        url: jdbc:mysql://127.0.0.1:3306/api_file?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://192.168.3.100:3306/api_file?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
         username: dev
         password: dev123456
     oauth:
       name: oauth
       target: false
       master:
-        url: jdbc:mysql://58.33.6.218:12301/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://192.168.3.100:3360/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
         username: dev
         password: dev123456
       slave[0]:
-        url: jdbc:mysql://58.33.6.218:12301/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
+        url: jdbc:mysql://192.168.3.100:3360/sixeco_oauth?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Hongkong&allowPublicKeyRetrieval=true
         username: dev
         password: dev123456
 

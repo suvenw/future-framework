@@ -63,10 +63,10 @@ public class FileUploadAppWebController {
      */
     public interface UrlCommand {
         String UPLOAD_FILE_UPLOAD_APP_INDEX = "/upload/fileuploadapp/index";
-        String UPLOAD_FILE_UPLOAD_APP_PAGE_LIST = "/upload/fileuploadapp/pageList";
+        String UPLOAD_FILE_UPLOAD_APP_PAGE_LIST = "/upload/fileuploadapp/wbpageList";
         String UPLOAD_FILE_UPLOAD_APP_LIST = "/upload/fileuploadapp/list";
         String UPLOAD_FILE_UPLOAD_APP_QUERY_LIST = "/upload/fileuploadapp/queryList";
-        String UPLOAD_FILE_UPLOAD_APP_INFO = "/upload/fileuploadapp/info";
+        String UPLOAD_FILE_UPLOAD_APP_INFO = "/upload/fileuploadapp/wbInfo";
         String UPLOAD_FILE_UPLOAD_APP_CREATE = "/upload/fileuploadapp/create";
         String UPLOAD_FILE_UPLOAD_APP_UPDATE = "/upload/fileuploadapp/update";
         String UPLOAD_FILE_UPLOAD_APP_DELETE = "/upload/fileuploadapp/delete";
