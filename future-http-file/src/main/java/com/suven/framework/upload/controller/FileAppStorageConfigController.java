@@ -52,8 +52,8 @@ public class FileAppStorageConfigController {
      * URL 命令常量接口
      */
     public interface UrlCommand {
-        String UPLOAD_FILE_APP_STORAGE_CONFIG_PAGE_LIST = "/upload/fileappstorageconfig/pageList";
-        String UPLOAD_FILE_APP_STORAGE_CONFIG_INFO = "/upload/fileappstorageconfig/info";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_PAGE_LIST = "/upload/fileappstorageconfig/wbPageList";
+        String UPLOAD_FILE_APP_STORAGE_CONFIG_INFO = "/upload/fileappstorageconfig/wbInfo";
     }
 
     /**
