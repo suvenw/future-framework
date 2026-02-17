@@ -82,10 +82,10 @@ public class FileUploadStorageWebController {
      */
     public interface UrlCommand {
         String UPLOAD_FILE_UPLOAD_STORAGE_INDEX = "/upload/fileuploadstorage/index";
-        String UPLOAD_FILE_UPLOAD_STORAGE_PAGE_LIST = "/upload/fileuploadstorage/pageList";
+        String UPLOAD_FILE_UPLOAD_STORAGE_PAGE_LIST = "/upload/fileuploadstorage/webpageList";
         String UPLOAD_FILE_UPLOAD_STORAGE_LIST = "/upload/fileuploadstorage/list";
         String UPLOAD_FILE_UPLOAD_STORAGE_QUERY_LIST = "/upload/fileuploadstorage/queryList";
-        String UPLOAD_FILE_UPLOAD_STORAGE_INFO = "/upload/fileuploadstorage/info";
+        String UPLOAD_FILE_UPLOAD_STORAGE_INFO = "/upload/fileuploadstorage/wbinfo";
         String UPLOAD_FILE_UPLOAD_STORAGE_CREATE = "/upload/fileuploadstorage/create";
         String UPLOAD_FILE_UPLOAD_STORAGE_UPDATE = "/upload/fileuploadstorage/update";
         String UPLOAD_FILE_UPLOAD_STORAGE_DELETE = "/upload/fileuploadstorage/delete";
