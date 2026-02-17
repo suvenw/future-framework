@@ -63,10 +63,10 @@ public class FileUploadUseBusinessWebController {
      */
     public interface UrlCommand {
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_INDEX = "/upload/fileuploadusebusiness/index";
-        String UPLOAD_FILE_UPLOAD_USE_BUSINESS_PAGE_LIST = "/upload/fileuploadusebusiness/pageList";
+        String UPLOAD_FILE_UPLOAD_USE_BUSINESS_PAGE_LIST = "/upload/fileuploadusebusiness/wbpageList";
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_LIST = "/upload/fileuploadusebusiness/list";
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_QUERY_LIST = "/upload/fileuploadusebusiness/queryList";
-        String UPLOAD_FILE_UPLOAD_USE_BUSINESS_INFO = "/upload/fileuploadusebusiness/info";
+        String UPLOAD_FILE_UPLOAD_USE_BUSINESS_INFO = "/upload/fileuploadusebusiness/wbinfo";
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_CREATE = "/upload/fileuploadusebusiness/create";
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_UPDATE = "/upload/fileuploadusebusiness/update";
         String UPLOAD_FILE_UPLOAD_USE_BUSINESS_DELETE = "/upload/fileuploadusebusiness/delete";
