@@ -11,10 +11,8 @@ import com.suven.framework.http.jetty.AbstractJettyAppServer;
 @EnableDiscoveryClient
 @MapperScan(basePackages="com.suven.framework.*.mapper",sqlSessionFactoryRef = "sqlSessionFactory")
 @ComponentScan(basePackages={GlobalConfigConstants.COMPONENT_SCAN_BASE_PACKAGES})
-
 public class SysMain extends AbstractJettyAppServer {
     public static void main(String[] args) {
-
         jettyStart(SysMain.class,args);
     }
 

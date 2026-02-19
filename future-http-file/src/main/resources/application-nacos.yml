@@ -1,41 +1,29 @@
+# Nacos 服务注册与配置中心
+# 引用 future-spring-cloud 模块后，只需简单配置即可启用服务注册
 spring:
   application:
     name: future-http-file
   cloud:
-    # 禁用 Spring Cloud 兼容性检查
-    compatibility-verifier:
-      enabled: false
-    # Nacos 注册中心配置
     nacos:
       discovery:
-        enabled: true  # 启用服务注册
-        server-addr: 192.168.3.100:8848
-        namespace: FUTURE-GROUP
-        group: DEFAULT_GROUP
-        # Nacos 认证未开启，不需要用户名密码
-        # username: nacos
-        # password: nacos
+        enabled: true
+        server-addr: 192.168.3.100:8848  #${NACOS_SERVER_ADDR:192.168.3.100:8848}
+        namespace: FUTURE-GROUP  #${NACOS_NAMESPACE:FUTURE-GROUP}
+        group: DEFAULT_GROUP # ${NACOS_GROUP:DEFAULT_GROUP}
         prefer-ip-address: true
-        # 心跳配置
         heart-beat-interval: 5000
         heart-beat-timeout: 15000
-        # 元数据
         metadata:
           version: 1.0
           region: default
       config:
-        enabled: true  # 启用配置中心
-        server-addr: 192.168.3.100:8848
-        namespace: FUTURE-GROUP
-        group: DEFAULT_GROUP
-        # Nacos 认证未开启，不需要用户名密码
-        # username: nacos
-        # password: nacos
+        enabled: true
+        server-addr: 192.168.3.100:8848  #${NACOS_SERVER_ADDR:192.168.3.100:8848}
+        namespace: FUTURE-GROUP # ${NACOS_NAMESPACE:FUTURE-GROUP}
+        group: DEFAULT_GROUP #${NACOS_GROUP:DEFAULT_GROUP}
         file-extension: yml
-        # 禁用 import 检查（避免启动失败）
         import-check:
           enabled: false
-        # 共享配置
         shared-configs:
           - data-id: common.yml
             group: DEFAULT_GROUP

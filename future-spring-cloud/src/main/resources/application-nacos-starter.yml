@@ -1,25 +1,29 @@
-# Nacos 服务注册与配置中心
-# 依赖 future-spring-cloud 模块后自动启用服务发现
+# Spring Cloud Alibaba Nacos Starter 默认配置
+# 使用此 starter 的服务需要在 application.yml 中 include 此配置
 spring:
-  application:
-    name: future-http-system
   cloud:
+    service-registry:
+      auto-registration:
+        enabled: true
+    # Nacos 注册中心与配置中心
     nacos:
       discovery:
         enabled: true
         server-addr: ${NACOS_SERVER_ADDR:192.168.3.100:8848}
-        namespace: ${NACOS_NAMESPACE:FUTURE-GROUP}
+        namespace: ${NACOS_NAMESPACE:FUTURE-GATEWAY}
         group: ${NACOS_GROUP:DEFAULT_GROUP}
         prefer-ip-address: true
+        # 心跳配置
         heart-beat-interval: 5000
         heart-beat-timeout: 15000
+        # 元数据
         metadata:
           version: 1.0
           region: default
       config:
         enabled: true
         server-addr: ${NACOS_SERVER_ADDR:192.168.3.100:8848}
-        namespace: ${NACOS_NAMESPACE:FUTURE-GROUP}
+        namespace: ${NACOS_NAMESPACE:FUTURE-GATEWAY}
         group: ${NACOS_GROUP:DEFAULT_GROUP}
         file-extension: yml
         import-check:
