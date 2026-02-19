@@ -25,7 +25,7 @@ public class CustomGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getRawPath();
-        String method = request.getMethodValue();
+        String method = request.getMethod().name();
 
         log.info("[Gateway][GlobalFilter] {} {}", method, path);
 
