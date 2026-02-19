@@ -9,11 +9,12 @@ dubbo:
     port: -1
   registry:
     id: nacos-registry
-    address: nacos://192.168.2.201:8848
-  config-center:
-    address: nacos://192.168.2.201:8848
-  metadata-report:
-    address: nacos://192.168.2.201:8848
+    address: nacos://192.168.3.100:8848
+  # 暂时禁用配置中心和元数据中心，避免启动失败
+  # config-center:
+  #   address: nacos://192.168.3.100:8848
+  # metadata-report:
+  #   address: nacos://192.168.3.100:8848
   tracing:
     enabled: false # default is false
     sampling:

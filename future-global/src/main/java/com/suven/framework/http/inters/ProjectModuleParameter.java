@@ -48,7 +48,7 @@ public interface ProjectModuleParameter {
 
     /** 上传下载 **/
     String  MODULE_NAME_FILE            = "file" ;
-    int     PORT_HTTP_FILE              = 9030;
+    int     PORT_HTTP_FILE              = 9031;
     String  MODULE_HTTP_FILE            =  MODULE_HTTP + MODULE_NAME_FILE;
 
     int     PORT_RPC_FILE               = 19030;
@@ -147,7 +147,7 @@ public interface ProjectModuleParameter {
 
     /** 后台管理 **/
     String  MODULE_NAME_SYSTEM             = "admin" ;
-    int    PORT_HTTP_SYSTEM              = 9900;
+    int    PORT_HTTP_SYSTEM              = 9901;
     String MODULE_HTTP_SYSTEM             = MODULE_HTTP  +  MODULE_NAME_SYSTEM;
 
 

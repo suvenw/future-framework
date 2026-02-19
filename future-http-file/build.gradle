@@ -1,5 +1,4 @@
 // 项目名称描述,统一文件上传项目架构
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.5'
@@ -12,9 +11,9 @@ configurations.all {
         force 'com.google.protobuf:protobuf-java:3.25.5'
     }
 }
+
 // 项目名称描述
 description = 'future-http-file'
-//引用项目的公共版包版本信息
 
 apply from: '../build-lib.gradle'
 
@@ -37,21 +36,34 @@ jar {
     enabled = false
 }
 
-//def libs = rootProject.ext.libVersions
-
 dependencies {
-
     implementation fileTree(dir: "lib", include: '*.jar')
 
-
+    // 基础模块
     implementation project(':future-utils')
     implementation project(':future-http')
     implementation project(':future-global')
     implementation project(':future-doc')
     implementation project(':future-db')
     implementation project(':future-http-client')
+    
+    // Spring Cloud Alibaba Nacos Starter（包含所有微服务注册配置）
+    implementation project(':future-spring-cloud')
 
+    // Web 容器
+    implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
+    implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
+    implementation 'org.eclipse.jetty:jetty-jndi:11.0.17'
 
+    // 数据访问
+    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
+
+    // 工具库
     implementation libraries."fastjson"
     implementation libraries."guava"
     implementation libraries."reflections"
@@ -66,53 +78,24 @@ dependencies {
     implementation libraries."zxing-javase"
     implementation libraries."validation-api"
 
-    implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
-    implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
-    // 添加 jetty-jndi 依赖以消除 EnvConfiguration 警告
-    implementation 'org.eclipse.jetty:jetty-jndi:11.0.17'
-
-    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-
+    // 第三方服务
     implementation 'com.suven.framework:swagger-ui-layer:1.0.0'
-
     implementation 'com.github.tobato:fastdfs-client:1.26.5'
     implementation 'com.aliyun.oss:aliyun-sdk-oss:3.7.0'
     implementation 'com.aliyun:aliyun-java-sdk-core:4.4.1'
     implementation 'com.aliyun:aliyun-java-sdk-dysmsapi:1.1.0'
-//        implementation 'com.github.caspar-chen:swagger-ui-layer:1.1.9'
     implementation 'io.minio:minio:8.2.2'
-    implementation 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
+    // 其他
     implementation 'org.apache.curator:curator-framework:2.12.0'
     implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
 
-    // ===================== Nacos 服务注册与配置中心 =====================
-    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_starter_version}"
-    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${versions.spring_cloud_alibaba_version}"
-    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${versions.spring_cloud_alibaba_version}"
-    implementation 'com.alibaba.spring:spring-context-support:1.0.11'
-    implementation "com.alibaba.nacos:nacos-api:${versions.alibaba_nacos_version}"
-    implementation "com.alibaba.nacos:nacos-common:${versions.alibaba_nacos_version}"
-    implementation "com.alibaba.nacos:nacos-client:${versions.alibaba_nacos_version}"
-    // 强制使用 protobuf 3.x 版本以兼容 Nacos 3.0.2
-    constraints {
-        implementation('com.google.protobuf:protobuf-java:3.25.5') {
-            because 'Nacos 3.0.2 requires protobuf 3.x compatibility'
-        }
-    }
-    // ===================== Nacos 服务注册与配置中心 =====================
+    // Lombok
+    implementation 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     // 测试依赖
     testImplementation libraries."junit"
     testImplementation libraries."spring-boot-starter-test"
     testImplementation libraries."mockito-core"
 }
-
-
-

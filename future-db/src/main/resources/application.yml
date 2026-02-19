@@ -11,7 +11,7 @@ spring:
     #nacos 注册中心实现配置
     nacos:
       discovery:
-        server-addr: 192.168.2.201:8848
+        server-addr: 192.168.3.100:8848
         username: nacos
         password: nacos
         namespace: rpc-dubbo-yml
