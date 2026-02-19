@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: future-gateway
+  main:
+    # 强制使用响应式 WebFlux 模式，避免误用 Servlet 模式
+    web-application-type: reactive
   cloud:
     nacos:
       discovery:
@@ -20,42 +23,97 @@ spring:
       enabled: true
       discovery:
         locator:
-          enabled: true  #开启通过服务中心的自动根据 serviceId 创建路由的功能
+          # 开启通过服务中心的自动根据 serviceId 创建路由的功能
+          enabled: true
+          # 服务名小写转换
+          lower-case-service-id: true
+      # 全局跨域配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: false
+            maxAge: 3600
+      # 路由配置
       routes:
-        #        - id: mdx-shop-user             #路由的ID，没有固定规则但要求唯一，建议配合服务名
-        #          uri: lb:ws://mdx-shop-user    #匹配后提供服务的路由地址
-        #          predicates:
-        #            - Path=/user/**      #断言，路径相匹配的进行路由
-        #
+        # future-http-system 服务路由
         - id: future-http-system
           uri: lb://future-http-system
           predicates:
             - Path=/api/sys/**
+          filters:
+            - StripPrefix=0
+            # 熔断降级配置（需要添加 resilience4j 依赖）
+            # - name: CircuitBreaker
+            #   args:
+            #     name: default
+            #     fallbackUri: forward:/fallback
+
+        # future-http-file 服务路由
         - id: future-http-file
           uri: lb://future-http-file
           predicates:
             - Path=/api/upload/**
+          filters:
+            - StripPrefix=0
 
+      # HTTP 客户端配置
       httpclient:
-        proxy:
-          resolver:
-            type: default
-#    web-application-type: reactive
+        # 连接超时（毫秒）
+        connect-timeout: 5000
+        # 响应超时
+        response-timeout: 30s
+        pool:
+          # 连接池类型：elastic（弹性）/fixed（固定）/disabled（禁用）
+          type: elastic
+          # 弹性连接池最大连接数
+          max-connections: 1000
+          # 空闲连接的最大空闲时间
+          max-idle-time: 10s
+          # 连接最大生命周期
+          max-life-time: 60s
 
-#gateway:
-#  routes:
-#    config:
-#      data-id: gateway-routes  #动态路由
-#      group: shop
-#      namespace: mdx
-#
-## 这个是 jwt 的配置
-#jwt:
-#  tokenHeader: Authorization
-#  secret: mdx-secrt000001
-#  expiration: 604800 #秒
-#  prefix: Bearer
+# Gateway 自定义配置
+gateway:
+  config:
+    # 是否开启 JWT 鉴权
+    auth-enabled: false
+    # JWT 密钥（生产环境请使用复杂密钥，长度不小于32位）
+    jwt-secret: future-gateway-secret-key-2024
+    # JWT 过期时间（秒），默认7天
+    jwt-expiration: 604800
+    # 白名单路径（支持 Ant 路径模式）
+    white-list-paths:
+      - /api/sys/user/login
+      - /api/sys/user/register
+      - /api/upload/public/**
+    # 是否开启请求日志
+    log-enabled: true
+    # 是否开启响应日志
+    response-log-enabled: false
+    # 是否开启限流
+    rate-limit-enabled: false
+    # 限流桶容量
+    rate-limit-capacity: 100
+    # 限流速率（每秒令牌数）
+    rate-limit-tokens: 50
 
-# 不用登录就可以访问的接口
-#allowed:
-#  paths: /mdx-shop-user/user/login, /mdx-shop-order/order/getOrderNo
+# 日志配置
+logging:
+  level:
+    com.suven.framework.gateway: INFO
+    org.springframework.cloud.gateway: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+
+# Actuator 健康检查配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: when_authorized
