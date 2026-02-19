@@ -1,47 +1,42 @@
 spring:
+  application:
+    name: future-http-file
   cloud:
-    service-registry:
-      auto-registration:
-        enabled: false
-    #nacos 注册中心实现配置
+    # 禁用 Spring Cloud 兼容性检查
+    compatibility-verifier:
+      enabled: false
+    # Nacos 注册中心配置
     nacos:
       discovery:
-        server-addr: 192.168.2.201:8848
-        username: nacos
-        password: nacos
-        namespace: rpc-dubbo-yml
+        enabled: true  # 启用服务注册
+        server-addr: 192.168.3.100:8848
+        namespace: FUTURE-GROUP
         group: DEFAULT_GROUP
-        watch:
-          enabled: false
-
-      #nacos 注册中心实现配置
+        # Nacos 认证未开启，不需要用户名密码
+        # username: nacos
+        # password: nacos
+        prefer-ip-address: true
+        # 心跳配置
+        heart-beat-interval: 5000
+        heart-beat-timeout: 15000
+        # 元数据
+        metadata:
+          version: 1.0
+          region: default
       config:
-        enabled: true
-        server-addr: 192.168.2.201:8848
-        namespace: rpc-dubbo-yml
+        enabled: true  # 启用配置中心
+        server-addr: 192.168.3.100:8848
+        namespace: FUTURE-GROUP
         group: DEFAULT_GROUP
+        # Nacos 认证未开启，不需要用户名密码
+        # username: nacos
+        # password: nacos
         file-extension: yml
-        extension-configs[0]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
-        extension-configs[1]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
-        extension-configs[2]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
-#spring.cloud.service-registry.auto-registration.enabled
-#      config:
-#        server-addr: 192:168:2:201:8848
-#        namespace: rpc-dubbo-yml
-#        group: DEFAULT_GROUP
-#        file-extension: yml
-#        extension-configs[0]:
-#          data-id: rpc-dubbo-yml
-#          group: mdx
-#          refresh: false
-
-
+        # 禁用 import 检查（避免启动失败）
+        import-check:
+          enabled: false
+        # 共享配置
+        shared-configs:
+          - data-id: common.yml
+            group: DEFAULT_GROUP
+            refresh: true

@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * SaaS公司业务功能信息Repository
- * 
+ *
  * 统一封装对 saas_company_business_function 表的查询逻辑，
  * 避免在 Service 中直接拼装 MyBatis 查询条件。
  *
@@ -195,7 +195,7 @@ public class CompanyBusinessFunctionRepository extends AbstractMyBatisRepository
         CompanyBusinessFunction record = CompanyBusinessFunction.build().clone(queryObject);
         switch (queryEnum) {
             case DESC_ID: {
-                queryWrapper.eq("deleted", 0);
+        queryWrapper.eq("deleted", 0);
                 queryWrapper.orderByDesc("id");
                 break;
             }

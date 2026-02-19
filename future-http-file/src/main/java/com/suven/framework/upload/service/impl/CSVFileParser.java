@@ -310,7 +310,7 @@ public class CSVFileParser implements FileParseService {
             String validateRule = mapping.getValidateRule();
             if (ObjectTrue.isNotEmpty(validateRule)) {
                 try {
-                    if (!validateByRule(value.toString(), validateRule)) {
+                if (!validateByRule(value.toString(), validateRule)) {
                         log.warn("字段格式验证失败: {}, 值: {}, 规则: {}", fieldName, value, validateRule);
                         return false;
                     }
@@ -380,27 +380,27 @@ public class CSVFileParser implements FileParseService {
         inputStream.mark(4096);
         
         try {
-            byte[] buffer = new byte[4096];
-            int bytesRead = inputStream.read(buffer);
+        byte[] buffer = new byte[4096];
+        int bytesRead = inputStream.read(buffer);
             
             // 重置流到标记位置
-            inputStream.reset();
+        inputStream.reset();
 
             if (bytesRead <= 0) {
                 return Charset.forName(DEFAULT_CHARSET);
             }
 
             // 检测 UTF-8 BOM (EF BB BF)
-            if (bytesRead >= 3 && buffer[0] == (byte) 0xEF && buffer[1] == (byte) 0xBB && buffer[2] == (byte) 0xBF) {
-                log.info("检测到UTF-8 BOM");
-                return Charset.forName("UTF-8");
-            }
+        if (bytesRead >= 3 && buffer[0] == (byte) 0xEF && buffer[1] == (byte) 0xBB && buffer[2] == (byte) 0xBF) {
+            log.info("检测到UTF-8 BOM");
+            return Charset.forName("UTF-8");
+        }
 
             // 检测 UTF-16LE BOM (FF FE)
-            if (bytesRead >= 2 && buffer[0] == (byte) 0xFF && buffer[1] == (byte) 0xFE) {
+        if (bytesRead >= 2 && buffer[0] == (byte) 0xFF && buffer[1] == (byte) 0xFE) {
                 log.info("检测到UTF-16LE BOM");
-                return Charset.forName("UTF-16LE");
-            }
+            return Charset.forName("UTF-16LE");
+        }
 
             // 检测 UTF-16BE BOM (FE FF)
             if (bytesRead >= 2 && buffer[0] == (byte) 0xFE && buffer[1] == (byte) 0xFF) {

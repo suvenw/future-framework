@@ -8,16 +8,33 @@ spring:
     # 强制使用响应式 WebFlux 模式，避免误用 Servlet 模式
     web-application-type: reactive
   cloud:
+    # 禁用 Spring Cloud 兼容性检查
+    compatibility-verifier:
+      enabled: false
     nacos:
       discovery:
-        server-addr: 192.168.2.201:8848
-        namespace: rpc-dubbo-yml
+        enabled: true  # 启用服务注册
+        server-addr: 192.168.3.100:8848
+        namespace: FUTURE-GROUP
         group: DEFAULT_GROUP
-      config:
-        server-addr: 192.168.2.201:8848
-        namespace: DEFAULT_GROUP
         username: nacos
         password: nacos
+        # 注册时使用 IP 而不是 hostname
+        prefer-ip-address: true
+        # 心跳间隔（毫秒）
+        heart-beat-interval: 5000
+        # 心跳超时（毫秒）
+        heart-beat-timeout: 15000
+      config:
+        enabled: true  # 启用配置中心
+        server-addr: 192.168.3.100:8848
+        namespace: FUTURE-GROUP
+        group: DEFAULT_GROUP
+        username: nacos
+        password: nacos
+        file-extension: yml
+        # 配置文件 data-id
+        name: ${spring.application.name}
     gateway:
       # 是否开启网关
       enabled: true
@@ -117,3 +134,6 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+# 禁用 Dubbo（Gateway 不需要）
+dubbo:
+  enabled: false

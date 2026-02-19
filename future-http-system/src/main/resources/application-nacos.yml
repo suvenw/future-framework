@@ -1,20 +1,27 @@
 spring:
+  application:
+    name: future-http-system
   cloud:
     service-registry:
       auto-registration:
-        enabled: false
+        enabled: true
     #nacos 注册中心实现配置
     nacos:
       discovery:
+        enabled: true  # 启用服务注册
         server-addr: 192.168.3.100:8848
         username: nacos
         password: nacos
         namespace: rpc-dubbo-yml
         group: DEFAULT_GROUP
-        watch:
-          enabled: false
-
-      #nacos 注册中心实现配置
+        prefer-ip-address: true
+        # 心跳配置
+        heart-beat-interval: 5000
+        heart-beat-timeout: 15000
+        # 元数据
+        metadata:
+          version: 1.0
+          region: default
       config:
         enabled: true
         server-addr: 192.168.3.100:8848

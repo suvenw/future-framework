@@ -45,7 +45,7 @@ public class CustomWhiteFilter implements GlobalFilter, Ordered {
         }
 
         // 非白名单路径，目前仅透传，后续可以在此处添加统一鉴权/验签逻辑
-        return chain.filter(exchange);
+                return chain.filter(exchange);
     }
 
     private boolean isWhitelisted(String path) {

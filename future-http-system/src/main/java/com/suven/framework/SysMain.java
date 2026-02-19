@@ -1,13 +1,14 @@
 package com.suven.framework;
 
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import com.suven.framework.common.constants.GlobalConfigConstants;
 import com.suven.framework.http.inters.IProjectModule;
 import com.suven.framework.http.inters.ProjectModuleEnum;
 import com.suven.framework.http.jetty.AbstractJettyAppServer;
 
-
+@EnableDiscoveryClient
 @MapperScan(basePackages="com.suven.framework.*.mapper",sqlSessionFactoryRef = "sqlSessionFactory")
 @ComponentScan(basePackages={GlobalConfigConstants.COMPONENT_SCAN_BASE_PACKAGES})
 
