@@ -19,9 +19,20 @@ public class CustomFilterFactory extends AbstractGatewayFilterFactory<CustomFilt
 
     @Override
     public GatewayFilter apply(Config config) {
-        // create and return a filter based on the config
+        // 自定义 GatewayFilter 示例：
+        //  - 记录请求路径
+        //  - 为请求头添加一个标记，供下游服务使用
+        return (exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
+            String path = request.getURI().getRawPath();
+            logger.info("[Gateway][CustomFilterFactory] 进入自定义过滤器, path: {}", path);
 
-        return null;
+            ServerHttpRequest mutated = request.mutate()
+                    .headers(headers -> headers.addIfAbsent("X-Custom-Factory", "enabled"))
+                    .build();
+
+            return chain.filter(exchange.mutate().request(mutated).build());
+        };
     }
 
     public static class Config {

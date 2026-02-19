@@ -13,7 +13,7 @@ apply from: '../build-lib.gradle'
 
         implementation fileTree( dir: "lib", include: '*.jar' )
 
-        implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+        // 使用 Spring WebFlux 作为网关的响应式 Web 框架，移除阻塞式 spring-boot-starter-web 依赖
         implementation "org.springframework.boot:spring-boot-starter:${versions.spring_boot_version}"
         implementation "org.springframework.boot:spring-boot-starter-webflux:${versions.spring_boot_version}"
 
@@ -41,7 +41,11 @@ apply from: '../build-lib.gradle'
         implementation "com.alibaba.nacos:nacos-client:${versions.alibaba_nacos_version}"
         // ===================== 微服务服务 使用 nacos 作注册配置中心服务启动依赖包 =====================
 
-
+        // ===================== JWT 鉴权依赖 =====================
+        implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+        implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+        // ===================== JWT 鉴权依赖 =====================
 
 
 }

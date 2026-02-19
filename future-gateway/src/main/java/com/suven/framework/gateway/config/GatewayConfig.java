@@ -1,32 +1,17 @@
 package com.suven.framework.gateway.config;
 
-import com.suven.framework.gateway.filter.CustomGlobalFilter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import com.suven.framework.gateway.common.GatewayProperties;
 
+/**
+ * Gateway 核心配置类
+ * 启用 GatewayProperties 配置属性绑定
+ */
 @Configuration
+@EnableConfigurationProperties(GatewayProperties.class)
 public class GatewayConfig {
 
-//    @Bean
-//    public CustomGlobalFilter customGlobalFilter() {
-//        return new CustomGlobalFilter();
-//    }
-//
-//    @Bean
-//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-//        RouteLocatorBuilder.Builder route = builderRoute(builder);
-//        return route.build();
-//
-//    }
-//
-//    private  RouteLocatorBuilder.Builder builderRoute(RouteLocatorBuilder routes){
-//        RouteLocatorBuilder.Builder builder =  routes.routes().route("example_route", r -> r.path("/example")
-//                .uri("http://example.com"));
-//
-//       return builder;
-//    }
+    // 配置属性通过 @EnableConfigurationProperties 自动注入到 GatewayProperties
 
 }
