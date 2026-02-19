@@ -10,9 +10,7 @@ spring:
       discovery:
         enabled: true  # 启用服务注册
         server-addr: 192.168.3.100:8848
-        username: nacos
-        password: nacos
-        namespace: rpc-dubbo-yml
+        namespace: FUTURE-GROUP
         group: DEFAULT_GROUP
         prefer-ip-address: true
         # 心跳配置
@@ -25,21 +23,15 @@ spring:
       config:
         enabled: true
         server-addr: 192.168.3.100:8848
-        namespace: rpc-dubbo-yml
+        namespace: FUTURE-GROUP
         group: DEFAULT_GROUP
         file-extension: yml
-        extension-configs[0]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
-        extension-configs[1]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
-        extension-configs[2]:
-          data-id: rpc-dubbo-yml
-          group: DEFAULT_GROUP
-          refresh: true
+        import-check:
+          enabled: false
+        shared-configs:
+          - data-id: common.yml
+            group: DEFAULT_GROUP
+            refresh: true
 #spring.cloud.service-registry.auto-registration.enabled
 #      config:
 #        server-addr: 192:168:2:201:8848
