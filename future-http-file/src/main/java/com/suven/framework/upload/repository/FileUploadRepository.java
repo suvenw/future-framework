@@ -232,8 +232,8 @@ public class FileUploadRepository extends AbstractMyBatisRepository<FileUploadMa
         FileUpload record = FileUpload.build().clone(queryObject);
         switch (queryEnum) {
             case DESC_ID: {
-                queryWrapper.eq("deleted", 0);
-                queryWrapper.orderByDesc("id");
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByDesc("id");
                 break;
             }
             case BY_BUSINESS_FUNCTION_ID_DESC: {

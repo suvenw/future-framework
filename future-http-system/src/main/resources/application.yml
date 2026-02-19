@@ -1,6 +1,10 @@
 spring:
   profiles:
-    include: base,db,dubbo,redis,sms
+    include: base,nacos,db,dubbo,redis,sms
+  cloud:
+    # 禁用 Spring Cloud 兼容性检查
+    compatibility-verifier:
+      enabled: false
   datasource:
     sys:
       name: sys

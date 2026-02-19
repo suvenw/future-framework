@@ -2,12 +2,41 @@
 
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.1.5'
+    id 'io.spring.dependency-management' version '1.1.3'
+}
+
+// 强制使用 protobuf 3.x 版本以兼容 Nacos 3.0.2
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.protobuf:protobuf-java:3.25.5'
+    }
 }
 // 项目名称描述
 description = 'future-http-file'
 //引用项目的公共版包版本信息
 
 apply from: '../build-lib.gradle'
+
+// Spring Boot 配置
+springBoot {
+    mainClass = 'com.suven.framework.FileMain'
+}
+
+bootJar {
+    enabled = true
+    manifest {
+        attributes(
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+        )
+    }
+}
+
+jar {
+    enabled = false
+}
+
 //def libs = rootProject.ext.libVersions
 
 dependencies {
@@ -60,6 +89,22 @@ dependencies {
 
     implementation 'org.apache.curator:curator-framework:2.12.0'
     implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+
+    // ===================== Nacos 服务注册与配置中心 =====================
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap:${versions.spring_cloud_starter_version}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${versions.spring_cloud_alibaba_version}"
+    implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:${versions.spring_cloud_alibaba_version}"
+    implementation 'com.alibaba.spring:spring-context-support:1.0.11'
+    implementation "com.alibaba.nacos:nacos-api:${versions.alibaba_nacos_version}"
+    implementation "com.alibaba.nacos:nacos-common:${versions.alibaba_nacos_version}"
+    implementation "com.alibaba.nacos:nacos-client:${versions.alibaba_nacos_version}"
+    // 强制使用 protobuf 3.x 版本以兼容 Nacos 3.0.2
+    constraints {
+        implementation('com.google.protobuf:protobuf-java:3.25.5') {
+            because 'Nacos 3.0.2 requires protobuf 3.x compatibility'
+        }
+    }
+    // ===================== Nacos 服务注册与配置中心 =====================
 
     // 测试依赖
     testImplementation libraries."junit"
