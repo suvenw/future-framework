@@ -1,15 +1,21 @@
 // 项目名称描述,统一文件上传项目架构
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.5'
+    id 'org.springframework.boot' version '3.5.1'
     id 'io.spring.dependency-management' version '1.1.3'
 }
 
 // 强制使用 protobuf 3.x 版本以兼容 Nacos 3.0.2
+// 排除所有 Dubbo 依赖
 configurations.all {
     resolutionStrategy {
         force 'com.google.protobuf:protobuf-java:3.25.5'
     }
+//    exclude group: 'org.apache.dubbo', module: 'dubbo'
+//    exclude group: 'org.apache.dubbo', module: 'dubbo-spring-boot-starter'
+//    exclude group: 'org.apache.dubbo', module: 'dubbo-spring-boot-autoconfigure'
+//    exclude group: 'org.apache.dubbo', module: 'dubbo-spring-boot-actuator'
+//    exclude group: 'org.apache.dubbo', module: 'dubbo-spring-boot-compatible'
 }
 
 // 项目名称描述

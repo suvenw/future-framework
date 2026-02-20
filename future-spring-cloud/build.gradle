@@ -25,13 +25,6 @@ dependencies {
     api 'org.reflections:reflections:0.9.10'
     // ===================== Spring Cloud 基础依赖 =====================
 
-    // ===================== Dubbo RPC 依赖 =====================
-    api "org.apache.dubbo:dubbo:${versions.dubbo_version}"
-    api "org.apache.dubbo:dubbo-spring-boot-autoconfigure:${versions.dubbo_spring_boot_version}"
-    api "org.apache.dubbo:dubbo-spring-boot-actuator:${versions.dubbo_spring_boot_version}"
-    api "org.apache.dubbo:dubbo-spring-boot-compatible:${versions.dubbo_spring_boot_version}"
-    // ===================== Dubbo RPC 依赖 =====================
-
     // ===================== Spring Cloud Alibaba Nacos 依赖 =====================
     api "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${versions.spring_cloud_alibaba_version}"
     api "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:${versions.spring_cloud_alibaba_version}"

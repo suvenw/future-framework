@@ -23,10 +23,12 @@ import org.apache.commons.lang3.ClassUtils;
 import java.io.Serializable;
 import java.lang.reflect.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author 作者 : suven.wang
@@ -47,13 +49,14 @@ import java.util.Map;
 
 public class ClassUtil {
 
-	private static ImmutableSet<Class<? extends Serializable>> primitiveSet =
-			ImmutableSet.of( byte.class,Byte.class,char.class,short.class, Short.class,
-					int.class, Integer.class, long.class,Long.class,
-					float.class,Float.class,double.class, Double.class,
-				boolean.class,Boolean.class,String.class,Number.class);
+	private static final Set<Class<? extends Serializable>> primitiveSet =
+			Set.of(byte.class, Byte.class, char.class, short.class, Short.class,
+				int.class, Integer.class, long.class, Long.class,
+				float.class, Float.class, double.class, Double.class,
+				boolean.class, Boolean.class, String.class, Number.class);
 
-	private static Charset charset = Charset.forName("UTF-8");
+
+    private static final Charset charset = StandardCharsets.UTF_8;
 
 	/**
 	 * 确定class是否可以被加载

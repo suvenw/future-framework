@@ -1,8 +1,15 @@
 // 项目名称描述
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.1.5'
+    id 'org.springframework.boot' version '3.5.1'
     id 'io.spring.dependency-management' version '1.1.3'
+}
+
+// 强制使用 protobuf 3.x 版本以兼容 Nacos 3.0.2
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.protobuf:protobuf-java:3.25.5'
+    }
 }
 
 // 项目名称描述
@@ -21,6 +28,7 @@ bootJar {
         attributes(
             'Implementation-Title': project.name,
             'Implementation-Version': project.version,
+            'Main-Class': 'org.springframework.boot.loader.launch.JarLauncher'
         )
     }
 }
@@ -38,6 +46,7 @@ dependencies {
     implementation project(':future-global')
     implementation project(':future-doc')
     implementation project(':future-db')
+    implementation project(':future-http-client')
     
     // Spring Cloud Alibaba Nacos Starter（包含所有微服务注册配置）
     implementation project(':future-spring-cloud')
@@ -45,12 +54,14 @@ dependencies {
     // Web 容器
     implementation("org.springframework.boot:spring-boot-starter-jetty:${versions.spring_boot_version}")
     implementation("org.springframework.boot:spring-boot-starter-websocket:${versions.spring_boot_version}")
-    implementation 'org.eclipse.jetty:jetty-jndi:11.0.17'
 
-    // Lombok
-    implementation libraries."lombok"
-    annotationProcessor libraries."lombok"
-    compileOnly libraries."lombok"
+    // 数据访问
+    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
+    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
 
     // 工具库
     implementation libraries."fastjson"
@@ -63,25 +74,22 @@ dependencies {
     implementation libraries."commons-io"
     implementation libraries."easyexcel"
 
-    // 数据访问
-    implementation "com.baomidou:mybatis-plus:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-core:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-annotation:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-extension:${versions.mybatis_plus_version}"
-    implementation "com.baomidou:mybatis-plus-boot-starter:${versions.mybatis_plus_version}"
-    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
-
-    // 认证授权
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+
+    // Shiro
     implementation 'org.apache.shiro:shiro-spring:1.8.0'
     implementation 'org.apache.shiro:shiro-core:1.8.0'
     implementation 'org.apache.shiro:shiro-web:1.8.0'
     implementation 'org.apache.oltu.oauth2:org.apache.oltu.oauth2.authzserver:1.0.2'
 
-    // Web
-    implementation "org.springframework.boot:spring-boot-starter-web:${versions.spring_boot_version}"
+    // Lombok
+    implementation libraries."lombok"
+    annotationProcessor libraries."lombok"
+    compileOnly libraries."lombok"
 
     // 测试依赖
     testImplementation libraries."junit"
