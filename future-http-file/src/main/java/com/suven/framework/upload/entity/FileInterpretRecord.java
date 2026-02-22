@@ -72,6 +72,10 @@ public class FileInterpretRecord extends BaseTenantEntity {
     /** 解析后的中文数据 JSON（中文字段名 -> 值），用于业务处理 */
     @ApiDesc(value = "中文数据JSON", required = 0)
     private String chineseDataJson;
+    
+    /** 解释信息 JSON 存储（与 dataJson 相同，用于兼容） */
+    @ApiDesc(value = "解释信息JSON", required = 0)
+    private String interpretInfo;
 
     // ==================== 校验状态 ====================
     
@@ -213,6 +217,11 @@ public class FileInterpretRecord extends BaseTenantEntity {
 
     public FileInterpretRecord toChineseDataJson(String chineseDataJson) {
         this.chineseDataJson = chineseDataJson;
+        return this;
+    }
+
+    public FileInterpretRecord toInterpretInfo(String interpretInfo) {
+        this.interpretInfo = interpretInfo;
         return this;
     }
 

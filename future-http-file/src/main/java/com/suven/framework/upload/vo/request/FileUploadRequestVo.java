@@ -47,6 +47,28 @@ public class FileUploadRequestVo {
     @ApiDesc(value = "额外参数", required = 0)
     private Map<String, Object> extraParams;
 
+    // ==================== 以下字段用于兼容现有代码 ====================
+
+    /** 业务产品名称 */
+    @ApiDesc(value = "业务产品名称", required = 0)
+    private String fileProductName;
+
+    /** 业务名称 */
+    @ApiDesc(value = "业务名称", required = 0)
+    private String fileBusinessName;
+
+    /** 是否需要解释数据: 0-否, 1-是 */
+    @ApiDesc(value = "是否需要解释数据: 0-否, 1-是", required = 0)
+    private Integer interpretData;
+
+    /** 是否幂等: 0-否, 1-是 */
+    @ApiDesc(value = "是否幂等: 0-否, 1-是", required = 0)
+    private String idempotent;
+
+    /** 使用业务ID */
+    @ApiDesc(value = "使用业务ID", required = 0)
+    private Long useBusinessId;
+
     public static FileUploadRequestVo build() {
         return new FileUploadRequestVo();
     }
