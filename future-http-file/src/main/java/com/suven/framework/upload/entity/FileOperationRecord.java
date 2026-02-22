@@ -159,6 +159,10 @@ public class FileOperationRecord extends BaseTenantEntity {
     @ApiDesc(value = "最后回调时间", required = 0)
     private LocalDateTime lastCallbackTime;
     
+    /** 回调时间 */
+    @ApiDesc(value = "回调时间", required = 0)
+    private LocalDateTime callbackTime;
+    
     /** 回调响应结果 */
     @ApiDesc(value = "回调响应结果", required = 0)
     private String callbackResponse;
@@ -314,6 +318,11 @@ public class FileOperationRecord extends BaseTenantEntity {
 
     public FileOperationRecord toLastCallbackTime(LocalDateTime lastCallbackTime) {
         this.lastCallbackTime = lastCallbackTime;
+        return this;
+    }
+
+    public FileOperationRecord toCallbackTime(LocalDateTime callbackTime) {
+        this.callbackTime = callbackTime;
         return this;
     }
 

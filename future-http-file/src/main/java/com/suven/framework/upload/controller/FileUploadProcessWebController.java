@@ -127,7 +127,7 @@ public class FileUploadProcessWebController {
 
         } catch (Exception e) {
             log.error("上传文件异常", e);
-            throw new SystemRuntimeException(SysResultCodeEnum.SYS_ERROR, "上传文件失败: " + e.getMessage());
+            throw new SystemRuntimeException(SysResultCodeEnum.SYS_UNKOWNN_FAIL, "上传文件失败: " + e.getMessage());
         }
     }
 

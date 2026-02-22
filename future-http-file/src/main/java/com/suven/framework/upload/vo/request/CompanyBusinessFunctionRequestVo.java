@@ -70,7 +70,7 @@ public class CompanyBusinessFunctionRequestVo extends HttpRequestByPageVo {
 
     /** 状态: ACTIVE-启用, INACTIVE-停用, PENDING-待激活 */
     @ApiDesc(value = "状态: ACTIVE-启用, INACTIVE-停用, PENDING-待激活", required = 0)
-    private String status;
+    private String businessStatus;
 
     /** 是否需要数据检查: 0-否, 1-是 */
     @ApiDesc(value = "是否需要数据检查: 0-否, 1-是", required = 0)

@@ -23,13 +23,13 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
 
     private static final long serialVersionUID = 1L;
 
-    /** 操作记录ID */
-    @ApiDesc(value = "操作记录ID", required = 1)
-    private long operationRecordId;
+    /** ID */
+    @ApiDesc(value = "ID", required = 0)
+    private Long id;
 
-    /** 解释记录ID */
-    @ApiDesc(value = "解释记录ID", required = 0)
-    private long interpretRecordId;
+    /** 业务功能配置ID */
+    @ApiDesc(value = "业务功能配置ID", required = 1)
+    private long businessFunctionId;
 
     /** 字段英文名称 */
     @ApiDesc(value = "字段英文名称", required = 1)
@@ -47,6 +47,10 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
     @ApiDesc(value = "字段数据类型", required = 0)
     private String fieldType;
 
+    /** 字段长度或精度 */
+    @ApiDesc(value = "字段长度或精度", required = 0)
+    private int fieldLength;
+
     /** 是否为主键 */
     @ApiDesc(value = "是否为主键", required = 0)
     private int isPrimaryKey;
@@ -62,6 +66,18 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
     /** 字段描述 */
     @ApiDesc(value = "字段描述", required = 0)
     private String fieldDescription;
+
+    /** 字段格式验证规则 */
+    @ApiDesc(value = "字段格式验证规则", required = 0)
+    private String validateRule;
+
+    /** 字段转换规则 */
+    @ApiDesc(value = "字段转换规则", required = 0)
+    private String transformRule;
+
+    /** 字段示例值 */
+    @ApiDesc(value = "字段示例值", required = 0)
+    private String sampleValue;
 
     /** 数据总条数 */
     @ApiDesc(value = "数据总条数", required = 0)
@@ -79,10 +95,6 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
     @ApiDesc(value = "重复值数量", required = 0)
     private int duplicateCount;
 
-    /** 字段示例值 */
-    @ApiDesc(value = "字段示例值", required = 0)
-    private String sampleValue;
-
     /** 状态 */
     @ApiDesc(value = "状态", required = 0)
     private String status;
@@ -91,14 +103,25 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
         return new FileFieldResponseDto();
     }
 
-
-    public FileFieldResponseDto toOperationRecordId(long operationRecordId) {
-        this.operationRecordId = operationRecordId;
+    public FileFieldResponseDto clone(Object source) {
+        if (source == null) {
+            return this;
+        }
+        try {
+            org.springframework.beans.BeanUtils.copyProperties(source, this);
+        } catch (Exception e) {
+            // 忽略复制错误
+        }
         return this;
     }
 
-    public FileFieldResponseDto toInterpretRecordId(long interpretRecordId) {
-        this.interpretRecordId = interpretRecordId;
+    public FileFieldResponseDto toId(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public FileFieldResponseDto toBusinessFunctionId(long businessFunctionId) {
+        this.businessFunctionId = businessFunctionId;
         return this;
     }
 
@@ -122,6 +145,11 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
         return this;
     }
 
+    public FileFieldResponseDto toFieldLength(int fieldLength) {
+        this.fieldLength = fieldLength;
+        return this;
+    }
+
     public FileFieldResponseDto toIsPrimaryKey(int isPrimaryKey) {
         this.isPrimaryKey = isPrimaryKey;
         return this;
@@ -142,6 +170,21 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
         return this;
     }
 
+    public FileFieldResponseDto toValidateRule(String validateRule) {
+        this.validateRule = validateRule;
+        return this;
+    }
+
+    public FileFieldResponseDto toTransformRule(String transformRule) {
+        this.transformRule = transformRule;
+        return this;
+    }
+
+    public FileFieldResponseDto toSampleValue(String sampleValue) {
+        this.sampleValue = sampleValue;
+        return this;
+    }
+
     public FileFieldResponseDto toTotalCount(int totalCount) {
         this.totalCount = totalCount;
         return this;
@@ -159,11 +202,6 @@ public class FileFieldResponseDto extends BaseTenantEntity implements Serializab
 
     public FileFieldResponseDto toDuplicateCount(int duplicateCount) {
         this.duplicateCount = duplicateCount;
-        return this;
-    }
-
-    public FileFieldResponseDto toSampleValue(String sampleValue) {
-        this.sampleValue = sampleValue;
         return this;
     }
 
