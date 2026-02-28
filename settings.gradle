@@ -1,9 +1,15 @@
 rootProject.name = 'future-framework'
 
+// 核心模块
 include 'future-http', 'future-utils', 'future-global', 'future-plus', 'future-http-client', 'future-db'
 
+// 功能模块
 include 'future-http-file', 'future-http-system', 'swagger-ui-layer', 'future-doc'
 include 'future-gateway', 'future-spring-cloud', 'future-spring-dubbo', 'future-spring-dubbo-consumer', 'future-poems-service'
 
+// 其他模块
 include 'future-wx-api'
 include 'future-generator'
+
+// 测试架构模块（新增）
+include 'future-test'

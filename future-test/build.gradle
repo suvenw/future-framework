@@ -1,0 +1,58 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    // Spring Boot Test
+    api 'org.springframework.boot:spring-boot-starter-test:3.5.1'
+    
+    // JUnit 5
+    api 'org.junit.jupiter:junit-jupiter:5.11.0'
+    api 'org.junit.jupiter:junit-jupiter-params:5.11.0'
+    
+    // Mockito
+    api 'org.mockito:mockito-core:5.12.0'
+    api 'org.mockito:mockito-junit-jupiter:5.12.0'
+    
+    // AssertJ
+    api 'org.assertj:assertj-core:3.26.0'
+    
+    // 数据库测试
+    api 'com.h2database:h2:2.2.224'
+    api 'org.testcontainers:junit-jupiter:1.20.0'
+    api 'org.testcontainers:mysql:1.20.0'
+    
+    // 性能测试
+    api 'org.openjdk.jmh:jmh-core:1.37'
+    api 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
+    
+    // 安全测试
+    api 'com.github.javafaker:javafaker:1.0.2'
+    
+    // JSON 测试
+    api 'com.jayway.jsonpath:json-path:2.9.0'
+    
+    // Web 测试
+    api 'org.springframework:spring-test:6.2.0'
+    
+    // 其他工具
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+}
+
+// 发布配置
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
