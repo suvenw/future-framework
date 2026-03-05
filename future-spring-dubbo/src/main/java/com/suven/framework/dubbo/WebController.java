@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebController {
 
+    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+
 //    @DubboReference
     @Autowired
     private DemoService demoService;
-
-    private Logger logger = LoggerFactory.getLogger(WebController.class);
 
     @GetMapping("/test/{p}")
     public String test(@PathVariable("p") String param) {

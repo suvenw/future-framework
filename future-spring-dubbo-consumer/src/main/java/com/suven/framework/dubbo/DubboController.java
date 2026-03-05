@@ -17,9 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DubboController {
 
+    private static final Logger logger = LoggerFactory.getLogger(DubboController.class);
+
     @DubboReference
     private DemoService demoService;
-    private Logger logger = LoggerFactory.getLogger(DubboController.class);
 
     @GetMapping("/test/{p}")
     public String test(@PathVariable("p") String param) {
