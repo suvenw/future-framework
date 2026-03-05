@@ -7,7 +7,7 @@ plugins {
 
 
 group = 'com.suven.framework'
-version = '0.1.57-releases'
+version = 'v1.0.1-releases'
 def name = 'future-framework'
 
 // Nexus 配置
@@ -19,7 +19,7 @@ def nexusPassword = project.findProperty('nexusPassword') ?: System.getenv('NEXU
 def githubOwner = project.findProperty('githubOwner') ?: System.getenv('GITHUB_OWNER') ?: 'suvenw'
 def githubRepo = project.findProperty('githubRepo') ?: System.getenv('GITHUB_REPO') ?: 'future-framework'
 def githubUsername = project.findProperty('githubUsername') ?: System.getenv('GITHUB_USERNAME') ?: ''
-def githubToken = project.findProperty('githubToken') ?: System.getenv('GITHUB_TOKEN') ?: ''
+def githubToken = project.findProperty('githubToken') ?: System.getenv('GITHUB_TOKEN') ?: System.getenv('GH_TOKEN') ?: ''
 
 // Gitee Packages 配置
 def giteeOwner = project.findProperty('giteeOwner') ?: System.getenv('GITEE_OWNER') ?: 'suvenw'
