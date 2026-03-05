@@ -4,7 +4,7 @@ rootProject.name = 'future-framework'
 include 'future-http', 'future-utils', 'future-global', 'future-plus', 'future-http-client', 'future-db'
 
 // 功能模块
-include 'future-http-file', 'future-http-system', 'swagger-ui-layer', 'future-doc'
+include 'future-http-file', 'future-http-system', 'future-doc'
 include 'future-gateway', 'future-spring-cloud', 'future-spring-dubbo', 'future-spring-dubbo-consumer', 'future-poems-service'
 
 // 其他模块
