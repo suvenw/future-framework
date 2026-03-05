@@ -104,6 +104,8 @@ export GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 
 ### 3. Gitee Packages 配置
 
+**⚠️ 重要提示：Gitee 的 Maven Packages 功能可能需要企业版或专业版订阅才能使用。免费版用户可能会遇到 404 错误。**
+
 #### 步骤 1：创建 Personal Access Token
 
 1. 访问 https://gitee.com/profile/personal_access_tokens
@@ -135,6 +137,19 @@ export GITEE_TOKEN=xxxxxxxxxxxxxxxxxxxx
 ```bash
 ./gradlew publishToGitee -PenableGitee
 ```
+
+#### 常见问题
+
+**Q: 发布时返回 404 错误？**
+A: 这可能是因为：
+1. 您的 Gitee 账户没有开通 Packages 功能（需要企业版/专业版）
+2. 仓库路径不正确
+3. Token 权限不足
+
+**解决方案：**
+- 升级 Gitee 账户到企业版或专业版
+- 或者使用 GitHub Packages 作为替代方案
+- 或者只使用 Nexus 私有仓库
 
 ## 在其他项目中使用
 
@@ -179,7 +194,7 @@ dependencies {
 ```groovy
 repositories {
     maven {
-        url "https://gitee.com/suvenw/future-framework/packages/maven"
+        url "https://gitee.com/api/v5/repos/suvenw/future-framework/packages/maven"
         credentials {
             username = "your-gitee-username"
             password = "your-gitee-token"
