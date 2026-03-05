@@ -8,7 +8,6 @@ import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.http.data.vo.HttpRequestByIdListVo;
 import com.suven.framework.http.data.vo.HttpRequestByIdVo;
-import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.upload.dto.request.FileUploadStorageRequestDto;
 import com.suven.framework.upload.dto.response.FileUploadStorageResponseDto;
 import com.suven.framework.upload.dto.enums.FileUploadStorageQueryEnum;
@@ -22,7 +21,6 @@ import jakarta.servlet.http.HttpServletResponse;
  
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +33,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * @author 作者 : suven
@@ -68,7 +69,7 @@ import java.util.List;
         groupDesc = DocumentConst.Sys.SYS_DOC_DES,
         module = "文件上传存储配置模块"
 )
-@Controller
+@RestController
 @Slf4j
 @Validated
 public class FileUploadStorageWebController {
@@ -389,7 +390,6 @@ public class FileUploadStorageWebController {
     /**
      * 导出文件上传存储配置信息
      *
-     * @param response 响应流
      * @param fileUploadStorageQueryRequestVo 查询参数
      * @author suven
      * date 2024-04-18 23:55:18
