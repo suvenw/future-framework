@@ -1,7 +1,7 @@
 package com.suven.framework.util.createcode.doc;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.http.api.ApiDesc;
 import org.apache.commons.lang3.ClassUtils;
 

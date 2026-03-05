@@ -1,7 +1,7 @@
 package com.suven.framework.core.rocketmq;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 
 /**

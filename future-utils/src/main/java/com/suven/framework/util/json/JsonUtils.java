@@ -1,8 +1,8 @@
 package com.suven.framework.util.json;
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter.Feature;
 import com.google.common.collect.ImmutableSet;
 import com.suven.framework.core.ObjectTrue;
 import org.apache.commons.lang3.StringUtils;
@@ -80,10 +80,7 @@ public abstract class JsonUtils{
 
     private static String toJSONStringConvertNull(Object object) {
         return JSON.toJSONString(object,
-                SerializerFeature.DisableCircularReferenceDetect,
-                SerializerFeature.WriteNullStringAsEmpty,
-                SerializerFeature.WriteMapNullValue,
-                SerializerFeature.WriteNullListAsEmpty);
+                Feature.WriteNulls);
     }
     public static String toJson(Object object) {
         try {
@@ -97,8 +94,8 @@ public abstract class JsonUtils{
         }
     }
     public static String toJSONEnumNoUsingName(Object bean){
-        int features = SerializerFeature.config(JSON.DEFAULT_GENERATE_FEATURE, SerializerFeature.WriteEnumUsingName, false);
-        return JSON.toJSONString(bean,features);
+        // fastjson2 默认使用 enum 的 ordinal 值，不需要额外配置
+        return JSON.toJSONString(bean);
     }
 
 

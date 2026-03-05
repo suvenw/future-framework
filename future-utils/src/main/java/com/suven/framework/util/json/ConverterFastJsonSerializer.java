@@ -1,9 +1,6 @@
 package com.suven.framework.util.json;
 
-import com.alibaba.fastjson.parser.DefaultJSONParser;
-import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
-import com.alibaba.fastjson.serializer.JSONSerializer;
-import com.alibaba.fastjson.serializer.ObjectSerializer;
+
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -12,6 +9,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+/**
+ * fastjson2 自定义序列化器
+ * 使用 ObjectWriter 和 ObjectReader 接口替代 fastjson1.x 的 ObjectSerializer/ObjectDeserializer
+ */
 public class ConverterFastJsonSerializer {
 
 
@@ -25,15 +26,15 @@ public class ConverterFastJsonSerializer {
      * @author Chimm Huang
      * date 2020/3/7
      */
-    public static class LocalDateTimeSerializer implements ObjectSerializer {
+    public static class LocalDateTimeSerializer implements com.alibaba.fastjson2.writer.ObjectWriter<LocalDateTime> {
         @Override
-        public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+        public void write(com.alibaba.fastjson2.JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
             if (object != null && object instanceof LocalDateTime) {
                 LocalDateTime localDateTime = (LocalDateTime) object;
                 //将localDateTime转换为中国区（+8）时间戳。
-                serializer.write(localDateTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
+                jsonWriter.writeInt64(localDateTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
             } else {
-                serializer.write(null);
+                jsonWriter.writeNull();
             }
         }
     }
@@ -45,48 +46,30 @@ public class ConverterFastJsonSerializer {
      * @author Chimm Huang
      * date 2020/3/7
      */
-    public static class LocalDateTimeDeserializer implements ObjectDeserializer {
+    public static class LocalDateTimeDeserializer implements com.alibaba.fastjson2.reader.ObjectReader<LocalDateTime> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public LocalDateTime deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
+        public LocalDateTime readObject(com.alibaba.fastjson2.JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
+            Long timestamp = jsonReader.readInt64();
 
-            String timestampStr = parser.getLexer().numberString();
-
-            if (Objects.isNull(timestampStr)) {
+            if (timestamp == null || timestamp == 0) {
                 return null;
             }
 
-            timestampStr = timestampStr.replaceAll("\"", "");
-
-            long timestamp = Long.parseLong(timestampStr);
-            if(timestamp == 0) {
-                return null;
-            }
             return Instant.ofEpochMilli(timestamp).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
-        }
-
-        @Override
-        public int getFastMatchToken() {
-            return 0;
         }
     }
 
 
 
 
-
-    public static class LongDeserializer implements ObjectDeserializer {
+    public static class LongDeserializer implements com.alibaba.fastjson2.reader.ObjectReader<Long> {
 
         @Override
         @SuppressWarnings("unchecked")
-        public Long deserialze(DefaultJSONParser parser, Type type, Object fieldName) {
-
-//            Type type = type.getType();
-            if (!type.equals(Long.TYPE)|| type.equals(long.class)) {
-                return null;
-            }
-            String data = parser.getLexer().numberString();
+        public Long readObject(com.alibaba.fastjson2.JSONReader jsonReader, Type fieldType, Object fieldName, long features) {
+            String data = jsonReader.readString();
 
             if (Objects.isNull(data)) {
                 return null;
@@ -98,25 +81,20 @@ public class ConverterFastJsonSerializer {
             }
             return id;
         }
-
-        @Override
-        public int getFastMatchToken() {
-            return 0;
-        }
     }
 
-    public static class LongSerializer implements ObjectSerializer {
+    public static class LongSerializer implements com.alibaba.fastjson2.writer.ObjectWriter<Long> {
         @Override
-        public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
+        public void write(com.alibaba.fastjson2.JSONWriter jsonWriter, Object object, Object fieldName, Type fieldType, long features) {
             if (object == null){
-                serializer.write(null);
+                jsonWriter.writeNull();
                 return;
             }
-            if ( object instanceof Long || fieldType.equals(Long.TYPE)) {
-                serializer.write(String.valueOf(object));
+            if ( object instanceof Long) {
+                jsonWriter.writeString(String.valueOf(object));
                 return;
             }
-            serializer.write(object);
+            jsonWriter.writeAny(object);
 
         }
     }

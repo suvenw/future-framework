@@ -1,7 +1,7 @@
 package com.suven.framework.sys.facade;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.common.constants.CommonConstant;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.common.enums.SystemMsgCodeEnum;

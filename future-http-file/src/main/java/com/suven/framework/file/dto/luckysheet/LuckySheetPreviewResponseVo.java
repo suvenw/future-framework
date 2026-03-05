@@ -1,7 +1,7 @@
 package com.suven.framework.file.dto.luckysheet;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.http.api.ApiDesc;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,6 @@
 package com.suven.framework.upload.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.http.data.entity.Pager;
 import com.suven.framework.http.data.entity.PageResult;
 import com.suven.framework.upload.dto.request.FileDataQueryRequestVo;

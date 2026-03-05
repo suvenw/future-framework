@@ -1,7 +1,7 @@
 package com.suven.framework.common.platform;
 
 import com.suven.framework.util.json.JsonUtils;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.codec.binary.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
