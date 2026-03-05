@@ -1,6 +1,8 @@
 package com.suven.framework.util.io;
 
+import com.suven.framework.core.ObjectTrue;
 import com.suven.framework.util.http.OkHttpClients;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import java.io.*;
@@ -12,60 +14,76 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 
 /**
- * Title: FileToByteArrayUtils.java
+ * Java实现读取文件到Byte数组
+ * <p>
+ * 提供多种方式读取文件为字节数组，包括传统IO方式、NIO方式、MappedByteBuffer方式等。
+ * 同时支持网络图片下载功能。
+ * </p>
+ *
  * @author Joven.wang
- * date   2019-10-18 12:35:25
+ * @date 2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * </pre>
- * Description: (说明) java实现读取文件到Byte数组
  * Copyright: (c) 2018 gc by https://www.suven.top
- *
  */
+@Slf4j
 public class FileToByteArrayUtils {
 
+    /**
+     * 将文件转换为字节数组
+     * <p>
+     * 使用FileInputStream读取文件内容到字节数组。
+     * </p>
+     *
+     * @param filePath 文件路径
+     * @return 字节数组，如果文件过大则返回null
+     * @throws IOException 读取文件时发生错误
+     */
     public static byte[] toByteArray(String filePath) throws IOException {
         File file = new File(filePath);
         long fileSize = file.length();
         if (fileSize > Integer.MAX_VALUE) {
-            System.out.println("file too big...");
+            log.error("File too large to read into byte array: {}, size: {} bytes", filePath, fileSize);
             return null;
         }
-        FileInputStream fi = new FileInputStream(file);
-        byte[] buffer = new byte[(int) fileSize];
-        int offset = 0;
-        int numRead = 0;
-        while (offset < buffer.length && (numRead = fi.read(buffer, offset, buffer.length - offset)) >= 0) {
-            offset += numRead;
+        try (FileInputStream fi = new FileInputStream(file)) {
+            byte[] buffer = new byte[(int) fileSize];
+            int offset = 0;
+            int numRead = 0;
+            while (offset < buffer.length && (numRead = fi.read(buffer, offset, buffer.length - offset)) >= 0) {
+                offset += numRead;
+            }
+            // 确保所有数据均被读取
+            if (offset != buffer.length) {
+                throw new IOException("Could not completely read file " + file.getName());
+            }
+            return buffer;
         }
-        // 确保所有数据均被读取
-        if (offset != buffer.length) {
-            throw new IOException("Could not completely read file "
-                    + file.getName());
-        }
-        fi.close();
-        return buffer;
     }
 
     /**
-     * the traditional io way
-     * @param filename
-     * @return
-     * @throws IOException
+     * 使用传统IO方式读取文件到字节数组
+     * <p>
+     * 使用BufferedInputStream和ByteArrayOutputStream实现缓冲读取。
+     * </p>
+     *
+     * @param filename 文件名
+     * @return 字节数组
+     * @throws IOException 读取文件时发生错误
      */
     public static byte[] toByteRead(String filename) throws IOException {
 
         File f = new File(filename);
         if (!f.exists()) {
+            log.error("File not found: {}", filename);
             throw new FileNotFoundException(filename);
         }
 
-        ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length());
-        BufferedInputStream in = null;
-        try {
-            in = new BufferedInputStream(new FileInputStream(f));
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length());
+             BufferedInputStream in = new BufferedInputStream(new FileInputStream(f))) {
             int buf_size = 1024;
             byte[] buffer = new byte[buf_size];
             int len = 0;
@@ -74,172 +92,176 @@ public class FileToByteArrayUtils {
             }
             return bos.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error reading file with toByteRead method: {}", filename, e);
             throw e;
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            bos.close();
         }
     }
 
     /**
-     * NIO way
-     * @param filename
-     * @return
-     * @throws IOException
+     * 使用NIO方式读取文件到字节数组
+     * <p>
+     * 使用FileChannel和ByteBuffer实现高效的NIO读取。
+     * </p>
+     *
+     * @param filename 文件名
+     * @return 字节数组
+     * @throws IOException 读取文件时发生错误
      */
     public static byte[] toFileChannel(String filename) throws IOException {
 
         File f = new File(filename);
         if (!f.exists()) {
+            log.error("File not found: {}", filename);
             throw new FileNotFoundException(filename);
         }
 
-        FileChannel channel = null;
-        FileInputStream fs = null;
-        try {
-            fs = new FileInputStream(f);
-            channel = fs.getChannel();
+        try (FileInputStream fs = new FileInputStream(f);
+             FileChannel channel = fs.getChannel()) {
             ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
             while ((channel.read(byteBuffer)) > 0) {
                 // do nothing
             }
             return byteBuffer.array();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error reading file with toFileChannel method: {}", filename, e);
             throw e;
-        } finally {
-            try {
-                channel.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                fs.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
     /**
-     * Mapped File way MappedByteBuffer 可以在处理大文件时，提升性能
-     * @param filename
-     * @return
-     * @throws IOException
+     * 使用MappedByteBuffer方式读取文件到字节数组
+     * <p>
+     * MappedByteBuffer可以在处理大文件时提升性能，通过内存映射文件实现。
+     * </p>
+     *
+     * @param filename 文件名
+     * @return 字节数组
+     * @throws IOException 读取文件时发生错误
      */
     public static byte[] toAccessFile(String filename) throws IOException {
 
         FileChannel fc = null;
         try {
             fc = new RandomAccessFile(filename, "r").getChannel();
-            MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0,fc.size()).load();
-            //System.out.println(byteBuffer.isLoaded());
+            MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0, fc.size()).load();
             byte[] result = new byte[(int) fc.size()];
             if (byteBuffer.remaining() > 0) {
-                // System.out.println("remain");
                 byteBuffer.get(result, 0, byteBuffer.remaining());
             }
             return result;
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error reading file with toAccessFile method: {}", filename, e);
             throw e;
         } finally {
             try {
-                fc.close();
+                if(fc != null) {
+                    fc.close();
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Error closing FileChannel in toAccessFile method: {}", filename, e);
             }
         }
     }
 
+    /**
+     * 使用RandomAccessFile按指定偏移量读取文件块到字节数组
+     *
+     * @param filePath 文件路径
+     * @param startPoint 起始位置偏移量
+     * @param blockSize 读取的块大小
+     * @return 字节数组，读取失败返回null
+     * @throws IOException 读取文件时发生错误
+     */
     public static byte[] toAccessFile(String filePath, int startPoint, int blockSize) throws IOException {
-        RandomAccessFile accessFile;
-        ByteArrayOutputStream os ;
         File file = new File(filePath);
         if (!file.exists()) {
+            log.error("File not found: {}", filePath);
             throw new FileNotFoundException(filePath);
         }
-        try {
-            accessFile = new RandomAccessFile(file, "r");
-            os = new ByteArrayOutputStream(blockSize);
 
+        try (RandomAccessFile accessFile = new RandomAccessFile(file, "r");
+             ByteArrayOutputStream os = new ByteArrayOutputStream(blockSize)) {
             byte[] bytes = new byte[blockSize];
-            accessFile.seek(startPoint);// 移动指针到每“段”开头
+            accessFile.seek(startPoint); // 移动指针到每"段"开头
             int length = accessFile.read(bytes);
             os.write(bytes, 0, length);
             os.flush();
-            os.close();
             return os.toByteArray();
         } catch (IOException e) {
-                e.printStackTrace();
+            log.error("Error reading file with toAccessFile(position) method: {}, startPos: {}, blockSize: {}",
+                    filePath, startPoint, blockSize, e);
         }
         return null;
     }
 
     /**
-     * 追加缓存文件
-     * 返回当前位子
-     * @param writeFilePath
-     * @param blockSize
-     * @param position
+     * 追加内容到文件指定位置
+     * <p>
+     * 在文件指定位置写入数据块，返回写入后的当前位置。
+     * </p>
+     *
+     * @param writeFilePath 写入文件路径
+     * @param blockSize 要写入的数据块
+     * @param position 写入位置
+     * @return 当前文件位置
      */
-    public static long toAccessFilePosition(String writeFilePath , byte[] blockSize, long position) {
+    public static long toAccessFilePosition(String writeFilePath, byte[] blockSize, long position) {
         File file = new File(writeFilePath);
-        return toAccessFilePosition(file,blockSize,position);
+        return toAccessFilePosition(file, blockSize, position);
     }
 
     /**
-     * 追加缓存文件
-     * 返回当前位子
-     * @param writeFile
-     * @param blockSize
-     * @param position
+     * 追加内容到文件指定位置
+     * <p>
+     * 在文件指定位置写入数据块，返回写入后的当前位置。
+     * </p>
+     *
+     * @param writeFile 写入文件对象
+     * @param blockSize 要写入的数据块
+     * @param position 写入位置
+     * @return 当前文件位置
      */
-    public static long toAccessFilePosition(File writeFile , byte[] blockSize, long position) {
+    public static long toAccessFilePosition(File writeFile, byte[] blockSize, long position) {
 
-        RandomAccessFile outStream = null;
-        try {
+        try (RandomAccessFile outStream = new RandomAccessFile(writeFile, "rwd")) {
             if(writeFile.length() != position){
+                log.warn("File length {} does not match position {}, returning file length", writeFile.length(), position);
                 return writeFile.length();
             }
-            outStream = new RandomAccessFile(writeFile, "rwd");
             outStream.seek(position);
             outStream.write(blockSize);
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                if(outStream != null){
-                    outStream.close();
-                }
-            } catch (IOException e) {
-            }
+            log.error("Error writing to file with toAccessFilePosition method: {}, position: {}",
+                    writeFile.getPath(), position, e);
         }
 
-        return writeFile == null ? 0 : writeFile.length();
+        return ObjectTrue.isEmpty(writeFile) ? 0 : writeFile.length();
     }
 
-    //链接url下载图片
-    public static boolean downloadPicture(String urlPath,String writePath) {
+    /**
+     * 通过URL下载图片
+     * <p>
+     * 使用OkHttp客户端下载网络图片并保存到本地。
+     * </p>
+     *
+     * @param urlPath 图片URL地址
+     * @param writePath 本地保存路径
+     * @return 下载是否成功
+     */
+    public static boolean downloadPicture(String urlPath, String writePath) {
         try {
-            byte[] data = OkHttpClients.getHttp(urlPath,null);
-            writeInputStream(data,writePath);
+            byte[] data = OkHttpClients.getHttp(urlPath, null);
+            writeInputStream(data, writePath);
+            log.info("Successfully downloaded picture from {} to {}", urlPath, writePath);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error downloading picture from {} to {}", urlPath, writePath, e);
         }
         return false;
     }
     /**
      * 网络图片下载
+     *
      * @param imageUrl 图片url
      * @param formatName 文件格式名称
      * @param localFile 下载到本地文件
@@ -247,14 +269,18 @@ public class FileToByteArrayUtils {
      */
     public static boolean downloadImage(String imageUrl, String formatName, String localFile) {
         boolean isSuccess = false;
-        URL url = null;
         try {
-            url = new URL(imageUrl);
+            URL url = new URL(imageUrl);
             isSuccess = ImageIO.write(ImageIO.read(url), formatName, new File(localFile));
+            if (isSuccess) {
+                log.info("Successfully downloaded image from {} to {}", imageUrl, localFile);
+            } else {
+                log.warn("Failed to download image from {} to {}", imageUrl, localFile);
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IO error downloading image from {} to {}", imageUrl, localFile, e);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Unexpected error downloading image from {} to {}", imageUrl, localFile, e);
         }
         return isSuccess;
     }
@@ -262,91 +288,79 @@ public class FileToByteArrayUtils {
 
 
     /**
-     * @param urlPath
+     * 从网络URL读取字节数据
+     * <p>
+     * 使用HttpURLConnection从指定URL读取二进制数据。
+     * </p>
+     *
+     * @param urlPath 网络URL地址
+     * @return 字节数组，读取失败返回null
      */
-    public static  byte[] readNetInputStream(String urlPath){
-        FileOutputStream outStream = null;
+    public static byte[] readNetInputStream(String urlPath) {
+        HttpURLConnection conn = null;
         try {
-            //new一个URL对象
             URL url = new URL(urlPath);
-            //打开链接
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //设置请求方式为"GET"
+            conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
-            //超时响应时间为5秒  这里先设置为20s
             conn.setConnectTimeout(20 * 1000);
             conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
-            //通过输入流获取图片数据
             InputStream inStream = conn.getInputStream();
-            //得到图片的二进制数据，以二进制封装得到数据，具有通用性
-            byte[] data = readInputStream(inStream);
-            return data;
-            //new一个文件对象用来保存图片，默认保存当前工程根目录
-//            File imageFile = new File(path);
-//            //创建输出流
-//            outStream = new FileOutputStream(imageFile);
-//            //写入数据
-//            outStream.write(data);
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            //关闭输出流
-//            outStream.close();
+            byte[] result = readInputStream(inStream);
+            if (result != null) {
+                log.info("Successfully read data from URL: {}", urlPath);
+            }
+            return result;
+        } catch (Exception e) {
+            log.error("Error reading data from URL: {}", urlPath, e);
+        } finally {
+            if(conn != null) {
+                conn.disconnect();
+            }
         }
         return null;
-
     }
 
-    public static void writeInputStream(byte[] data,String writePath){
-        FileOutputStream outStream = null;
-        try {
-            //new一个文件对象用来保存图片，默认保存当前工程根目录
-            File imageFile = new File(writePath);
-            //创建输出流
-            outStream = new FileOutputStream(imageFile);
-            //写入数据
+    /**
+     * 将字节数据写入文件
+     *
+     * @param data 字节数据
+     * @param writePath 写入路径
+     */
+    public static void writeInputStream(byte[] data, String writePath) {
+        try (FileOutputStream outStream = new FileOutputStream(writePath)) {
             outStream.write(data);
-//         关闭输出流
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-           try{
-               if(null != outStream){
-                   outStream.close();
-               }
-           }catch (Exception ex){
-
-           }
+            log.info("Successfully wrote data to file: {}, size: {} bytes", writePath, data.length);
+        } catch (Exception e) {
+            log.error("Error writing data to file: {}", writePath, e);
         }
-
     }
 
-    public static byte[] readInputStream(InputStream inStream){
-        try {
-            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-            //创建一个Buffer字符串
+    /**
+     * 从输入流读取字节数据
+     * <p>
+     * 使用缓冲区从输入流中读取数据到字节数组。
+     * </p>
+     *
+     * @param inStream 输入流
+     * @return 字节数组，读取失败返回null
+     */
+    public static byte[] readInputStream(InputStream inStream) {
+        try (ByteArrayOutputStream outStream = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[1024];
-            //每次读取的字符串长度，如果为-1，代表全部读取完毕
             int len = 0;
-            //使用一个输入流从buffer里把数据读取出来
-            while( (len=inStream.read(buffer)) != -1 ){
-                //用输出流往buffer里写入数据，中间参数代表从哪个位置开始读，len代表读取的长度
+            while ((len = inStream.read(buffer)) != -1) {
                 outStream.write(buffer, 0, len);
             }
-            //把outStream里的数据写入内存
             return outStream.toByteArray();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
-        }finally{
+            log.error("Error reading from input stream", e);
+        } finally {
             try {
                 if(inStream != null){
-                    //关闭输入流
                     inStream.close();
                 }
             } catch (IOException e) {
+                log.error("Error closing input stream", e);
             }
         }
         return null;

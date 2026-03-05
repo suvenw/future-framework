@@ -16,7 +16,7 @@
 
 package com.suven.framework.http.util;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.suven.framework.http.constants.HttpClientConstants;
 import com.suven.framework.http.exception.HttpClientRuntimeException;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -37,7 +37,8 @@ import java.util.function.BiConsumer;
  * @version 版本: v1.0.0
  * <pre>
  *
- *  @Description (说明): http 网络请求参数转换实现类
+ *  @Description (说明): HTTP网络请求参数转换工具类
+ *  提供参数编码解码、Map与字符串互转、对象转Map、签名生成等功能
  *
  * </pre>
  * <pre>
@@ -46,10 +47,15 @@ import java.util.function.BiConsumer;
  * </pre>
  * Copyright: (c) 2021 gc by https://www.suven.top
  **/
-
 public class HttpParamsUtil {
 
+	/**
+	 * MD5加密算法标识
+	 */
 	private final static String MD5_CRYPT = "MD5";
+	/**
+	 * UTF-8字符集编码
+	 */
 	private static final String URF_8 = "UTF-8";
 	/**
 	 * 判断 map 不为空
@@ -152,14 +158,15 @@ public class HttpParamsUtil {
 	}
 
 	/**
-	 * 遍历
+	 * 遍历Map对象，对每个键值对执行指定操作
+	 * 键和值会转换为字符串类型传递给操作函数
 	 *
-	 * @param map    待遍历的 map
-	 * @param action 操作
-	 * @param <K>    map键泛型
-	 * @param <V>    map值泛型
+	 * @param map 待遍历的map，可以为null
+	 * @param action 要执行的操作，接收两个String参数，可以为null
+	 * @param <K> map键泛型
+	 * @param <V> map值泛型
 	 */
-	public static <K, V> void  forFunction(Map<K, V> map, BiConsumer<String,String> action) {
+	public static <K, V> void forFunction(Map<K, V> map, BiConsumer<String,String> action) {
 		if (isEmpty(map) || action == null) {
 			return;
 		}
@@ -178,15 +185,16 @@ public class HttpParamsUtil {
 			action.accept(key, value);
 		}
 	}
+
 	/**
-	 * 遍历
+	 * 遍历Map对象，对每个键值对执行指定操作
 	 *
-	 * @param map    待遍历的 map
-	 * @param action 操作
-	 * @param <K>    map键泛型
-	 * @param <V>    map值泛型
+	 * @param map 待遍历的map，可以为null
+	 * @param action 要执行的操作，可以为null
+	 * @param <K> map键泛型
+	 * @param <V> map值泛型
 	 */
-	public static <K, V> void  forEach(Map<K, V> map, BiConsumer<? super K, ? super V> action) {
+	public static <K, V> void forEach(Map<K, V> map, BiConsumer<? super K, ? super V> action) {
 		if (isEmpty(map) || action == null) {
 			return;
 		}
@@ -348,12 +356,13 @@ public class HttpParamsUtil {
 		return str;
 	}
 
-	/***
-	 * 请求的url转换Map请求对象,其中urlParam支持两种格式转换,url格式或对象json字符串格式
-	 * @param urlParam 字符串类型ulr请求实现
-	 * @param decode 是否需要转码
-	 * @param isUrlNotJson 默认值为false,使用的是json格式转换内容
-	 * @return
+	/**
+	 * 将请求的url参数转换为Map对象，支持两种格式转换
+	 *
+	 * @param urlParam 字符串类型url请求参数，可以为null
+	 * @param decode 是否需要解码，true表示需要解码
+	 * @param isUrlNotJson true表示url格式，false表示json格式
+	 * @return 转换后的TreeMap，如果urlParam为null或空则返回空Map
 	 */
 	public static Map<String, String> toMapByString(String urlParam,boolean decode, boolean isUrlNotJson) {
 		if(isUrlNotJson){
@@ -366,18 +375,21 @@ public class HttpParamsUtil {
 
 		}
 	}
-	/***
-	 * 请求的内容体对象转换成请求Map<kv>格式对象,
-	 * @param object 内容体对象,或头部体对象
-	 * @param decode 是否需要转码,默认值为false
-	 * @return  map	结果
+
+	/**
+	 * 将请求的内容体对象转换成请求Map<key,value>格式对象
+	 * 支持普通Java对象、Map对象、JSON对象等
+	 *
+	 * @param object 内容体对象，或头部体对象，可以为null
+	 * @param decode 是否需要解码，true表示需要解码
+	 * @return 转换后的TreeMap，如果object为null则返回null
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> toMap(Object object,boolean decode) {
 		if(object == null || isMapOrJsonClass(object.getClass()) ){
 			return (Map<String, String>)object;
 		}
-		List<Field> fields = FieldUtils.getAllFieldsList(object.getClass());// klass.getFields();
+		List<Field> fields = FieldUtils.getAllFieldsList(object.getClass());
 		Map<String, String> map = new TreeMap<>();
         for (Field field : fields) {
 			try {
@@ -387,6 +399,7 @@ public class HttpParamsUtil {
 				value = decode(value,decode);
 				map.put(field.getName(),value);
 			} catch (Exception e) {
+				// 忽略字段访问异常，继续处理其他字段
 			}
 		}
 		return  map;
@@ -420,14 +433,15 @@ public class HttpParamsUtil {
 
 
 	/**
-	 * 获取签名 服务端,用于传输公共参数,作用是参数改篡改,用于前端的方法,notContains集合,为排除参与加密字段
-	 * 获取签名的参数 格式a=1&b=1
-	 * @param param 为所有请求参数
-	 * @param notContains 排除参与加密字段
-	 * @return
+	 * 获取签名字符串，用于传输公共参数，防止参数被篡改
+	 * 将Map参数按key排序后拼接成a=1&b=2格式
+	 *
+	 * @param param 所有请求参数，可以为null
+	 * @param notContains 排除参与加密的字段列表，可以为null
+	 * @return 签名字符串，格式为key1=value1&key2=value2
 	 */
 	public static String getSortedMapSign(Map<String, String> param,List<String> notContains){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String strBody="";
 		if(null != param && param.size() > 0) {
 			if(!(param instanceof  TreeMap)){
@@ -449,11 +463,12 @@ public class HttpParamsUtil {
 	}
 
 	/**
-	 * 将头部对像或公共参数对像 和请求体对象进行汇总合并成一个map<K-v> bodyMap对像,内容是否需要decode
-	 * @param head 头部对像或公共参数对像
-	 * @param body 请求体对象
-	 * @param decode ,内容是否需要decode
-	 * @return
+	 * 将头部对象或公共参数对象和请求体对象进行汇总合并成一个Map<key,value>对象
+	 *
+	 * @param head 头部对象或公共参数对象，可以为null
+	 * @param body 请求体对象，可以为null
+	 * @param decode 内容是否需要decode，true表示需要解码
+	 * @return 合并后的TreeMap，如果head和body都为null则返回空Map
 	 */
 	public static Map<String, ?> getClientSignMap(Object head,Object body,boolean decode ){
 		Map<String, String> dataMap = new TreeMap<>();
@@ -474,10 +489,13 @@ public class HttpParamsUtil {
 	}
 
 	/**
-	 * 加密
-	 * @param md5Content 参与加密码的内容信息;
-	 *  @param md5Content 每个系统自定议的干扰的内容信息
-	 * @return
+	 * MD5加密并截取指定长度的签名字符串
+	 *
+	 * @param md5Content 参与加密的内容信息
+	 * @param md5Key 每个系统自定义的干扰字符串，可以为null
+	 * @param indexStart 截取开始位置（包含）
+	 * @param indexEnd 截取结束位置（不包含）
+	 * @return 截取后的签名字符串
 	 */
 	public   static String paramMd5length(String md5Content, String md5Key,int indexStart, int indexEnd) {
 		String pass = paramMd5LowerCase(md5Content,md5Key);
@@ -487,10 +505,11 @@ public class HttpParamsUtil {
 
 
 	/**
-	 * 加密
-	 * @param md5Content 参与加密码的内容信息;
-	 *  @param md5Content 每个系统自定议的干扰的内容信息
-	 * @return
+	 * MD5加密并转换为小写
+	 *
+	 * @param md5Content 参与加密的内容信息
+	 * @param md5Key 每个系统自定义的干扰字符串，可以为null
+	 * @return MD5加密后的32位小写字符串
 	 */
 	private  static String paramMd5LowerCase(String md5Content, String md5Key) {
 		String pass = md5String(md5Content + md5Key).toLowerCase();
@@ -498,12 +517,13 @@ public class HttpParamsUtil {
 	}
 
 	/**
-	 * 将二进制转换成16进制字符串
-	 * @param bytes
-	 * @return
+	 * 将二进制数组转换成16进制字符串（大写）
+	 *
+	 * @param bytes 二进制字节数组
+	 * @return 16进制字符串
 	 */
 	private static String parseByte2Hex(byte[] bytes) {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < bytes.length; i++) {
 			String hex = Integer.toHexString(bytes[i] & 0xFF);
 			if (hex.length() == 1) {
@@ -516,25 +536,29 @@ public class HttpParamsUtil {
 
 
 	/**
-	 * 将字符串内容进行md5加密实现
-	 * @param src
-	 * @return
+	 * 将字符串内容进行MD5加密
+	 *
+	 * @param src 需要加密的字符串
+	 * @return MD5加密后的32位大写16进制字符串，如果加密失败则返回空字符串
 	 */
 	private static String md5String(String src){
 		try {
 			MessageDigest alg = MessageDigest.getInstance(MD5_CRYPT);
 			byte[] md5Byte =  alg.digest(src.getBytes(URF_8));
 			return parseByte2Hex(md5Byte);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			// MD5加密异常，返回空字符串
+		}
 		return "";
 	}
 
 	/**
-	 * 判断字段或类型是map或JSONOBJECT, 返回true, 否则返回false
-	 * @param fieldType
-	 * @return
+	 * 判断给定类型是否为Map或JSONObject类型
+	 *
+	 * @param fieldType 要判断的类型，不可为null
+	 * @return 如果是Map类型、实现了Map接口的类或JSONObject类型则返回true，否则返回false
 	 */
-	public static  boolean isMapOrJsonClass(Class<?> fieldType){
+	public static boolean isMapOrJsonClass(Class<?> fieldType){
 		if(fieldType.isAssignableFrom(Map.class)){
 			return true;
 		}

@@ -1,5 +1,7 @@
 package com.suven.framework.util.qrcode;
 
+import javax.annotation.Nullable;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -7,9 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.UUID;
-
-import javax.imageio.ImageIO;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
@@ -24,9 +25,13 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 /**
- * 二维码 生成、解析器 帮助类
+ * 二维码生成、解析器帮助类
+ * <p>
+ * 提供二维码的生成和解析功能，支持添加Logo、底部描述文字等功能。
+ * </p>
  *
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class QRCodeUtil {
     private static final String CHARSET = "utf-8";
     private static final String FORMAT_NAME = "png";
@@ -39,34 +44,39 @@ public class QRCodeUtil {
 
 
     /**
-     *  检查路径 图片是否存在
-     * @param imgPath
-     * @return
-     * @throws IOException
+     * 检查路径图片是否存在
+     *
+     * @param imgPath 图片路径
+     * @return BufferedImage对象，文件不存在返回null
+     * @throws IOException 读取图片时发生错误
      */
+    @Nullable
     private static BufferedImage CheckImageExist(String imgPath) throws IOException{
         File file = new File(imgPath);
         if (!file.exists()) {
             System.err.println(""+imgPath+"   该文件不存在！");
             return null;
         }
-        BufferedImage src = ImageIO.read(new File(imgPath));
-        return src;
+        return ImageIO.read(file);
     }
 
 
     /**
-     * 创建 二维码所需图片
-     * @param content   内容
-     * @param imgPath   Logo图片地址
+     * 创建二维码图片
+     * <p>
+     * 根据内容生成二维码，可选择添加Logo和底部描述文字。
+     * </p>
+     *
+     * @param content 二维码内容
+     * @param logoImage Logo图片，可为null
+     * @param bottomDes 底部描述文字，可为null
      * @param needCompress 是否压缩Logo大小
-     * @param needDescription 是否需要底部描述
-     * @return
-     * @throws Exception
+     * @return 二维码图片
+     * @throws Exception 生成二维码时发生错误
      */
-    private static BufferedImage createImage(String content,BufferedImage logoImage, String bottomDes,
+    private static BufferedImage createImage(String content, @Nullable BufferedImage logoImage, @Nullable String bottomDes,
                                              boolean needCompress) throws Exception {
-        Hashtable hints = new Hashtable();
+        Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H); //容错级别 H->30%
         hints.put(EncodeHintType.CHARACTER_SET, CHARSET);
         hints.put(EncodeHintType.MARGIN, 1);
@@ -103,11 +113,12 @@ public class QRCodeUtil {
     }
 
     /**
-     * 添加 底部图片文字
-     * @param source   图片源
-     * @param declareText 文字本文
+     * 添加底部图片文字
+     *
+     * @param source 图片源
+     * @param declareText 文字内容，可为null
      */
-    private static void addFontImage(BufferedImage source, String declareText) {
+    private static void addFontImage(BufferedImage source, @Nullable String declareText) {
         BufferedImage textImage = FontImage.getImage(declareText,new Font("宋体", Font.BOLD, 30), QRCODE_SIZE, 50);
 //        BufferedImage image = ImageIO.read(file);
         Graphics2D graph = source.createGraphics();
@@ -121,13 +132,14 @@ public class QRCodeUtil {
     }
 
     /**
-     *  插入Logo图片
-     * @param source    图片操作对象
-     * @param imgPath   Logo图片地址
+     * 插入Logo图片
+     *
+     * @param source 图片操作对象
+     * @param logoImage Logo图片
      * @param needCompress 是否压缩Logo大小
-     * @throws Exception
+     * @throws Exception 插入Logo时发生错误
      */
-    private static void insertImage(BufferedImage source,BufferedImage logoImage,
+    private static void insertImage(BufferedImage source, BufferedImage logoImage,
                                     boolean needCompress) throws Exception {
         int width = logoImage.getWidth(null);
         int height = logoImage.getHeight(null);
@@ -161,12 +173,15 @@ public class QRCodeUtil {
     }
 
     /**
-     * 创建 目录
-     * @param destPath
+     * 创建目录
+     * <p>
+     * 如果目录不存在则创建，支持多级目录创建。
+     * </p>
+     *
+     * @param destPath 目录路径
      */
     public static void mkdirs(String destPath) {
-        File file =new File(destPath);
-        //当文件夹不存在时，mkdirs会自动创建多层目录，区别于mkdir．(mkdir如果父目录不存在则会抛出异常)
+        File file = new File(destPath);
         if (!file.exists() && !file.isDirectory()) {
             file.mkdirs();
         }
@@ -174,15 +189,19 @@ public class QRCodeUtil {
 
 
     /**
-     *  生成二维码 (以Logo路径)
-     * @param content  内容 (若带http:// 会自动跳转)
-     * @param imgPath  Logo 图片地址
-     * @param destPath   保存二维码 地址 (没有该目录会自动创建)
-     * @param bottomDes 底部文字描述
+     * 生成二维码（以Logo路径）
+     * <p>
+     * 根据Logo文件路径生成二维码，支持添加底部描述文字。
+     * </p>
+     *
+     * @param content 内容（若带http://会自动跳转）
+     * @param imgPath Logo图片地址，可为null
+     * @param bottomDes 底部文字描述，可为null
+     * @param destPath 保存二维码地址（没有该目录会自动创建）
      * @param needCompress 是否压缩Logo大小
-     * @throws Exception
+     * @throws Exception 生成二维码时发生错误
      */
-    public static void encodeOfPath(String content, String imgPath,String bottomDes,String destPath,
+    public static void encodeOfPath(String content, @Nullable String imgPath, @Nullable String bottomDes, String destPath,
                                     boolean needCompress) throws Exception {
 
         BufferedImage image = QRCodeUtil.createImage(content, CheckImageExist(imgPath),
@@ -194,15 +213,19 @@ public class QRCodeUtil {
 
 
     /**
+     * 生成二维码
+     * <p>
+     * 根据Logo图片对象生成二维码，支持添加底部描述文字。
+     * </p>
      *
      * @param content 内容
-     * @param logoImage  图片源 LOGO
-     * @param bottomDes 底部描述文字
-     * @param destPath   保存二维码 地址 (没有该目录会自动创建)
-     * @param needCompress  是否压缩logo
-     * @throws Exception
+     * @param logoImage 图片源LOGO，可为null
+     * @param bottomDes 底部描述文字，可为null
+     * @param destPath 保存二维码地址（没有该目录会自动创建）
+     * @param needCompress 是否压缩Logo大小
+     * @throws Exception 生成二维码时发生错误
      */
-    public static void encode(String content, BufferedImage logoImage,String bottomDes, String destPath,
+    public static void encode(String content, @Nullable BufferedImage logoImage, @Nullable String bottomDes, String destPath,
                               boolean needCompress) throws Exception {
 
         BufferedImage image = QRCodeUtil.createImage(content, logoImage, bottomDes,
@@ -213,16 +236,20 @@ public class QRCodeUtil {
     }
 
     /**
+     * 生成二维码（指定文件名）
+     * <p>
+     * 根据Logo图片对象生成二维码，支持添加底部描述文字和指定文件名。
+     * </p>
      *
-     * @param content  内容
-     * @param logoImage  图片源LOGO
-     * @param bottomDes 底部描述文字
-     * @param picName   图片名
-     * @param destPath     保存二维码 地址 (没有该目录会自动创建)
-     * @param needCompress 是否压缩logo
-     * @throws Exception
+     * @param content 内容
+     * @param logoImage 图片源LOGO，可为null
+     * @param bottomDes 底部描述文字，可为null
+     * @param picName 图片名
+     * @param destPath 保存二维码地址（没有该目录会自动创建）
+     * @param needCompress 是否压缩Logo大小
+     * @throws Exception 生成二维码时发生错误
      */
-    public static void encode(String content, BufferedImage logoImage,String bottomDes,String picName,String destPath,
+    public static void encode(String content, @Nullable BufferedImage logoImage, @Nullable String bottomDes, String picName, String destPath,
                               boolean needCompress) throws Exception {
         BufferedImage image=QRCodeUtil.createImage(content, logoImage,bottomDes,
                 needCompress);
@@ -234,25 +261,34 @@ public class QRCodeUtil {
 
 
     /**
+     * 生成二维码（最简单方式）
+     * <p>
+     * 不添加Logo和底部描述文字的简单二维码生成方式。
+     * </p>
      *
-     * @param content  内容
-     * @param destPath     保存二维码 地址 (没有该目录会自动创建)
-     * @throws Exception
+     * @param content 内容
+     * @param destPath 保存二维码地址（没有该目录会自动创建）
+     * @throws Exception 生成二维码时发生错误
      */
     public static void encode(String content, String destPath) throws Exception {
         QRCodeUtil.encode(content, null,null,destPath, false);
     }
 
+
     /**
+     * 生成二维码（以Logo路径，输出到流）
+     * <p>
+     * 根据Logo文件路径生成二维码并输出到指定流。
+     * </p>
      *
-     * @param content   内容
-     * @param imgPath    图片源地址LOGO
-     * @param bottomDes 底部描述文字
-     * @param output    输出流
-     * @param needCompress 是否压缩logo
-     * @throws Exception
+     * @param content 内容
+     * @param imgPath Logo图片地址，可为null
+     * @param bottomDes 底部描述文字，可为null
+     * @param output 输出流
+     * @param needCompress 是否压缩Logo大小
+     * @throws Exception 生成二维码时发生错误
      */
-    public static void encodeOfPath(String content, String imgPath,String bottomDes,
+    public static void encodeOfPath(String content, @Nullable String imgPath, @Nullable String bottomDes,
                                     OutputStream output, boolean needCompress) throws Exception {
         BufferedImage image = QRCodeUtil.createImage(content, CheckImageExist(imgPath), bottomDes,
                 needCompress);
@@ -260,45 +296,35 @@ public class QRCodeUtil {
     }
 
     /**
+     * 解析二维码
      *
-     * @param content 内容
-     * @param output    输出流
-     * @throws Exception
-     */
-//    public static void encode(String content, OutputStream output)
-//            throws Exception {
-//        QRCodeUtil.encode(content, null,null, output, false);
-//    }
-
-    /**
-     * 解析 二维码
      * @param file 图片文件
-     * @return
-     * @throws Exception
+     * @return 二维码内容，解析失败返回null
+     * @throws Exception 解析二维码时发生错误
      */
+    @Nullable
     public static String decode(File file) throws Exception {
-        BufferedImage image;
-        image = ImageIO.read(file);
+        BufferedImage image = ImageIO.read(file);
         if (image == null) {
             return null;
         }
-        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(
-                image);
+        BufferedImageLuminanceSource source = new BufferedImageLuminanceSource(image);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         Result result;
-        Hashtable hints = new Hashtable();
+        Map<DecodeHintType, Object> hints = new Hashtable<>();
         hints.put(DecodeHintType.CHARACTER_SET, CHARSET);
         result = new MultiFormatReader().decode(bitmap, hints);
-        String resultStr = result.getText();
-        return resultStr;
+        return result.getText();
     }
 
     /**
-     *  解析二维码
+     * 解析二维码
+     *
      * @param path 图片地址
-     * @return
-     * @throws Exception
+     * @return 二维码内容，解析失败返回null
+     * @throws Exception 解析二维码时发生错误
      */
+    @Nullable
     public static String decode(String path) throws Exception {
         return QRCodeUtil.decode(new File(path));
     }

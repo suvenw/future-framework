@@ -10,9 +10,11 @@ import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.aop.framework.AopProxy;
 import org.springframework.aop.support.AopUtils;
 
+import javax.annotation.Nullable;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.DateFormat;
@@ -24,23 +26,27 @@ import java.util.*;
 
 
 /**
- * Title: XmlSerializer.java
+ * 对象拷贝工具类
+ * <p>
+ * 基于Spring Bean拷贝和Apache Bean拷贝结合，实现业务增加和通过。
+ * 支持对象属性拷贝、克隆、Map转换等操作，并处理枚举、日期等特殊类型。
+ * </p>
+ *
  * @author Joven.wang
- * date   2019-10-18 12:35:25
+ * @date 2019-10-18 12:35:25
  * @version V1.0
  *  <pre>
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * </pre>
- * Description: (说明) 对象拷贝工具类,基于spring Bean 拷贝 和apache Bean 拷贝 结合,实现业务增加和通过
  * Copyright: (c) 2018 gc by https://www.suven.top
- *
  */
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class BeanUtil {
-	private static Logger log = LoggerFactory.getLogger(BeanUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(BeanUtil.class);
 
-	private static  BeanUtilsBean beanUtilsBean;
+	private static BeanUtilsBean beanUtilsBean;
 	private BeanUtil(){}
 	static{
 		if(beanUtilsBean == null){
@@ -51,13 +57,17 @@ public class BeanUtil {
 
 	/**
 	 * bean属性拷贝
+	 * <p>
+	 * 支持枚举、数字、字符串、日期、布尔等类型之间的自动转换。
+	 * 可以忽略指定字段的拷贝。
+	 * </p>
 	 *
-	 * @param source
-	 * @param target
-	 * @param ignoreFields 可以不传 如：copyProperties(Object source, Object target)
+	 * @param source 源对象，可为null
+	 * @param target 目标对象，可为null
+	 * @param ignoreFields 需要忽略的字段名，可选参数
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void copyProperties(Object source, Object target, String... ignoreFields){
+	public static void copyProperties(@Nullable Object source, @Nullable Object target, String... ignoreFields){
 		if(source == null || target == null){
 			return;
 		}
@@ -141,8 +151,12 @@ public class BeanUtil {
 
 	/**
 	 * 克隆对象
-	 * @param bean
-	 * @return
+	 * <p>
+	 * 使用Apache Commons BeanUtils实现对象的深度克隆。
+	 * </p>
+	 *
+	 * @param bean 要克隆的对象
+	 * @return 克隆后的新对象
 	 */
 	public static Object cloneBean(Object bean){
 		try{
@@ -155,13 +169,17 @@ public class BeanUtil {
 
 
 	/**
-	 *  拷贝属性给对象(类型宽松)
-	 * @param bean
+	 * 拷贝属性给对象(类型宽松)
+	 * <p>
+	 * 支持枚举类型与整数类型的自动转换。
+	 * </p>
+	 *
+	 * @param bean 目标对象
 	 * @param name 属性名
-	 * @param value 属性值
+	 * @param value 属性值，可为null
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void copyProperty(Object bean, String name, Object value){
+	public static void copyProperty(Object bean, String name, @Nullable Object value){
 		try{
 			Class propertyClazz = beanUtilsBean.getPropertyUtils().getPropertyType(bean, name);
 
@@ -186,9 +204,13 @@ public class BeanUtil {
 	}
 
 	/**
-	 * 将bean装换为一个map(不能将枚举转换为int)
-	 * @param bean
-	 * @return
+	 * 将bean转换为Map(不能将枚举转换为int)
+	 * <p>
+	 * 使用Apache Commons BeanUtils实现对象到Map的转换。
+	 * </p>
+	 *
+	 * @param bean 要转换的bean对象
+	 * @return 属性Map，key为属性名，value为属性值
 	 */
 	@SuppressWarnings({ "rawtypes" })
 	public static Map describe(Object bean){
@@ -202,9 +224,13 @@ public class BeanUtil {
 
 
 	/**
-	 * 将bean装换为一个map(能将枚举转换为int)
-	 * @param bean
-	 * @return
+	 * 将bean转换为Map(能将枚举转换为int)
+	 * <p>
+	 * 支持枚举类型自动转换为整数序号，日期类型保持不变。
+	 * </p>
+	 *
+	 * @param bean 要转换的bean对象，可为null
+	 * @return 属性Map，枚举转换为int，可为null
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Map buildMap(Object bean){
@@ -244,8 +270,9 @@ public class BeanUtil {
 
 	/**
 	 * 将bean列表转换成map的列表
-	 * @param beanList
-	 * @return
+	 *
+	 * @param beanList bean对象列表
+	 * @return Map列表，可为null
 	 */
 	@SuppressWarnings("rawtypes")
 	public static List<Map> buildMapList(List beanList){
@@ -261,10 +288,14 @@ public class BeanUtil {
 
 
 	/**
-	 * 将map转Bean
-	 * @param map
-	 * @param clazz
-	 * @return
+	 * 将map转为Bean
+	 * <p>
+	 * 支持枚举类型、日期类型等特殊类型的自动转换。
+	 * </p>
+	 *
+	 * @param map 属性Map，可为null
+	 * @param clazz 目标类类型
+	 * @return 转换后的bean对象，可为null
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object buildBean(Map map, Class clazz){
@@ -273,7 +304,7 @@ public class BeanUtil {
 		}
 		Object bean = null;
 		try{
-			bean = clazz.newInstance();
+			bean = clazz.getDeclaredConstructor().newInstance();
 			PropertyDescriptor[] pds = beanUtilsBean.getPropertyUtils().getPropertyDescriptors(clazz);
 			for(PropertyDescriptor pd : pds){
 				String fieldName = pd.getName();
@@ -344,12 +375,16 @@ public class BeanUtil {
 	}
 
 	/**
-	 *  拷贝属性给对象(类型严格)
-	 * @param bean
+	 * 拷贝属性给对象(类型严格)
+	 * <p>
+	 * 使用严格的类型匹配，不进行类型转换。
+	 * </p>
+	 *
+	 * @param bean 目标对象
 	 * @param name 属性名
-	 * @param value 属性值
+	 * @param value 属性值，可为null
 	 */
-	public static void setProperty(Object bean, String name, Object value){
+	public static void setProperty(Object bean, String name, @Nullable Object value){
 		try{
 			beanUtilsBean.setProperty(bean, name, value);
 		} catch (Throwable e) {
@@ -361,9 +396,10 @@ public class BeanUtil {
 
 	/**
 	 * 获取对象属性值
-	 * @param bean
-	 * @param name
-	 * @return
+	 *
+	 * @param bean bean对象
+	 * @param name 属性名
+	 * @return 属性值
 	 */
 	public static Object getProperty(Object bean, String name){
 		try{
@@ -377,12 +413,17 @@ public class BeanUtil {
 
 
 	/**
-	 * thrift集合转list<?>
-	 * @param source
-	 * @param clazz
-	 * @return
+	 * thrift集合转List
+	 * <p>
+	 * 将Thrift对象列表转换为普通Java对象列表。
+	 * </p>
+	 *
+	 * @param source 源对象列表
+	 * @param clazz 目标类类型
+	 * @param <T> 泛型类型
+	 * @return 转换后的对象列表
 	 */
-	public static <T> List<?> thriftListToBean(List<? extends T> source,Class clazz){
+	public static <T> List<?> thriftListToBean(List<? extends T> source, Class clazz){
 		//clone后的集合
 		try{
 			List<T> temp=Lists.newArrayList();
@@ -392,36 +433,42 @@ public class BeanUtil {
 				temp.add(temporary);
 			}
 			return temp;
-		}catch (Throwable e) {
-			log.error("BeanUtil 获取对象属性值出错:", e);
+		}catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			log.error("BeanUtil thriftListToBean出错:", e);
 			throw new RuntimeException(e);
 		}
 	}
 	/**
+	 * thrift Bean转普通Bean
 	 *
-	 * @param source
-	 * @param dest
-	 * @return
+	 * @param source 源类
+	 * @param dest 目标类
+	 * @param <T> 泛型类型
+	 * @return 转换后的对象
 	 */
-	public static <T>  T thriftBeanToBean(Class source,Class dest){
+	public static <T> T thriftBeanToBean(Class source, Class dest){
 		try{
 			T temporary=(T) dest.getDeclaredConstructor().newInstance();
 			BeanUtils.copyProperties(temporary,source);
 			return temporary;
-		}catch (Throwable e) {
-			log.error("BeanUtil 获取对象属性值出错:", e);
+		}catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+			log.error("BeanUtil thriftBeanToBean出错:", e);
 			throw new RuntimeException(e);
 		}
 	}
 
 
 	/**
-	 * @ClassName:
-	 * Description:
-	 * @Author lixiangling
-	 * date 2018/7/26 9:17
+	 * AOP代理工具类
+	 * <p>
+	 * 用于获取AOP代理对象的原始目标对象。
+	 * 支持JDK动态代理和CGLIB代理。
+	 * </p>
+	 *
+	 * @author lixiangling
+	 * @date 2018/7/26 9:17
+	 * @version 1.0.0
 	 * Copyright: (c) 2018 gc by https://www.suven.top
-	 * @version : 1.0.0
 	 * --------------------------------------------------------
 	 * modifyer    modifyTime                 comment
 	 * <p>
@@ -429,12 +476,15 @@ public class BeanUtil {
 	 */
 	public static class AopTargetUtils {
 
-		private static Logger logger = LoggerFactory.getLogger(AopTargetUtils.class);
+		private static final Logger logger = LoggerFactory.getLogger(AopTargetUtils.class);
 		/**
-		 * 获取 目标对象
+		 * 获取目标对象
+		 * <p>
+		 * 从AOP代理对象中获取原始的目标对象。
+		 * </p>
+		 *
 		 * @param proxy 代理对象
-		 * @return
-		 * @throws Exception
+		 * @return 目标对象，如果不是代理对象则返回自身
 		 */
 		public static Object getTarget(Object proxy)  {
 
@@ -484,12 +534,20 @@ public class BeanUtil {
 		}
 
 	}
+	/**
+	 * 替换SQL中的IN查询占位符
+	 *
+	 * @param sql SQL语句
+	 * @param replacement 替换字符串
+	 * @return 替换后的SQL语句
+	 */
+	@SuppressWarnings("unused")
 	private String replaceByInToIds(String sql, String replacement){
 		final String searchString = "?";
 		final String searchIn = " IN ";
 		int beginIndex = sql.toUpperCase().indexOf(searchIn);
 		if( beginIndex > 0 && (sql.indexOf(searchString) > 0)){
-			String s = sql.substring(0,beginIndex) + StringUtils.replace(sql.substring(beginIndex), searchString, replacement,1);
+			String s = sql.substring(0,beginIndex) + StringUtils.replaceOnce(sql.substring(beginIndex), searchString, replacement);
 			return s;
 		}
 		return sql;

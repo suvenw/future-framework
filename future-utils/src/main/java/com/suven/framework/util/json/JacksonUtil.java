@@ -8,20 +8,26 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.*;
 
 /**
+ * Jackson JSON工具类
+ * <p>
+ * 提供JSON序列化和反序列化功能，支持对象、List、Set、Collection等类型的转换。
+ * 支持时间戳格式和字符串格式的日期转换。
+ * </p>
+ *
  * @author wangjiuji
  */
 public class JacksonUtil {
 
 
-    private static Logger log = LoggerFactory.getLogger(JacksonUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(JacksonUtil.class);
 
     private static class SingletonJackson {
         static ObjectMapper INSTANCE = new ObjectMapper();
@@ -160,10 +166,11 @@ public class JacksonUtil {
     /**
      * Java对象转JSON字符串
      *
-     * @param object
-     * @return
+     * @param object 对象，可为null
+     * @return JSON字符串，对象为null时返回null
      */
-    public static String toJson(Object object) {
+    @Nullable
+    public static String toJson(@Nullable Object object) {
         try {
             if (Objects.isNull(object)){
                 return null;
@@ -171,17 +178,21 @@ public class JacksonUtil {
             return getInstance().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("The JacksonUtil toJsonString is error : \n", e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
     
     /**
      * Java对象转JSON字符串（时间戳格式）
+     * <p>
+     * 时间类型转换为时间戳格式。
+     * </p>
      *
-     * @param object 对象
-     * @return JSON字符串，时间类型转换为时间戳
+     * @param object 对象，可为null
+     * @return JSON字符串，时间类型转换为时间戳，对象为null时返回null
      */
-    public static String toJsonWithTimestamp(Object object) {
+    @Nullable
+    public static String toJsonWithTimestamp(@Nullable Object object) {
         try {
             if (Objects.isNull(object)){
                 return null;
@@ -189,38 +200,41 @@ public class JacksonUtil {
             return getInstance().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             log.error("The JacksonUtil toJsonWithTimestamp is error : \n", e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Java对象转JSON字符串 - 美化输出
+     * <p>
+     * 格式化输出JSON字符串，便于阅读。
+     * </p>
      *
-     * @param object 对象
-     * @return 字符
+     * @param object 对象，可为null
+     * @return 格式化的JSON字符串
      */
-    public static String toJsonStringWithPretty(Object object) {
+    public static String toJsonStringWithPretty(@Nullable Object object) {
         try {
             return getInstance().writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (JsonProcessingException e) {
-            log.error("The JacksonUtil toJsonString is error : \n", e);
-            throw new RuntimeException();
+            log.error("The JacksonUtil toJsonStringWithPretty is error : \n", e);
+            throw new RuntimeException(e);
         }
     }
 
 
     /**
-     * Java对象转byte数组
+     * Java对象转字节数组
      *
-     * @param object 对象
+     * @param object 对象，可为null
      * @return 字节数组
      */
-    public static byte[] toJsonBytes(Object object) {
+    public static byte[] toJsonBytes(@Nullable Object object) {
         try {
             return getInstance().writeValueAsBytes(object);
         } catch (JsonProcessingException e) {
             log.error("The JacksonUtil toJsonBytes is error : \n", e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -228,50 +242,56 @@ public class JacksonUtil {
     /**
      * JSON字符串转对象
      *
-     * @param json 字符串
+     * @param json JSON字符串，可为null
      * @param clazz 转换类对象
-     * @return 返回对象
+     * @param <T> 泛型类型
+     * @return 转换后的对象
      */
-    public static <T> T parseObject(String json, Class<T> clazz) {
+    public static <T> T parseObject(@Nullable String json, Class<T> clazz) {
         try {
             return getInstance().readValue(json, clazz);
         } catch (Exception e) {
             log.error("The JacksonUtil parseObject is error, json str is {}, class name is {} \n", json, clazz.getName(), e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
     
     /**
      * JSON字符串转对象（时间戳格式）
+     * <p>
+     * 时间戳格式转换为时间类型。
+     * </p>
      *
-     * @param json 字符串，时间戳格式
+     * @param json JSON字符串（时间戳格式），可为null
      * @param clazz 转换类对象
-     * @return 返回对象，时间戳转换为时间类型
+     * @param <T> 泛型类型
+     * @return 转换后的对象，时间戳转换为时间类型
      */
-    public static <T> T parseObjectWithTimestamp(String json, Class<T> clazz) {
+    public static <T> T parseObjectWithTimestamp(@Nullable String json, Class<T> clazz) {
         try {
             return getInstance().readValue(json, clazz);
         } catch (Exception e) {
             log.error("The JacksonUtil parseObjectWithTimestamp is error, json str is {}, class name is {} \n", json, clazz.getName(), e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * JSON字符串转List集合
      *
-     * @param json 字符串
+     * @param json JSON字符串，可为null
      * @param elementClasses 转换类对象
-     * @return 返回对象
+     * @param <T> 泛型类型
+     * @return List集合
      */
     @SafeVarargs
-    public static <T> List<T> parseList(String json, Class<T>... elementClasses) {
+    public static <T> List<T> parseList(@Nullable String json, Class<T>... elementClasses) {
         try {
             return getInstance().readValue(json, getCollectionType(getInstance(), List.class, elementClasses));
         } catch (Exception e) {
             log.error("The JacksonUtil parseList is error, json str is {}, element class name is {} \n",
                     json, elementClasses.getClass().getName(), e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
@@ -279,36 +299,38 @@ public class JacksonUtil {
     /**
      * JSON字符串转Set集合
      *
-     * @param json 字符串
+     * @param json JSON字符串，可为null
      * @param elementClasses 转换类对象
-     * @return 返回对象
+     * @param <T> 泛型类型
+     * @return Set集合
      */
     @SafeVarargs
-    public static <T> Set<T> parseSet(String json, Class<T>... elementClasses) {
+    public static <T> Set<T> parseSet(@Nullable String json, Class<T>... elementClasses) {
         try {
             return getInstance().readValue(json, getCollectionType(getInstance(), Set.class, elementClasses));
         } catch (Exception e) {
             log.error("The JacksonUtil parseSet is error, json str is {}, element class name is {} \n",
                     json, elementClasses.getClass().getName(), e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * JSON字符串转Collection集合
      *
-     * @param json 字符串
+     * @param json JSON字符串，可为null
      * @param elementClasses 转换类对象
-     * @return 返回对象
+     * @param <T> 泛型类型
+     * @return Collection集合
      */
     @SafeVarargs
-    public static <T> Collection<T> parseCollection(String json, Class<T>... elementClasses) {
+    public static <T> Collection<T> parseCollection(@Nullable String json, Class<T>... elementClasses) {
         try {
             return getInstance().readValue(json, getCollectionType(getInstance(), Collection.class, elementClasses));
         } catch (Exception e) {
             log.error("The JacksonUtil parseCollection is error, json str is {}, element class name is {} \n",
                     json, elementClasses.getClass().getName(), e);
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 

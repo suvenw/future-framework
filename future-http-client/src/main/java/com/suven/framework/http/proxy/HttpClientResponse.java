@@ -1,6 +1,5 @@
 package com.suven.framework.http.proxy;
 
-import com.alibaba.fastjson.JSON;
 import com.suven.framework.http.exception.HttpClientRuntimeException;
 
 import java.util.List;
