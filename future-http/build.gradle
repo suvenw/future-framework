@@ -15,7 +15,7 @@ dependencies{
     implementation project(':future-utils')
     implementation fileTree(dir: "lib", include: '*.jar')
 
-    implementation libraries."fastjson"
+    implementation libraries."fastjson2"
     implementation libraries."guava"
     implementation libraries."reflections"
     implementation libraries."jedis"

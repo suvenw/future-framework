@@ -37,7 +37,7 @@ dependencies{
     implementation 'commons-lang:commons-lang:2.6'  // 为了 WordUtils
     
     // JSON 处理
-    implementation libraries."fastjson"
+    implementation libraries."fastjson2"
     
     // 其他工具类
     implementation libraries."reflections"

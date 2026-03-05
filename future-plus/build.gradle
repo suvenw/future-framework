@@ -21,7 +21,7 @@ dependencies{
         implementation libraries.'spring-kafka'
         implementation libraries.'curator-framework'
 
-        implementation libraries."fastjson"
+        implementation libraries."fastjson2"
         implementation libraries."guava"
         implementation libraries."reflections"
         implementation libraries."jedis"
@@ -40,7 +40,7 @@ dependencies{
         implementation libraries.'commons-io'
         implementation libraries.'commons-collections'
         implementation libraries.'easyexcel'
-        implementation libraries.'fastjson'
+        implementation libraries.'fastjson2'
         implementation libraries.'json-simple'
         implementation libraries.'reflections'
         implementation libraries.'protobuf-java'

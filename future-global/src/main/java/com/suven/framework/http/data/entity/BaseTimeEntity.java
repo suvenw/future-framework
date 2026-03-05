@@ -22,6 +22,7 @@ import java.util.Date;
  * 提供 POJO Bean 对应的对象间,具有相同的方法的属性值,动态拷贝实现,但不支持builder类性的Bean对象属性拷贝;
  * 提供基本的主健id, 创建时间(createDate) ,修改时间(modifyDate) 的基础实体类
  */
+
 public class BaseTimeEntity  implements IBaseApi, IBeanClone, Serializable {
 
 
@@ -63,22 +64,22 @@ public class BaseTimeEntity  implements IBaseApi, IBeanClone, Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    @SuppressWarnings("unchecked")
     public  <T extends IBaseApi > T toId(Long id) {
         this.id = id;
         return(T) this;
     }
 
 
-
-    public IBaseApi toCreateTime(LocalDateTime createTime) {
+    @SuppressWarnings("unchecked")
+    public <T extends IBaseApi > T toCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
-        return this;
+        return (T)this;
     }
-
-    public IBaseApi toUpdateTime(LocalDateTime updateTime) {
+    @SuppressWarnings("unchecked")
+    public <T extends IBaseApi > T toUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
-        return this;
+        return (T) this;
     }
 
 

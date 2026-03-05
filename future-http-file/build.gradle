@@ -62,7 +62,7 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5'
 
     // 工具库
-    implementation libraries."fastjson"
+    implementation libraries."fastjson2"
     implementation libraries."guava"
     implementation libraries."reflections"
     implementation libraries."jedis"

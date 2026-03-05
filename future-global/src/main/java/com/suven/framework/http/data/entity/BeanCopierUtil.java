@@ -38,7 +38,7 @@ public abstract class BeanCopierUtil {
         }
         Class<?> sourceClass = sourceObject.getClass();
         BeanCopier beanCopier = getBeanCopier(sourceClass, targetClass);
-        T target = targetClass.newInstance();
+        T target = targetClass.getDeclaredConstructor().newInstance();
         beanCopier.copy(sourceObject, target, null);
         return target;
     }

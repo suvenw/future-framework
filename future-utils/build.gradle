@@ -46,7 +46,7 @@ dependencies{
     implementation "io.dropwizard.metrics:metrics-jvm:${versions.metrics_version}"
     implementation "io.dropwizard.metrics:metrics-healthchecks:${versions.metrics_version}"
 
-    implementation libraries."fastjson"
+    implementation libraries."fastjson2"
     implementation libraries."guava"
     implementation libraries."reflections"
     implementation libraries."jedis"

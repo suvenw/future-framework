@@ -8,6 +8,13 @@ import com.suven.framework.http.data.entity.BeanCopierUtil;
  */
 public interface IBeanClone {
 
+    /**
+     * 克隆对象
+     * @param source 源对象
+     * @param <T> 目标对象
+     * @return 目标对象
+     */
+    @SuppressWarnings("unchecked")
     default  <T> T clone(Object source) {
           if(null == source){
                return null;

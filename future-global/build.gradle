@@ -31,7 +31,7 @@ dependencies {
     implementation libraries.'commons-io'
     implementation libraries.'commons-collections'
     implementation libraries.'easyexcel'
-    implementation libraries.'fastjson'
+    implementation libraries.'fastjson2'
     implementation libraries.'guava'
     implementation libraries.'json-simple'
     implementation libraries.'reflections'

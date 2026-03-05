@@ -37,7 +37,7 @@ dependencies {
     annotationProcessor libraries."lombok"
     compileOnly libraries."lombok"
 
-    implementation libraries."fastjson"
+    implementation libraries."fastjson2"
     implementation libraries."guava"
     implementation libraries."reflections"
     implementation libraries."jedis"
