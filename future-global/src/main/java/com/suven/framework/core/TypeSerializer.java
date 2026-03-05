@@ -1,6 +1,6 @@
 package com.suven.framework.core;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.google.protobuf.GeneratedMessage;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtobufIOUtil;

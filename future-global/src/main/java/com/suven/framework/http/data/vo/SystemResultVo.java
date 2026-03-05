@@ -1,6 +1,6 @@
 package com.suven.framework.http.data.vo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.common.enums.SystemMsgCodeEnum;
 import com.suven.framework.http.api.ApiDesc;
 import com.suven.framework.http.api.IResponseResult;

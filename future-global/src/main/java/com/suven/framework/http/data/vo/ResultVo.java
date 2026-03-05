@@ -1,6 +1,6 @@
 package com.suven.framework.http.data.vo;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.suven.framework.http.api.IBaseApi;
 import com.suven.framework.http.api.IResponseResult;
 import com.suven.framework.http.api.IResponseResultPage;

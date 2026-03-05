@@ -7,36 +7,85 @@ import java.util.Map;
 
 
 /**
- * Title: GlobalId.java
+ * 雪花算法实现全局唯一ID生成器
+ * <p>
+ * Twitter Snowflake 算法实现，生成分布式环境下的全局唯一ID。
+ * ID结构：41位时间戳 + 5位数据中心ID + 5位机器ID + 12位序列号
+ * </p>
+ *
  * @author Joven.wang
- * date   2019-10-18 12:35:25
+ * @date 2019-10-18 12:35:25
  * @version V1.0
- *  <pre>
+ * <pre>
  * 修改记录
  *    修改后版本:     修改人：  修改日期:     修改内容:
  * </pre>
- * Description: (说明) 雪花算法实现全局唯一ID生成器
  * Copyright: (c) 2018 gc by https://www.suven.top
- *
  */
 public class GlobalId {
 
-    private long workerId;//最大到32
-    private long datacenterId;//最大到32
+    /**
+     * 工作节点ID（0-31）
+     */
+    private long workerId;
+    /**
+     * 数据中心ID（0-31）
+     */
+    private long datacenterId;
+    /**
+     * 序列号
+     */
     private long sequence = 0L;
-    private long twepoch = 1288834974657L; //Thu, 04 Nov 2010 01:42:54 GMT
-    private long workerIdBits = 5L; //节点ID长度
-    private long datacenterIdBits = 5L; //数据中心ID长度
-    private long maxWorkerId = -1L ^ (-1L << workerIdBits); //最大支持机器节点数0~31，一共32个
-    private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits); //最大支持数据中心节点数0~31，一共32个
-    private long sequenceBits = 12L; //序列号12位
-    private long workerIdShift = sequenceBits; //机器节点左移12位
-    private long datacenterIdShift = sequenceBits + workerIdBits; //数据中心节点左移17位
-    private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits; //时间毫秒数左移22位
-    private long sequenceMask = -1L ^ (-1L << sequenceBits); //4095
-     private long lastTimestamp = -1L;
+    /**
+     * 起始时间戳：2010-11-04 01:42:54 GMT
+     */
+    private long twepoch = 1288834974657L;
+    /**
+     * 节点ID长度5位
+     */
+    private long workerIdBits = 5L;
+    /**
+     * 数据中心ID长度5位
+     */
+    private long datacenterIdBits = 5L;
+    /**
+     * 最大支持机器节点数0~31
+     */
+    private long maxWorkerId = -1L ^ (-1L << workerIdBits);
+    /**
+     * 最大支持数据中心节点数0~31
+     */
+    private long maxDatacenterId = -1L ^ (-1L << datacenterIdBits);
+    /**
+     * 序列号12位，每毫秒可生成4096个ID
+     */
+    private long sequenceBits = 12L;
+    /**
+     * 机器节点左移12位
+     */
+    private long workerIdShift = sequenceBits;
+    /**
+     * 数据中心节点左移17位
+     */
+    private long datacenterIdShift = sequenceBits + workerIdBits;
+    /**
+     * 时间毫秒数左移22位
+     */
+    private long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
+    /**
+     * 序列号掩码，4095
+     */
+    private long sequenceMask = -1L ^ (-1L << sequenceBits);
+    /**
+     * 上次生成ID的时间戳
+     */
+    private long lastTimestamp = -1L;
 
-    private static Map<Integer, GlobalId> map = new HashMap();
+    /**
+     * 全局ID生成器缓存Map
+     */
+    @SuppressWarnings("unchecked")
+    private static Map<Integer, GlobalId> map = new HashMap<>();
     
     private static class IdGenHolder {
         private static final GlobalId instance = new GlobalId();
@@ -65,6 +114,13 @@ public class GlobalId {
         this(0L, 0L);
     }
 
+    /**
+     * 构造函数
+     *
+     * @param workerId 工作节点ID（0-31）
+     * @param datacenterId 数据中心ID（0-31）
+     * @throws IllegalArgumentException 当参数超出范围时抛出
+     */
     public GlobalId(long workerId, long datacenterId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
@@ -75,7 +131,13 @@ public class GlobalId {
         this.workerId = workerId;
         this.datacenterId = datacenterId;
     }
-    
+
+    /**
+     * 生成下一个唯一ID
+     *
+     * @return 唯一的long类型ID
+     * @throws RuntimeException 当时钟回退时抛出异常
+     */
     public synchronized long nextId() {
         long timestamp = timeGen(); //获取当前毫秒数
         //如果服务器时间有问题(时钟后退) 报错。
@@ -102,6 +164,12 @@ public class GlobalId {
                 | (workerId << workerIdShift) | sequence;
     }
 
+    /**
+     * 阻塞到下一个毫秒，直到获得新的时间戳
+     *
+     * @param lastTimestamp 上次生成ID的时间戳
+     * @return 当前时间戳
+     */
     protected long tilNextMillis(long lastTimestamp) {
         long timestamp = timeGen();
         while (timestamp <= lastTimestamp) {
@@ -110,6 +178,12 @@ public class GlobalId {
         return timestamp;
     }
 
+    /**
+     * 获取当前系统时间戳，并进行时钟回退检查
+     *
+     * @return 当前系统时间戳（毫秒）
+     * @throws RuntimeException 当时钟回退超过5ms时抛出异常
+     */
     protected long timeGen(){
         long timestamp  =System.currentTimeMillis();
         if (timestamp < lastTimestamp) {
@@ -136,6 +210,12 @@ public class GlobalId {
         return timestamp;
     }
 
+    /**
+     * 批量生成指定数量的唯一ID
+     *
+     * @param count 需要生成的ID数量，必须大于0
+     * @return ID列表
+     */
     public List<Long> nextIds(int count) {
         List<Long> ids = new ArrayList<>();
         for (int i = 0; i < count; i++) {

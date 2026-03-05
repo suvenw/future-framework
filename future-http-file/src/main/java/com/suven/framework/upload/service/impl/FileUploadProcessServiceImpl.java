@@ -1,6 +1,6 @@
 package com.suven.framework.upload.service.impl;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.common.enums.SysResultCodeEnum;
 import com.suven.framework.core.ObjectTrue;

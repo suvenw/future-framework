@@ -1,7 +1,7 @@
 package com.suven.framework.http.api;
 
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.Serializable;

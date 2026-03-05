@@ -1,6 +1,6 @@
 package com.suven.framework.util.createcode.swagger;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 public class SwaggerResultTest {

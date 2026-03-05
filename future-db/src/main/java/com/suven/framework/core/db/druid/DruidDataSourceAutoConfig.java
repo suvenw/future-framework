@@ -21,7 +21,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidFilterConfiguration
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidStatViewServletConfiguration;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidWebStatFilterConfiguration;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.suven.framework.core.db.DataSourceTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

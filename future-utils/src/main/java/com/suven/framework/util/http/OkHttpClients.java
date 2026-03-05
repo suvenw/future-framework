@@ -1,6 +1,6 @@
 package com.suven.framework.util.http;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.suven.framework.util.constants.Env;
 import com.suven.framework.util.crypt.UrlParamSign;
 import com.suven.framework.util.json.JsonUtils;

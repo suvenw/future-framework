@@ -1,7 +1,7 @@
 package com.suven.framework.file.controller;
 
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
