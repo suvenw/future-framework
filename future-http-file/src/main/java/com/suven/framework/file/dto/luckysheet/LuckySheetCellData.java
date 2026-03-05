@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckysheetCellData implements Serializable {
+public class LuckySheetCellData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
