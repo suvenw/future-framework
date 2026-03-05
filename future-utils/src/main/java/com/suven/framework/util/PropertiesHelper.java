@@ -19,7 +19,7 @@ public abstract class PropertiesHelper {
 		Set<Class<? extends ConfLoader>> clazzSet = ReflectionsScan.reflections.getSubTypesOf(ConfLoader.class);
 		try {
 			for (Class<? extends ConfLoader> clazz : clazzSet) {
-				List<String> list = clazz.newInstance().getConfList();
+				List<String> list = clazz.getDeclaredConstructor().newInstance().getConfList();
 				for (String str : list) {
 					props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(str));
 				}

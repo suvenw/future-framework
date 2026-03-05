@@ -207,10 +207,11 @@ public class OkHttpClients extends UrlParamSign {
         requestBuilder.method("GET",null);
         Request request = requestBuilder.build();
         Call call = httpClient.newCall(request);
-        OkHttpCallback<T> back = new OkHttpCallback(clazz);
+        OkHttpCallback<T> back = new OkHttpCallback<>(clazz);
         call.enqueue(back);
         return  back.get();
     }
+
 
 
 
@@ -222,7 +223,7 @@ public class OkHttpClients extends UrlParamSign {
         RequestBody body = postParam(params);
         Request request = requestBuilder().url(url).post(body).build();
         Call call = client.newCall(request);
-        OkHttpCallback<T> back = new OkHttpCallback(clazz);
+        OkHttpCallback<T> back = new OkHttpCallback<>(clazz);
         call.enqueue(back);
         return  back.get();
     }

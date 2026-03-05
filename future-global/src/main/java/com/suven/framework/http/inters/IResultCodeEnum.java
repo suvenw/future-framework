@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * <pre>
@@ -98,10 +100,9 @@ public interface IResultCodeEnum {
 		private static Map<Integer, IResultCodeEnum> msgTypeMap = new TreeMap<>();
 		private static Set<Integer> checkCodeSet = new HashSet<>();
 		static {
-			List<Enum> list  =  getIMsgEnum();
+			List<IResultCodeEnum> list  =  getIMsgEnum();
 			if(list != null && !list.isEmpty()){
-				for(Enum msg : list){
-					IResultCodeEnum imsg = (IResultCodeEnum)msg;
+				for(IResultCodeEnum imsg : list){
 					msgTypeMap.put(imsg.getCode(), imsg);
 					if(checkCodeSet.contains(imsg.getCode())){
 						logger.error(" IMsgEnum is type double code :[{}] and Msg :[{}] is exist ",imsg.getCode(),imsg.getMsg());
@@ -114,27 +115,23 @@ public interface IResultCodeEnum {
 
 		}
 
-		private static <E extends Enum<E>> List<E> getIMsgEnum() {
-			Set<Class<? extends IResultCodeEnum>> classList = ReflectionsScan.reflections.getSubTypesOf(IResultCodeEnum.class);
-			List<E> list = new ArrayList<>();
-			if(null == classList || classList.isEmpty()){
-				return list;
-			}
-			for (Class<?> clazz : classList){
-				try {
-					if (!clazz.isEnum()) {
-						continue;
-					}
-					Class<E> enumClass = (Class<E>)clazz;
-					list.addAll(Arrays.asList(enumClass.getEnumConstants()));
-
-				}catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-			return list;
+		@SuppressWarnings("unchecked")
+		private static List<IResultCodeEnum> getIMsgEnum() {
+			return ReflectionsScan.reflections.getSubTypesOf(IResultCodeEnum.class)
+					.stream()
+					.filter(Class::isEnum)
+					.flatMap(clazz -> {
+						try {
+							return Stream.of(((Class<? extends Enum<?>>) clazz).getEnumConstants())
+									.filter(IResultCodeEnum.class::isInstance)
+									.map(IResultCodeEnum.class::cast);
+						} catch (Exception e) {
+							e.printStackTrace();
+							return Stream.empty();
+						}
+					})
+					.collect(Collectors.toList());
 		}
-
 		@Override
 		public String toString() {
 			return "MsgEnumType{" +

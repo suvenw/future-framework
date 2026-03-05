@@ -387,7 +387,7 @@ public class BeanUtil {
 		try{
 			List<T> temp=Lists.newArrayList();
 			for(T t:source){
-				T temporary=(T) clazz.newInstance();
+				T temporary=(T) clazz.getDeclaredConstructor().newInstance();
 				BeanUtils.copyProperties(temporary,t);
 				temp.add(temporary);
 			}
@@ -405,7 +405,7 @@ public class BeanUtil {
 	 */
 	public static <T>  T thriftBeanToBean(Class source,Class dest){
 		try{
-			T temporary=(T) dest.newInstance();
+			T temporary=(T) dest.getDeclaredConstructor().newInstance();
 			BeanUtils.copyProperties(temporary,source);
 			return temporary;
 		}catch (Throwable e) {

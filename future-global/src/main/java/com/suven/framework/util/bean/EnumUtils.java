@@ -65,7 +65,7 @@ public class EnumUtils {
 			return null;
 		}
 	}
-
+	@SuppressWarnings("unchecked")
 	public static <E extends Enum<E>> List<E> getEnumListByInterfaceClass(Class interfaceClass) {
 		Set<Class<E >> classList = ReflectionsScan.reflections.getSubTypesOf(interfaceClass);
 		List<E> list = new ArrayList<>();
