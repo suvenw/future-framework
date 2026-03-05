@@ -1,6 +1,5 @@
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
 // 项目名称描述
@@ -37,11 +36,3 @@ dependencies {
     // ===================== Spring Cloud Alibaba Nacos 依赖 =====================
 }
 
-// 发布配置
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-}

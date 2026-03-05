@@ -350,7 +350,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
      * 解析单个单元格
      */
     private LuckySheetCellData parseCell(Cell cell, boolean includeStyle, boolean includeFormula) {
-        LuckySheetCellData.LuckysheetCellDataBuilder builder = LuckySheetCellData.builder();
+        LuckySheetCellData.LuckySheetCellDataBuilder builder = LuckySheetCellData.builder();
         
         CellType cellType = cell.getCellType();
         

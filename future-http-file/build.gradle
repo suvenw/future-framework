@@ -30,7 +30,8 @@ springBoot {
 
 
 jar {
-    enabled = false
+    enabled = true
+    archiveClassifier = ''
 }
 
 dependencies {
