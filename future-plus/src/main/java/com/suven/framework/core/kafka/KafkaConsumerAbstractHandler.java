@@ -25,8 +25,7 @@ import java.util.Optional;
  *
  */
 
-
-
+@SuppressWarnings("unchecked")
 public abstract class KafkaConsumerAbstractHandler<T>{
 
     private Logger logger = LoggerFactory.getLogger(KafkaConsumerAbstractHandler.class);

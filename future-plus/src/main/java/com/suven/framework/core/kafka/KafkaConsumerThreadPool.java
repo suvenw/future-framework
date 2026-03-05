@@ -58,10 +58,11 @@ public class KafkaConsumerThreadPool {
 	 * 						          任务会交给RejectedExecutionHandler来处理
 	 */
 
+	@SuppressWarnings("unchecked")
 	private final static ExecutorService executors = new ThreadPoolExecutor(
 			10, 1000, 10L,
 			TimeUnit.MILLISECONDS,
-			new ArrayBlockingQueue(1000),
+			new ArrayBlockingQueue<>(1000),
 			new ThreadFactoryBuilder().setNameFormat("kafka-worker-%d").build());
 //			new ThreadPoolExecutor.CallerRunsPolicy());
 

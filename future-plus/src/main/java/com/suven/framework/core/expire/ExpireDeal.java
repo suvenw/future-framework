@@ -53,7 +53,7 @@ public class ExpireDeal {
         Map<String, Object> expireToAnno = new HashMap<>();
         Annotation head = AnnotationUtils.findAnnotation(KeyClass, annoType);
         if (head == null) {
-            return Collections.EMPTY_MAP;
+            return Collections.emptyMap();
         }
         Field[] fields = KeyClass.getFields();
         for (Field field : fields) {

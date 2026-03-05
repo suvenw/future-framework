@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 
+@SuppressWarnings("unchecked")
 //@Component
 public class KafkaConsumerListener {
 
@@ -52,4 +53,3 @@ public class KafkaConsumerListener {
 
 
 }
-

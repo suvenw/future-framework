@@ -15,6 +15,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 @ConditionalOnClass(RocketMQAutoConfiguration.class)
+@SuppressWarnings("unchecked")
 public abstract class RocketMQConsumerAbstractHandler<T> implements RocketMQListener<RocketMQConsumerWithPayload>  {
 
     private Logger logger = LoggerFactory.getLogger(RocketMQConsumerAbstractHandler.class);
@@ -114,12 +115,13 @@ public abstract class RocketMQConsumerAbstractHandler<T> implements RocketMQList
         return jsonSerializable(data,clazz);
     }
 
+    @SuppressWarnings("unchecked")
     protected T jsonSerializable(byte[] data ,Class<T> clazz) {
         if(data == null || null == clazz){
             return null;
         }
         if (String.class == clazz) {
-            return (T)String.valueOf( data);
+            return (T)String.valueOf(data);
         }
 
         T josn = TypeSerializer.parseObject( clazz,data);

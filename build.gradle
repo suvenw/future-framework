@@ -62,7 +62,8 @@ allprojects {
 
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
-        options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+        // 禁用 unchecked 和 deprecation 警告显示（警告仍然存在但不显示在控制台）
+        options.compilerArgs << '-Xlint:none'
         doFirst {
             println "Compiling  with Java -------"
         }

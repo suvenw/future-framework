@@ -2,7 +2,6 @@ package com.suven.framework.core.kafka;
 
 import com.suven.framework.core.spring.SpringUtil;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.common.protocol.types.Field;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ import java.util.Optional;
  * Description: (说明) kafka 消费端工作流线程实现类,通过消费consumerRecord队列信息,交给工作线程处理;
  */
 
-
+@SuppressWarnings("unchecked")
 public class ConsumerWorkerThread<T> implements Runnable {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -32,7 +31,7 @@ public class ConsumerWorkerThread<T> implements Runnable {
 
     public ConsumerWorkerThread(ConsumerRecord<String, String> record, KafkaConsumerAbstractHandler<T> kafkaConsumerHandler) {
        this.consumerRecord = record;
-       KafkaConsumerAbstractHandler<T> consumer = SpringUtil.getBean(kafkaConsumerHandler.getClass());
+       KafkaConsumerAbstractHandler<T> consumer = (KafkaConsumerAbstractHandler<T>) SpringUtil.getBean(kafkaConsumerHandler.getClass());
        this.kafkaConsumerHandler = consumer;
 
    }
@@ -47,11 +46,11 @@ public class ConsumerWorkerThread<T> implements Runnable {
                 return;
             }
 
-            Class clazz = getParameterType();
+            Class<T> clazz = getParameterType();
             if(clazz == null){
                 throw new RuntimeException("ReflectionUtils findMethod method to  getParameterTypes error" );
             }
-            kafkaConsumerHandler.onMessage(consumerRecord,clazz);
+            kafkaConsumerHandler.onMessage(consumerRecord, clazz);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -67,11 +66,11 @@ public class ConsumerWorkerThread<T> implements Runnable {
     private Class<T> getParameterType(){
         Method[] methods = kafkaConsumerHandler.getClass().getDeclaredMethods();
         for(Method method : methods){
-            Class[] parameterClasses = method.getParameterTypes();
+            Class<?>[] parameterClasses = method.getParameterTypes();
             if(!"executeConsumer".equals(method.getName())|| parameterClasses==null || parameterClasses.length < 1){
                 continue;
             }
-            Class<T> parameterType = parameterClasses[0];
+            Class<T> parameterType = (Class<T>) parameterClasses[0];
             if(parameterType == Object.class){
                 continue;
             }
