@@ -1,7 +1,6 @@
 package com.suven.framework.sys.controller;
 
 
-
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import java.io.*;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 // import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,13 +77,8 @@ import com.suven.framework.sys.dto.enums.SysDepartPermissionQueryEnum;
 public class SysDepartPermissionWebController {
 
 
-
-
-
-
     @Autowired
     private SysDepartPermissionService  sysDepartPermissionService;
-
 
 
     /**
@@ -129,8 +122,6 @@ public class SysDepartPermissionWebController {
         log.info("分页查询部门权限表完成, 总数: {}", pageResult.getTotal());
         return pageResult.convertBuild(SysDepartPermissionShowResponseVo.class);
     }
-
-
 
 
     /**
@@ -251,12 +242,6 @@ public class SysDepartPermissionWebController {
     }
 
 
-
-
-
-
-
-
     /**
      * 删除部门权限表信息
      * 根据ID列表批量删除部门权限表记录
@@ -291,11 +276,6 @@ public class SysDepartPermissionWebController {
         log.info("删除部门权限表信息完成, 删除数量: {}", result);
         return result;
     }
-
-
-
-
-
 
 
 }
