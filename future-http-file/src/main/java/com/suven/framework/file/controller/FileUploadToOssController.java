@@ -20,7 +20,6 @@ import com.suven.framework.file.vo.response.FileHistoryResponseVo;
 import com.suven.framework.file.vo.response.FileUploadResponseVo;
 import com.suven.framework.http.api.ApiDoc;
 import com.suven.framework.http.exception.SystemRuntimeException;
-import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.message.ParameterMessage;
 import com.suven.framework.util.date.DateUtil;
 import com.suven.framework.util.http.OkHttpClients;
@@ -30,7 +29,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,10 +43,19 @@ import java.util.Date;
 import java.util.List;
 
 import static com.suven.framework.file.util.FileMsgEnum.DELETE_FILE_PATH_IS_NULL;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 @ApiDoc(module = "文件存储阿里云OSS文件服务的相关api",group = "File-group",groupDesc = "阿里云oss存储文件件上传下载文档")
-@Controller
+@Validated
+@Slf4j
+@RestController
 public class FileUploadToOssController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -74,11 +81,8 @@ public class FileUploadToOssController {
 	private FileClient fileClient;
 
 
-
 	/**
 	 * 上传文件
-	 * @param output
-	 * @param uploadFileVo
 	 * @param files
 	 * @throws IOException
 	 */
@@ -86,7 +90,7 @@ public class FileUploadToOssController {
 			request = FileUploadRequestVo.class,
 			response = FileUploadResponseVo.class)
     @RequestMapping(value = URLFileCommand.oss_file_post_file, method = RequestMethod.POST )
-	public void uploadFileToOss(OutputResponse output, FileUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile files) throws IOException {
+	public FileUploadResponseVo uploadFileToOss(FileUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile files) throws IOException {
 		if(null == files ){
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_IS_NULL_FAIL);
 		}
@@ -105,8 +109,7 @@ public class FileUploadToOssController {
             if (null != errorEnum) {
                 vo.setErrorEnum(errorEnum);
                 vo.setPath(files.getOriginalFilename());
-                output.write(vo);
-                return;
+                return vo;
             }
             //文件名称
 			String ossFileName = this.uploadFileToOssFileService(uploadFileVo.getOssPath(),uploadFile.getPrefixPath(),ext);
@@ -116,14 +119,13 @@ public class FileUploadToOssController {
                 logger.error("failed post file to cloud, urlPath:{}, userId:{}", uploadFile.getUrlPath(), userId);
                 vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_OSS);
                 vo.setPath(files.getOriginalFilename());
-                output.write(vo);
-                return;
+                return vo;
             }
 			vo.setOssUrl(storePath);
 //            vo.setPath(ossFileName);
 			vo.setPath(fileConfigSetting.getOss().getDomain()+"/"+ossFileName);
             vo.setDomain(fileConfigSetting.getOss().getDomain());
-            output.write(vo);
+            return vo;
         } catch (OSSException oe) {
             logger.error("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -139,7 +141,6 @@ public class FileUploadToOssController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
 
 	}
@@ -176,14 +177,12 @@ public class FileUploadToOssController {
 	}
 	/**
      * 批量上传文件
-	 * @param output
-     * @param uploadFileVo
      * @param files
      * @throws IOException
 	 */
 	@ApiDoc(value = "阿里云oss存储--批量上传文件功能",author = "suven", request = FileBathUploadRequestVo.class, response = FileUploadResponseVo.class)
 	@RequestMapping(value = URLFileCommand.oss_file_post_m_file, method = RequestMethod.POST )
-	public void uploadMultipartFileToOss(OutputResponse output, FileBathUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile[] files) throws IOException {
+	public FileUploadResponseVo uploadMultipartFileToOss(FileBathUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile[] files) throws IOException {
 
 		if (null == files || files.length < 0) {
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_IS_NULL_FAIL);
@@ -219,21 +218,20 @@ public class FileUploadToOssController {
 					logger.error("failed post file to cloud, urlPath:{}, userId:{}", uploadFile.getUrlPath(), userId);
 					vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_OSS);
 					vo.setPath(file.getOriginalFilename());
-					output.write(vo);
-					return;
+					return vo;
 				}
 				vo.setOssUrl(storePath);
 //              vo.setPath(ossFileName);
 				vo.setPath(fileConfigSetting.getOss().getDomain()+"/"+ossFileName);
 				vo.setDomain(fileConfigSetting.getOss().getDomain());
-				output.write(vo);
+				return vo;
 				if (storePath == null) {
 					logger.error("failed post file to cloud, urlPath:{}, userId:{}", uploadFile.getUrlPath(), userId);
 					vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_OSS);
 					vo.setPath(file.getOriginalFilename());
 					continue;
 				}
-				output.write(vo);
+				return vo;
 			} catch (OSSException oe) {
 				logger.error("Caught an OSSException, which means your request made it to OSS, "
 						+ "but was rejected with an error response for some reason.");
@@ -260,14 +258,12 @@ public class FileUploadToOssController {
 
 	/**
      * 按字节上传文件
-	 * @param output
-     * @param uploadFileVo
      * @throws Exception
 	 */
 
 	@ApiDoc(value = "阿里云oss存储-- 单个文件按字节数组上传文件功能",author = "suven", request = FileUploadBytesRequestVo.class, response = FileUploadResponseVo.class)
 	@RequestMapping(value = URLFileCommand.oss_file_post_file_byte, method = RequestMethod.POST)
-	public void uploadFileBytes(OutputResponse output, FileUploadBytesRequestVo uploadFileVo)  throws Exception{
+	public FileUploadResponseVo uploadFileBytes(FileUploadBytesRequestVo uploadFileVo)  throws Exception{
 		//登录验证
 		long userId = ParameterMessage.getRequestMessage().getUserId();
 		FileUploadResponseVo vo = FileUploadResponseVo.build().setStatus(0).setErrorMsg("OK");
@@ -276,8 +272,7 @@ public class FileUploadToOssController {
 			UploadFileErrorEnum errorEnum = checkParam(uploadFileVo);
 			if(null !=  errorEnum){
 				vo.setErrorEnum(errorEnum);
-				output.write( vo);
-				return;
+				return vo;
 			}
 			byte[] blockSize = uploadFileVo.getBlockSize();
 			inputStream = new ByteArrayInputStream(blockSize);
@@ -290,14 +285,13 @@ public class FileUploadToOssController {
 			if(storePath == null){
 				logger.error("failed post file to cloud, urlPath:{}, userId:{}", uploadFileVo.getUrlPath(), userId);
 				vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_FST);
-				output.write(vo);
-				return;
+				return vo;
 			}
 			vo.setOssUrl(storePath);
 //            vo.setPath(ossFileName);
 			vo.setPath(fileConfigSetting.getOss().getDomain()+"/"+ossFileName);
 			vo.setDomain(fileConfigSetting.getOss().getDomain());
-			output.write(vo);
+			return vo;
 		} catch (OSSException oe) {
 			logger.error("Caught an OSSException, which means your request made it to OSS, "
 					+ "but was rejected with an error response for some reason.");
@@ -319,7 +313,6 @@ public class FileUploadToOssController {
 			}
 		}
 	}
-
 
 
 	private UploadFileErrorEnum checkParam(FileUploadBytesRequestVo uploadFile) throws Exception{
@@ -345,13 +338,12 @@ public class FileUploadToOssController {
 		if (!fileConfigSetting.validatorFileSize(uploadFile.getFileSize())) {
 			// 文件太大
 			logger.warn("file too big fileSize:{},  XXXId:{}", uploadFile.getFileSize(), userId);
-//			message.write(SFileUploadStatus.newBuilder().setStatus(0).setMsg("文件太大").build());
+//			return SFileUploadStatus.newBuilder(;.setStatus(0).setMsg("文件太大").build());
 			errorEnum =  UploadFileErrorEnum.UPLOAD_FILE_ERROR_OVER_BLOCK_SIZE;
 			return errorEnum;
 		}
 		return errorEnum;
 	}
-
 
 
 	/**
@@ -361,13 +353,12 @@ public class FileUploadToOssController {
 	 */
 	@ApiDoc(value = "阿里云oss存储-- 根据url删除文件功能",author = "suven", request = FileDeleteRequestVo.class, response = boolean.class)
 	@RequestMapping(value = URLFileCommand.oss_file_post_file_delete, method = RequestMethod.POST)
-	public void deleteFile(OutputResponse output, FileDeleteRequestVo uploadFile) throws FdfsUnsupportStorePathException {
+	public boolean deleteFile(FileDeleteRequestVo uploadFile) throws FdfsUnsupportStorePathException {
 		if (isEmpty(uploadFile.getFileUrl())) {
-			output.write(DELETE_FILE_PATH_IS_NULL);
-			return;
+			return DELETE_FILE_PATH_IS_NULL;
 		}
 		OSSUploadUtil.deleteFile(ossClient,uploadFile.getFileUrl());
-		output.writeSuccess();
+		return true;
 	}
 	/**
 	 * 删除文件
@@ -376,15 +367,13 @@ public class FileUploadToOssController {
 	 */
 	@ApiDoc(value = "阿里云oss存储-- 根据url删除文件功能",author = "suven", request = FileDeleteRequestVo.class, response = boolean.class)
 	@RequestMapping(value = URLFileCommand.oss_file_post_delete_list, method = RequestMethod.POST)
-	public void batchDeleteFiles(OutputResponse output, FileDeleteRequestVo uploadFile) throws FdfsUnsupportStorePathException {
+	public boolean batchDeleteFiles(FileDeleteRequestVo uploadFile) throws FdfsUnsupportStorePathException {
 		if (isEmpty(uploadFile.getFileUrl())) {
-			output.write(DELETE_FILE_PATH_IS_NULL);
-			return;
+			return DELETE_FILE_PATH_IS_NULL;
 		}
 		OSSUploadUtil.deleteFiles(ossClient,uploadFile.getFileUrls());
-		output.writeSuccess();
+		return true;
 	}
-
 
 
     private boolean isEmpty( String str){
@@ -392,10 +381,9 @@ public class FileUploadToOssController {
 	}
 
 
-
 //	@ApiDoc(value = "阿里云oss存储-- 视频分块转m3u8文件功能",author = "suven", request = FileUploadBytesRequestVo.class, response = FileUploadResponseVo.class)
 //	@RequestMapping(value = URLFileCommand.file_post_byte_m3u8, method = RequestMethod.POST)
-//	public void uploadFileM3u8(OutputResponse output, FileUploadBytesRequestVo uploadFile)  throws Exception{
+//	public FileUploadResponseVo uploadFileM3u8(FileUploadBytesRequestVo uploadFile)  throws Exception{
 //
 //		//登录验证
 //		long userId = ParamMessage.getRequestMessage().getUserId();
@@ -410,8 +398,8 @@ public class FileUploadToOssController {
 //		UploadFileErrorEnum errorEnum = checkParam(uploadFile);
 //		if(null !=  errorEnum){
 //			vo.setErrorEnum(errorEnum);
-//			output.write( vo);
-//			return;
+//			return vo;
+//			return null;
 //		}
 //
 //		// 默认当前进度为0
@@ -434,16 +422,16 @@ public class FileUploadToOssController {
 //				vo.setDomain(fileConfigSetting.getDomain());
 //				vo.setOffset(uploadFile.getOffset());
 //				vo.setPath(UpLoadConstant.DEFAULT_GROUP_PATH + historyResponseVo.getNoGroupPath());
-//				output.write(vo);
-//				return;
+//				return vo;
+//				return null;
 //			}
 //		}
 //
 //		// 续传位置不对 返回当前缓存位置,且不是最后一块
 //		if (curPosition != uploadFile.getOffset() ) {
 //			vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_OFFSET).setOffset(curPosition).setPath(uploadFile.getFileMd5());
-//			output.write(vo);
-//			return;
+//			return vo;
+//			return null;
 //		}
 //
 //		//第一块
@@ -460,8 +448,8 @@ public class FileUploadToOssController {
 //			curPosition = uploadFile.getChunkSize(); //设置新位置
 //			saveCache(userId,fileMd5,curPosition,storePath.getPath());
 //			vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_NOT_FINISH).setOffset(uploadFile.getChunkSize()).setPath(uploadFile.getFileMd5());
-//			output.write(vo);
-//			return;
+//			return vo;
+//			return null;
 //		}
 //
 //
@@ -475,19 +463,19 @@ public class FileUploadToOssController {
 //			curPosition = curPosition + uploadFile.getChunkSize();
 //			saveCache(userId,fileMd5,curPosition,noGroupPath);
 //			vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_NOT_FINISH).setOffset(curPosition).setPath(uploadFile.getFileMd5());
-//			output.write(vo);
-//			return;
+//			return vo;
+//			return null;
 //		}
 //
 //
 //		if(storePath == null){
 //			vo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_FST);
-//			output.write(vo);
-//			return;
+//			return vo;
+//			return null;
 //		}
 //		saveCache(userId,fileMd5,curPosition,storePath.getPath());
 //		vo.setPath(storePath.getFullPath());
-//		output.write(vo);
+//		return vo;
 //	}
 
 
@@ -542,7 +530,7 @@ public class FileUploadToOssController {
 			response = FileUploadResponseVo.class
 	)
 	@RequestMapping(value = URLFileCommand.oss_file_post_qrCodeUploadOss, method = RequestMethod.POST)
-	public void qrCodeUploadOss(OutputResponse output, QRCodeUserInfoRequestVo vo) {
+	public FileUploadResponseVo qrCodeUploadOss(
 		try {
 			logger.info("开始生成二维码上传到OSS");
 			//生成二维码的编码
@@ -551,7 +539,7 @@ public class FileUploadToOssController {
 			BufferedImage verifyImg = QRCodeUtil.drawLogoQRCode(vo.getQrUrl(), code);
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			String fileType = StringUtils.isEmpty(vo.getFileType()) ? "jpg" : vo.getFileType();
-			ImageIO.write(verifyImg, fileType, os);//输出图片流
+			return verifyImg, fileType, os;//输出图片流
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(os.toByteArray());
 			//文件名称
 			String ossFileName = this.uploadFileToOssFileService(vo.getOssPath(), vo.getFolderName(), fileType);
@@ -562,15 +550,14 @@ public class FileUploadToOssController {
 				logger.error("failed post file to cloud, urlPath:{}", ossFileName);
 				responseVo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_OSS);
 				responseVo.setPath(ossFileName);
-				output.write(vo);
-				return;
+				return vo;
 			}
 			os.flush();
 			os.close();//关闭流
 			responseVo.setOssUrl(storePath);
 			responseVo.setPath(fileConfigSetting.getOss().getDomain() + "/" + ossFileName);
 			responseVo.setDomain(fileConfigSetting.getOss().getDomain());
-			output.write(responseVo);
+			return responseVo;
 		} catch (Exception e) {
 			logger.error("qrCodeUploadOss Exception: ",e);
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_EXCEPTION_FAIL);
@@ -584,7 +571,7 @@ public class FileUploadToOssController {
 			response = FileUploadResponseVo.class
 	)
 	@RequestMapping(value = URLFileCommand.oss_file_post_qrLogoUploadOss, method = RequestMethod.POST)
-	public void qrCodeLogo(OutputResponse output, QRCodeRequestVo vo) {
+	public FileUploadResponseVo qrCodeLogo(
 		try {
 			logger.info("开始生成二维码上传到OSS");
 			//生成二维码的编码
@@ -595,7 +582,7 @@ public class FileUploadToOssController {
 			BufferedImage verifyImg = QRCodeUtil.drawLogoQRCode(vo.getQrUrl(),code, logoCodeStream,vo.getWidth(),vo.getHeight());
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			String fileType = StringUtils.isEmpty(vo.getFileType()) ? "png" : vo.getFileType();
-			ImageIO.write(verifyImg, fileType, os);//输出图片流
+			return verifyImg, fileType, os;//输出图片流
 			ByteArrayInputStream inputStream = new ByteArrayInputStream(os.toByteArray());
 			//文件名称
 			String ossFileName = this.uploadFileToOssFileService(vo.getOssPath(), null, fileType);
@@ -606,15 +593,14 @@ public class FileUploadToOssController {
 				logger.error("failed post file to cloud, urlPath:{}", ossFileName);
 				responseVo.setErrorEnum(UploadFileErrorEnum.UPLOAD_FILE_ERROR_TO_OSS);
 				responseVo.setPath(ossFileName);
-				output.write(vo);
-				return;
+				return vo;
 			}
 			os.flush();
 			os.close();//关闭流
 			responseVo.setOssUrl(storePath);
 			responseVo.setPath(fileConfigSetting.getOss().getDomain() + "/" + ossFileName);
 			responseVo.setDomain(fileConfigSetting.getOss().getDomain());
-			output.write(responseVo);
+			return responseVo;
 		} catch (Exception e) {
 			logger.error("qrCodeLogo Exception: ",e);
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_EXCEPTION_FAIL);
@@ -639,7 +625,7 @@ public class FileUploadToOssController {
 			//生成二维码
 			BufferedImage verifyImg = QRCodeUtil.drawLogoQRCode(vo.getQrUrl(),code, logoCodeStream,vo.getWidth(),vo.getHeight());
 			OutputStream os = response.getOutputStream(); //获取文件输出流
-			ImageIO.write(verifyImg, fileType, os);//输出图片流
+			return verifyImg, fileType, os;//输出图片流
 			os.flush();
 			os.close();//关闭流
 		} catch (Exception e) {
@@ -647,9 +633,6 @@ public class FileUploadToOssController {
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_EXCEPTION_FAIL);
 		}
 	}
-
-
-
 
 
 }
