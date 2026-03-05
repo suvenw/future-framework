@@ -141,9 +141,7 @@ public class FileUploadStorageWebController {
                 fileUploadStorageQueryRequestVo.getPageNo(),
                 fileUploadStorageQueryRequestVo.getPageSize()
         );
-        pager.toPageSize(fileUploadStorageQueryRequestVo.getPageSize())
-                .toPageNo(fileUploadStorageQueryRequestVo.getPageNo())
-                .toParamObject(fileUploadStorageRequestDto);
+        pager.toParamObject(fileUploadStorageRequestDto);
 
         FileUploadStorageQueryEnum queryEnum = FileUploadStorageQueryEnum.DESC_ID;
         PageResult<FileUploadStorageResponseDto> resultList = fileUploadStorageService

@@ -1,6 +1,5 @@
 package com.suven.framework.file.dto.luckysheet;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.suven.framework.http.api.ApiDesc;
@@ -58,13 +57,13 @@ public class LuckysheetSheetConfig implements Serializable {
      * 单元格数据 - 二维数组
      */
     @ApiDesc(value = "单元格数据", required = 0)
-    private List<List<LuckysheetCellData>> data;
+    private List<List<LuckySheetCellData>> data;
 
     /**
      * 合并单元格配置
      */
     @ApiDesc(value = "合并单元格", required = 0)
-    private Map<String, LuckysheetMergeCell> merge;
+    private Map<String, LuckySheetMergeCell> merge;
 
     /**
      * 行高配置
@@ -94,19 +93,19 @@ public class LuckysheetSheetConfig implements Serializable {
      * 筛选配置
      */
     @ApiDesc(value = "筛选配置", required = 0)
-    private LuckysheetFilter filter;
+    private LuckySheetFilter filter;
 
     /**
      * 冻结行配置
      */
     @ApiDesc(value = "冻结行", required = 0)
-    private LuckysheetFreeze freeze;
+    private LuckySheetFreeze freeze;
 
     /**
      * 保护配置
      */
     @ApiDesc(value = "保护配置", required = 0)
-    private LuckysheetProtect protect;
+    private LuckySheetProtect protect;
 
     /**
      * 转换为 JSON 对象
@@ -132,10 +131,10 @@ public class LuckysheetSheetConfig implements Serializable {
         // 处理单元格数据
         if (data != null) {
             JSONArray dataArray = new JSONArray();
-            for (List<LuckysheetCellData> row : data) {
+            for (List<LuckySheetCellData> row : data) {
                 JSONArray rowArray = new JSONArray();
                 if (row != null) {
-                    for (LuckysheetCellData cell : row) {
+                    for (LuckySheetCellData cell : row) {
                         if (cell != null) {
                             rowArray.add(cell.toJson());
                         } else {
@@ -151,7 +150,7 @@ public class LuckysheetSheetConfig implements Serializable {
         // 处理合并单元格
         if (merge != null && !merge.isEmpty()) {
             JSONObject mergeJson = new JSONObject();
-            for (Map.Entry<String, LuckysheetMergeCell> entry : merge.entrySet()) {
+            for (Map.Entry<String, LuckySheetMergeCell> entry : merge.entrySet()) {
                 mergeJson.put(entry.getKey(), entry.getValue().toJson());
             }
             json.put("merge", mergeJson);

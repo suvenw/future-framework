@@ -8,6 +8,8 @@ import com.github.tobato.fastdfs.exception.FdfsUnsupportStorePathException;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.suven.framework.file.vo.request.*;
+import com.suven.framework.http.data.entity.PageResult;
+import com.suven.framework.http.data.entity.Pager;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -119,7 +121,7 @@ public class FileFastDFSController {
 				inputStream.close();
 			}
 		}
-
+		return vo;
 
 	}
 
@@ -130,7 +132,7 @@ public class FileFastDFSController {
 	 */
 	@ApiDoc(value = "FastDFS批量上传文件功能",author = "suven", request = FileBathUploadRequestVo.class, response = FileUploadResponseVo.class)
 	@RequestMapping(value = URLFileCommand.file_post_m_file, method = RequestMethod.POST )
-	public FileUploadResponseVo uploadMultipartFile(FileBathUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile[] files) throws IOException {
+	public PageResult<FileUploadResponseVo> uploadMultipartFile(FileBathUploadRequestVo uploadFileVo, @PathVariable("files") MultipartFile[] files) throws IOException {
 
 		if(null == files || files.length < 0){
 			throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_IS_NULL_FAIL);
@@ -138,11 +140,12 @@ public class FileFastDFSController {
 		long userId = ParameterMessage.getRequestMessage().getUserId();
 
 		InputStream inputStream = null;
-		List<FileUploadResponseVo> list = new ArrayList<>();
+
+		PageResult<FileUploadResponseVo> pageResult = new PageResult<>();
 
 		for (MultipartFile file : files){
 			FileUploadResponseVo vo = FileUploadResponseVo.build().setStatus(0).setErrorMsg("OK");
-			list.add(vo);
+			pageResult.getList().add(vo);
 			try {
 				FileUploadBytesRequestVo uploadFile = FileUploadBytesRequestVo.build();
                 String ext = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -174,9 +177,8 @@ public class FileFastDFSController {
 					inputStream.close();
 				}
 			}
-			return vo;
 		}
-
+		return pageResult;
 
 	}
 
@@ -218,6 +220,7 @@ public class FileFastDFSController {
 				inputStream.close();
 			}
 		}
+		return vo;
 	}
 
 	/**
@@ -264,6 +267,7 @@ public class FileFastDFSController {
                 inputStream.close();
             }
         }
+		return vo;
     }
 
 
@@ -312,7 +316,7 @@ public class FileFastDFSController {
 		fileReqVo.setFileType(uploadFile.getFileType());
 		fileReqVo.setFileSize(uploadFile.getFileSize());
 		fileReqVo.setOffset(uploadFile.getOffset());
-		this.uploadFileBlock(output,fileReqVo);
+		return this.uploadFileBlock(fileReqVo);
 	}
 
 	/**
@@ -333,14 +337,14 @@ public class FileFastDFSController {
         fileReqVo.setUrlPath(uploadFile.getUrlPath());
         fileReqVo.setPrefixName(uploadFile.getPrefixName());
 
-        this.uploadFileSlaveBytes(output,fileReqVo);
+       return this.uploadFileSlaveBytes(fileReqVo);
     }
 
 
 	@RequestMapping(value = URLFileCommand.file_post_file_block, method = RequestMethod.POST)
 	public FileUploadResponseVo uploadFileBlock(FileUploadBytesRequestVo uploadFile, @PathVariable("files") MultipartFile files)  throws Exception{
 		uploadFile.setFileInputStream(files.getInputStream());
-		this.uploadFileBlock(output,uploadFile);
+		return this.uploadFileBlock(uploadFile);
 	}
 
 
@@ -456,7 +460,7 @@ public class FileFastDFSController {
 	public boolean deleteFile(FileDeleteRequestVo uploadFile) throws FdfsUnsupportStorePathException {
 		if (isEmpty(uploadFile.getFileUrl())) {
 
-			return null;
+			return false;
 		}
 		StorePath storePath = StorePath.parseFromUrl(uploadFile.getFileUrl());
 		fastFileStorageClient.deleteFile(storePath.getGroup(), storePath.getPath());
@@ -470,7 +474,7 @@ public class FileFastDFSController {
      */
 	@ApiDoc(value = "FastDFS 根据url下载文件功能",author = "suven", request = FileDownloadRequestVo.class, response = Byte[].class)
     @RequestMapping(value = URLFileCommand.file_post_file_download, method = RequestMethod.POST)
-    public Byte[] downloadFile(FileDownloadRequestVo uploadFile) throws FdfsUnsupportStorePathException {
+    public byte[] downloadFile(FileDownloadRequestVo uploadFile) throws FdfsUnsupportStorePathException {
         if (StringUtils.isEmpty(uploadFile.getUrlPath())) {
             throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_PATH_NULL);
         }
@@ -483,6 +487,7 @@ public class FileFastDFSController {
         } catch (FdfsUnsupportStorePathException e) {
             logger.warn(e.getMessage());
         }
+		return null;
     }
 
     /**
@@ -492,7 +497,7 @@ public class FileFastDFSController {
      */
 	@ApiDoc(value = "FastDFS 根据url分块下载文件",author = "suven", request = FileDownloadRequestVo.class, response = FileDownBytesResponseVo.class)
     @RequestMapping(value = URLFileCommand.file_post_file_download_block, method = RequestMethod.POST)
-    public FileDownBytesResponseVo downloadFileBlock(FileDownloadRequestVo downloadFile) throws FdfsUnsupportStorePathException {
+    public byte[] downloadFileBlock(FileDownloadRequestVo downloadFile) throws FdfsUnsupportStorePathException {
         if (StringUtils.isEmpty(downloadFile.getUrlPath())) {
             throw new SystemRuntimeException(FileMsgEnum.UPLOAD_FILE_PATH_NULL);
         }
@@ -507,6 +512,7 @@ public class FileFastDFSController {
         } catch (FdfsUnsupportStorePathException e) {
             logger.warn(e.getMessage());
         }
+		return null;
     }
 
     private boolean isEmpty( String str){

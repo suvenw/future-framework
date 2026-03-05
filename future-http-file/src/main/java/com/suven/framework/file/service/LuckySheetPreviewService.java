@@ -1,7 +1,7 @@
 package com.suven.framework.file.service;
 
-import com.suven.framework.file.dto.luckysheet.LuckysheetPreviewRequestDto;
-import com.suven.framework.file.dto.luckysheet.LuckysheetPreviewResponseDto;
+import com.suven.framework.file.dto.luckysheet.LuckySheetPreviewRequestDto;
+import com.suven.framework.file.dto.luckysheet.LuckySheetPreviewResponseDto;
 
 /**
  * Luckysheet 预览服务接口
@@ -12,7 +12,7 @@ import com.suven.framework.file.dto.luckysheet.LuckysheetPreviewResponseDto;
  * @version v1.0.0
  * @date 创建时间: 2026-02-12
  */
-public interface LuckysheetPreviewService {
+public interface LuckySheetPreviewService {
 
     /**
      * 预览 Excel 文件
@@ -20,7 +20,7 @@ public interface LuckysheetPreviewService {
      * @param requestDto 预览请求参数
      * @return 预览响应结果
      */
-    LuckysheetPreviewResponseDto preview(LuckysheetPreviewRequestDto requestDto);
+    LuckySheetPreviewResponseDto preview(LuckySheetPreviewRequestDto requestDto);
 
     /**
      * 预览 Excel 文件并返回 Luckysheet JSON 格式
@@ -28,7 +28,7 @@ public interface LuckysheetPreviewService {
      * @param requestDto 预览请求参数
      * @return Luckysheet JSON 字符串
      */
-    String previewAsJson(LuckysheetPreviewRequestDto requestDto);
+    String previewAsJson(LuckySheetPreviewRequestDto requestDto);
 
     /**
      * 预览指定 Sheet
@@ -37,7 +37,7 @@ public interface LuckysheetPreviewService {
      * @param sheetIndex Sheet 索引 (从0开始)
      * @return 预览响应结果
      */
-    LuckysheetPreviewResponseDto previewSheet(LuckysheetPreviewRequestDto requestDto, int sheetIndex);
+    LuckySheetPreviewResponseDto previewSheet(LuckySheetPreviewRequestDto requestDto, int sheetIndex);
 
     /**
      * 检查文件是否为 Excel 文件
@@ -53,5 +53,5 @@ public interface LuckysheetPreviewService {
      * @param requestDto 预览请求参数
      * @return Sheet 名称列表
      */
-    java.util.List<String> getSheetNames(LuckysheetPreviewRequestDto requestDto);
+    java.util.List<String> getSheetNames(LuckySheetPreviewRequestDto requestDto);
 }

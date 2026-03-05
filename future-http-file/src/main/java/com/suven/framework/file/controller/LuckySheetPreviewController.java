@@ -1,10 +1,9 @@
 package com.suven.framework.file.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.suven.framework.file.dto.luckysheet.LuckysheetPreviewRequestDto;
-import com.suven.framework.file.dto.luckysheet.LuckysheetPreviewResponseDto;
-import com.suven.framework.file.service.LuckysheetPreviewService;
+import com.suven.framework.file.dto.luckysheet.LuckySheetPreviewRequestDto;
+import com.suven.framework.file.dto.luckysheet.LuckySheetPreviewResponseDto;
+import com.suven.framework.file.service.LuckySheetPreviewService;
 import com.suven.framework.http.api.ApiDoc;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,6 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * Luckysheet 在线预览 Controller
@@ -31,10 +27,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 @Slf4j
 @RestController
 @RequestMapping("/api/file/luckysheet")
-public class LuckysheetPreviewController {
+public class LuckySheetPreviewController {
 
     @Autowired
-    private LuckysheetPreviewService luckysheetPreviewService;
+    private LuckySheetPreviewService LuckySheetPreviewService;
 
     /**
      * 预览 Excel 文件
@@ -62,7 +58,7 @@ public class LuckysheetPreviewController {
         
         try {
             // 构建请求参数
-            LuckysheetPreviewRequestDto requestDto = LuckysheetPreviewRequestDto.builder()
+            LuckySheetPreviewRequestDto requestDto = LuckySheetPreviewRequestDto.builder()
                 .fileId(fileId)
                 .fileUrl(fileUrl)
                 .filePath(filePath)
@@ -74,14 +70,14 @@ public class LuckysheetPreviewController {
                 .build();
             
             // 执行预览
-            LuckysheetPreviewResponseDto response = luckysheetPreviewService.preview(requestDto);
+            LuckySheetPreviewResponseDto response = LuckySheetPreviewService.preview(requestDto);
             return response;
             
         } catch (Exception e) {
             log.error("Luckysheet预览失败", e);
-            return LuckysheetPreviewResponseDto.builder(;.success(false)
+            return LuckySheetPreviewResponseDto.builder().success(false)
                 .message("预览失败: " + e.getMessage())
-                .build());
+                .build();
         }
     }
 
@@ -107,7 +103,7 @@ public class LuckysheetPreviewController {
         
         try {
             // 构建请求参数
-            LuckysheetPreviewRequestDto requestDto = LuckysheetPreviewRequestDto.builder()
+            LuckySheetPreviewRequestDto requestDto = LuckySheetPreviewRequestDto.builder()
                 .fileId(fileId)
                 .fileUrl(fileUrl)
                 .filePath(filePath)
@@ -119,7 +115,7 @@ public class LuckysheetPreviewController {
                 .build();
             
             // 执行预览并返回 JSON 格式
-            String json = luckysheetPreviewService.previewAsJson(requestDto);
+            String json = LuckySheetPreviewService.previewAsJson(requestDto);
             
             if (json != null) {
                 return json;
@@ -129,7 +125,9 @@ public class LuckysheetPreviewController {
             
         } catch (Exception e) {
             log.error("Luckysheet预览失败", e);
-            return "{\"success\":false,\"message\":\"" + e.getMessage(;+ "\"}");
+            return LuckySheetPreviewResponseDto.builder().success(false)
+                    .message("预览失败: " + e.getMessage())
+                    .build();
         }
     }
 
@@ -154,7 +152,7 @@ public class LuckysheetPreviewController {
         
         try {
             // 构建请求参数
-            LuckysheetPreviewRequestDto requestDto = LuckysheetPreviewRequestDto.builder()
+            LuckySheetPreviewRequestDto requestDto = LuckySheetPreviewRequestDto.builder()
                 .fileId(fileId)
                 .fileUrl(fileUrl)
                 .filePath(filePath)
@@ -165,14 +163,14 @@ public class LuckysheetPreviewController {
                 .build();
             
             // 执行预览指定 Sheet
-            LuckysheetPreviewResponseDto response = luckysheetPreviewService.previewSheet(requestDto, sheetIndex);
+            LuckySheetPreviewResponseDto response = LuckySheetPreviewService.previewSheet(requestDto, sheetIndex);
             return response;
             
         } catch (Exception e) {
             log.error("Luckysheet预览指定Sheet失败", e);
-            return LuckysheetPreviewResponseDto.builder(;.success(false)
+            return LuckySheetPreviewResponseDto.builder().success(false)
                 .message("预览失败: " + e.getMessage())
-                .build());
+                .build();
         }
     }
 
@@ -192,14 +190,14 @@ public class LuckysheetPreviewController {
         
         try {
             // 构建请求参数
-            LuckysheetPreviewRequestDto requestDto = LuckysheetPreviewRequestDto.builder()
+            LuckySheetPreviewRequestDto requestDto = LuckySheetPreviewRequestDto.builder()
                 .fileId(fileId)
                 .fileUrl(fileUrl)
                 .filePath(filePath)
                 .build();
             
             // 获取 Sheet 名称列表
-            List<String> sheetNames = luckysheetPreviewService.getSheetNames(requestDto);
+            List<String> sheetNames = LuckySheetPreviewService.getSheetNames(requestDto);
             
             JSONObject result = new JSONObject();
             result.put("success", true);
@@ -228,7 +226,7 @@ public class LuckysheetPreviewController {
     public Object checkExcelFile(@RequestParam String fileName) {
         log.info("检查文件格式: fileName={}", fileName);
         
-        boolean isExcel = luckysheetPreviewService.isExcelFile(fileName);
+        boolean isExcel = LuckySheetPreviewService.isExcelFile(fileName);
         
         JSONObject result = new JSONObject();
         result.put("success", true);

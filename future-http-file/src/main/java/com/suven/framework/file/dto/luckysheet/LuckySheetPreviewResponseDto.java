@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckysheetPreviewResponseDto implements Serializable {
+public class LuckySheetPreviewResponseDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

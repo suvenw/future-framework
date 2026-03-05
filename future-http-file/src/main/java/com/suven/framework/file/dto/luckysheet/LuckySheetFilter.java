@@ -10,47 +10,56 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * Luckysheet 冻结配置
+ * Luckysheet 筛选配置
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckysheetFreeze implements Serializable {
+public class LuckySheetFilter implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 冻结类型: "row"=冻结行, "col"=冻结列, "rangeRowCol"=冻结行列, "rangeRow"=冻结行范围, "rangeCol"=冻结列范围
-     */
-    @ApiDesc(value = "冻结类型", required = 0)
-    private String type;
-
-    /**
-     * 冻结起始行
+     * 筛选范围 - 起始行
      */
     @ApiDesc(value = "起始行", required = 0)
     private Integer row;
 
     /**
-     * 冻结起始列
+     * 筛选范围 - 起始列
      */
     @ApiDesc(value = "起始列", required = 0)
     private Integer column;
+
+    /**
+     * 筛选范围 - 行数
+     */
+    @ApiDesc(value = "行数", required = 0)
+    private Integer rowCount;
+
+    /**
+     * 筛选范围 - 列数
+     */
+    @ApiDesc(value = "列数", required = 0)
+    private Integer columnCount;
 
     /**
      * 转换为 JSON 对象
      */
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        if (type != null) {
-            json.put("type", type);
-        }
         if (row != null) {
             json.put("row", row);
         }
         if (column != null) {
             json.put("column", column);
+        }
+        if (rowCount != null) {
+            json.put("row_count", rowCount);
+        }
+        if (columnCount != null) {
+            json.put("column_count", columnCount);
         }
         return json;
     }
