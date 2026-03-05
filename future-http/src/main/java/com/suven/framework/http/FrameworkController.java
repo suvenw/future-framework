@@ -8,7 +8,6 @@ import com.suven.framework.http.data.vo.RequestParserVo;
 import com.suven.framework.http.handler.OutputAesResponse;
 import com.suven.framework.http.handler.OutputAllResponse;
 import com.suven.framework.http.handler.OutputCacheResponse;
-import com.suven.framework.http.handler.OutputResponse;
 import com.suven.framework.http.inters.IResultCodeEnum;
 import com.suven.framework.http.message.HttpMsgEnumError;
 import com.suven.framework.http.message.HttpRequestGetMessage;
@@ -17,11 +16,17 @@ import com.suven.framework.http.processor.url.SysURLCommand;
 import com.suven.framework.util.crypt.CryptUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 
 @ApiDoc(
@@ -29,7 +34,9 @@ import java.util.*;
         groupDesc= DocumentConst.Global.API_DOC_BASE_DES,
         module = "API 接口公共文档", isApp = true
 )
-@Controller
+@Validated
+@Slf4j
+@RestController
 public class FrameworkController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -40,7 +47,7 @@ public class FrameworkController {
             response = HttpMsgEnumError.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_error_no, method = RequestMethod.GET)
-    public void getSysMsgEnumError(OutputResponse out, RequestParserVo jsonParse)  {
+    public List<HttpMsgEnumError> getSysMsgEnumError(RequestParserVo jsonParse) {
         Map<Integer, IResultCodeEnum> error =  IResultCodeEnum.MsgEnumType.getMsgTypeMap();
         Collection<IResultCodeEnum> list =   error.values();
         List<HttpMsgEnumError>  voList = new ArrayList<>();
@@ -48,28 +55,8 @@ public class FrameworkController {
             voList.add(HttpMsgEnumError.build().init(code.getCode(),code.getMsg()));
         });
         Collections.sort(voList);
-        out.write(voList);
+        return voList;
     }
-
-//    @ApiDoc(
-//            value = "文档数据搜索数据",
-//            request = ApiDocJsonParse.class,
-//            response = String.class
-//    )
-//    @RequestMapping(value = SysURLCommand.sys_get_service_api_doc, method = RequestMethod.GET)
-//    public void getServiceApiDoc(OutputResponse out, ApiDocJsonParse jsonParse)  {
-//        SwaggerResultBean api =  SwaggerReflectionsDoc.getApiDoc(jsonParse.getSearch());
-//        if(null != api){
-//            out.writeResult(api);
-//            return;
-//        }
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("please go to  application.properties file  system config info : ");
-//        sb.append(GlobalConfigConstants.TOP_SERVER_API_ENABLED);
-//        sb.append(" = true");
-//        out.writeResult(sb.toString());
-//
-//    }
 
     @ApiDoc(
             value = "接口服务基本响应",
@@ -77,36 +64,9 @@ public class FrameworkController {
             response = long.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_framework, method = RequestMethod.GET)
-    public void getFrameworkApi(OutputResponse out, RequestParserVo jsonParse)  {
-        out.writeSuccess();
+    public long getFrameworkApi(RequestParserVo jsonParse) {
+        return 1L;
     }
-
-//    @ApiDoc(
-//            value = "接口服务基本响应",
-//            request = HttpRequestGetMessage.class,
-//            response = long.class
-//    )
-//
-//    @RequestMapping(value = SysURLCommand.sys_get_framework_http, method = RequestMethod.GET)
-//    public void getFrameworkApiHttp(OutputResponse out, HttpRequestGetMessage jsonParse)  {
-//        String json = JsonUtils.toJson(jsonParse);
-//        Map map  = JsonUtils.toMap(json);
-//        map.put("sysVersion", "android");
-//        map.put("version", "1001001");
-//        map.put("appId", "1000");
-//        map.put("userId", 123456);
-//        map.put("accessToken", "123456");
-//        map.put("device", "3f25d333755240e");
-//        map.put("times", System.currentTimeMillis());
-////        map.clear();
-//        final String md5Key = "H@s0zSix!fiNger8";
-//        HttpRequestParams params = HttpRequestParseApi.getHttpRequestParams(map,md5Key);
-//
-//        HttpClientUtil.getAsync("http://127.0.0.1:8080/api/sys/postParam",params.getSignToBodyMap(),true);
-//
-//        out.writeSuccess();
-//    }
-
 
     @ApiDoc(
             value = "POST请求的公共参数",
@@ -114,8 +74,8 @@ public class FrameworkController {
             response = long.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_post_param, method = RequestMethod.GET)
-    public void getSystemPostParam(OutputResponse out, ApiDocJsonParse jsonParse)  {
-        out.writeSuccess();
+    public long getSystemPostParam(RequestParserVo jsonParse) {
+        return 1L;
     }
 
     @ApiDoc(
@@ -124,18 +84,18 @@ public class FrameworkController {
             response = long.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_get_param, method = RequestMethod.GET)
-    public void getSystemGetParam(OutputResponse out, ApiDocJsonParse jsonParse)  {
-        out.writeSuccess();
+    public long getSystemGetParam(RequestParserVo jsonParse) {
+        return 1L;
     }
 
 
     @ApiDoc(
             value = "请求参数加密例子",
             request = SystemParamSignParse.class,
-            response = long.class
+            response = String.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_sign_param, method = RequestMethod.GET)
-    public void getSystemParamSign(OutputResponse out, SystemParamSignParse signParse)  {
+    public String getSystemParamSign(SystemParamSignParse signParse) {
         String param = "";
         if(signParse.getSalt() == 1){
             param = CryptUtil.md5(param + GlobalConfigConstants.TOP_SERVER_APPKEY).toLowerCase();
@@ -144,7 +104,7 @@ public class FrameworkController {
         }
 
         String result =  "原始参数:["+signParse.getCliSign()+"]\n  md5 加密后的结果:[" + param +"]";
-        out.write(result);
+        return result;
     }
 
     public static class ApiDocJsonParse extends RequestParserVo {
@@ -186,44 +146,43 @@ public class FrameworkController {
     @ApiDoc(
             value = "接口服务基本例子-base test,返回success",
             request = RequestParserVo.class,
-            response = long.class
+            response = String.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_base_test, method = RequestMethod.GET)
-    public void getFrameworkSuccessTest(OutputResponse out, RequestParserVo jsonParse)  {
-        out.write("success");
+    public String getFrameworkSuccessTest(RequestParserVo jsonParse) {
+        return "success";
     }
 
     @ApiDoc(
             value = "接口服务基本例子-redis cache test",
             request = RequestParserVo.class,
-            response = long.class
+            response = String.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_cache_test, method = RequestMethod.GET)
-    public void getFrameworkCacheTest(OutputCacheResponse out, RequestParserVo jsonParse)  {
+    public String getFrameworkCacheTest(RequestParserVo jsonParse)  {
         logger.info("========== FrameworkController getFrameworkCacheTest ==========" );
-        out.write("success");
+        return "success";
     }
 
     @ApiDoc(
             value = "接口服务基本例子-aes_test",
             request = RequestParserVo.class,
-            response = long.class
+            response = String.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_aes_test, method = RequestMethod.GET)
-    public void getFrameworkAesTest(OutputAesResponse out, RequestParserVo jsonParse)  {
-        out.write("success");
+    public String getFrameworkAesTest(RequestParserVo jsonParse)  {
+        return "success";
     }
 
     @ApiDoc(
             value = "接口服务基本例子-aes_test",
             request = HttpRequestGetMessage.class,
-            response = long.class
+            response = String.class
     )
     @RequestMapping(value = SysURLCommand.sys_get_aes_cache_test, method = RequestMethod.GET)
-    public void getFrameworkAesCacheTest(OutputAllResponse out, RequestParserVo jsonParse)  {
-        out.write("success");
+    public String getFrameworkAesCacheTest(RequestParserVo jsonParse)  {
+        return "success";
     }
-
 
 
 }
