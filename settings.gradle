@@ -5,11 +5,12 @@ include 'future-http', 'future-utils', 'future-global', 'future-plus', 'future-h
 
 // 功能模块
 include 'future-http-file', 'future-http-system', 'future-doc'
-include 'future-gateway', 'future-spring-cloud', 'future-spring-dubbo', 'future-spring-dubbo-consumer', 'future-poems-service'
+include 'future-gateway', 'future-spring-cloud', 'future-spring-dubbo', 'future-spring-dubbo-consumer',
 
 // 其他模块
-include 'future-wx-api'
-include 'future-generator'
+//include 'future-wx-api'
+//include 'future-generator'
+//include 'future-poems-service'
 
 // 测试架构模块（新增）
 include 'future-test'

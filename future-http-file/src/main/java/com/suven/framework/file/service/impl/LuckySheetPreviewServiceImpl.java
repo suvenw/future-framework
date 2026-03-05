@@ -49,7 +49,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     private static final int DEFAULT_MAX_COLUMNS = 500;
 
     @Override
-    public LuckySheetPreviewResponseDto preview(LuckySheetPreviewRequestDto requestDto) {
+    public LuckySheetPreviewResponseVo preview(LuckySheetPreviewRequestVo requestDto) {
         log.info("开始预览 Excel 文件: fileId={}, fileUrl={}", requestDto.getFileId(), requestDto.getFileUrl());
         
         try {
@@ -75,7 +75,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
                 }
             }
             
-            LuckySheetPreviewResponseDto response = LuckySheetPreviewResponseDto.builder()
+            LuckySheetPreviewResponseVo response = LuckySheetPreviewResponseVo.builder()
                 .success(true)
                 .message("预览成功")
                 .sheets(sheets)
@@ -89,7 +89,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
             
         } catch (Exception e) {
             log.error("预览 Excel 文件失败", e);
-            return LuckySheetPreviewResponseDto.builder()
+            return LuckySheetPreviewResponseVo.builder()
                 .success(false)
                 .message("预览失败: " + e.getMessage())
                 .build();
@@ -97,8 +97,8 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     }
 
     @Override
-    public String previewAsJson(LuckySheetPreviewRequestDto requestDto) {
-        LuckySheetPreviewResponseDto response = preview(requestDto);
+    public String previewAsJson(LuckySheetPreviewRequestVo requestDto) {
+        LuckySheetPreviewResponseVo response = preview(requestDto);
         if (response.getSuccess() != null && response.getSuccess()) {
             return response.toLuckysheetJsonString();
         }
@@ -106,7 +106,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     }
 
     @Override
-    public LuckySheetPreviewResponseDto previewSheet(LuckySheetPreviewRequestDto requestDto, int sheetIndex) {
+    public LuckySheetPreviewResponseVo previewSheet(LuckySheetPreviewRequestVo requestDto, int sheetIndex) {
         log.info("预览 Excel 文件指定 Sheet: fileId={}, sheetIndex={}", requestDto.getFileId(), sheetIndex);
         
         try {
@@ -130,7 +130,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
                 }
             }
             
-            LuckySheetPreviewResponseDto response = LuckySheetPreviewResponseDto.builder()
+            LuckySheetPreviewResponseVo response = LuckySheetPreviewResponseVo.builder()
                 .success(true)
                 .message("预览成功")
                 .sheets(sheets)
@@ -144,7 +144,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
             
         } catch (Exception e) {
             log.error("预览 Excel 文件指定 Sheet 失败", e);
-            return LuckySheetPreviewResponseDto.builder()
+            return LuckySheetPreviewResponseVo.builder()
                 .success(false)
                 .message("预览失败: " + e.getMessage())
                 .build();
@@ -166,7 +166,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     }
 
     @Override
-    public List<String> getSheetNames(LuckySheetPreviewRequestDto requestDto) {
+    public List<String> getSheetNames(LuckySheetPreviewRequestVo requestDto) {
         log.info("获取 Sheet 列表: fileId={}", requestDto.getFileId());
         
         try {
@@ -198,7 +198,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     /**
      * 获取文件输入流
      */
-    private InputStream getFileInputStream(LuckySheetPreviewRequestDto requestDto) throws IOException {
+    private InputStream getFileInputStream(LuckySheetPreviewRequestVo requestDto) throws IOException {
         // 1. 先尝试从文件路径读取
         if (requestDto.getFilePath() != null && !requestDto.getFilePath().isEmpty()) {
             File file = new File(requestDto.getFilePath());
@@ -240,7 +240,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     /**
      * 解析整个 Excel 文件
      */
-    private List<LuckysheetSheetConfig> parseExcel(InputStream inputStream, LuckySheetPreviewRequestDto requestDto) throws IOException {
+    private List<LuckysheetSheetConfig> parseExcel(InputStream inputStream, LuckySheetPreviewRequestVo requestDto) throws IOException {
         List<LuckysheetSheetConfig> sheets = new ArrayList<>();
         
         Workbook workbook = createWorkbook(inputStream, requestDto.getFilePath());
@@ -265,7 +265,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     /**
      * 解析指定 Sheet
      */
-    private LuckysheetSheetConfig parseExcelSheet(InputStream inputStream, int sheetIndex, LuckySheetPreviewRequestDto requestDto) throws IOException {
+    private LuckysheetSheetConfig parseExcelSheet(InputStream inputStream, int sheetIndex, LuckySheetPreviewRequestVo requestDto) throws IOException {
         Workbook workbook = createWorkbook(inputStream, requestDto.getFilePath());
         LuckysheetSheetConfig sheet = null;
         
@@ -280,7 +280,7 @@ public class LuckySheetPreviewServiceImpl implements LuckySheetPreviewService {
     /**
      * 解析单个 Sheet
      */
-    private LuckysheetSheetConfig parseSheet(Sheet sheet, LuckySheetPreviewRequestDto requestDto) {
+    private LuckysheetSheetConfig parseSheet(Sheet sheet, LuckySheetPreviewRequestVo requestDto) {
         String sheetName = sheet.getSheetName();
         int sheetIndex = getSheetIndex(sheet.getWorkbook(), sheet);
         
