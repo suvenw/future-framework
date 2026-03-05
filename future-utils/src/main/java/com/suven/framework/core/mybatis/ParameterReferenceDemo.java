@@ -20,7 +20,8 @@ public class ParameterReferenceDemo {
         System.out.println("parameter 的 hashCode: " + System.identityHashCode(parameter));
         
         // 模拟模式匹配：paramMap 就是 parameter 的引用
-        if (parameter instanceof Map<?, ?> paramMap) {
+        if (parameter instanceof Map<String, Object>) {
+            Map<String, Object> paramMap = parameter;
             System.out.println("paramMap 的 hashCode: " + System.identityHashCode(paramMap));
             System.out.println("paramMap == parameter: " + (paramMap == parameter)); // true
             
