@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckySheetPreviewRequestDto implements Serializable {
+public class LuckySheetPreviewRequestVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -72,4 +72,10 @@ public class LuckySheetPreviewRequestDto implements Serializable {
      */
     @ApiDesc(value = "租户ID", required = 0)
     private Long tenantId;
+
+    /**
+     * 文件名（用于文件格式检查）
+     */
+    @ApiDesc(value = "文件名", required = 0)
+    private String fileName;
 }

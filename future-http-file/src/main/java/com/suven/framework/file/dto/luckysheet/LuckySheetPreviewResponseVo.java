@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LuckySheetPreviewResponseDto implements Serializable {
+public class LuckySheetPreviewResponseVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,6 +63,24 @@ public class LuckySheetPreviewResponseDto implements Serializable {
      */
     @ApiDesc(value = "Sheet数量", required = 0)
     private Integer sheetCount;
+
+    /**
+     * Sheet 名称列表（用于获取Sheet列表接口）
+     */
+    @ApiDesc(value = "Sheet名称列表", required = 0)
+    private List<String> sheetNames;
+
+    /**
+     * 是否为 Excel 文件（用于文件格式检查接口）
+     */
+    @ApiDesc(value = "是否为Excel文件", required = 0)
+    private Boolean isExcel;
+
+    /**
+     * JSON 格式数据（用于返回Luckysheet JSON格式）
+     */
+    @ApiDesc(value = "JSON格式数据", required = 0)
+    private String jsonData;
 
     /**
      * 转换为 JSON 对象 (Luckysheet 格式)
