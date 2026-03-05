@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
@@ -167,16 +168,19 @@ public abstract class JsonUtils{
         T obj = null;
         try {
             cl = Class.forName(className);
-            obj = (T) cl.newInstance();
+            obj = (T) cl.getDeclaredConstructor().newInstance();
         } catch (ClassNotFoundException e) {
             log.info("获取类名失败 ");
         } catch (InstantiationException | IllegalAccessException e) {
             log.info("获取newInstance失败 ");
+        } catch (InvocationTargetException | NoSuchMethodException e) {
+            log.info("获取newInstance失败 ");
+            throw new RuntimeException(e);
         }
 
         Field[] fds = cl.getDeclaredFields();
         for (Field fd : fds) {
-            if (!fd.isAccessible()) {
+            if (!fd.canAccess(obj)) {
                 fd.setAccessible(true);
             }
             Iterator<String> keys = jsonObject.keySet().iterator();
@@ -242,7 +246,7 @@ public abstract class JsonUtils{
         }
         T obj = null;
         try{
-            obj = beanClass.newInstance();
+            obj = beanClass.getDeclaredConstructor().newInstance();
             Field[] fields = FieldUtils.getAllFields(beanClass.getClass());
             for (Field field : fields) {
                 try {

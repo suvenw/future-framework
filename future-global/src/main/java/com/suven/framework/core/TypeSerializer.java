@@ -165,7 +165,7 @@ public class TypeSerializer {
 				return obj;
 			}
 			//将pb-byte[] 转换为java object
-			T object = klass.newInstance();
+			T object = klass.getDeclaredConstructor().newInstance();
 			Schema schema = RuntimeSchema.getSchema(klass);
 			ProtobufIOUtil.mergeFrom(bytes, object, schema);
 			return object;
