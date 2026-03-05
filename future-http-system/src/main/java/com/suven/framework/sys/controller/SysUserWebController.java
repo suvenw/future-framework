@@ -293,7 +293,7 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_sysUser_login)
-    public Object login( @Validated  SysUserLoginRequestVo sysUserLoginRequestVo) {
+    public LoginCodeResponseVo login(@Validated SysUserLoginRequestVo sysUserLoginRequestVo) {
 
         log.info("用户登录, 用户名: {}", sysUserLoginRequestVo.getUsername());
 
@@ -305,7 +305,7 @@ public class SysUserWebController {
         }
 
         log.info("用户登录成功, 用户名: {}", sysUserLoginRequestVo.getUsername());
-        return result;
+        return (LoginCodeResponseVo) result;
     }
 
     /**
@@ -344,14 +344,14 @@ public class SysUserWebController {
         method = RequestMethodEnum.POST
     )
     @PostMapping(value = UrlCommand.sys_logout)
-    public Object logout(HttpServletRequest request) {
+    public SysUserShowResponseVo logout(HttpServletRequest request) {
 
         log.info("用户退出登录");
 
         Object result = sysUserFacade.logout(request);
 
         log.info("用户退出登录完成");
-        return result;
+        return (SysUserShowResponseVo) result;
     }
 
     /**
