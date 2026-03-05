@@ -211,7 +211,8 @@ def configurePublishing(Project project) {
                     if (rootProject.hasProperty('enableGitee') && giteeUsername && giteeToken) {
                         maven {
                             name = 'gitee'
-                            url = "https://gitee.com/${giteeOwner}/${giteeRepo}/packages/maven"
+                            // Gitee Packages Maven 仓库 API 地址
+                            url = "https://gitee.com/api/v5/repos/${giteeOwner}/${giteeRepo}/packages/maven"
                             credentials {
                                 username = giteeUsername
                                 password = giteeToken
@@ -299,9 +300,10 @@ gradle.projectsEvaluated {
 }
 
 // 发布到 Gitee Packages
+// 注意: Gitee 的 Maven Packages 功能可能需要企业版或专业版才能使用
 tasks.register('publishToGitee') {
     group = 'publishing'
-    description = 'Publishes all Maven publications to Gitee Packages. Usage: ./gradlew publishToGitee -PenableGitee'
+    description = 'Publishes all Maven publications to Gitee Packages. Usage: ./gradlew publishToGitee -PenableGitee (Note: May require Enterprise/Pro)'
 
     doFirst {
         if (!project.hasProperty('enableGitee')) {
@@ -321,7 +323,13 @@ tasks.register('publishToGitee') {
         }
         println "=============================================="
         println "Publishing to Gitee Packages"
-        println "URL: https://gitee.com/${giteeOwner}/${giteeRepo}/packages/maven"
+        println "URL: https://gitee.com/api/v5/repos/${giteeOwner}/${giteeRepo}/packages/maven"
+        println ""
+        println "WARNING: Gitee Maven Packages feature may require Enterprise or Pro version."
+        println "If you encounter 404 errors, please:"
+        println "  1. Check if your Gitee account has Packages feature enabled"
+        println "  2. Verify the repository exists and you have write access"
+        println "  3. Consider using GitHub Packages or Nexus instead"
         println "=============================================="
     }
 }
