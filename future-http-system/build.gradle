@@ -16,7 +16,8 @@ springBoot {
 
 
 jar {
-    enabled = false
+    enabled = true
+    archiveClassifier = ''
 }
 
 //def libs = rootProject.ext.libVersions

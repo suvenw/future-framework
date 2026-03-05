@@ -4,7 +4,9 @@ plugins {
 
 dependencies {
     // Spring Boot Test
-    api 'org.springframework.boot:spring-boot-starter-test:3.5.1'
+    api('org.springframework.boot:spring-boot-starter-test:3.5.1') {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
     
     // JUnit 5
     api 'org.junit.jupiter:junit-jupiter:5.11.0'
@@ -19,15 +21,21 @@ dependencies {
     
     // 数据库测试
     api 'com.h2database:h2:2.2.224'
-    api 'org.testcontainers:junit-jupiter:1.20.0'
-    api 'org.testcontainers:mysql:1.20.0'
+    api('org.testcontainers:junit-jupiter:1.20.0') {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
+    api('org.testcontainers:mysql:1.20.0') {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
     
     // 性能测试
     api 'org.openjdk.jmh:jmh-core:1.37'
     api 'org.openjdk.jmh:jmh-generator-annprocess:1.37'
     
-    // 安全测试
-    api 'com.github.javafaker:javafaker:1.0.2'
+    // 安全测试 - javafaker 引入了旧的 snakeyaml，需要排除
+    api('com.github.javafaker:javafaker:1.0.2') {
+        exclude group: 'org.yaml', module: 'snakeyaml'
+    }
     
     // JSON 测试
     api 'com.jayway.jsonpath:json-path:2.9.0'
@@ -38,6 +46,9 @@ dependencies {
     // 其他工具
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    
+    // 强制使用正确的 snakeyaml 版本（非 android 变体）
+    api 'org.yaml:snakeyaml:2.4'
 }
 
 test {
@@ -48,11 +59,3 @@ test {
     }
 }
 
-// 发布配置
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-}

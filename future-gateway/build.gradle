@@ -14,7 +14,8 @@ apply from: '../build-lib.gradle'
 // Spring Boot 可执行 JAR 配置
 
 jar {
-    enabled = false
+    enabled = true
+    archiveClassifier = ''
 }
 
     dependencies{
